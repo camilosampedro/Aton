@@ -73,7 +73,9 @@ class ComputerController @Inject()(roomDAO: RoomDAO, computerDAO: ComputerDAO, v
         Logger.debug("Adding a new computer: " + newComputer)
         val (result, exitCode) = Execution.execute(newComputer, SSHFunction.ES_MAC_ORDER2)
         if (exitCode == 0) {
-          computerDAO.add(newComputer).map { res =>
+          val newComputerWithMac = newComputer.copy(mac = result)
+          Logger.debug("Adding to database the following computer: " + newComputerWithMac)
+          computerDAO.add(newComputerWithMac).map { res =>
             Redirect(routes.ComputerController.editForm(newComputer.ip))
           }
         } else {
