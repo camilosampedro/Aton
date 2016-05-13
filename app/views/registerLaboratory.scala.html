@@ -1,0 +1,31 @@
+@(laboratoryForm: Form[model.form.data.LaboratoryFormData])(implicit messages: Messages)
+@implicitField = @{
+    helper.FieldConstructor(fieldConstructorTemplate.f)
+}
+<div class="row">
+    <div class="col-xs-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Agregar laboratorio</div>
+            <div class="panel-body">
+            @helper.form(action = routes.LaboratoryController.add, 'class -> "form-horizontal") {
+                @helper.inputText(laboratoryForm("name"),'class -> "form-control", 'placeholder -> "Nombre del laboratorio")
+                @helper.inputText(laboratoryForm("location"), 'class -> "form-control", 'placeholder -> "¿Dónde está el laboratorio?")
+                @helper.inputText(laboratoryForm("administration"), 'class -> "form-control", 'placeholder -> "¿Quién está a cargo?")
+                <div class="form-group">
+                    <div class="col-xs-offset-2 col-xs-10">
+                        <input type="submit" class="btn btn-primary" placeholder="Agregar"/>
+                    </div>
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    Icons made by <a href="http://www.flaticon.com/authors/simpleicon" title="SimpleIcon">SimpleIcon</a>
+    , <a href="http://www.freepik.com" title="Freepik">Freepik</a>
+    from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed
+    by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
+</div>

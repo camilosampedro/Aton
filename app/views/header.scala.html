@@ -1,0 +1,31 @@
+@(userName: Option[String])
+<header>
+    <div class="logo">
+        <a href="/">Aton <span>Web</span></a>
+    </div>
+    <div class="usuario">
+        @if(userName.isDefined) {
+            <button type="button" class="btn btn-default dropdown-toggle"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @userName.get <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="/admin/editar-userName-@userName"
+                class="flaticon-edit18"> Editar userName</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/logout"
+                class="flaticon-power107"> Cerrar sesión</a></li>
+            </ul>
+        } else {
+            <button type="button" class="btn btn-default dropdown-toggle"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                No has iniciado sesión <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="/login"
+                class="flaticon-login12"> Iniciar sesión</a></li>
+            </ul>
+        }
+    </div>
+</header>
+<a class="mobile" href="#">MENU</a>

@@ -1,0 +1,20 @@
+@(isAdmin: Boolean)
+<aside class="sidebar">
+    <ul id="nav">
+        <li><a href="@routes.LaboratoryController.listAll()" class="selected flaticon-plasma"> Inicio </a></li>
+        <li><a href="/suggestionText" class="flaticon-science93"> Sugerencias</a></li>
+        @if(isAdmin) {
+            @*Panel de administrador*@
+            <li>
+                <a class="flaticon-science30" href="@routes.AdministrationController.administrationPanel()"> Administración</a>
+                <ul>
+                    <li><a class="flaticon-science30" href="@routes.LaboratoryController.administrateLaboratories()"> Laboratorios</a></li>
+                </ul>
+            </li>
+        } else {
+            @*Panel de userName regular*@
+            <li><a class="flaticon-science30" href="/admin"> Administración</a></li>
+        }
+        <li><a class="flaticon-sun45" href="/acercade"> Acerca de</a></li>
+    </ul>
+</aside>

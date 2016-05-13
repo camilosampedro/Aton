@@ -1,0 +1,225 @@
+@import url(https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lobster);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'PT Serif', serif;
+    background-color: #bdc3c7;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+header {
+    width: 100%;
+    height: 45px;
+    background-color: #34495e;
+    margin: 0 auto;
+}
+
+.logo {
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.logo a {
+    font-weight: 700;
+    font-size: 1.8em;
+    color: white;
+}
+
+.logo a:hover {
+    color: #C8AA80;
+    text-decoration: none;
+}
+
+.logo a span {
+    font-weight: 300;
+}
+
+div#container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #2c3e50;
+    float: left;
+}
+
+aside ul {
+
+}
+
+aside ul li {
+    list-style: none;
+}
+
+aside ul li ul li {
+    margin-left: 20px;
+    background-color: #304357;
+}
+
+aside ul li a {
+    color: #95a5a6;
+    display: block;
+    padding: 12px;
+    font-size: 1.2em;
+    border-bottom: 1px solid #34495e;
+    -webkit-transition: 0.2s;
+    -mox-transition: 0.2s;
+    transition: 0.2s;
+}
+
+aside ul li a:hover {
+    text-decoration: none;
+    background-color: #95a5a6;
+    color: #2c3e50;
+    padding-left: 15px;
+}
+
+aside ul li a.selected {
+    background-color: #95a5a6;
+    color: #2c3e50;
+}
+
+.content {
+    /*width: auto;*/
+    margin-left: 200px;
+    /*height: calc(100% - 50px);*/
+    background-color: #bdc3c7;
+    padding: 15px;
+}
+
+.content p {
+    color: #7f8c8d;
+    font-size: 1em;
+}
+
+div .box {
+    margin: 5px;
+}
+
+div .box .box-top {
+    color: white;
+    text-shadow: 0px 1px #7f8c8d;
+    background-color: #2980b9;
+    padding: 5px;
+    padding-left: 15px;
+    font-weight: 300;
+}
+
+div .box .box-panel {
+    padding: 15px;
+    background-color: #ecf0f1;
+}
+
+div .equipo {
+    margin: 2px;
+}
+
+div .equipo .equipo-titulo {
+    color: white;
+    text-shadow: 0px 1px #7f8c8d;
+    background-color: #2ecc71;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 300;
+}
+
+div .equipo .equipo-titulo i {
+    padding-right: 10px;
+}
+
+div .equipo .equipo-cuerpo {
+    padding: 15px;
+    background-color: #bdc3c7;
+}
+
+div #no-encontrado {
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 0px;
+}
+
+div #no-encontrado p {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 0px;
+}
+
+div #no-encontrado h1 {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 0px;
+}
+
+div .usuario {
+    font-size: 10px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+a.mobile {
+    display: block;
+    color: white;
+    background-color: black;
+    text-align: center;
+    padding: 7px;
+}
+
+
+
+.btn-agregar-tabla {
+    text-align: center;
+}
+
+a.mobile:active {
+    background-color: #4a4a4a;
+}
+
+@media only screen and (max-width: 400px) {
+    .sidebar {
+        width: 100%;
+    }
+    .content {
+        margin-left: 0px;
+    }
+}
+
+@media only screen and (min-width: 401px) {
+    .sidebar {
+        height: calc(100% - 50px);
+    }
+    a.mobile {
+        display: none;
+    }
+}
+
+.panel-equipo {
+    padding: 0px !important;
+    padding-left: 10px !important;
+    margin: 0 !important;
+}
+
+.interior-equipo {
+    padding: 10px !important;
+    margin: 0 !important;
+}
+
+.boton-login {
+    text-align: right;
+}

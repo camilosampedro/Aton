@@ -1,0 +1,34 @@
+@(roomForm: Form[model.form.data.ComputerFormData], rooms: Seq[(String,String)], laboratoryID: Long)(implicit messages: Messages)
+@implicitField = @{
+    helper.FieldConstructor(fieldConstructorTemplate.f)
+}
+<div class="row">
+    <div class="col-xs-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Agregar sala</div>
+            <div class="panel-body">
+            @helper.form(action = routes.ComputerController.edit(laboratoryID), 'class -> "form-horizontal") {
+                @helper.inputText(roomForm("ip"),'class -> "form-control", 'placeholder -> "Dirección IP del equipo")
+                @helper.inputText(roomForm("name"), 'class -> "form-control", 'placeholder -> "Nombre del equipo")
+                @helper.inputText(roomForm("SSHUser"), 'class -> "form-control", 'placeholder -> "Usuario SSH")
+                @helper.inputText(roomForm("SSHPassword"), 'class -> "form-control", 'placeholder -> "Password SSH")
+                @helper.inputText(roomForm("description"), 'class -> "form-control", 'placeholder -> "Descripción del equipo")
+                @helper.select(roomForm("roomID"),rooms, 'class -> "form-control", 'placeholder -> "Sala a la que pertenece")
+                <div class="form-group">
+                    <div class="col-xs-offset-2 col-xs-10">
+                        <input type="submit" class="btn btn-primary" placeholder="Agregar"/>
+                    </div>
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    Icons made by <a href="http://www.flaticon.com/authors/simpleicon" title="SimpleIcon">SimpleIcon</a>
+    , <a href="http://www.freepik.com" title="Freepik">Freepik</a>
+    from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed
+    by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
+</div>

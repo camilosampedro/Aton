@@ -1,0 +1,34 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Admin
+GET         /admin                              controllers.AdministrationController.administrationPanel
+
+# Laboratory
+GET         /                                   controllers.LaboratoryController.listAll
+GET         /laboratory/admin                   controllers.LaboratoryController.administrateLaboratories
+GET         /laboratory/id/:id                  controllers.LaboratoryController.get(id:Long)
+POST        /laboratory/edit/:id                controllers.LaboratoryController.edit(id:Long)
+GET         /laboratory/edit/:id                controllers.LaboratoryController.edit(id:Long)
+GET         /laboratory/add                     controllers.LaboratoryController.addForm
+POST        /laboratory/add                     controllers.LaboratoryController.add
+POST        /laboratory/delete/:id              controllers.LaboratoryController.delete(id:Long)
+
+# Room
+GET         /room/add                           controllers.RoomController.addForm
+POST        /room/add                           controllers.RoomController.add
+
+# Computer
+GET         /computer                           controllers.ComputerController.index
+POST        /computer/add/:laboratoryID         controllers.ComputerController.add(laboratoryID:Long)
+GET         /computer/add/:laboratoryID         controllers.ComputerController.addForm(laboratoryID:Long)
+GET         /computer/edit/:ip                  controllers.ComputerController.editForm(ip: String)
+POST        /computer/edit/:laboratoryID        controllers.ComputerController.edit(laboratoryID: Long)
+GET         /computer/delete/:ip                controllers.ComputerController.delete(ip: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
+
+
+

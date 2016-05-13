@@ -1,0 +1,41 @@
+@*Plantilla de todas las páginas.*@
+@(userName: Option[String], isAdmin: Boolean, titulo: String)(contenido: Html)
+<html>
+    <head>
+        <title>@titulo - Aton Web</title>
+        @* Librerías webjar *@
+        <script type="text/javascript" src="@routes.Assets.versioned("lib/requirejs/require.js")"></script>
+            <!-- Bootstrap -->
+        <script type="text/javascript" src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.js")"></script>
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.css")"/>
+        <script type="text/javascript" src="@routes.Assets.versioned("lib/bootstrap/webjars-requirejs.js")"></script>
+
+
+            <!-- jQuery -->
+        <script data-main="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript" src="@routes.Assets.versioned("lib/jquery/jquery.js")"></script>
+
+            <!-- Script básico para la página -->
+        @*<script type="text/javascript" src="@routes.Assets.versioned("javascripts/general.js")"></script>*@
+
+            <!-- Estilos generales -->
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/global.css")"/>
+        <link rel="shortcut icon" href="@routes.Assets.versioned("images/favicon.ico")"/>
+
+            <!-- Flaticon -->
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/flaticon.css")"/>
+
+        <meta name="viewport"
+        content="width=device-width, initial-scale:1.0, user-scale=0" />
+    </head>
+
+
+    <body>
+        <div class="wrapper">
+            @header(userName)
+            <div id="container">
+                @menu(isAdmin)
+                <div class="content">@contenido</div>
+            </div>
+        </div>
+    </body>
+</html>
