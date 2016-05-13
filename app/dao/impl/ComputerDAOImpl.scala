@@ -41,7 +41,7 @@ class ComputerDAOImpl @Inject()
     db.run(equipos += equipo).map(res => "Computer agregado correctamente").recover {
       case ex: Exception => {
         Logger.error("Ocurrió un error agregando un equipo", ex)
-        ex.getCause.getMessage
+        ex.getMessage
       }
     }
   }
