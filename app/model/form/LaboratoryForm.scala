@@ -11,8 +11,8 @@ object LaboratoryForm {
   val form = Form(
     mapping(
       "name" -> nonEmptyText,
-      "location" -> nonEmptyText,
-      "administration" -> nonEmptyText
+      "location" -> optional(text),
+      "administration" -> optional(text)
     )(LaboratoryFormData.apply)(LaboratoryFormData.unapply)
   )
 }

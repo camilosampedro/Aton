@@ -1,4 +1,4 @@
-@(userName: Option[String])
+@(userName: Option[String])(implicit messages: Messages)
 <header>
     <div class="logo">
         <a href="/">Aton <span>Web</span></a>
@@ -11,7 +11,7 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li><a href="/admin/editar-userName-@userName"
-                class="flaticon-edit18"> Editar userName</a></li>
+                class="flaticon-edit18"> @messages("header.editUser")</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="/logout"
                 class="flaticon-power107"> Cerrar sesión</a></li>

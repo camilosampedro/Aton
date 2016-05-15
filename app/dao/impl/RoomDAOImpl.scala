@@ -31,12 +31,12 @@ class RoomDAOImpl @Inject()
 
 
   /**
-    * Tabla con "todos los rooms", similar a select * from room
+    * Tabla con "todos los rooms", similar a select * from roomPanel
     */
   implicit val salas = TableQuery[RoomTable]
 
   /**
-    * Adiciona una room
+    * Adiciona una roomPanel
     *
     * @param sala Room a agregar
     * @return String con el mensaje del result
@@ -49,22 +49,22 @@ class RoomDAOImpl @Inject()
   }
 
   /**
-    * Obtiene una room según el id
+    * Obtiene una roomPanel según el id
     *
-    * @param id Identificador del room
+    * @param id Identificador del roomPanel
     * @return Room encontrado o None si no se encontró
     */
   override def get(id: Long): Future[Option[Room]] = {
-    // Se realiza un select * from room where id = $id
+    // Se realiza un select * from roomPanel where id = $id
     db.run(search(id).result.headOption)
   }
 
   private def search(id: Long) = salas.filter(_.id === id)
 
   /**
-    * Elimina una room de la base de datos
+    * Elimina una roomPanel de la base de datos
     *
-    * @param id Identificador de la room
+    * @param id Identificador de la roomPanel
     * @return Resultado de la operación
     */
   override def delete(id: Long): Future[Int] = {

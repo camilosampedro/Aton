@@ -9,6 +9,7 @@ import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, Controller, Result}
 import play.mvc.Results
+import services.{ComputerService, SSHOrderService}
 import services.exec.{Execution, SSHFunction}
 import views.html.laboratory
 
@@ -20,7 +21,7 @@ import scala.util.{Failure, Success}
 /**
   * Created by camilo on 7/05/16.
   */
-class ComputerController @Inject()(roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi) extends Controller with I18nSupport {
+class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi) extends Controller with I18nSupport {
   def index = Action.async { implicit request =>
     computerDAO.listAll map { computers =>
       Ok("Computers")
@@ -41,12 +42,13 @@ class ComputerController @Inject()(roomDAO: RoomDAO, computerDAO: ComputerDAO, v
                       val pairs = rooms.map(x => (x.id.toString, x.name))
                       Ok(views.html.index(Some("Admin"), true, "")(views.html.editComputer(errorForm, pairs)))
                     case _ =>
-                      NotFound("Computer has not room")
+                      NotFound("Computer has not roomPanel")
                   }
                 }
                 case _ => val rooms = Await.result(roomDAO.listAll, 5 seconds)
                   val pairs = rooms.map(x => (x.id.toString, x.laboratoryID + x.name))
-                  val computerForm = ComputerFormData(computer.ip, computer.name, computer.SSHUser, computer.SSHPassword, computer.description, 0)
+
+                  val computerForm = ComputerFormData(computer.ip, computer.name, computer.SSHUser, computer.SSHPassword, computer.description, None)
                   Ok(views.html.index(Some("Admin"), true, "")(views.html.editComputer(ComputerForm.form.fill(computerForm), pairs)))
 
               }
@@ -56,8 +58,8 @@ class ComputerController @Inject()(roomDAO: RoomDAO, computerDAO: ComputerDAO, v
         }
       },
       data => {
-        val newComputer = Computer(data.ip, data.name, "", data.SSHUser, data.SSHPassword, data.description, Some(data.roomID))
-        computerDAO.add(newComputer).map { res =>
+        val newComputer = Computer(data.ip, data.name, None, data.SSHUser, data.SSHPassword, data.description, data.roomID)
+        computerService.add(newComputer).map { res =>
           Redirect(routes.LaboratoryController.listAll())
         }
       }
@@ -69,45 +71,44 @@ class ComputerController @Inject()(roomDAO: RoomDAO, computerDAO: ComputerDAO, v
     ComputerFormPre.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(errorForm.toString)),
       data => {
-        val newComputer = Computer(data.ip, "", "", data.SSHUser, data.SSHPassword, "", None)
+        val newComputer = Computer(data.ip, None, None, data.SSHUser, data.SSHPassword, None, None)
         Logger.debug("Adding a new computer: " + newComputer)
-        val (result, exitCode) = Execution.execute(newComputer, SSHFunction.ES_MAC_ORDER2)
-        if (exitCode == 0) {
-          val newComputerWithMac = newComputer.copy(mac = result)
-          Logger.debug("Adding to database the following computer: " + newComputerWithMac)
-          computerDAO.add(newComputerWithMac).map { res =>
-            Redirect(routes.ComputerController.editForm(newComputer.ip))
+        sSHOrderService.getMac(newComputer) match {
+          case Some(mac) => {
+            val newComputerWithMac = newComputer.copy(mac = Some(mac))
+            Logger.debug("Adding to database the following computer: " + newComputerWithMac)
+            computerDAO.add(newComputerWithMac).map { res =>
+              Redirect(routes.ComputerController.editForm(newComputer.ip))
+            }
           }
-        } else {
-          Future.successful(InternalServerError)
+          case _ => {
+            Future.successful(InternalServerError)
+          }
         }
-
       }
     )
   }
 
-  def editForm(ip: String) = Action.async { implicit request =>
-    Logger.debug("Looking for computer: " + ip)
-    val resultados = for {
-      computerSearch <- computerDAO.get(ip)
-      roomsSearch <- roomDAO.listAll
-    } yield(computerSearch, roomsSearch)
+  def editForm(ip: String) = Action.async {
+    implicit request =>
+      Logger.debug("Looking for computer: " + ip)
+      val resultados = for {
+        computerSearch <- computerDAO.get(ip)
+        roomsSearch <- roomDAO.listAll
+      } yield (computerSearch, roomsSearch)
 
-    resultados.map(res =>
-      res._1 match {
-        case Some(Computer(ip,name,_,sSHUser,sSHPassword,description,room)) => {
-          val computerForm = room match {
-            case Some(roomID) => ComputerFormData(ip, name, sSHUser, sSHPassword, description, roomID)
-            case _ => ComputerFormData(ip, name, sSHUser, sSHPassword, description, 0)
+      resultados.map(res =>
+        res._1 match {
+          case Some(Computer(ip, name, _, sSHUser, sSHPassword, description, room)) => {
+            val computerForm = ComputerFormData(ip, name, sSHUser, sSHPassword, description, room)
+            val pairs = res._2.map(x => (x.id.toString, x.name))
+            Ok(views.html.index(Some("Admin"), true, "")(views.html.editComputer(ComputerForm.form.fill(computerForm), pairs)))
           }
-          val pairs = res._2.map(x => (x.id.toString, x.name))
-          Ok(views.html.index(Some("Admin"), true, "")(views.html.editComputer(ComputerForm.form.fill(computerForm), pairs)))
+          case _ =>
+            Logger.debug("The computer was not found")
+            NotFound("Computer not found")
         }
-        case _ =>
-          Logger.debug("The computer was found")
-          NotFound("Computer not found")
-      }
-    )
+      )
 
     /*computerDAO.get(ip).map { res =>
       Logger.debug("Computer gotten: " + res.toString)
@@ -116,16 +117,16 @@ class ComputerController @Inject()(roomDAO: RoomDAO, computerDAO: ComputerDAO, v
           Logger.debug("The computer was found")
           computer.roomID match {
             case Some(roomID) => {
-              Logger.debug("The computer has a room: " + roomID)
+              Logger.debug("The computer has a roomPanel: " + roomID)
               roomDAO.get(roomID).onComplete { result =>
                 result match {
-                  case Success(Some(room)) => {
-                    roomDAO.getByLaboratory(room.id).onComplete { result2 =>
+                  case Success(Some(roomPanel)) => {
+                    roomDAO.getByLaboratory(roomPanel.id).onComplete { result2 =>
                       result2 match {
                         case Success(rooms) => {
                           val pairs = rooms.map(x => (x.id.toString, x.name))
                           val computerForm = ComputerFormData(computer.ip, computer.name, computer.SSHUser, computer.SSHPassword, computer.description, roomID)
-                          Ok(views.html.index(Some("Admin"), true, "")(views.html.editComputer(ComputerForm.form.fill(computerForm), pairs, room.laboratoryID)))
+                          Ok(views.html.index(Some("Admin"), true, "")(views.html.editComputer(ComputerForm.form.fill(computerForm), pairs, roomPanel.laboratoryID)))
                         }
                         case Failure(e) => {
                           Logger.error("Error al obtener la sala", e)
@@ -141,12 +142,12 @@ class ComputerController @Inject()(roomDAO: RoomDAO, computerDAO: ComputerDAO, v
                     Logger.error("Error al obtener", e)
                     NotFound(e.getMessage)
                   case _ =>
-                    NotFound("Computer has not room")
+                    NotFound("Computer has not roomPanel")
                 }
               }
             }
             case _ => {
-              Logger.debug("The computer has not a room")
+              Logger.debug("The computer has not a roomPanel")
               roomDAO.listAll.onComplete { result =>
                 val x: Result = result match {
                   case Success(rooms) =>
@@ -188,8 +189,9 @@ class ComputerController @Inject()(roomDAO: RoomDAO, computerDAO: ComputerDAO, v
     implicit request =>
       computerDAO.delete(ip) map {
         res =>
-          Redirect(routes.ComputerController.index())
+          Redirect(routes.LaboratoryController.listAll())
       }
   }
+
 
 }

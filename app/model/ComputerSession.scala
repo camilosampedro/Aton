@@ -6,6 +6,6 @@ package model
 case class ComputerSession(
                     computerIp: String,
                     connectionTime: java.sql.Timestamp,
-                    connectedUser: String,
-                    active: Boolean
+                    connectedUser: Option[String],
+                    active: Option[Boolean]
                   )

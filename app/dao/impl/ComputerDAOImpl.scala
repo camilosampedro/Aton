@@ -69,14 +69,16 @@ class ComputerDAOImpl @Inject()
 
   private def search(ip: String) = equipos.filter(_.ip === ip)
 
+  override def edit(computer: Computer): Future[Int] = db.run {
+    equipos.filter(_.ip === computer.ip).update(computer)
+  }
+
   /**
     * Lista todos los equipos en la base de datos
     *
     * @return Todos los equipos
     */
-  override def listAll: Future[Seq[Computer]] = {
-    db.run(equipos.result)
-  }
+  override def listAll: Future[Seq[Computer]] = db.run(equipos.result)
 
 
 }

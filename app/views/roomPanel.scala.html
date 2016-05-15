@@ -1,0 +1,28 @@
+@import model.Room
+@import model.Computer
+@(room: Room, computers: Seq[Computer], isAdmin: Boolean)(implicit messages: Messages)
+
+<div class="panel panel-primary">
+    <div class="panel-heading">@room.name <a href="@routes.RoomController.edit(room.id)" class="btn btn-default pull-right" role="button">@messages("room.edit")</a> <a href="@routes.RoomController.delete(room.id)" class="btn btn-default pull-right" role="button">@messages("room.delete")</a></div>
+    <div class="panel-body">
+    @if(!computers.isEmpty) {
+        <div class="row">
+        @for(computer <- computers) {
+            @computerPanel(computer, isAdmin)
+        }
+        </div>
+    } else {
+        <div id="no-encontrado">
+            <i class="flaticon-boxes27"></i>
+            <h1>Aquí no hay equipos</h1>
+            <p>Parece que no se han encontrado equipos.</p>
+            @if(isAdmin) {
+                <div class="btn-agregar-tabla">
+                    <a href="@routes.ComputerController.add(room.laboratoryID)" class="btn btn-default " role="button">
+                        Agregar computador</a>
+                </div>
+            }
+        </div>
+    }
+    </div>
+</div>

@@ -1,63 +1,9 @@
 @import model.{Computer, Laboratory, Room}
-@(laboratory: Laboratory, roomsWithComputers: Map[Option[Room], Seq[Computer]], admin: Boolean)
+@(laboratory: Laboratory, roomsWithComputers: Map[Option[Room], Seq[Computer]], admin: Boolean)(implicit messages: Messages)
 <h1>Laboratory @laboratory.name</h1>
 @if(roomsWithComputers.size != 0) {
     @for((room, computers) <- roomsWithComputers if room.isDefined) {
-        <div class="panel panel-primary">
-            <div class="panel-heading">@room.get.name</div>
-            <div class="panel-body">
-            @if(!computers.isEmpty) {
-                <div class="row">
-                @for(computer <- computers) {
-                    <div class="col-xs-2 panel-inicio">
-                        <div class="panel panel-success">
-                            @if(computer.name != "") {
-                                <div class="panel-heading flaticon-robot28">@computer.name</div>
-                            } else {
-                                <div class="panel-heading flaticon-robot28">@computer.ip</div>
-                            }
-                        <div class="panel-body interior-laboratorio">
-
-                            <div
-                            class="btn-group btn-group-justified boton-interior-laboratorio"
-                            role="group" aria-label="...">
-                                <div class="btn-group" role="group">
-                                    <button type="button"
-                                    class="btn btn-default dropdown-toggle flaticon-info28"
-                                    data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><p class="dropdown-text-mac">MAC: @computer.mac </p>
-                                        </li>
-                                        <li><p class="dropdown-text-ip">IP: @computer.ip</p>
-                                        </li>
-                                        <li role="separator" class="divider"></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                        </div>
-                        </div>
-                    </div>
-                }
-                </div>
-            } else {
-                <div id="no-encontrado">
-                    <i class="flaticon-boxes27"></i>
-                    <h1>Aquí no hay equipos</h1>
-                    <p>Parece que no se han encontrado equipos.</p>
-                    @if(admin) {
-                        <div class="btn-agregar-tabla">
-                            <a href="@routes.ComputerController.add(laboratory.id)" class="btn btn-default " role="button">
-                                Agregar computador</a>
-                        </div>
-                    }
-                </div>
-            }
-            </div>
-        </div>
+        @roomPanel(room.get, computers, admin)
     }
     @if(admin) {
         <div class="btn-agregar-tabla">
@@ -69,21 +15,18 @@
     }
 } else {
     <div class="panel panel-warning">
-        <div class="panel-heading">Vacío</div>
+        <div class="panel-heading">@messages("empty")</div>
         <div class="panel-body">
             <div id="no-encontrado">
                 <i class="flaticon-boxes27"></i>
-                <h1>Aquí no hay salas</h1>
-                <p>Parece que no se han encontrado salas.</p>
+                <h1>@messages("laboratory.emptyRoom.title")</h1>
+                <p>@messages("laboratory.emptyRoom.text")</p>
                 @if(admin) {
                     <div class="btn-agregar-tabla">
-                        <a href="@routes.RoomController.add()" class="btn btn-default " role="button">
-                            Agregar sala</a>
-                        <a href="@routes.ComputerController.add(laboratory.id)" class="btn btn-default " role="button">
-                            Agregar computador</a>
+                        <a href="@routes.RoomController.add()" class="btn btn-default " role="button">@messages("laboratory.addRoom")</a>
                     </div>
                 } else {
-                    <p> Por favor dile al administrador de este problema.</p>
+                    <p>@messages("contactAdmin")</p>
                 }
             </div>
 

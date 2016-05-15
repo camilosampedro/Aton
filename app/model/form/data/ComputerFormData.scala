@@ -5,9 +5,9 @@ package model.form.data
   */
 case class ComputerFormData(
                              ip: String,
-                             name: String,
+                             name: Option[String],
                              SSHUser: String,
                              SSHPassword: String,
-                             description: String,
-                             roomID: Long
+                             description: Option[String],
+                             roomID: Option[Long]
                            )

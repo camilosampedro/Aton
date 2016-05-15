@@ -5,10 +5,10 @@ package model
   */
 case class Computer(
                      ip: String,
-                     name: String,
-                     mac: String,
+                     name: Option[String],
+                     mac: Option[String],
                      SSHUser: String,
                      SSHPassword: String,
-                     description: String,
+                     description: Option[String],
                      roomID: Option[Long]
                    )

@@ -6,7 +6,7 @@ import javax.inject.Inject
 import com.google.inject.Singleton
 import dao.SessionDAO
 import model.ComputerSession
-import model.table.SessionTable
+import model.table.ComputerSessionTable
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._
 import slick.driver.JdbcProfile
@@ -29,7 +29,7 @@ class SessionDAOImpl @Inject()
   /**
     * Tabla con "todos los sesions", similar a select * from sesion
     */
-  implicit val sesions = TableQuery[SessionTable]
+  implicit val sesions = TableQuery[ComputerSessionTable]
 
   /**
     * Adiciona un sesion

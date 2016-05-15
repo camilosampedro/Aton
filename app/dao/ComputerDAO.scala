@@ -44,5 +44,7 @@ trait ComputerDAO {
     * @return Todos los equipos
     */
   def listAll: Future[Seq[Computer]]
+
+  def edit(computer: Computer): Future[Int]
 }
 

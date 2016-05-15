@@ -10,7 +10,7 @@ import slick.driver.MySQLDriver.api._
   *
   * @param tag
   */
-class SessionTable(tag: Tag) extends Table[ComputerSession](tag, "computer_session") {
+class ComputerSessionTable(tag: Tag) extends Table[ComputerSession](tag, "computer_session") {
   // Primary key
   def pk = primaryKey("session_pk", (computerIp, connectionTime))
 
@@ -28,7 +28,7 @@ class SessionTable(tag: Tag) extends Table[ComputerSession](tag, "computer_sessi
   override def * =
     (computerIp, connectionTime, connectedUser, active) <>(ComputerSession.tupled, ComputerSession.unapply)
 
-  def connectedUser = column[String]("connected_user")
+  def connectedUser = column[Option[String]]("connected_user")
 
-  def active = column[Boolean]("active")
+  def active = column[Option[Boolean]]("active")
 }

@@ -21,7 +21,7 @@ class LaboratoryTable(tag: Tag) extends Table[Laboratory](tag, "laboratory") {
   // Other columns/attributes
   def name = column[String]("name")
 
-  def location = column[String]("location")
+  def location = column[Option[String]]("location")
 
-  def administration = column[String]("administration")
+  def administration = column[Option[String]]("administration")
 }

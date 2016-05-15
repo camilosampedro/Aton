@@ -3,8 +3,8 @@ package dao
 import java.sql.Timestamp
 
 import com.google.inject.ImplementedBy
-import dao.impl.SSHOrderDAOImpl
-import model.SSHOrder
+import impl.SSHOrderToComputerDAOImpl
+import model.SSHOrderToComputer
 
 import scala.concurrent.Future
 
@@ -13,8 +13,10 @@ import scala.concurrent.Future
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-@ImplementedBy(classOf[SSHOrderDAOImpl])
-trait SSHOrderDAO {
+@ImplementedBy(classOf[SSHOrderToComputerDAOImpl])
+trait SSHOrderToComputerDAO {
+  def update(resultSSHOrder: SSHOrderToComputer): Future[Int]
+
 
   /**
     * Adiciona una orden SSH
@@ -22,7 +24,7 @@ trait SSHOrderDAO {
     * @param ordenSSH command a agregar
     * @return String con el mensaje del result
     */
-  def add(ordenSSH: SSHOrder): Future[String]
+  def add(ordenSSHToComputer: SSHOrderToComputer): Future[String]
 
   /**
     * Obtiene una orden SSH según el id
@@ -30,7 +32,7 @@ trait SSHOrderDAO {
     * @param id Identificador del command
     * @return command encontrado o None si no se encontró
     */
-  def get(id: Timestamp): Future[Option[SSHOrder]]
+  def get(id: Timestamp): Future[Option[SSHOrderToComputer]]
 
   /**
     * Elimina una orden SSH de la base de datos
@@ -45,5 +47,5 @@ trait SSHOrderDAO {
     *
     * @return Todos las ordenes SSH
     */
-  def listAll: Future[Seq[SSHOrder]]
+  def listAll: Future[Seq[SSHOrderToComputer]]
 }

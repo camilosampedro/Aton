@@ -11,11 +11,11 @@ object ComputerForm {
   val form = Form(
     mapping(
       "ip" -> nonEmptyText,
-      "name" -> nonEmptyText,
+      "name" -> optional(text),
       "SSHUser" -> nonEmptyText,
       "SSHPassword" -> nonEmptyText,
-      "description" -> nonEmptyText,
-      "roomID" -> longNumber
+      "description" -> optional(text),
+      "roomID" -> optional(longNumber)
     )(ComputerFormData.apply)(ComputerFormData.unapply)
   )
 }

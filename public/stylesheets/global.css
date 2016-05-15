@@ -107,6 +107,13 @@ aside ul li a.selected {
     font-size: 1em;
 }
 
+.panel-heading a {
+    padding-top: 0.05em;
+    padding-bottom: 0.06em;
+    margin-top: -0.15em;
+    margin-right: 1.2em;
+}
+
 div .box {
     margin: 5px;
 }

@@ -4,9 +4,9 @@ import java.sql.Timestamp
 import javax.inject.Inject
 
 import com.google.inject.Singleton
-import dao.SSHOrderDAO
-import model.SSHOrder
-import model.table.SSHOrderTable
+import dao.SSHOrderToComputerDAO
+import model.SSHOrderToComputer
+import model.table.SSHOrderToComputerTable
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits._
 import slick.driver.JdbcProfile
@@ -20,8 +20,8 @@ import scala.concurrent.Future
   * @param dbConfigProvider Inyección del gestor de la base de datos
   */
 @Singleton
-class SSHOrderDAOImpl @Inject()
-(dbConfigProvider: DatabaseConfigProvider) extends SSHOrderDAO {
+class SSHOrderToComputerDAOImpl @Inject()
+(dbConfigProvider: DatabaseConfigProvider) extends SSHOrderToComputerDAO {
   /**
     * Configuración de la base de datos
     */
@@ -34,7 +34,7 @@ class SSHOrderDAOImpl @Inject()
   /**
     * Tabla con "todas las ordenes SSH", similar a select * from command
     */
-  implicit val ordenesSSH = TableQuery[SSHOrderTable]
+  implicit val ordenesSSH = TableQuery[SSHOrderToComputerTable]
 
   /**
     * Adiciona una orden SSH
@@ -42,12 +42,11 @@ class SSHOrderDAOImpl @Inject()
     * @param ordenSSH command a agregar
     * @return String con el mensaje del result
     */
-  override def add(ordenSSH: SSHOrder): Future[String] = {
+  override def add(ordenSSH: SSHOrderToComputer): Future[String] = {
+    play.Logger.debug("Adding to database following SSH Order: " + ordenSSH)
     // Se realiza un insert y por cada insert se crea un String
-    play.Logger.debug(s"""Adding the following ssh order: ${ordenSSH}""")
     db.run(ordenesSSH += ordenSSH).map(res => "Orden SSH agregada correctamente").recover {
-      case ex: Exception => play.Logger.error("There was an error adding the ssh order: " + ordenSSH,ex)
-        ex.getCause.getMessage
+      case ex: Exception => ex.getCause.getMessage
     }
   }
 
@@ -57,12 +56,12 @@ class SSHOrderDAOImpl @Inject()
     * @param id Identificador del command
     * @return command encontrado o None si no se encontró
     */
-  override def get(id: Timestamp): Future[Option[SSHOrder]] = {
+  override def get(id: Timestamp): Future[Option[SSHOrderToComputer]] = {
     // Se realiza un select * from command where id = $id
     db.run(search(id).result.headOption)
   }
 
-  private def search(sentDatetime: Timestamp) = ordenesSSH.filter(_.sentDatetime === sentDatetime)
+  private def search(sshOrderDatetime: Timestamp) = ordenesSSH.filter(_.sshOrderDatetime === sshOrderDatetime)
 
   /**
     * Elimina un command de la base de datos
@@ -79,7 +78,12 @@ class SSHOrderDAOImpl @Inject()
     *
     * @return Todos los ordenSSHs
     */
-  override def listAll: Future[Seq[SSHOrder]] = {
+  override def listAll: Future[Seq[SSHOrderToComputer]] = {
     db.run(ordenesSSH.result)
+  }
+
+  override def update(resultSSHOrder: SSHOrderToComputer): Future[Int] = {
+    play.Logger.debug("Updating to the following SSH Order: " + resultSSHOrder)
+    db.run(ordenesSSH.filter(_.sshOrderDatetime === resultSSHOrder.sshOrderId).update(resultSSHOrder))
   }
 }

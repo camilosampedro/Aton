@@ -1,24 +1,30 @@
 package services.exec
 
+import model.SSHOrder
+
 /**
   * Created by camilosampedro on 12/05/16.
   */
 object SSHFunction {
 
-  val IP_ORDER = "ifconfig eth0 2>/dev/null|awk '/Direc. inet:/ {print $2}'|sed 's/inet://'";
-  val ALT_IP_ORDER = "ifconfig eth0 |awk '/inet addr:/ {print $2}'|sed 's/addr://'";
-  val ES_MAC_ORDER = "ifconfig eth0 2>/dev/null|awk '/direcciónHW/ {print $5}'";
-  val EN_MAC_ORDER = "ifconfig eth0 2>/dev/null|awk '/HWaddr/ {print $5}'";
-  val ES_MAC_ORDER2 = "ifconfig enp3s0 2>/dev/null|awk '/direcciónHW/ {print $5}'";
-  val EN_MAC_ORDER2 = "ifconfig enp3s0 2>/dev/null|awk '/HWaddr/ {print $5}'";
-  val HOST_ORDER = "cat /etc/hostname";
-  val ROOT_VERIFICATION_ORDER = "id -u";
-  val USER_IDENTIFIER_ORDER = "whoamai";
-  val SHUTDOWN_ORDER = "shutdown -h now";
-  val REBOOT_ORDER = "shutdown -r now";
-  val IP_OBTAINING_ORDER = "ifconfig eth0 2>/dev/null|awk '/Direc. inet:/ {print $2}'|sed 's/inet://'";
-  val USER_LIST_ORDER = "who | cut -d' ' -f1 | sort | uniq";
-  val UPDATE_ORDER = "apt-get update; apt-get upgrade --assume-yes";
+  val macOrders = Seq(
+    "ifconfig eth0 2>/dev/null|awk '/direcciónHW/ {print $5}'",
+    "ifconfig enp3s0 2>/dev/null|awk '/ether/ {print $2}'",
+    "ifconfig eth0 2>/dev/null|awk '/HWaddr/ {print $5}'",
+    "ifconfig enp3s0 2>/dev/null|awk '/direcciónHW/ {print $5}'",
+    "ifconfig enp3s0 2>/dev/null|awk '/HWaddr/ {print $5}'"
+  )
+
+  val IP_ORDER = "ifconfig eth0 2>/dev/null|awk '/Direc. inet:/ {print $2}'|sed 's/inet://'"
+  val ALT_IP_ORDER = "ifconfig eth0 |awk '/inet addr:/ {print $2}'|sed 's/addr://'"
+  val HOST_ORDER = "cat /etc/hostname"
+  val ROOT_VERIFICATION_ORDER = "id -u"
+  val USER_IDENTIFIER_ORDER = "whoamai"
+  val SHUTDOWN_ORDER = "shutdown -h now"
+  val REBOOT_ORDER = "shutdown -r now"
+  val IP_OBTAINING_ORDER = "ifconfig eth0 2>/dev/null|awk '/Direc. inet:/ {print $2}'|sed 's/inet://'"
+  val USER_LIST_ORDER = "who | cut -d' ' -f1 | sort | uniq"
+  val UPDATE_ORDER = "apt-get update; apt-get upgrade --assume-yes"
 
   def COMPUTER_WAKEUP_ORDER(sufijoIPSala: Int, mac: String) = "wakeonlan -i 192.168." + sufijoIPSala + ".255 " + mac
 

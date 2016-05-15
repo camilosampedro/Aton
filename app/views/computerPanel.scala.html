@@ -1,0 +1,33 @@
+@import model.Computer
+@(computer: Computer, isAdmin: Boolean)
+<div class="col-xs-2 panel-inicio">
+    <div class="panel panel-success">
+        <div class="panel-heading flaticon-robot28">@(if(computer.name != "") {
+            computer.name
+        } else {
+            computer.ip
+        })</div>
+
+        <div class="panel-body interior-laboratorio">
+            <div class="btn-group btn-group-justified boton-interior-laboratorio" role="group" aria-label="...">
+                <div class="btn-group dropdown" role="group">
+                    <button type="button" class="btn btn-default dropdown-toggle flaticon-info28" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><p class="dropdown-text-mac">MAC: @computer.mac </p></li>
+                        <li><p class="dropdown-text-ip">IP: @computer.ip</p></li>
+                        @if(isAdmin) {
+                            <li role="separator" class="divider"></li>
+                            <li><a href="@routes.ComputerController.editForm(computer.ip)" class="btn-danger">Apagar</a></li>
+                            <li><a href="@routes.ComputerController.editForm(computer.ip)" class="btn-danger">Editar</a></li>
+                            <li><a href="@routes.ComputerController.delete(computer.ip)" class="btn-warning">Eliminar</a></li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

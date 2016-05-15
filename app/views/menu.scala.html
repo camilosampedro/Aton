@@ -1,20 +1,20 @@
-@(isAdmin: Boolean)
+@(isAdmin: Boolean)(implicit messages: Messages)
 <aside class="sidebar">
     <ul id="nav">
         <li><a href="@routes.LaboratoryController.listAll()" class="selected flaticon-plasma"> Inicio </a></li>
-        <li><a href="/suggestionText" class="flaticon-science93"> Sugerencias</a></li>
+        <li><a href="@routes.SuggestionController.home()" class="flaticon-science93"> @messages("menu.suggestions")</a></li>
         @if(isAdmin) {
             @*Panel de administrador*@
             <li>
-                <a class="flaticon-science30" href="@routes.AdministrationController.administrationPanel()"> Administración</a>
+                <a class="flaticon-science30" href="@routes.AdministrationController.administrationPanel()"> @messages("menu.administration")</a>
                 <ul>
-                    <li><a class="flaticon-science30" href="@routes.LaboratoryController.administrateLaboratories()"> Laboratorios</a></li>
+                    <li><a class="flaticon-science30" href="@routes.LaboratoryController.administrateLaboratories()"> @messages("menu.laboratories")</a></li>
                 </ul>
             </li>
         } else {
             @*Panel de userName regular*@
-            <li><a class="flaticon-science30" href="/admin"> Administración</a></li>
+            <li><a class="flaticon-science30" href="/admin"> @messages("menu.administration")</a></li>
         }
-        <li><a class="flaticon-sun45" href="/acercade"> Acerca de</a></li>
+        <li><a class="flaticon-sun45" href="/acercade"> @messages("menu.about")</a></li>
     </ul>
 </aside>

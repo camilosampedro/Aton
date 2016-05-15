@@ -24,9 +24,9 @@ class RoomTable(tag: Tag) extends Table[Room](tag, "room") {
   // Other columns/attributes
   def name = column[String]("name")
 
-  def audiovisualResources = column[String]("audiovisual_resources")
+  def audiovisualResources = column[Option[String]]("audiovisual_resources")
 
-  def basicTools = column[String]("basic_tools")
+  def basicTools = column[Option[String]]("basic_tools")
 
   def laboratoryId = column[Long]("laboratory_id")
 }
