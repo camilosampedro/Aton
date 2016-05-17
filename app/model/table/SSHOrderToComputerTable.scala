@@ -13,12 +13,17 @@ import slick.driver.MySQLDriver.api._
 class SSHOrderToComputerTable(tag: Tag) extends Table[SSHOrderToComputer](tag, "ssh_order_to_computer") {
 
   // All tables need the * method with the type that it was created the table with.
-  override def * = (computerIp, sshOrderDatetime, result, exitCode) <>(SSHOrderToComputer.tupled, SSHOrderToComputer.unapply)
+  override def * = (computerIp, sshOrderId, sentDateTime, result, exitCode) <>(SSHOrderToComputer.tupled, SSHOrderToComputer.unapply)
 
   // Primary key
-  def pk = primaryKey("ssh_order_to_computer_pk", (computerIp, sshOrderDatetime))
+  def pk = primaryKey("ssh_order_to_computer_pk", (computerIp, sshOrderId))
 
-  def sshOrderDatetime = column[Timestamp]("ssh_order_datetime")
+  def sentDateTime = column[Timestamp]("ssh_order_datetime")
+
+  def sshOrderId = column[Long]("ssh_order_id")
+
+  def sshOrder = foreignKey("ssh_order_to_computer_ssh_order", sshOrderId, TableQuery[SSHOrderTable])(_.id, onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+  def computer = foreignKey("computer", computerIp, TableQuery[ComputerTable])(_.ip, onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
 
   // Other columns/attributes
   def computerIp = column[String]("computer_ip")

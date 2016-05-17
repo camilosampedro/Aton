@@ -1,7 +1,9 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:400,300,600);
+
 * {
     box-sizing: border-box;
 }
+
 body {
     font-family: 'open sans', helvetica, arial, sans;
     background: url(http://farm8.staticflickr.com/7064/6858179818_5d652f531c_h.jpg) no-repeat center center fixed;
@@ -10,6 +12,7 @@ body {
     -o-background-size: cover;
     background-size: cover;
 }
+
 .log-form {
     width: 40%;
     min-width: 320px;
@@ -25,6 +28,7 @@ body {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
     overflow: hidden;
 }
+
 @media (max-width: 40em) {
     .log-form {
         width: 95%;
@@ -39,11 +43,13 @@ body {
         transform: translate(0%, 0%);
     }
 }
+
 .log-form form {
     display: block;
     width: 100%;
     padding: 2em;
 }
+
 .log-form h2 {
     color: #5d5d5d;
     font-family: 'open sans condensed';
@@ -58,6 +64,7 @@ body {
     margin: 0;
     font-weight: 200;
 }
+
 .log-form input {
     display: block;
     margin: auto auto;
@@ -69,9 +76,11 @@ body {
     padding-bottom: 1.25em;
     color: #757575;
 }
+
 .log-form input:focus {
     outline: none;
 }
+
 .log-form .btn {
     display: inline-block;
     background: #1fb5bf;
@@ -81,16 +90,20 @@ body {
     margin-right: .5em;
     box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.2);
 }
+
 .log-form .btn:hover {
     background: #23cad5;
 }
+
 .log-form .btn:active {
     background: #1fb5bf;
     box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.1);
 }
+
 .log-form .btn:focus {
     outline: none;
 }
+
 .log-form .forgot {
     color: #33d3de;
     line-height: .5em;
@@ -101,9 +114,11 @@ body {
     margin: 0;
     padding: 0;
 }
+
 .log-form .forgot:hover {
     color: #1ba0a9;
 }
+
 .log-form .forgot:active {
     position: relative;
     top: 1.1em;
@@ -111,5 +126,5 @@ body {
 
 .log-form a {
     text-decoration: none;
-    color:white;
+    color: white;
 }

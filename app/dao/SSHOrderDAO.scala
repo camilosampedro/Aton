@@ -22,7 +22,7 @@ trait SSHOrderDAO {
     * @param ordenSSH command a agregar
     * @return String con el mensaje del result
     */
-  def add(ordenSSH: SSHOrder): Future[String]
+  def add(ordenSSH: SSHOrder): Future[Option[Long]]
 
   /**
     * Obtiene una orden SSH según el id

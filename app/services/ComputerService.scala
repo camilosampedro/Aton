@@ -11,5 +11,5 @@ import scala.concurrent.Future
   */
 @ImplementedBy(classOf[ComputerServiceImpl])
 trait ComputerService {
-  def add(computer: Computer): Future[String]
+  def add(computer: Computer, username: String): Future[Int]
 }

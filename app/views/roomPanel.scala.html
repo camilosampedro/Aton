@@ -1,9 +1,9 @@
-@import model.Room
-@import model.Computer
+@import controllers.admin.{routes => adminroutes}
+@import model.{Computer, Room}
 @(room: Room, computers: Seq[Computer], isAdmin: Boolean)(implicit messages: Messages)
 
 <div class="panel panel-primary">
-    <div class="panel-heading">@room.name <a href="@routes.RoomController.edit(room.id)" class="btn btn-default pull-right" role="button">@messages("room.edit")</a> <a href="@routes.RoomController.delete(room.id)" class="btn btn-default pull-right" role="button">@messages("room.delete")</a></div>
+    <div class="panel-heading">@room.name <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-default pull-right" role="button">@messages("room.edit")</a> <a href="@adminroutes.RoomController.delete(room.id)" class="btn btn-default pull-right" role="button">@messages("room.delete")</a></div>
     <div class="panel-body">
     @if(!computers.isEmpty) {
         <div class="row">
@@ -18,7 +18,7 @@
             <p>Parece que no se han encontrado equipos.</p>
             @if(isAdmin) {
                 <div class="btn-agregar-tabla">
-                    <a href="@routes.ComputerController.add(room.laboratoryID)" class="btn btn-default " role="button">
+                    <a href="@adminroutes.ComputerController.add(room.laboratoryID)" class="btn btn-default " role="button">
                         Agregar computador</a>
                 </div>
             }

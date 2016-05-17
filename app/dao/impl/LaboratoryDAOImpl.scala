@@ -10,7 +10,6 @@ import play.Logger
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits._
 import slick.driver.JdbcProfile
-import slick.lifted.Rep
 
 import scala.concurrent.Future
 
@@ -38,7 +37,7 @@ class LaboratoryDAOImpl @Inject()
   implicit val laboratories = TableQuery[LaboratoryTable]
   implicit val rooms = TableQuery[RoomTable]
   implicit val computers = TableQuery[ComputerTable]
-  implicit val computersAndRoomsTripleJoin = laboratories.joinLeft(rooms).on(_.id===_.laboratoryId).joinLeft(computers)
+  implicit val computersAndRoomsTripleJoin = laboratories.joinLeft(rooms).on(_.id === _.laboratoryId).joinLeft(computers)
 
   /**
     * Adiciona un laboratory

@@ -42,12 +42,12 @@ class SSHOrderDAOImpl @Inject()
     * @param ordenSSH command a agregar
     * @return String con el mensaje del result
     */
-  override def add(ordenSSH: SSHOrder): Future[String] = {
+  override def add(ordenSSH: SSHOrder): Future[Option[Long]] = {
     // Se realiza un insert y por cada insert se crea un String
     play.Logger.debug(s"""Adding the following ssh order: ${ordenSSH}""")
-    db.run(ordenesSSH += ordenSSH).map(res => "Orden SSH agregada correctamente").recover {
-      case ex: Exception => play.Logger.error("There was an error adding the ssh order: " + ordenSSH,ex)
-        ex.getCause.getMessage
+    db.run(ordenesSSH returning ordenesSSH.map(_.id) into ((sshOrder, id) => sshOrder.copy(id = id)) += ordenSSH).map(res => Some(res.id)).recover {
+      case ex: Exception => play.Logger.error("There was an error adding the ssh order: " + ordenSSH, ex)
+        None
     }
   }
 

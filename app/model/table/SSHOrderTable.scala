@@ -15,17 +15,21 @@ class SSHOrderTable(tag: Tag) extends Table[SSHOrder](tag, "ssh_order") {
 
   // All tables need the * method with the type that it was created the table with.
   override def * =
-    (sentDatetime, superuser, interrupt, command,webUser) <>(SSHOrder.tupled, SSHOrder.unapply)
+    (id, sentDatetime, superuser, interrupt, command, webUser) <>(SSHOrder.tupled, SSHOrder.unapply)
 
   // Primary key
-  def sentDatetime = column[Timestamp]("sent_datetime", O.PrimaryKey, SqlType("timestamp not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"))
+  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+
 
   // Other columns/attributes
   def superuser = column[Boolean]("superuser")
 
-  def interrupt = column[Boolean]("interrupt")
+  def sentDatetime = column[Timestamp]("sent_datetime", SqlType("timestamp not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"))
 
   def command = column[String]("command")
+
+  def interrupt = column[Boolean]("interrupt")
+
 
   def webUser = column[String]("web_user")
 }

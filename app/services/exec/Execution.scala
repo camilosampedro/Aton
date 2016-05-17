@@ -2,8 +2,8 @@ package services.exec
 
 import com.jcraft.jsch.JSchException
 import fr.janalyse.ssh._
-import SSHFunction._
 import model.Computer
+import services.exec.SSHFunction._
 
 /**
   * Created by camilosampedro on 12/05/16.

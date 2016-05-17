@@ -1,7 +1,5 @@
 package services.exec
 
-import model.SSHOrder
-
 /**
   * Created by camilosampedro on 12/05/16.
   */

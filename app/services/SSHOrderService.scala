@@ -2,7 +2,6 @@ package services
 
 import com.google.inject.ImplementedBy
 import com.jcraft.jsch.JSchException
-import fr.janalyse.ssh.{Expect, SSHOptions}
 import model.{Computer, SSHOrder}
 import services.impl.SSHOrderServiceImpl
 
@@ -11,7 +10,7 @@ import services.impl.SSHOrderServiceImpl
   */
 @ImplementedBy(classOf[SSHOrderServiceImpl])
 trait SSHOrderService {
-  def getMac(newComputer: Computer): Option[String]
+  def getMac(newComputer: Computer, username: String): Option[String]
 
   @throws(classOf[JSchException])
   def execute(computer: Computer, sshOrder: SSHOrder): (String, Int)

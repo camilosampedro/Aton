@@ -31,7 +31,6 @@ trait RoleDAO {
   def get(roleId: Int): Future[Option[Role]]
 
 
-
   /**
     * Elimina un RoleText de la base de datos
     *

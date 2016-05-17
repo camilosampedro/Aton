@@ -6,6 +6,7 @@ import java.sql.Timestamp
   * POJO with the basic SSH Order information (Used by the SSH Order DAO, Service and Controller)
   */
 case class SSHOrder(
+                     id: Long,
                      sentDatetime: Timestamp,
                      superUser: Boolean,
                      interrupt: Boolean,
@@ -15,9 +16,9 @@ case class SSHOrder(
   def this(sentDatetime: Timestamp,
            superUser: Boolean,
            interrupt: Boolean,
-           command: String) = this(sentDatetime, superUser, interrupt, command, "")
+           command: String) = this(0, sentDatetime, superUser, interrupt, command, "")
 
-  def this(sentDatetime: Timestamp, superUser: Boolean, command: String) = this(sentDatetime, superUser, false, command, "")
+  def this(sentDatetime: Timestamp, superUser: Boolean, command: String) = this(0, sentDatetime, superUser, false, command, "")
 
-  def this(sentDatetime: Timestamp, command: String) = this(sentDatetime, false, false, command, "")
+  def this(sentDatetime: Timestamp, command: String, webUser: String) = this(0, sentDatetime, false, false, command, webUser)
 }

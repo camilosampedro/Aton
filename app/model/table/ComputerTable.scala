@@ -22,7 +22,7 @@ class ComputerTable(tag: Tag) extends Table[Computer](tag, "computer") {
     (ip, name, mac, SSHUser, SSHPassword, description, roomId) <>(Computer.tupled, Computer.unapply)
 
   // PrimaryKey
-  def ip = column[String]("computer.ip", O.PrimaryKey)
+  def ip = column[String]("ip", O.PrimaryKey)
 
   def mac = column[Option[String]]("mac")
 

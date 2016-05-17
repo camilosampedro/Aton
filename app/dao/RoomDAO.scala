@@ -3,7 +3,6 @@ package dao
 import com.google.inject.ImplementedBy
 import dao.impl.RoomDAOImpl
 import model.Room
-import play.api.mvc.Result
 
 import scala.concurrent.Future
 

@@ -14,8 +14,8 @@ resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 
 libraryDependencies ++= Seq(
   //jdbc,
-  "jp.t2v" %% "play2-auth"        % "0.14.2",
-  "jp.t2v" %% "play2-auth-test"   % "0.14.2" % "test",
+  "jp.t2v" %% "play2-auth" % "0.14.2",
+  "jp.t2v" %% "play2-auth-test" % "0.14.2" % "test",
   cache,
   ws,
   specs2 % Test,

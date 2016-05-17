@@ -45,8 +45,13 @@ class SSHOrderToComputerDAOImpl @Inject()
   override def add(ordenSSH: SSHOrderToComputer): Future[String] = {
     play.Logger.debug("Adding to database following SSH Order: " + ordenSSH)
     // Se realiza un insert y por cada insert se crea un String
-    db.run(ordenesSSH += ordenSSH).map(res => "Orden SSH agregada correctamente").recover {
-      case ex: Exception => ex.getCause.getMessage
+    db.run(ordenesSSH += ordenSSH).map(res => {
+      play.Logger.debug("Orden SSH agregada correctamente"); "success"
+    }).recover {
+      case ex: Exception => {
+        play.Logger.error("Ocurrió un error al insertar la orden ssh al pc", ex)
+        ex.getCause.getMessage
+      }
     }
   }
 
@@ -61,7 +66,7 @@ class SSHOrderToComputerDAOImpl @Inject()
     db.run(search(id).result.headOption)
   }
 
-  private def search(sshOrderDatetime: Timestamp) = ordenesSSH.filter(_.sshOrderDatetime === sshOrderDatetime)
+  private def search(sshOrderDatetime: Timestamp) = ordenesSSH.filter(_.sentDateTime === sshOrderDatetime)
 
   /**
     * Elimina un command de la base de datos
@@ -84,6 +89,6 @@ class SSHOrderToComputerDAOImpl @Inject()
 
   override def update(resultSSHOrder: SSHOrderToComputer): Future[Int] = {
     play.Logger.debug("Updating to the following SSH Order: " + resultSSHOrder)
-    db.run(ordenesSSH.filter(_.sshOrderDatetime === resultSSHOrder.sshOrderId).update(resultSSHOrder))
+    db.run(ordenesSSH.filter(_.sentDateTime === resultSSHOrder.sshOrderDatetime).update(resultSSHOrder))
   }
 }

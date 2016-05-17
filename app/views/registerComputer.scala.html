@@ -1,31 +1,32 @@
+@import controllers.admin.{routes => adminroutes}
 @(roomForm: Form[model.form.data.ComputerFormPreData], laboratoryID: Long)(implicit messages: Messages)
-@implicitField = @{
-    helper.FieldConstructor(fieldConstructorTemplate.f)
-}
-<div class="row">
-    <div class="col-xs-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading">Registrar equipo</div>
-            <div class="panel-body">
-            @helper.form(action = routes.ComputerController.add(laboratoryID), 'class -> "form-horizontal") {
-                @helper.inputText(roomForm("computer.ip"),'class -> "form-control", 'placeholder -> "Dirección IP del equipo")
-                @helper.inputText(roomForm("computer.SSHUser"), 'class -> "form-control", 'placeholder -> "Usuario SSH")
-                @helper.inputPassword(roomForm("computer.SSHPassword"), 'class -> "form-control", 'placeholder -> "Password SSH")
-                <div class="form-group">
-                    <div class="col-xs-offset-2 col-xs-10">
-                        <input type="submit" class="btn btn-primary" placeholder="Agregar"/>
+    @implicitField = @{
+        helper.FieldConstructor(fieldConstructorTemplate.f)
+    }
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Registrar equipo</div>
+                <div class="panel-body">
+                @helper.form(action = adminroutes.ComputerController.add(laboratoryID), 'class -> "form-horizontal") {
+                    @helper.inputText(roomForm("computer.ip"), 'class -> "form-control", 'placeholder -> "Dirección IP del equipo")
+                    @helper.inputText(roomForm("computer.SSHUser"), 'class -> "form-control", 'placeholder -> "Usuario SSH")
+                    @helper.inputPassword(roomForm("computer.SSHPassword"), 'class -> "form-control", 'placeholder -> "Password SSH")
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <input type="submit" class="btn btn-primary" placeholder="Agregar"/>
+                        </div>
                     </div>
+                }
                 </div>
-            }
             </div>
         </div>
     </div>
-</div>
 
 
-<div>
+    <div>
     Icons made by <a href="http://www.flaticon.com/authors/simpleicon" title="SimpleIcon">SimpleIcon</a>
-    , <a href="http://www.freepik.com" title="Freepik">Freepik</a>
-    from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed
-    by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
+        , <a href="http://www.freepik.com" title="Freepik">Freepik</a>
+        from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed
+        by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
 </div>

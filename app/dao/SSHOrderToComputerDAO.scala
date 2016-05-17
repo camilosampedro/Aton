@@ -3,7 +3,7 @@ package dao
 import java.sql.Timestamp
 
 import com.google.inject.ImplementedBy
-import impl.SSHOrderToComputerDAOImpl
+import dao.impl.SSHOrderToComputerDAOImpl
 import model.SSHOrderToComputer
 
 import scala.concurrent.Future

@@ -2,7 +2,6 @@ package model.table
 
 import model.Room
 import slick.driver.MySQLDriver.api._
-import slick.lifted.ProvenShape
 
 /**
   * Room table map with Slick

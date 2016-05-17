@@ -6,8 +6,8 @@ import jp.t2v.lab.play2.auth.LoginLogout
 import model.form.LoginForm
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, Controller}
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
@@ -25,17 +25,17 @@ class LoginController @Inject()(userDAO: UserDAO, val messagesApi: MessagesApi) 
     Ok(views.html.login(LoginForm.form))
   }
 
-  def login = Action.async {implicit request =>
+  def login = Action.async { implicit request =>
     LoginForm.form.bindFromRequest().fold(
       errorForm => Future.successful(BadRequest(views.html.login(errorForm))),
       data => {
-        val results = for{
+        val results = for {
           searchUser <- resolveUser(data)
           goto <- gotoLoginSucceeded(data)
-        }yield(searchUser,goto)
-        results.map{res=>
+        } yield (searchUser, goto)
+        results.map { res =>
           res._1 match {
-            case Some(user)=> res._2
+            case Some(user) => res._2
             case _ => Forbidden("Loggin failed. Try again")
           }
         }
@@ -44,7 +44,7 @@ class LoginController @Inject()(userDAO: UserDAO, val messagesApi: MessagesApi) 
     )
   }
 
-  def logout = Action.async {implicit request =>
+  def logout = Action.async { implicit request =>
     gotoLogoutSucceeded
   }
 }

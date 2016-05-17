@@ -1,3 +1,4 @@
+@import controllers.admin.{routes => adminroutes}
 @import model.Computer
 @(computer: Computer, isAdmin: Boolean)
 <div class="col-xs-2 panel-inicio">
@@ -19,9 +20,12 @@
                         <li><p class="dropdown-text-ip">IP: @computer.ip</p></li>
                         @if(isAdmin) {
                             <li role="separator" class="divider"></li>
-                            <li><a href="@routes.ComputerController.editForm(computer.ip)" class="btn-danger">Apagar</a></li>
-                            <li><a href="@routes.ComputerController.editForm(computer.ip)" class="btn-danger">Editar</a></li>
-                            <li><a href="@routes.ComputerController.delete(computer.ip)" class="btn-warning">Eliminar</a></li>
+                            <li><a href="@adminroutes.ComputerController.editForm(computer.ip)" class="btn-danger">
+                                Apagar</a></li>
+                            <li><a href="@adminroutes.ComputerController.editForm(computer.ip)" class="btn-danger">
+                                Editar</a></li>
+                            <li><a href="@adminroutes.ComputerController.delete(computer.ip)" class="btn-warning">
+                                Eliminar</a></li>
 
                         }
                     </ul>

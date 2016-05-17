@@ -188,8 +188,6 @@ a.mobile {
     padding: 7px;
 }
 
-
-
 .btn-agregar-tabla {
     text-align: center;
 }
@@ -202,6 +200,7 @@ a.mobile:active {
     .sidebar {
         width: 100%;
     }
+
     .content {
         margin-left: 0px;
     }
@@ -211,6 +210,7 @@ a.mobile:active {
     .sidebar {
         height: calc(100% - 50px);
     }
+
     a.mobile {
         display: none;
     }
