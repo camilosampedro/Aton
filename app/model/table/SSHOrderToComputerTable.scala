@@ -4,6 +4,7 @@ import java.sql.Timestamp
 
 import model.SSHOrderToComputer
 import slick.driver.MySQLDriver.api._
+import slick.profile.SqlProfile.ColumnOption.SqlType
 
 /**
   * command table map with Slick
@@ -18,7 +19,7 @@ class SSHOrderToComputerTable(tag: Tag) extends Table[SSHOrderToComputer](tag, "
   // Primary key
   def pk = primaryKey("ssh_order_to_computer_pk", (computerIp, sshOrderId))
 
-  def sentDateTime = column[Timestamp]("ssh_order_datetime")
+  def sentDateTime = column[Timestamp]("ssh_order_datetime", SqlType("timestamp not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"))
 
   def sshOrderId = column[Long]("ssh_order_id")
 
