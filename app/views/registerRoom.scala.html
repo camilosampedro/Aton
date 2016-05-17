@@ -8,10 +8,10 @@
             <div class="panel-heading">Agregar sala</div>
             <div class="panel-body">
             @helper.form(action = routes.RoomController.add, 'class -> "form-horizontal") {
-                @helper.inputText(roomForm("name"),'class -> "form-control", 'placeholder -> "Nombre de la sala")
-                @helper.inputText(roomForm("audiovisualResources"), 'class -> "form-control", 'placeholder -> "¿Tiene videobean, televisor?")
-                @helper.inputText(roomForm("basicTools"), 'class -> "form-control", 'placeholder -> "¿Qué herramientas se pueden encontrar aquí?")
-                @helper.select(roomForm("laboratoryID"),laboratories, 'class -> "form-control", 'placeholder -> "Laboratorio al que pertenece")
+                @helper.inputText(roomForm("room.name"),'class -> "form-control", 'placeholder -> "Nombre de la sala")
+                @helper.inputText(roomForm("room.audiovisualResources"), 'class -> "form-control", 'placeholder -> "¿Tiene videobean, televisor?")
+                @helper.inputText(roomForm("room.basicTools"), 'class -> "form-control", 'placeholder -> "¿Qué herramientas se pueden encontrar aquí?")
+                @helper.select(roomForm("room.laboratoryID"),laboratories, 'class -> "form-control", 'placeholder -> "Laboratorio al que pertenece")
                 <div class="form-group">
                     <div class="col-xs-offset-2 col-xs-10">
                         <input type="submit" class="btn btn-primary" placeholder="Agregar"/>

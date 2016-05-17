@@ -2,9 +2,9 @@
 app.name=Aton Web
 
 # Computer form
-ip=Dirección IP
-SSHUser=Usuario SSH
-SSHPassword=Contraseña SSH
+computer.ip=Dirección IP
+computer.SSHUser=Usuario SSH
+computer.SSHPassword=Contraseña SSH
 
 # Header texts
 header.editUser=Editar usuario
@@ -16,10 +16,10 @@ menu.laboratories=Laboratorios
 menu.about=Acerca de
 
 # Room panel
-name=Nombre
-audiovisualResources=Recursos audiovisuales
-basicTools=Herramientas básicas
-laboratoryID=Laboratorio
+room.name=Nombre
+room.audiovisualResources=Recursos audiovisuales
+room.basicTools=Herramientas básicas
+room.laboratoryID=Laboratorio
 room.delete=Eliminar
 room.edit=Editar
 room.notFound=Sala no encontrada con el id especificado
@@ -30,12 +30,24 @@ suggestion.notImplemented=El módulo de sugerencias no está implementado... aú
 # General
 empty=Vacío
 notImplemented=No implementado
-contactAdmin=Por favor ayúdanos en sugerencias reportando este problema
+contactAdmin=Por favor ayúdanos en sugerencias reportando este problema.
+submit=Agregar
 
 # Laboratory
+laboratory.laboratoryListTitle=Lista de laboratorios
 laboratory.addRoom=Agregar sala
 laboratory.emptyRoom.title=Aquí no hay salas
 laboratory.emptyRoom.text=Parece que no se han encontrado salas.
-location=Ubicación
-administration=Administración
+laboratory.location=Ubicación:
+laboratory.administration=Administración:
+laboratory.name=Nombre:
+laboratory.help.head=Ingresando un nuevo laboratorio
+laboratory.help.body=Aquí podrás ingresar un nuevo laboratorio al sistema.
+
+# User
+user.username=Nombre de usuario
+user.notLoggedIn=No has iniciado sesión
+user.login=Iniciar sesión
+user.loginFormTitle=Inicia sesión en el sistema
+user.goToHome=Volver a la página de inicio
 

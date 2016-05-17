@@ -60,7 +60,7 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
       data => {
         val newComputer = Computer(data.ip, data.name, None, data.SSHUser, data.SSHPassword, data.description, data.roomID)
         computerService.add(newComputer).map { res =>
-          Redirect(routes.LaboratoryController.listAll())
+          Redirect(routes.HomeController.home())
         }
       }
     )
@@ -189,7 +189,7 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
     implicit request =>
       computerDAO.delete(ip) map {
         res =>
-          Redirect(routes.LaboratoryController.listAll())
+          Redirect(routes.HomeController.home())
       }
   }
 

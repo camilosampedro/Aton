@@ -1,5 +1,5 @@
 @import model.Laboratory
-@(laboratories: Seq[Laboratory], admin: Boolean)
+@(laboratories: Seq[Laboratory], admin: Boolean)(implicit messages: Messages)
 <div class="panel panel-primary">
     <div class="panel-heading">Laboratorios</div>
     <div class="panel-body">
@@ -37,7 +37,7 @@
             <div id="no-encontrado">
                 <i class="flaticon-boxes27"></i>
                 <h1>Aquí no hay laboratorios</h1>
-                <p>Parece que no se han encontrado laboratorios. Si deseas puedes agregar salas desde el siguiente botón:</p>
+                <p>Parece que no se han encontrado laboratorios. @if(admin){Si deseas puedes agregar salas desde el siguiente botón:}else{@messages("contactAdmin")}</p>
             </div>
         }
 

@@ -1,36 +1,32 @@
 package controllers
 
 import com.google.inject.Inject
-import dao.LaboratoryDAO
+import dao.{LaboratoryDAO, UserDAO}
+import jp.t2v.lab.play2.auth.{AuthElement, AuthenticationElement}
 import model.form.LaboratoryForm
-import model.form.data.LaboratoryFormData
-import model.{Computer, Laboratory, Room}
+import model.form.data.{LaboratoryFormData, LoginFormData}
+import model.{Computer, Laboratory, Role, Room}
 import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, Controller}
+import model.Role._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * Created by camilo on 20/03/16.
   */
-class LaboratoryController @Inject()(laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi) extends Controller with I18nSupport {
+class LaboratoryController @Inject()(userDAO: UserDAO,laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi) extends Controller with I18nSupport with AuthElement with AuthConfigImpl {
 
-  def listAll = Action.async { implicit request =>
-    Logger.debug("Petición de listar todos los laboratorios con el siguiente request recibida " + request)
-    laboratoryDAO.listAll.map { laboratorios =>
-      Ok(views.html.index(Some("Invitado"), true, "Lista de laboratorios")(views.html.laboratories(laboratorios, true)))
-    }
-  }
+  override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 
-
-  def administrateLaboratories = Action.async { implicit request =>
+  def administrateLaboratories = AsyncStack { implicit request =>
     Logger.debug("Petición de listar los laboratorios administrativamente recibida.")
-    Future.successful(Redirect(routes.LaboratoryController.listAll()))
+    Future.successful(Redirect(routes.HomeController.home()))
   }
 
-  def edit(id: Long) = Action.async { implicit request =>
+  def edit(id: Long) = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
     laboratoryDAO.get(id).map { laboratory =>
       laboratory match {
         case Some(laboratory) =>
@@ -42,7 +38,7 @@ class LaboratoryController @Inject()(laboratoryDAO: LaboratoryDAO, val messagesA
     }
   }
 
-  def add = Action.async { implicit request =>
+  def add = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
     Logger.debug("Adding laboratory... ")
     LaboratoryForm.form.bindFromRequest.fold(
       errorForm => {
@@ -53,23 +49,26 @@ class LaboratoryController @Inject()(laboratoryDAO: LaboratoryDAO, val messagesA
 
         val newLaboratory = Laboratory(0, data.name, data.location, data.administration)
         laboratoryDAO.add(newLaboratory).map(res =>
-          Redirect(routes.LaboratoryController.listAll())
+          Redirect(routes.HomeController.home())
         )
       }
     )
   }
 
-  def addForm = Action { implicit request =>
-    Ok(views.html.index(Some("Admin"), true, "")(views.html.registerLaboratory(LaboratoryForm.form)))
+  def addForm = StackAction(AuthorityKey -> Administrator) { implicit request =>
+    play.Logger.debug("Logged user: " + loggedIn)
+    val username = loggedIn.username
+    val isAdmin = loggedIn.role == Role.Administrator
+    Ok(views.html.index(Some(username), isAdmin, "Add laboratory")(views.html.registerLaboratory(LaboratoryForm.form)))
   }
 
-  def delete(id: Long) = Action.async { implicit request =>
+  def delete(id: Long) = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
     laboratoryDAO.delete(id) map { res =>
-      Redirect(routes.LaboratoryController.listAll())
+      Redirect(routes.HomeController.home())
     }
   }
 
-  def get(id: Long) = Action.async { implicit request =>
+  def get(id: Long) = AsyncStack { implicit request =>
     Logger.debug("Petición de listar el laboratorio " + id + " respondida.")
     laboratoryDAO.getWithChildren(id).map { res =>
       val grouped = res.groupBy(_._1)

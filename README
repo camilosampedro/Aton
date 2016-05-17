@@ -8,7 +8,7 @@ There are several demonstration files available in this template.
 Controllers
 ===========
 
-- HomeController.scala:
+- LoginController.scala:
 
   Shows how to handle simple HTTP requests.
 

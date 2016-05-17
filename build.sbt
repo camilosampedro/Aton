@@ -14,6 +14,8 @@ resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 
 libraryDependencies ++= Seq(
   //jdbc,
+  "jp.t2v" %% "play2-auth"        % "0.14.2",
+  "jp.t2v" %% "play2-auth-test"   % "0.14.2" % "test",
   cache,
   ws,
   specs2 % Test,
@@ -22,9 +24,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "2.0.2",
   "org.webjars" %% "webjars-play" % "2.5.0",
   "com.typesafe.play" %% "play-slick-evolutions" % "2.0.2",
-  "fr.janalyse" %% "janalyse-ssh" % "0.9.19" % "compile",
-  "jp.t2v" %% "play2-auth"        % "0.14.2",
-  "jp.t2v" %% "play2-auth-test"   % "0.14.2" % "test"
+  "fr.janalyse" %% "janalyse-ssh" % "0.9.19" % "compile"
 )
 
 libraryDependencies ++= Seq(

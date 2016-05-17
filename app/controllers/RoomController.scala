@@ -66,7 +66,7 @@ class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, v
 
   def delete(roomId: Long) = Action.async {implicit request =>
     roomDAO.delete(roomId).map{ res =>
-      Redirect(routes.LaboratoryController.listAll())
+      Redirect(routes.HomeController.home())
     }
   }
 }

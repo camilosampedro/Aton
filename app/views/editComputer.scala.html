@@ -8,10 +8,10 @@
             <div class="panel-heading">Agregar computador</div>
             <div class="panel-body">
             @helper.form(action = routes.ComputerController.edit, 'class -> "form-horizontal") {
-                @helper.inputText(roomForm("ip"),'class -> "form-control", 'placeholder -> "Dirección IP del equipo")
-                @helper.inputText(roomForm("name"), 'class -> "form-control", 'placeholder -> "Nombre del equipo")
-                @helper.inputText(roomForm("SSHUser"), 'class -> "form-control", 'placeholder -> "Usuario SSH")
-                @helper.inputPassword(roomForm("SSHPassword"), 'class -> "form-control", 'placeholder -> "Password SSH")
+                @helper.inputText(roomForm("computer.ip"),'class -> "form-control", 'placeholder -> "Dirección IP del equipo")
+                @helper.inputText(roomForm("room.name"), 'class -> "form-control", 'placeholder -> "Nombre del equipo")
+                @helper.inputText(roomForm("computer.SSHUser"), 'class -> "form-control", 'placeholder -> "Usuario SSH")
+                @helper.inputPassword(roomForm("computer.SSHPassword"), 'class -> "form-control", 'placeholder -> "Password SSH")
                 @helper.inputText(roomForm("description"), 'class -> "form-control", 'placeholder -> "Descripción del equipo")
                 @helper.select(roomForm("roomID"),rooms, 'class -> "form-control", 'placeholder -> "Sala a la que pertenece")
                 <div class="form-group">

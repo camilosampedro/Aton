@@ -1,7 +1,7 @@
 @(isAdmin: Boolean)(implicit messages: Messages)
 <aside class="sidebar">
     <ul id="nav">
-        <li><a href="@routes.LaboratoryController.listAll()" class="selected flaticon-plasma"> Inicio </a></li>
+        <li><a href="@routes.HomeController.home()" class="selected flaticon-plasma"> Inicio </a></li>
         <li><a href="@routes.SuggestionController.home()" class="flaticon-science93"> @messages("menu.suggestions")</a></li>
         @if(isAdmin) {
             @*Panel de administrador*@

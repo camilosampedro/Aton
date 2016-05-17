@@ -8,9 +8,9 @@
             <div class="panel-heading">Registrar equipo</div>
             <div class="panel-body">
             @helper.form(action = routes.ComputerController.add(laboratoryID), 'class -> "form-horizontal") {
-                @helper.inputText(roomForm("ip"),'class -> "form-control", 'placeholder -> "Dirección IP del equipo")
-                @helper.inputText(roomForm("SSHUser"), 'class -> "form-control", 'placeholder -> "Usuario SSH")
-                @helper.inputPassword(roomForm("SSHPassword"), 'class -> "form-control", 'placeholder -> "Password SSH")
+                @helper.inputText(roomForm("computer.ip"),'class -> "form-control", 'placeholder -> "Dirección IP del equipo")
+                @helper.inputText(roomForm("computer.SSHUser"), 'class -> "form-control", 'placeholder -> "Usuario SSH")
+                @helper.inputPassword(roomForm("computer.SSHPassword"), 'class -> "form-control", 'placeholder -> "Password SSH")
                 <div class="form-group">
                     <div class="col-xs-offset-2 col-xs-10">
                         <input type="submit" class="btn btn-primary" placeholder="Agregar"/>

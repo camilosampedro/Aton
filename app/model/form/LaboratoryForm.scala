@@ -10,9 +10,9 @@ import play.api.data.Forms._
 object LaboratoryForm {
   val form = Form(
     mapping(
-      "name" -> nonEmptyText,
-      "location" -> optional(text),
-      "administration" -> optional(text)
+      "laboratory.name" -> nonEmptyText,
+      "laboratory.location" -> optional(text),
+      "laboratory.administration" -> optional(text)
     )(LaboratoryFormData.apply)(LaboratoryFormData.unapply)
   )
 }

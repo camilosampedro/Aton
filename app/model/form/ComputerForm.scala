@@ -10,10 +10,10 @@ import play.api.data.Forms._
 object ComputerForm {
   val form = Form(
     mapping(
-      "ip" -> nonEmptyText,
-      "name" -> optional(text),
-      "SSHUser" -> nonEmptyText,
-      "SSHPassword" -> nonEmptyText,
+      "computer.ip" -> nonEmptyText,
+      "room.name" -> optional(text),
+      "computer.SSHUser" -> nonEmptyText,
+      "computer.SSHPassword" -> nonEmptyText,
       "description" -> optional(text),
       "roomID" -> optional(longNumber)
     )(ComputerFormData.apply)(ComputerFormData.unapply)

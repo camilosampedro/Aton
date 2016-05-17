@@ -11,7 +11,7 @@ import scala.concurrent.Future
   */
 class AdministrationController @Inject()(val messagesApi: MessagesApi) extends Controller with I18nSupport {
   def administrationPanel = Action.async{ implicit request =>
-    Future.successful(Redirect(routes.LaboratoryController.listAll()))
+    Future.successful(Redirect(routes.HomeController.home()))
   }
 
 }

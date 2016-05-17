@@ -8,18 +8,19 @@
             <div class="panel-heading">Agregar laboratorio</div>
             <div class="panel-body">
             @helper.form(action = routes.LaboratoryController.add, 'class -> "form-horizontal") {
-                @helper.inputText(laboratoryForm("name"),'class -> "form-control", 'placeholder -> "Nombre del laboratorio")
-                @helper.inputText(laboratoryForm("location"), 'class -> "form-control", 'placeholder -> "¿Dónde está el laboratorio?")
-                @helper.inputText(laboratoryForm("administration"), 'class -> "form-control", 'placeholder -> "¿Quién está a cargo?")
+                @helper.inputText(laboratoryForm("laboratory.name"),'class -> "form-control", 'placeholder -> "Nombre del laboratorio")
+                @helper.inputText(laboratoryForm("laboratory.location"), 'class -> "form-control", 'placeholder -> "¿Dónde está el laboratorio?")
+                @helper.inputText(laboratoryForm("laboratory.administration"), 'class -> "form-control", 'placeholder -> "¿Quién está a cargo?")
                 <div class="form-group">
-                    <div class="col-xs-offset-2 col-xs-10">
-                        <input type="submit" class="btn btn-primary" placeholder="Agregar"/>
+                    <div class="col-xs-offset-3 col-xs-9">
+                        <button type="submit" class="btn btn-primary">@messages("submit")</button>
                     </div>
                 </div>
             }
             </div>
         </div>
     </div>
+    @helpPanel(messages("laboratory.help.head"),messages("laboratory.help.body"))
 </div>
 
 

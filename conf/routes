@@ -2,14 +2,15 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-
+GET         /                                  controllers.HomeController.home
 
 # Admin
 GET         /admin                             controllers.AdministrationController.administrationPanel
-GET         /login                             controllers.AuthConfigImpl.login
+GET         /login                             controllers.LoginController.loginForm
+POST        /login                             controllers.LoginController.login
+GET         /logout                            controllers.LoginController.logout
 
 # Laboratory
-GET         /                                  controllers.LaboratoryController.listAll
 GET         /laboratory/admin                  controllers.LaboratoryController.administrateLaboratories
 GET         /laboratory/id/:id                 controllers.LaboratoryController.get(id:Long)
 POST        /laboratory/edit/:id               controllers.LaboratoryController.edit(id:Long)

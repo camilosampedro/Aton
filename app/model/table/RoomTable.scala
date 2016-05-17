@@ -15,8 +15,7 @@ class RoomTable(tag: Tag) extends Table[Room](tag, "room") {
   def laboratory = foreignKey("laboratory_id", laboratoryId, TableQuery[LaboratoryTable])(_.id)
 
   // All tables need the * method with the type that it was created the table with.
-  override def * : ProvenShape[Room] =
-    (id, name, audiovisualResources, basicTools, laboratoryId) <>(Room.tupled, Room.unapply)
+  override def * = (id, name, audiovisualResources, basicTools, laboratoryId) <>(Room.tupled, Room.unapply)
 
   // Primary key
   def id = column[Long]("id", O.PrimaryKey)

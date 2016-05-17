@@ -10,10 +10,10 @@ import play.api.data.Forms._
 object RoomForm {
   val form = Form(
     mapping(
-      "name" -> nonEmptyText,
-      "audiovisualResources" -> optional(text),
-      "basicTools" -> optional(text),
-      "laboratoryID" -> longNumber
+      "room.name" -> nonEmptyText,
+      "room.audiovisualResources" -> optional(text),
+      "room.basicTools" -> optional(text),
+      "room.laboratoryID" -> longNumber
     )(RoomFormData.apply)(RoomFormData.unapply)
   )
 }

@@ -13,17 +13,17 @@
                 <li><a href="/admin/editar-userName-@userName"
                 class="flaticon-edit18"> @messages("header.editUser")</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/logout"
+                <li><a href="@routes.LoginController.logout"
                 class="flaticon-power107"> Cerrar sesión</a></li>
             </ul>
         } else {
             <button type="button" class="btn btn-default dropdown-toggle"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                No has iniciado sesión <span class="caret"></span>
+                @messages("user.notLoggedIn") <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
-                <li><a href="/login"
-                class="flaticon-login12"> Iniciar sesión</a></li>
+                <li><a href="@routes.LoginController.login"
+                class="flaticon-login12"> @messages("user.login")</a></li>
             </ul>
         }
     </div>
