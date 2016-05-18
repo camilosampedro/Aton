@@ -1,13 +1,8 @@
-@import controllers.admin.{routes => adminroutes}
-@import model.Computer
-@(computer: Computer, isAdmin: Boolean)
+@import controllers.admin.{routes => adminroutes} @import model.Computer @(computer: Computer, isAdmin: Boolean)
 <div class="col-xs-2 panel-inicio">
     <div class="panel panel-success">
-        <div class="panel-heading flaticon-robot28">@(if(computer.name != "") {
-            computer.name
-        } else {
-            computer.ip
-        })</div>
+        <div class="panel-heading flaticon-robot28">@(if(computer.name != "") { computer.name } else { computer.ip })
+        </div>
 
         <div class="panel-body interior-laboratorio">
             <div class="btn-group btn-group-justified boton-interior-laboratorio" role="group" aria-label="...">
@@ -16,17 +11,43 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><p class="dropdown-text-mac">MAC: @computer.mac </p></li>
-                        <li><p class="dropdown-text-ip">IP: @computer.ip</p></li>
+                        <li>
+                            <p class="dropdown-text-mac">MAC: @computer.mac </p>
+                        </li>
+                        <li>
+                            <p class="dropdown-text-ip">IP: @computer.ip</p>
+                        </li>
                         @if(isAdmin) {
-                            <li role="separator" class="divider"></li>
-                            <li><a href="@adminroutes.ComputerController.editForm(computer.ip)" class="btn-danger">
-                                Apagar</a></li>
-                            <li><a href="@adminroutes.ComputerController.editForm(computer.ip)" class="btn-danger">
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#commandBox@computer.ip">@messages("computer.sendCommand")</button>
+                        </li>
+                        <li><a href="@adminroutes.ComputerController.editForm(computer.ip)" class="btn-danger">
                                 Editar</a></li>
-                            <li><a href="@adminroutes.ComputerController.delete(computer.ip)" class="btn-warning">
+                        <li><a href="@adminroutes.ComputerController.delete(computer.ip)" class="btn-warning">
                                 Eliminar</a></li>
+                        <div id="commandBox@computer.ip" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
 
+                                <!-- Modal content-->
+                                <div class="command-box">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">@messages("computer.executeCommandTitle")</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>@messages("computer.executeCommandBody")</p>
+                                        <a class="btn btn-danger">@messages("computer.shutdown")</a>
+                                        <a class="btn btn-info">@messages("computer.upgrade")</a>
+                                        <a class="btn btn-info">@messages("computer.unfreeze")</a>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">@messages("close")</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                         }
                     </ul>
                 </div>
