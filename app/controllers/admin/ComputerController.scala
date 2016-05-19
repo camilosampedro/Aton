@@ -10,10 +10,10 @@ import model.form.data.{ComputerFormData, LoginFormData}
 import model.form.{ComputerForm, ComputerFormPre}
 import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.Controller
 import services.{ComputerService, SSHOrderService}
-
 import scala.concurrent.ExecutionContext.Implicits.global
+
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 
@@ -24,7 +24,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
   override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 
   def edit = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
-    val username = loggedIn.username
+    implicit val username = loggedIn.username
     ComputerForm.form.bindFromRequest().fold(
       errorForm => {
         computerDAO.get(errorForm.get.ip).map { res =>
@@ -54,8 +54,8 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
         }
       },
       data => {
-        val newComputer = Computer(data.ip, data.name, None, data.SSHUser, data.SSHPassword, data.description, data.roomID)
-        computerService.add(newComputer, username).map { res =>
+        val newComputer = Computer(data.ip, data.name, data.SSHUser, data.SSHPassword, data.description, data.roomID)
+        computerService.add(newComputer).map { res =>
           Redirect(normalroutes.HomeController.home())
         }
       }
@@ -63,14 +63,14 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
   }
 
   def add(laboratoryId: Long) = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
-    val username = loggedIn.username
+    implicit val username = loggedIn.username
     Logger.debug("Request de agregar equipo ingresada:" + request)
     ComputerFormPre.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(errorForm.toString)),
       data => {
-        val newComputer = Computer(data.ip, None, None, data.SSHUser, data.SSHPassword, None, None)
+        val newComputer = Computer(data.ip, None, data.SSHUser, data.SSHPassword, None, None)
         Logger.debug("Adding a new computer: " + newComputer)
-        computerService.add(newComputer, username).map { res =>
+        computerService.add(newComputer).map { res =>
           Redirect(routes.ComputerController.editForm(newComputer.ip))
         }
       }
@@ -79,7 +79,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
 
   def editForm(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
     implicit request =>
-      val username = loggedIn.username
+      implicit val username = loggedIn.username
       Logger.debug("Looking for computer: " + ip)
       val resultados = for {
         computerSearch <- computerDAO.get(ip)
@@ -88,7 +88,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
 
       resultados.map(res =>
         res._1 match {
-          case Some(Computer(ip, name, _, sSHUser, sSHPassword, description, room)) => {
+          case Some(Computer(ip, name, sSHUser, sSHPassword, description, room)) => {
             val computerForm = ComputerFormData(ip, name, sSHUser, sSHPassword, description, room)
             val pairs = res._2.map(x => (x.id.toString, x.name))
             Ok(views.html.index(Some(username), true, messagesApi("computer.edit"))(views.html.editComputer(ComputerForm.form.fill(computerForm), pairs)))
@@ -110,7 +110,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       }
   }
 
-  def delete(ip: String) = Action.async {
+  def delete(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
     implicit request =>
       computerDAO.delete(ip) map {
         res =>
@@ -118,5 +118,50 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       }
   }
 
+  def shutdown(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+    implicit request =>
+      implicit val username = loggedIn.username
+      computerDAO.get(ip).map { res =>
+        res match {
+          case Some(computer) if (sSHOrderService.shutdown(computer)) => Redirect(normalroutes.HomeController.home())
+          case _ => NotImplemented(views.html.index(Some(username), true, messagesApi("computer.notFound"))(views.html.notImplemented(messagesApi("computer.notFoundMessage"))))
+        }
+      }
+  }
+
+  def upgrade(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+    implicit request =>
+      implicit val username = loggedIn.username
+      computerDAO.get(ip).map { res =>
+        res match {
+          case Some(computer) =>
+            val (result, success) = sSHOrderService.upgrade(computer)
+            if (success) {
+              Redirect(normalroutes.HomeController.home())
+            } else {
+              NotImplemented(views.html.index(Some(username), true, messagesApi("computer.upgrade.failed"))(views.html.notImplemented(messagesApi("computer.upgrade.failed") + result)))
+            }
+
+          case _ => NotImplemented(views.html.index(Some(username), true, messagesApi("computer.notFound"))(views.html.notImplemented(messagesApi("computer.notFoundMessage"))))
+        }
+      }
+  }
+
+  def unfreeze(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+    implicit request =>
+      implicit val username = loggedIn.username
+      computerDAO.get(ip).map { res =>
+        res match {
+          case Some(computer) =>
+            val (result, success) = sSHOrderService.unfreeze(computer)
+            if (success) {
+              Redirect(normalroutes.HomeController.home())
+            } else {
+              NotImplemented(views.html.index(Some(username), true, messagesApi("computer.upgrade.failed"))(views.html.notImplemented(messagesApi("computer.upgrade.failed") + result)))
+            }
+          case _ => NotImplemented(views.html.index(Some(username), true, messagesApi("computer.notFound"))(views.html.notImplemented(messagesApi("computer.notFoundMessage"))))
+        }
+      }
+  }
 
 }

@@ -19,12 +19,10 @@ class ComputerTable(tag: Tag) extends Table[Computer](tag, "computer") {
 
   // All tables need the * method with the type that it was created the table.
   override def * : ProvenShape[Computer] =
-    (ip, name, mac, SSHUser, SSHPassword, description, roomId) <>(Computer.tupled, Computer.unapply)
+    (ip, name, SSHUser, SSHPassword, description, roomId) <>(Computer.tupled, Computer.unapply)
 
   // PrimaryKey
   def ip = column[String]("ip", O.PrimaryKey)
-
-  def mac = column[Option[String]]("mac")
 
   def SSHUser = column[String]("ssh_user")
 

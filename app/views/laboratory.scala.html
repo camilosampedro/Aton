@@ -1,6 +1,7 @@
 @import controllers.admin.{routes => adminroutes}
 @import model.{Computer, Laboratory, Room}
-@(laboratory: Laboratory, roomsWithComputers: Map[Option[Room], Seq[Computer]], admin: Boolean)(implicit messages: Messages)
+@import model.ComputerState
+@(laboratory: Laboratory, roomsWithComputers: Map[Option[Room], Seq[(Computer,ComputerState)]], admin: Boolean)(implicit messages: Messages)
 <h1>Laboratory @laboratory.name</h1>
     @if(roomsWithComputers.size != 0) {
         @for((room, computers) <- roomsWithComputers if room.isDefined) {

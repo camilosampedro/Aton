@@ -6,5 +6,7 @@ package model
 case class ComputerState(
                           computerIp: String,
                           registeredDate: java.sql.Timestamp,
-                          description: String
+                          isOn: Boolean,
+                          operatingSystem: Option[String],
+                          mac: Option[String]
                         )

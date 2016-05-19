@@ -30,6 +30,5 @@ class SSHOrderTable(tag: Tag) extends Table[SSHOrder](tag, "ssh_order") {
 
   def interrupt = column[Boolean]("interrupt")
 
-
   def webUser = column[String]("web_user")
 }

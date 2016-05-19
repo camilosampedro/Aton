@@ -14,14 +14,8 @@ import scala.concurrent.{Await, Future}
 @Singleton
 class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDAO: ComputerDAO) extends ComputerService {
 
-  override def add(computer: Computer, username: String): Future[Int] = {
+  override def add(computer: Computer)(implicit username: String): Future[String] = {
     play.Logger.debug("Adding computer")
-    Await.result(computerDAO.add(computer),Duration.Inf)
-    play.Logger.debug("Computer added... Looking for mac")
-    computerDAO.edit(completeMac(computer, username))
-  }
-
-  def completeMac(computer: Computer, username: String): Computer = {
-    computer.copy(mac = sSHOrderService.getMac(computer, username))
+    computerDAO.add(computer)
   }
 }

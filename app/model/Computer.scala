@@ -6,7 +6,6 @@ package model
 case class Computer(
                      ip: String,
                      name: Option[String],
-                     mac: Option[String],
                      SSHUser: String,
                      SSHPassword: String,
                      description: Option[String],

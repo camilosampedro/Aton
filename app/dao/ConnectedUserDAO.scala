@@ -3,8 +3,8 @@ package dao
 import java.sql.Timestamp
 
 import com.google.inject.ImplementedBy
-import dao.impl.SessionDAOImpl
-import model.ComputerSession
+import dao.impl.ConnectedUserDAOImpl
+import model.ConnectedUser
 
 import scala.concurrent.Future
 
@@ -13,16 +13,16 @@ import scala.concurrent.Future
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-@ImplementedBy(classOf[SessionDAOImpl])
-trait SessionDAO {
+@ImplementedBy(classOf[ConnectedUserDAOImpl])
+trait ConnectedUserDAO {
 
   /**
     * Adiciona una sesion
     *
-    * @param sesion ComputerSession a agregar
+    * @param user ComputerSession a agregar
     * @return String con el mensaje del result
     */
-  def add(sesion: ComputerSession): Future[String]
+  def add(user: ConnectedUser): Future[String]
 
   /**
     * Obtiene una sesion según el id
@@ -31,21 +31,12 @@ trait SessionDAO {
     * @param fecha Fecha de la sesion
     * @return ComputerSession encontrado o None si no se encontró
     */
-  def get(ip: String, fecha: Timestamp): Future[Option[ComputerSession]]
+  def get(ip: String, fecha: Timestamp): Future[Seq[ConnectedUser]]
 
   /**
     * Elimina una sesion de la base de datos
     *
-    * @param ip    Dirección IP de la sesion
-    * @param fecha Fecha de la sesion
     * @return Resultado de la operación
     */
-  def delete(ip: String, fecha: Timestamp): Future[Int]
-
-  /**
-    * Lista todas las sesiones en la base de datos
-    *
-    * @return Todas los sesiones
-    */
-  def listAll: Future[Seq[ComputerSession]]
+  def delete(id: Int): Future[Int]
 }

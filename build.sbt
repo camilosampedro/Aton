@@ -24,6 +24,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "2.0.2",
   "org.webjars" %% "webjars-play" % "2.5.0",
   "com.typesafe.play" %% "play-slick-evolutions" % "2.0.2",
+  "com.typesafe.akka" %% "akka-actor" % "2.4.5",
   "fr.janalyse" %% "janalyse-ssh" % "0.9.19" % "compile"
 )
 

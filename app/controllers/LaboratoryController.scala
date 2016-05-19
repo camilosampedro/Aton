@@ -35,7 +35,18 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryDAO: Laboratory
           }.groupBy {
             row => row._1
           }.map {
-            case (k, v) => (k, v.map(_._2).flatten)
+            case (k, v) =>
+              (k, v
+                .map(_._2)
+                .groupBy(_._1)
+                .filter(_._1.isDefined)
+                .map(x => (x._1.get, x._2))
+                .map { x =>
+                  val filtered = x._2.filter(_._2.isDefined)
+                  filtered.headOption.map { _ =>
+                    filtered.maxBy(_._2.get.registeredDate.getTime)
+                  }
+                }.filter(x=>x.isDefined && x.get._1.isDefined && x.get._2.isDefined).map(x => (x.get._1.get, x.get._2.get)).toSeq)
           }.filter {
             row => row._1.isDefined
           }

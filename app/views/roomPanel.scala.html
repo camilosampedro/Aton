@@ -1,14 +1,15 @@
 @import controllers.admin.{routes => adminroutes}
 @import model.{Computer, Room}
-@(room: Room, computers: Seq[Computer], isAdmin: Boolean)(implicit messages: Messages)
+@import model.ComputerState
+@(room: Room, computers: Seq[(Computer,ComputerState)], isAdmin: Boolean)(implicit messages: Messages)
 
 <div class="panel panel-primary">
-    <div class="panel-heading">@room.name <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-default pull-right" role="button">@messages("room.edit")</a> <a href="@adminroutes.RoomController.delete(room.id)" class="btn btn-default pull-right" role="button">@messages("room.delete")</a></div>
+    <div class="panel-heading">@room.name@if(isAdmin){ <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-default pull-right" role="button">@messages("room.edit")</a> <a href="@adminroutes.RoomController.delete(room.id)" class="btn btn-default pull-right" role="button">@messages("room.delete")</a>}</div>
     <div class="panel-body">
     @if(!computers.isEmpty) {
         <div class="row">
-        @for(computer <- computers) {
-            @computerPanel(computer, isAdmin)
+        @for((computer,computerState) <- computers) {
+            @computerPanel(computer,computerState, isAdmin)
         }
         </div>
     } else {

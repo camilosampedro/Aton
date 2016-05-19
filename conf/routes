@@ -3,12 +3,12 @@
 # ~~~~
 
 GET         /                                  controllers.HomeController.home
-
-# Admin
-GET         /admin                             controllers.admin.AdministrationController.administrationPanel
 GET         /login                             controllers.LoginController.loginForm
 POST        /login                             controllers.LoginController.login
 GET         /logout                            controllers.LoginController.logout
+
+# Admin
+GET         /admin                             controllers.admin.AdministrationController.administrationPanel
 
 # Laboratory
 GET         /laboratory/admin                  controllers.admin.LaboratoryController.administrateLaboratories
@@ -32,6 +32,9 @@ GET         /computer/add/:laboratoryID        controllers.admin.ComputerControl
 GET         /computer/edit/:ip                 controllers.admin.ComputerController.editForm(ip: String)
 POST        /computer/edit                     controllers.admin.ComputerController.edit
 GET         /computer/delete/:ip               controllers.admin.ComputerController.delete(ip: String)
+GET         /computer/shutdown/:ip             controllers.admin.ComputerController.shutdown(ip: String)
+GET         /computer/upgrade/:ip              controllers.admin.ComputerController.upgrade(ip: String)
+GET         /computer/unfreeze/:ip             controllers.admin.ComputerController.unfreeze(ip: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                      controllers.Assets.versioned(path="/public", file: Asset)

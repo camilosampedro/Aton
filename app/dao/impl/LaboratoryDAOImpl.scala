@@ -4,8 +4,8 @@ import javax.inject.Inject
 
 import com.google.inject.Singleton
 import dao.{LaboratoryDAO, RoomDAO}
-import model.table.{ComputerTable, LaboratoryTable, RoomTable}
-import model.{Computer, Laboratory, Room}
+import model.table.{ComputerStateTable, ComputerTable, LaboratoryTable, RoomTable}
+import model.{Computer, ComputerState, Laboratory, Room}
 import play.Logger
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits._
@@ -37,7 +37,8 @@ class LaboratoryDAOImpl @Inject()
   implicit val laboratories = TableQuery[LaboratoryTable]
   implicit val rooms = TableQuery[RoomTable]
   implicit val computers = TableQuery[ComputerTable]
-  implicit val computersAndRoomsTripleJoin = laboratories.joinLeft(rooms).on(_.id === _.laboratoryId).joinLeft(computers)
+  implicit val computerStates = TableQuery[ComputerStateTable]
+  implicit val computersAndRoomsQuadJoin = laboratories.joinLeft(rooms).on(_.id === _.laboratoryId).joinLeft(computers).joinLeft(computerStates)
 
   /**
     * Adiciona un laboratory
@@ -83,11 +84,11 @@ class LaboratoryDAOImpl @Inject()
     * @param id
     * @return
     */
-  override def getWithChildren(id: Long): Future[Seq[(Laboratory, Option[Room], Option[Computer])]] = {
+  override def getWithChildren(id: Long): Future[Seq[(Laboratory, Option[Room], (Option[Computer],Option[ComputerState]))]] = {
     db.run {
-      computersAndRoomsTripleJoin
-        .filter(_._1._1.id === id)
-        .map(x => (x._1._1, x._1._2, x._2))
+      computersAndRoomsQuadJoin
+        .filter(_._1._1._1.id === id)
+        .map(x => (x._1._1._1, x._1._1._2, (x._1._2,x._2)))
         .result
     }
   }
