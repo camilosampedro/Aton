@@ -11,6 +11,7 @@ GET         /logout                            controllers.LoginController.logou
 GET         /admin                             controllers.admin.AdministrationController.administrationPanel
 
 # Laboratory
+
 GET         /laboratory/admin                  controllers.admin.LaboratoryController.administrateLaboratories
 GET         /laboratory/id/:id                 controllers.LaboratoryController.get(id:Long)
 POST        /laboratory/edit/:id               controllers.admin.LaboratoryController.edit(id:Long)
@@ -42,5 +43,8 @@ GET         /assets/*file                      controllers.Assets.versioned(path
 # Suggestion
 GET         /suggestion                        controllers.SuggestionController.home
 
+# API
+GET         /api/laboratories                  controllers.api.LaboratoryController.listAll()
+GET         /api/laboratory/:id                controllers.api.LaboratoryController.get(id: Long)
 
 
