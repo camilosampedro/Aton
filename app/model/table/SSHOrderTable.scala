@@ -24,7 +24,7 @@ class SSHOrderTable(tag: Tag) extends Table[SSHOrder](tag, "ssh_order") {
   // Other columns/attributes
   def superuser = column[Boolean]("superuser")
 
-  def sentDatetime = column[Timestamp]("sent_datetime", SqlType("timestamp not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"))
+  def sentDatetime = column[Timestamp]("sent_datetime")
 
   def command = column[String]("command")
 

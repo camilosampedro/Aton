@@ -2,7 +2,7 @@ package services
 
 import com.google.inject.ImplementedBy
 import com.jcraft.jsch.JSchException
-import model.{Computer, ComputerState, ConnectedUser, SSHOrder}
+import model._
 import services.impl.SSHOrderServiceImpl
 
 /**
@@ -13,9 +13,9 @@ trait SSHOrderService {
 
   def whoAreUsing(computer: Computer)(implicit username: String): Seq[String]
 
-  def ping(computer: Computer)(implicit username: String): Boolean
+  def checkState(computer: Computer)(implicit username: String): StateRef
 
-  def check(computer: Computer)(implicit username: String): (ComputerState,Seq[ConnectedUser])
+  def check(computer: Computer, optionalComputerState: Option[ComputerState])(implicit username: String): (ComputerState,Seq[ConnectedUser])
 
   def unfreeze(computer: Computer)(implicit username:String): (String,Boolean)
 
@@ -23,7 +23,7 @@ trait SSHOrderService {
 
   def shutdown(computer: Computer)(implicit username: String): Boolean
 
-  def getMac(computer: Computer)(implicit username: String): Option[String]
+  def getMac(computer: Computer, operatingSystem: Option[String])(implicit username: String): Option[String]
 
   @throws(classOf[JSchException])
   def execute(computer: Computer, sshOrder: SSHOrder): (String, Int)

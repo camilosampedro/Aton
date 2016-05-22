@@ -14,8 +14,8 @@
                     @helper.inputText(roomForm("room.basicTools"), 'class -> "form-control", 'placeholder -> "¿Qué herramientas se pueden encontrar aquí?")
                     @helper.select(roomForm("room.laboratoryID"), laboratories, 'class -> "form-control", 'placeholder -> "Laboratorio al que pertenece")
                     <div class="form-group">
-                        <div class="col-xs-offset-2 col-xs-10">
-                            <input type="submit" class="btn btn-primary" placeholder="Agregar"/>
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <button type="submit" class="btn btn-primary">@messages("submit")</button>
                         </div>
                     </div>
                 }

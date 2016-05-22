@@ -22,7 +22,7 @@ class ConnectedUserTable(tag: Tag) extends Table[ConnectedUser](tag, "connected_
   def computerStateComputerIp = column[String]("computer_state_computer_ip")
 
   // Clave foránea hacia Computer
-  def computer = foreignKey("connected_user_computer_state", (computerStateComputerIp,computerStateRegisteredDate), TableQuery[ComputerStateTable])(x=>(x.computerIp,x.registeredDate))
+  def computer = foreignKey("connected_user_computer_state", (computerStateComputerIp,computerStateRegisteredDate), TableQuery[ComputerStateTable])(x=>(x.computerIp,x.registeredDate), onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
 
   // All tables need the * method with the type that it was created the table with.
   override def * =

@@ -6,13 +6,23 @@ package services.exec
 object SSHFunction {
   val dummy = """echo "Ping from Aton""""
 
-  val macOrders = Seq(
+  val macOrders = Map(
+    "ManjaroLinux" -> Seq(
+      """ifconfig enp3s0 2>/dev/null|awk '/ether/ {print $2}'"""
+    ),
+    "Ubuntu" -> Seq(
+      "ifconfig eth0 2>/dev/null|awk '/direcciónHW/ {print $5}'",
+      "ifconfig enp3s0 2>/dev/null|awk '/ether/ {print $2}'",
+      "ifconfig eth0 2>/dev/null|awk '/HWaddr/ {print $5}'",
+      "ifconfig enp3s0 2>/dev/null|awk '/direcciónHW/ {print $5}'",
+      "ifconfig enp3s0 2>/dev/null|awk '/HWaddr/ {print $5}'"
+    )).withDefaultValue(Seq(
     "ifconfig eth0 2>/dev/null|awk '/direcciónHW/ {print $5}'",
     "ifconfig enp3s0 2>/dev/null|awk '/ether/ {print $2}'",
     "ifconfig eth0 2>/dev/null|awk '/HWaddr/ {print $5}'",
     "ifconfig enp3s0 2>/dev/null|awk '/direcciónHW/ {print $5}'",
     "ifconfig enp3s0 2>/dev/null|awk '/HWaddr/ {print $5}'"
-  )
+  ))
 
   val operatingSystemCheck = """lsb_release -a 2>/dev/null | grep "Distributor ID" | awk '{print $3}'"""
 
@@ -25,7 +35,7 @@ object SSHFunction {
   val REBOOT_ORDER = "shutdown -r now"
   val IP_OBTAINING_ORDER = "ifconfig eth0 2>/dev/null|awk '/Direc. inet:/ {print $2}'|sed 's/inet://'"
   val userListOrder = "who | cut -d' ' -f1 | sort | uniq"
-  val upgradeOrder = """sudo pacman -Syu --noconfirm"""//"apt-get update; apt-get upgrade --assume-yes"
+  val upgradeOrder = """sudo pacman -Syu --noconfirm""" //"apt-get update; apt-get upgrade --assume-yes"
 
   def COMPUTER_WAKEUP_ORDER(sufijoIPSala: Int, mac: String) = "wakeonlan -i 192.168." + sufijoIPSala + ".255 " + mac
 

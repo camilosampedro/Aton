@@ -31,7 +31,8 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "3.3.6",
   "org.webjars" % "jquery" % "2.2.1",
-  "org.webjars" % "requirejs" % "2.2.0"
+  "org.webjars" % "requirejs" % "2.2.0",
+  "org.webjars" % "ionicons" % "2.0.1"
 )
 
 

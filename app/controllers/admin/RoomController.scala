@@ -12,6 +12,7 @@ import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
 import scala.concurrent.ExecutionContext.Implicits.global
+import views.html._
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -22,50 +23,50 @@ class RoomController @Inject()(userDAO: UserDAO, roomDAO: RoomDAO, laboratoryDAO
 
   override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 
+  implicit val isAdmin = true
+
   def add = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
-    val username = loggedIn.username
-    Logger.debug("Addig roomPanel... ")
+    implicit val username = Some(loggedIn.username)
+    Logger.debug("Adding roomPanel... ")
     RoomForm.form.bindFromRequest().fold(
       errorForm => {
         Logger.error("There was an error with the input" + errorForm)
         laboratoryDAO.listAll.map { laboratories =>
           val pairs = laboratories.map(x => (x.id.toString, x.name))
-          Ok(views.html.index(Some(username), true, messagesApi("room.add"))(views.html.registerRoom(errorForm, pairs)))
+          Ok(index(messagesApi("room.add"),registerRoom(errorForm, pairs)))
         }
       },
       data => {
         val newRoom = Room(0, data.name, data.audiovisualResources, data.basicTools, data.laboratoryID)
         roomDAO.add(newRoom).map { res =>
-          Redirect(routes.RoomController.addForm)
+          Redirect(routes.RoomController.addForm())
         }
       }
     )
   }
 
-  def addForm = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
-    val username = loggedIn.username
+  def addForm() = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
+    implicit val username = Some(loggedIn.username)
     laboratoryDAO.listAll.map { laboratories =>
       val pairs = laboratories.map(x => (x.id.toString, x.name))
-      Ok(views.html.index(Some(username), true, messagesApi("room.add"))(views.html.registerRoom(RoomForm.form, pairs)))
+      Ok(index(messagesApi("room.add"),registerRoom(RoomForm.form, pairs)))
     }
   }
 
   def editForm(roomId: Long) = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
-    val username = loggedIn.username
+    implicit val username = Some(loggedIn.username)
     val results = for {
       roomResult <- roomDAO.get(roomId)
       laboratoriesResult <- laboratoryDAO.listAll
     } yield (roomResult, laboratoriesResult)
     results.map { res =>
       res._1 match {
-        case Some(room) => {
+        case Some(room) =>
           val roomFormData = RoomFormData(room.name, room.audiovisualResources, room.basicTools, room.laboratoryID)
           val pairs = res._2.map(x => (x.id.toString, x.name))
-          Ok(views.html.index(Some(username), true, messagesApi("room.edit"))(views.html.registerRoom(RoomForm.form.fill(roomFormData), pairs)))
-        }
-        case _ => {
+          Ok(index(messagesApi("room.edit"),registerRoom(RoomForm.form.fill(roomFormData), pairs)))
+        case _ =>
           NotImplemented(messagesApi("room.notFound"))
-        }
       }
     }
   }

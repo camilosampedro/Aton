@@ -4,8 +4,8 @@ import javax.inject.Inject
 
 import com.google.inject.Singleton
 import dao.ComputerDAO
-import model.Computer
-import model.table.ComputerTable
+import model.{Computer, ComputerState}
+import model.table.{ComputerStateTable, ComputerTable}
 import play.Logger
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._
@@ -26,9 +26,10 @@ class ComputerDAOImpl @Inject()
   import driver.api._
 
   /**
-    * Tabla con "todos los equipos", similar a select * from laboratory
+    * Tabla con "todos los computers", similar a select * from laboratory
     */
-  implicit val equipos = TableQuery[ComputerTable]
+  implicit val computers = TableQuery[ComputerTable]
+  implicit val computerStates = TableQuery[ComputerStateTable]
 
   /**
     * Adiciona un laboratory
@@ -38,11 +39,10 @@ class ComputerDAOImpl @Inject()
     */
   override def add(equipo: Computer): Future[String] = {
     // Se realiza un insert y por cada insert se crea un String
-    db.run(equipos += equipo).map(res => "Computer agregado correctamente").recover {
-      case ex: Exception => {
+    db.run(computers += equipo).map(res => "Computer agregado correctamente").recover {
+      case ex: Exception =>
         Logger.error("Ocurrió un error agregando un equipo", ex)
         ex.getMessage
-      }
     }
   }
 
@@ -67,18 +67,20 @@ class ComputerDAOImpl @Inject()
     db.run(search(ip).delete)
   }
 
-  private def search(ip: String) = equipos.filter(_.ip === ip)
+  private def search(ip: String) = computers.filter(_.ip === ip)
 
   override def edit(computer: Computer): Future[Int] = db.run {
-    equipos.filter(_.ip === computer.ip).update(computer)
+    computers.filter(_.ip === computer.ip).update(computer)
   }
 
   /**
-    * Lista todos los equipos en la base de datos
+    * Lista todos los computers en la base de datos
     *
-    * @return Todos los equipos
+    * @return Todos los computers
     */
-  override def listAll: Future[Seq[Computer]] = db.run(equipos.result)
+  override def listAll: Future[Seq[(Computer, Option[ComputerState])]] = db.run {
+    computers.joinLeft(computerStates).on(_.ip === _.computerIp).result
+  }
 
 
 }

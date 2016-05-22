@@ -39,19 +39,18 @@ class SSHOrderToComputerDAOImpl @Inject()
   /**
     * Adiciona una orden SSH
     *
-    * @param ordenSSH command a agregar
+    * @param sshOrder command a agregar
     * @return String con el mensaje del result
     */
-  override def add(ordenSSH: SSHOrderToComputer): Future[String] = {
-    play.Logger.debug("Adding to database following SSH Order: " + ordenSSH)
+  override def add(sshOrder: SSHOrderToComputer): Future[String] = {
+    //play.Logger.debug("Adding to database following: " + sshOrder)
     // Se realiza un insert y por cada insert se crea un String
-    db.run(ordenesSSH += ordenSSH).map(res => {
-      play.Logger.debug("Orden SSH agregada correctamente"); "success"
+    db.run(ordenesSSH += sshOrder).map(res => {
+      /*play.Logger.debug("Orden SSH agregada correctamente");*/ "success"
     }).recover {
-      case ex: Exception => {
-        play.Logger.error("Ocurrió un error al insertar la orden ssh al pc", ex)
+      case ex: Exception =>
+        play.Logger.error(s"""There was an error adding: $sshOrder """", ex)
         ex.getCause.getMessage
-      }
     }
   }
 

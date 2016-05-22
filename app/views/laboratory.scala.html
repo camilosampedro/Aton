@@ -1,18 +1,18 @@
 @import controllers.admin.{routes => adminroutes}
 @import model.{Computer, Laboratory, Room}
 @import model.ComputerState
-@(laboratory: Laboratory, roomsWithComputers: Map[Option[Room], Seq[(Computer,ComputerState)]], admin: Boolean)(implicit messages: Messages)
-<h1>Laboratory @laboratory.name</h1>
-    @if(roomsWithComputers.size != 0) {
+@(laboratory: Laboratory, roomsWithComputers: Map[Option[Room], Seq[(Computer,Option[ComputerState])]], admin: Boolean)(implicit messages: Messages)
+<h1>@messages("laboratory").capitalize @laboratory.name</h1>
+    @if(roomsWithComputers.nonEmpty) {
         @for((room, computers) <- roomsWithComputers if room.isDefined) {
             @roomPanel(room.get, computers, admin)
         }
         @if(admin) {
             <div class="btn-agregar-tabla">
                 <a href="@adminroutes.RoomController.add()" class="btn btn-default " role="button">
-                    Agregar sala</a>
-                <a href="@adminroutes.ComputerController.add(laboratory.id)" class="btn btn-default " role="button">
-                    Agregar computador</a>
+                @messages("room.add")</a>
+                <a href="@adminroutes.ComputerController.add" class="btn btn-default " role="button">
+                    @messages("computer.add")</a>
             </div>
         }
     } else {
@@ -21,8 +21,8 @@
             <div class="panel-body">
                 <div id="no-encontrado">
                     <i class="flaticon-boxes27"></i>
-                    <h1>@messages("laboratory.emptyRoom.title")</h1>
-                    <p>@messages("laboratory.emptyRoom.text")</p>
+                    <h1>@messages("laboratory.empty.title")</h1>
+                    <p>@messages("laboratory.empty.text")</p>
                     @if(admin) {
                         <div class="btn-agregar-tabla">
                             <a href="@adminroutes.RoomController.add()" class="btn btn-default " role="button">@messages("laboratory.addRoom")</a>

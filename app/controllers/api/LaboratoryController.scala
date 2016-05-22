@@ -22,11 +22,11 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryDAO: Laboratory
   //override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 
   def get(id: Long) = Action.async { implicit request =>
-    Logger.debug("Petición de listar el laboratorio " + id + " [API] respondida.")
+    Logger.debug("Petición de listar el laboratory " + id + " [API] respondida.")
     laboratoryDAO.getWithChildren(id).map { res =>
       val grouped = res.groupBy(_._1)
       grouped.headOption match {
-        case Some((laboratory, rooms)) => {
+        case Some((laboratory, rooms)) =>
           val roomsWithComputers: Map[Option[Room], Seq[(Computer, ComputerState)]] = rooms.map {
             row => (row._2, row._3)
           }.groupBy {
@@ -50,10 +50,8 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryDAO: Laboratory
 
           val json = Json.toJson(roomsWithComputers)
           Ok(json)
-        }
-        case e => {
+        case e =>
           NotFound("Laboratory not found")
-        }
       }
 
     }

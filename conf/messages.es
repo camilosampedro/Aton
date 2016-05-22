@@ -1,9 +1,10 @@
 # Application
 app.name=Aton Web
-# Computer form
+# Computer
 computer.ip=Dirección IP / Hostname
 computer.SSHUser=Usuario SSH
 computer.SSHPassword=Contraseña SSH
+computer.sendCommand=Enviar comando
 # Header texts
 header.editUser=Editar usuario
 # Menu texts
@@ -17,6 +18,8 @@ room.audiovisualResources=Recursos audiovisuales
 room.basicTools=Herramientas básicas
 room.laboratoryID=Laboratorio
 room.delete=Eliminar
+room.empty.title=Aquí no hay computadores
+room.empty.body=Parece que no se han encontrado computadores.
 room.edit=Editar
 room.notFound=Sala no encontrada con el id especificado
 # Suggestion
@@ -26,11 +29,14 @@ empty=Vacío
 notImplemented=No implementado
 contactAdmin=Por favor ayúdanos en sugerencias reportando este problema.
 submit=Agregar
+about=Acerca de
 # Laboratory
+laboratory=laboratorio
 laboratory.laboratoryListTitle=Lista de laboratorios
+laboratory.addButton=Agregar laboratorio
 laboratory.addRoom=Agregar sala
-laboratory.emptyRoom.title=Aquí no hay salas
-laboratory.emptyRoom.text=Parece que no se han encontrado salas.
+laboratory.empty.title=Aquí no hay salas
+laboratory.empty.text=Parece que no se han encontrado salas.
 laboratory.location=Ubicación:
 laboratory.administration=Administración:
 laboratory.name=Nombre:

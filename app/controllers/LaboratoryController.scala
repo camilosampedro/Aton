@@ -5,9 +5,11 @@ import dao.{LaboratoryDAO, UserDAO}
 import jp.t2v.lab.play2.auth.OptionalAuthElement
 import model.Role
 import model.form.data.LoginFormData
-import play.Logger
+import play.api.Logger
+import views.html._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
+import services.LaboratoryService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
@@ -15,48 +17,18 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * Created by camilo on 20/03/16.
   */
-class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
+class LaboratoryController @Inject()(laboratoryService: LaboratoryService, userDAO: UserDAO, val messagesApi: MessagesApi) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
 
   override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 
   def get(id: Long) = AsyncStack { implicit request =>
-    play.Logger.debug("Logged user: " + loggedIn)
-    val (username: Option[String], isAdmin: Boolean) = loggedIn match {
+    implicit val (username: Option[String], isAdmin: Boolean) = loggedIn match {
       case Some(user) => (Some(user.username), user.role == Role.Administrator)
       case _ => (None, false)
     }
-    Logger.debug("Petición de listar el laboratorio " + id + " respondida.")
-    laboratoryDAO.getWithChildren(id).map { res =>
-      val grouped = res.groupBy(_._1)
-      grouped.headOption match {
-        case Some((laboratory, rooms)) => {
-          val roomsWithComputers = rooms.map {
-            row => (row._2, row._3)
-          }.groupBy {
-            row => row._1
-          }.map {
-            case (k, v) =>
-              (k, v
-                .map(_._2)
-                .groupBy(_._1)
-                .filter(_._1.isDefined)
-                .map(x => (x._1.get, x._2))
-                .map { x =>
-                  val filtered = x._2.filter(_._2.isDefined)
-                  filtered.headOption.map { _ =>
-                    filtered.maxBy(_._2.get.registeredDate.getTime)
-                  }
-                }.filter(x=>x.isDefined && x.get._1.isDefined && x.get._2.isDefined).map(x => (x.get._1.get, x.get._2.get)).toSeq)
-          }.filter {
-            row => row._1.isDefined
-          }
-          Ok(views.html.index(username, isAdmin, "Laboratory" + laboratory.name)(views.html.laboratory(laboratory, roomsWithComputers, isAdmin)))
-        }
-        case e => {
-          NotFound("Laboratory not found")
-        }
-      }
-
+    laboratoryService.get(id).map {
+      case Some((laboratoryObject, roomsWithComputers)) => Ok(index("Laboratory" + laboratoryObject.name,laboratory(laboratoryObject, roomsWithComputers, isAdmin)))
+      case _ => NotImplemented(index(messagesApi("laboratory.notFound"),notImplemented(messagesApi("laboratory.notFound"))))
     }
   }
 

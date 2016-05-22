@@ -12,6 +12,7 @@ import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
 import scala.concurrent.ExecutionContext.Implicits.global
+import views.html._
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -28,27 +29,24 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryDAO: Laboratory
   }
 
   def edit(id: Long) = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
-    val username = loggedIn.username
-    val isAdmin = loggedIn.role == Role.Administrator
-    laboratoryDAO.get(id).map { laboratory =>
-      laboratory match {
-        case Some(laboratory) =>
-          val data = LaboratoryFormData(laboratory.name, laboratory.location, laboratory.administration)
-          Ok(views.html.index(Some(username), isAdmin, messagesApi("laboratory.edit"))(views.html.registerLaboratory(LaboratoryForm.form.fill(data))))
-        case e => NotFound("Laboratory not found")
-      }
-
+    implicit val username = Some(loggedIn.username)
+    implicit val isAdmin = loggedIn.role == Role.Administrator
+    laboratoryDAO.get(id).map {
+      case Some(laboratory) =>
+        val data = LaboratoryFormData(laboratory.name, laboratory.location, laboratory.administration)
+        Ok(index(messagesApi("laboratory.edit"), registerLaboratory(LaboratoryForm.form.fill(data))))
+      case e => NotFound("Laboratory not found")
     }
   }
 
   def add = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
     Logger.debug("Adding laboratory... ")
-    val username = loggedIn.username
-    val isAdmin = loggedIn.role == Role.Administrator
+    implicit val username = Some(loggedIn.username)
+    implicit val isAdmin = loggedIn.role == Role.Administrator
     LaboratoryForm.form.bindFromRequest.fold(
       errorForm => {
         Logger.error("There was an error with the input" + errorForm)
-        Future.successful(Ok(views.html.index(Some(username), isAdmin, messagesApi("laboratory.add"))(views.html.registerLaboratory(errorForm))))
+        Future.successful(Ok(index(messagesApi("laboratory.add"),registerLaboratory(errorForm))))
       },
       data => {
 
@@ -60,11 +58,11 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryDAO: Laboratory
     )
   }
 
-  def addForm = StackAction(AuthorityKey -> Administrator) { implicit request =>
+  def addForm() = StackAction(AuthorityKey -> Administrator) { implicit request =>
     play.Logger.debug("Logged user: " + loggedIn)
-    val username = loggedIn.username
-    val isAdmin = loggedIn.role == Role.Administrator
-    Ok(views.html.index(Some(username), isAdmin, "Add laboratory")(views.html.registerLaboratory(LaboratoryForm.form)))
+    implicit val username = Some(loggedIn.username)
+    implicit val isAdmin = loggedIn.role == Role.Administrator
+    Ok(index("Add laboratory",registerLaboratory(LaboratoryForm.form)))
   }
 
   def delete(id: Long) = AsyncStack(AuthorityKey -> Administrator) { implicit request =>

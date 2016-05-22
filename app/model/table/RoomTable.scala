@@ -11,7 +11,7 @@ import slick.driver.MySQLDriver.api._
 class RoomTable(tag: Tag) extends Table[Room](tag, "room") {
 
   // Laboratory foreign key
-  def laboratory = foreignKey("laboratory_id", laboratoryId, TableQuery[LaboratoryTable])(_.id)
+  def laboratory = foreignKey("laboratory_id", laboratoryId, TableQuery[LaboratoryTable])(_.id, onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
 
   // All tables need the * method with the type that it was created the table with.
   override def * = (id, name, audiovisualResources, basicTools, laboratoryId) <>(Room.tupled, Room.unapply)

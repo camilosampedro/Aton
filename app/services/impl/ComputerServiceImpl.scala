@@ -2,7 +2,7 @@ package services.impl
 
 import com.google.inject.{Inject, Singleton}
 import dao.ComputerDAO
-import model.Computer
+import model.{Computer, ComputerState}
 import services.{ComputerService, SSHOrderService}
 
 import scala.concurrent.duration.Duration
@@ -14,8 +14,15 @@ import scala.concurrent.{Await, Future}
 @Singleton
 class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDAO: ComputerDAO) extends ComputerService {
 
-  override def add(computer: Computer)(implicit username: String): Future[String] = {
+  override def add(computer: Computer): Future[String] = {
     play.Logger.debug("Adding computer")
     computerDAO.add(computer)
   }
+
+  override def edit(computer: Computer): Future[Int] = {
+    play.Logger.debug("Editing computer")
+    computerDAO.edit(computer)
+  }
+
+  override def listAll: Future[Seq[(Computer, Option[ComputerState])]] = computerDAO.listAll
 }

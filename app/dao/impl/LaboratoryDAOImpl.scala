@@ -38,22 +38,21 @@ class LaboratoryDAOImpl @Inject()
   implicit val rooms = TableQuery[RoomTable]
   implicit val computers = TableQuery[ComputerTable]
   implicit val computerStates = TableQuery[ComputerStateTable]
-  implicit val computersAndRoomsQuadJoin = laboratories.joinLeft(rooms).on(_.id === _.laboratoryId).joinLeft(computers).joinLeft(computerStates)
+  implicit val computersAndRoomsQuadJoin = laboratories joinLeft rooms on {_.id === _.laboratoryId } joinLeft computers  on {(x,y)=>x._2.map(_.id)===y.roomId} joinLeft computerStates on {(x,y)=>x._2.map(_.ip)===y.computerIp}
 
   /**
     * Adiciona un laboratory
     *
-    * @param laboratorio Laboratory a agregar
+    * @param laboratory Laboratory a agregar
     * @return String con el mensaje del result
     */
-  override def add(laboratorio: Laboratory): Future[String] = {
+  override def add(laboratory: Laboratory): Future[String] = {
     // Se realiza un insert y por cada insert se crea un String
-    Logger.debug("Agregando el laboratory [" + laboratorio + "] en la base de datos.")
-    db.run(laboratories += laboratorio).map(res => "Laboratory agregado correctamente").recover {
-      case ex: Exception => {
+    Logger.debug(s"""Adding to database: $laboratory""")
+    db.run(laboratories += laboratory).map(res => "Laboratory agregado correctamente").recover {
+      case ex: Exception =>
         Logger.error("Ocurrió un error al adicionar en la base de datos", ex)
         ex.getCause.getMessage
-      }
     }
   }
 

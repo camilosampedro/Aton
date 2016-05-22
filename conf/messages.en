@@ -34,8 +34,8 @@ laboratory.emptyRoom.text=Parece que no se han encontrado salas.
 laboratory.location=Ubicación:
 laboratory.administration=Administración:
 laboratory.name=Nombre:
-laboratory.help.head=Ingresando un nuevo laboratorio
-laboratory.help.body=Aquí podrás ingresar un nuevo laboratorio al sistema.
+laboratory.help.head=Ingresando un nuevo laboratory
+laboratory.help.body=Aquí podrás ingresar un nuevo laboratory al sistema.
 # User
 user.username=Nombre de usuario
 user.notLoggedIn=No has iniciado sesión

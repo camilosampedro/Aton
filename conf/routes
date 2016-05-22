@@ -2,49 +2,49 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET         /                                  controllers.HomeController.home
-GET         /login                             controllers.LoginController.loginForm
-POST        /login                             controllers.LoginController.login
-GET         /logout                            controllers.LoginController.logout
+GET         /                             controllers.HomeController.home
+GET         /about                        controllers.HomeController.about
+GET         /login                        controllers.LoginController.loginForm
+POST        /login                        controllers.LoginController.login
+GET         /logout                       controllers.LoginController.logout
 
 # Admin
-GET         /admin                             controllers.admin.AdministrationController.administrationPanel
+GET         /admin                        controllers.admin.AdministrationController.administrationPanel
 
 # Laboratory
-
-GET         /laboratory/admin                  controllers.admin.LaboratoryController.administrateLaboratories
-GET         /laboratory/id/:id                 controllers.LaboratoryController.get(id:Long)
-POST        /laboratory/edit/:id               controllers.admin.LaboratoryController.edit(id:Long)
-GET         /laboratory/edit/:id               controllers.admin.LaboratoryController.edit(id:Long)
-GET         /laboratory/add                    controllers.admin.LaboratoryController.addForm
-POST        /laboratory/add                    controllers.admin.LaboratoryController.add
-GET         /laboratory/delete/:id             controllers.admin.LaboratoryController.delete(id:Long)
+GET         /laboratory/admin             controllers.admin.LaboratoryController.administrateLaboratories
+GET         /laboratory/id/:id            controllers.LaboratoryController.get(id:Long)
+POST        /laboratory/edit/:id          controllers.admin.LaboratoryController.edit(id:Long)
+GET         /laboratory/edit/:id          controllers.admin.LaboratoryController.edit(id:Long)
+GET         /laboratory/add               controllers.admin.LaboratoryController.addForm
+POST        /laboratory/add               controllers.admin.LaboratoryController.add
+GET         /laboratory/delete/:id        controllers.admin.LaboratoryController.delete(id:Long)
 
 # Room
-GET         /room/add                          controllers.admin.RoomController.addForm
-POST        /room/add                          controllers.admin.RoomController.add
-GET         /room/edit/:roomId                 controllers.admin.RoomController.editForm(roomId:Long)
-POST        /room/edit/:roomId                 controllers.admin.RoomController.edit(roomId:Long)
-GET         /room/delete/:roomId               controllers.admin.RoomController.delete(roomId:Long)
+GET         /room/add                     controllers.admin.RoomController.addForm
+POST        /room/add                     controllers.admin.RoomController.add
+GET         /room/edit/:roomId            controllers.admin.RoomController.editForm(roomId:Long)
+POST        /room/edit/:roomId            controllers.admin.RoomController.edit(roomId:Long)
+GET         /room/delete/:roomId          controllers.admin.RoomController.delete(roomId:Long)
 
 # Computer
-POST        /computer/add/:laboratoryID        controllers.admin.ComputerController.add(laboratoryID:Long)
-GET         /computer/add/:laboratoryID        controllers.admin.ComputerController.addForm(laboratoryID:Long)
-GET         /computer/edit/:ip                 controllers.admin.ComputerController.editForm(ip: String)
-POST        /computer/edit                     controllers.admin.ComputerController.edit
-GET         /computer/delete/:ip               controllers.admin.ComputerController.delete(ip: String)
-GET         /computer/shutdown/:ip             controllers.admin.ComputerController.shutdown(ip: String)
-GET         /computer/upgrade/:ip              controllers.admin.ComputerController.upgrade(ip: String)
-GET         /computer/unfreeze/:ip             controllers.admin.ComputerController.unfreeze(ip: String)
+POST        /computer/add                 controllers.admin.ComputerController.add
+GET         /computer/add                 controllers.admin.ComputerController.addForm
+GET         /computer/edit/:ip            controllers.admin.ComputerController.editForm(ip: String)
+POST        /computer/edit                controllers.admin.ComputerController.edit
+GET         /computer/delete/:ip          controllers.admin.ComputerController.delete(ip: String)
+GET         /computer/shutdown/:ip        controllers.admin.ComputerController.shutdown(ip: String)
+GET         /computer/upgrade/:ip         controllers.admin.ComputerController.upgrade(ip: String)
+GET         /computer/unfreeze/:ip        controllers.admin.ComputerController.unfreeze(ip: String)
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                      controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                 controllers.Assets.versioned(path="/public", file: Asset)
 
 # Suggestion
-GET         /suggestion                        controllers.SuggestionController.home
+GET         /suggestion                   controllers.SuggestionController.home
 
 # API
-GET         /api/laboratories                  controllers.api.LaboratoryController.listAll()
-GET         /api/laboratory/:id                controllers.api.LaboratoryController.get(id: Long)
+GET         /api/laboratories             controllers.api.LaboratoryController.listAll()
+GET         /api/laboratory/:id           controllers.api.LaboratoryController.get(id: Long)
 
 

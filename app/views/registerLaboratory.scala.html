@@ -6,11 +6,11 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">Agregar laboratorio</div>
+                <div class="panel-heading">Agregar laboratory</div>
                 <div class="panel-body">
                 @helper.form(action = adminroutes.LaboratoryController.add, 'class -> "form-horizontal") {
-                    @helper.inputText(laboratoryForm("laboratory.name"), 'class -> "form-control", 'placeholder -> "Nombre del laboratorio")
-                    @helper.inputText(laboratoryForm("laboratory.location"), 'class -> "form-control", 'placeholder -> "¿Dónde está el laboratorio?")
+                    @helper.inputText(laboratoryForm("laboratory.name"), 'class -> "form-control", 'placeholder -> "Nombre del laboratory")
+                    @helper.inputText(laboratoryForm("laboratory.location"), 'class -> "form-control", 'placeholder -> "¿Dónde está el laboratory?")
                     @helper.inputText(laboratoryForm("laboratory.administration"), 'class -> "form-control", 'placeholder -> "¿Quién está a cargo?")
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">

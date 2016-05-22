@@ -4,7 +4,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">Laboratorios</div>
     <div class="panel-body">
-        @if(laboratories.size != 0) {
+        @if(laboratories.nonEmpty) {
             <table class="table table-striped" ng-if={laboratorios.nombre}>
                 <thead>
                     <tr>
@@ -40,7 +40,7 @@
             </table>
         } else {
             <div id="no-encontrado">
-                <i class="flaticon-boxes27"></i>
+                <i class="icon ion-earth"></i>
                 <h1>Aquí no hay laboratorios</h1>
                 <p>Parece que no se han encontrado laboratorios. @if(admin) {Si deseas puedes agregar salas desde el siguiente botón:}else{
                 @messages("contactAdmin")
@@ -51,7 +51,7 @@
         @if(admin) {
             <div class="btn-agregar-tabla">
                 <a href="@adminroutes.LaboratoryController.add()" class="btn btn-default " role="button">
-                    Agregar laboratorio</a>
+                    @messages("laboratory.addButton")</a>
             </div>
         }
     </div>

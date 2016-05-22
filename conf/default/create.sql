@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2016-05-19 19:49:46.394
+-- Last modification date: 2016-05-22 17:31:14.796
 
 -- tables
 -- Table: computer
@@ -22,15 +22,21 @@ CREATE INDEX Equipo_idx_sala ON computer (room_id);
 CREATE TABLE computer_state (
   computer_ip varchar(20) NOT NULL,
   registered_date timestamp NOT NULL,
-  is_on tinyint NOT NULL,
   operating_system varchar(100) NULL,
   mac varchar(17) NULL,
+  state_id int NOT NULL,
   CONSTRAINT computerstate_pk PRIMARY KEY (computer_ip,registered_date)
 );
 
 CREATE INDEX estado_idx_ip ON computer_state (computer_ip);
 
 CREATE INDEX estado_idx_fecha ON computer_state (registered_date);
+
+CREATE EVENT AutoDeleteOldComputerStates
+  ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 DAY
+  ON COMPLETION PRESERVE
+DO
+  DELETE LOW_PRIORITY FROM aton.computer_state WHERE registered_date < DATE_SUB(NOW(), INTERVAL 7 DAY);
 
 -- Table: connected_user
 CREATE TABLE connected_user (
@@ -92,15 +98,39 @@ CREATE TABLE ssh_order (
 
 CREATE INDEX OrdenSSH_idx_id ON ssh_order (sent_datetime);
 
+CREATE EVENT AutoDeleteOldSSHOrders
+  ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 DAY
+  ON COMPLETION PRESERVE
+DO
+  DELETE LOW_PRIORITY FROM aton.ssh_order WHERE sent_datetime < DATE_SUB(NOW(), INTERVAL 7 DAY);
+
 -- Table: ssh_order_to_computer
 CREATE TABLE ssh_order_to_computer (
   computer_ip varchar(20) NOT NULL,
-  ssh_order_datetime timestamp(6) NOT NULL,
+  sent_datetime timestamp(6) NOT NULL,
   result text NULL,
   exit_code int NULL,
   ssh_order_id bigint NOT NULL,
-  CONSTRAINT ssh_order_to_computer_pk PRIMARY KEY (computer_ip,ssh_order_datetime)
+  CONSTRAINT ssh_order_to_computer_pk PRIMARY KEY (computer_ip,ssh_order_id)
 );
+
+CREATE EVENT AutoDeleteOldSSHOrderToComputers
+  ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 DAY
+  ON COMPLETION PRESERVE
+DO
+  DELETE LOW_PRIORITY FROM aton.ssh_order_to_computer WHERE sent_datetime < DATE_SUB(NOW(), INTERVAL 7 DAY);
+
+-- Table: state
+CREATE TABLE state (
+  id int NOT NULL,
+  code varchar(30) NOT NULL,
+  CONSTRAINT state_pk PRIMARY KEY (id)
+);
+
+INSERT INTO state(id,code) VALUES(1,"state.connected");
+INSERT INTO state(id,code) VALUES(2,"state.notconnected");
+INSERT INTO state(id,code) VALUES(3,"state.authfailed");
+INSERT INTO state(id,code) VALUES(4,"state.unknownerror");;
 
 -- Table: suggestion
 CREATE TABLE suggestion (
@@ -122,6 +152,7 @@ CREATE TABLE `user` (
 );
 
 INSERT INTO user(username,password,role) VALUES("admin","adminaton",1);
+INSERT INTO user(username,password,role) VALUES("Scheduled Checker","@JZhY4ut)3)Lp}9",1);
 
 -- foreign keys
 -- Reference: OrdenSSH_UsuarioWeb (table: ssh_order)
@@ -142,11 +173,15 @@ REFERENCES room (id)
 
 -- Reference: computer_state_computer_fk (table: computer_state)
 ALTER TABLE computer_state ADD CONSTRAINT computer_state_computer_fk FOREIGN KEY computer_state_computer_fk (computer_ip)
-REFERENCES computer (ip);
+REFERENCES computer (ip)
+  ON DELETE CASCADE
+  ON UPDATE RESTRICT;
 
 -- Reference: connected_user_computer_state (table: connected_user)
 ALTER TABLE connected_user ADD CONSTRAINT connected_user_computer_state FOREIGN KEY connected_user_computer_state (computer_state_computer_ip,computer_state_registered_date)
-REFERENCES computer_state (computer_ip,registered_date);
+REFERENCES computer_state (computer_ip,registered_date)
+  ON DELETE CASCADE
+  ON UPDATE RESTRICT;
 
 -- Reference: room_laboratory_fk (table: room)
 ALTER TABLE room ADD CONSTRAINT room_laboratory_fk FOREIGN KEY room_laboratory_fk (laboratory_id)
@@ -157,6 +192,10 @@ ALTER TABLE ssh_order_to_computer ADD CONSTRAINT ssh_order_to_computer_ssh_order
 REFERENCES ssh_order (id)
   ON DELETE CASCADE
   ON UPDATE RESTRICT;
+
+-- Reference: state_fk (table: computer_state)
+ALTER TABLE computer_state ADD CONSTRAINT state_fk FOREIGN KEY state_fk (state_id)
+REFERENCES state (id);
 
 -- Reference: suggestion_user_fk (table: suggestion)
 ALTER TABLE suggestion ADD CONSTRAINT suggestion_user_fk FOREIGN KEY suggestion_user_fk (username)

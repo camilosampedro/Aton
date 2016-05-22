@@ -1,5 +1,5 @@
 @*Plantilla de todas las páginas.*@
-@(userName: Option[String], isAdmin: Boolean, title: String)(contenido: Html)(implicit messages: Messages)
+@(title: String, content: Html)(implicit messages: Messages, userName: Option[String], isAdmin: Boolean)
 <html>
     <head>
         <title>@title - @messages("app.name")</title>
@@ -13,14 +13,20 @@
         <script type="text/javascript" src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.js")"></script>
         <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.css")"/>
 
+
+            <!-- Ionicons -->
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/ionicons/css/ionicons.min.css")"/>
+
+
             <!-- Script básico para la página -->
             @*<script type="text/javascript" src="@routes.Assets.versioned("javascripts/general.js")"></script>*@
             <!-- Estilos generales -->
         <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/global.css")"/>
         <link rel="shortcut icon" href="@routes.Assets.versioned("images/favicon.ico")"/>
 
-            <!-- Flaticon -->
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/flaticon.css")"/>
+            <!-- Flaticon
+        <link rel="stylesheet" type="text/css" href=" @routes.Assets.versioned("stylesheets/flaticon.css")
+            "/>-->
 
         <meta name="viewport"
         content="width=device-width, initial-scale:1.0, user-scale=0" />
@@ -29,10 +35,10 @@
 
     <body>
         <div class="wrapper">
-            @header(userName)
+            @header()
         <div id="container">
-            @menu(isAdmin)
-        <div class="content">@contenido</div>
+            @menu()
+        <div class="content">@content</div>
         </div>
         </div>
     </body>
