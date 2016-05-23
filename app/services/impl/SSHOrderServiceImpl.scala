@@ -64,6 +64,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
         //play.Logger.debug(s"""Result: $result""")
         if (result != "") Some(result)
       } catch {
+        case e: JSchException=>None
         case e: Exception =>
           play.Logger.error("An error occurred while looking for computer's mac: " + computer, e)
           None
@@ -104,18 +105,27 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     }
   }
 
-  @throws[JSchException]
+
   override def check(computer: Computer, optionalComputerState: Option[ComputerState])(implicit username: String): (ComputerState, Seq[ConnectedUser]) = {
-    play.Logger.debug(s"""Checking the $computer's state""")
+    //play.Logger.debug(s"""Checking the $computer's state""")
     //play.Logger.debug(s"""Checking if $computer's on""")
-    val state = checkState(computer)
-    //play.Logger.debug(s"""Checking the $computer's mac""")
-    val operatingSystem = getOperatingSystem(computer)
-    val mac = getMac(computer, operatingSystem)
-    val date = now
-    //play.Logger.debug(s"""Checking the $computer's connected users""")
-    val whoIsUsing = whoAreUsing(computer).map { username => ConnectedUser(0, username, computer.ip, date) }
-    (ComputerState(computer.ip, date, state.id, operatingSystem, mac), whoIsUsing)
+    try{
+      val state = checkState(computer)
+      play.Logger.debug(s"""$computer is  $state""")
+      val date = now
+      val (operatingSystem, mac, whoIsUsing) = if(state != Connected()){
+        (None,None,Seq.empty)
+      } else {
+        val os = getOperatingSystem(computer)
+        (os,getMac(computer,os), whoAreUsing(computer).map { username => ConnectedUser(0, username, computer.ip, date)})
+      }
+      (ComputerState(computer.ip, date, state.id, operatingSystem, mac), whoIsUsing)
+    } catch {
+      case e:Exception=> play.Logger.error(s"There was an error checking $computer's state")
+        (ComputerState(computer.ip,now,NotConnected().id,None,None),Seq.empty)
+
+    }
+
   }
 
   override def checkState(computer: Computer)(implicit username: String): StateRef = {
@@ -131,7 +141,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     } catch {
       case ex: JSchException =>
         ex.getMessage match {
-          case "AuthFailed" => AuthFailed()
+          case "Auth fail" => AuthFailed()
+          case "timeout: socket is not established" => NotConnected()
           case _ => UnknownError()
         }
       case e: Exception => UnknownError()
@@ -139,7 +150,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   }
 
 
-  private def generateSSHSettings(computer: Computer, sSHOrder: SSHOrder) = SSHOptions(host = computer.ip, username = computer.SSHUser, password = computer.SSHPassword, connectTimeout = 2000,prompt = Some("prompt"))
+  private def generateSSHSettings(computer: Computer, sSHOrder: SSHOrder) = SSHOptions(host = computer.ip, username = computer.SSHUser, password = computer.SSHPassword, connectTimeout = 1000,prompt = Some("prompt"))
 
   @throws[JSchException]
   override def whoAreUsing(computer: Computer)(implicit username: String): Seq[String] = {

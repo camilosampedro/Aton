@@ -118,6 +118,10 @@ aside ul li a.selected {
     margin-right: 1.2em;
 }
 
+.command {
+    font-family: "Courier New";
+}
+
 div .box {
     margin: 5px;
 }

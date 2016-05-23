@@ -26,7 +26,7 @@ class HomeController @Inject()(userDAO: UserDAO, laboratoryDAO: LaboratoryDAO, v
   val logger = Logger("HomeController")
 
   play.Logger.debug("Computer Checker configured.")
-  actorSystem.scheduler.schedule(0.microseconds,30.seconds, computerChecker,"Execute")
+  actorSystem.scheduler.schedule(0.microseconds,5.minutes, computerChecker,"Execute")
 
   def home = AsyncStack { implicit request =>
     //play.Logger..debug("Logged user: " + loggedIn
@@ -38,7 +38,7 @@ class HomeController @Inject()(userDAO: UserDAO, laboratoryDAO: LaboratoryDAO, v
     //logger.debug("Petición de listar todos los laboratorios con el siguiente request recibida " + request)
     //logger.debug("User: " + username + ", is admin: " + isAdmin)
     laboratoryDAO.listAll.map { laboratorios =>
-      Ok(index(messagesApi("laboratory.laboratoryListTitle"),laboratories(laboratorios, isAdmin)))
+      Ok(index(messagesApi("laboratory.laboratoryListTitle"),laboratories(laboratorios)))
     }
   }
 

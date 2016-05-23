@@ -1,0 +1,43 @@
+@import model.SSHOrder
+@import controllers.admin.{routes=>adminroutes}
+@(optionalSSHOrder: Option[SSHOrder])(implicit messages: Messages)
+<div class="panel panel-primary">
+    <div class="panel-heading">@messages("sshOrder")</div>
+    <div class="panel-body">
+    @if(optionalSSHOrder.isDefined) {
+
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>@messages("sshorder.command")</th>
+                    <th>@messages("sshorder.sentdatetime")</th>
+                    <th>@messages("sshorder.superuser")</th>
+                    <th>@messages("sshorder.webuser")</th>
+                    <th>@messages("delete")</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">@optionalSSHOrder.get.id</th>
+                    <td><a href="@adminroutes.SSHOrderController.get(optionalSSHOrder.get.id)">@optionalSSHOrder.get.command</a></td>
+                    <td>@optionalSSHOrder.get.sentDatetime</td>
+                    <td>@optionalSSHOrder.get.superUser</td>
+                    <td>@optionalSSHOrder.get.webUser</td>
+                    <td><a href="@adminroutes.SSHOrderController.delete(optionalSSHOrder.get.id)">
+                    @messages("delete")</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    } else {
+        <div id="no-encontrado">
+            <i class="icon ion-earth"></i>
+            <h1>Aquí no hay laboratorios</h1>
+            <p>Parece que no se han encontrado laboratorios. @messages("contactAdmin")</p>
+        </div>
+    }
+    </div>
+</div>

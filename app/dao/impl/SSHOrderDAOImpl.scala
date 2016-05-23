@@ -57,12 +57,12 @@ class SSHOrderDAOImpl @Inject()
     * @param id Identificador del command
     * @return command encontrado o None si no se encontró
     */
-  override def get(id: Timestamp): Future[Option[SSHOrder]] = {
+  override def get(id: Long): Future[Option[SSHOrder]] = {
     // Se realiza un select * from command where id = $id
     db.run(search(id).result.headOption)
   }
 
-  private def search(sentDatetime: Timestamp) = ordenesSSH.filter(_.sentDatetime === sentDatetime)
+  private def search(id: Long) = ordenesSSH.filter(_.id === id)
 
   /**
     * Elimina un command de la base de datos
@@ -70,7 +70,7 @@ class SSHOrderDAOImpl @Inject()
     * @param id Identificador del command
     * @return Resultado de la operación
     */
-  override def delete(id: Timestamp): Future[Int] = {
+  override def delete(id: Long): Future[Int] = {
     db.run(search(id).delete)
   }
 

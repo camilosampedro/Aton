@@ -30,7 +30,7 @@ trait SSHOrderDAO {
     * @param id Identificador del command
     * @return command encontrado o None si no se encontró
     */
-  def get(id: Timestamp): Future[Option[SSHOrder]]
+  def get(id: Long): Future[Option[SSHOrder]]
 
   /**
     * Elimina una orden SSH de la base de datos
@@ -38,7 +38,7 @@ trait SSHOrderDAO {
     * @param id Identificador del command
     * @return Resultado de la operación
     */
-  def delete(id: Timestamp): Future[Int]
+  def delete(id: Long): Future[Int]
 
   /**
     * Lista todas los ordenes SSH en la base de datos

@@ -16,12 +16,14 @@ class ComputerChecker @Inject()(connectedUserDAO: ConnectedUserDAO, computerStat
   override def onReceive(message: Any): Unit =  {
     play.Logger.debug("Executing computer checker.")
     val task = computerService.listAll.map{ computers =>
+      play.Logger.debug(s"""$computers""")
       computers.map{ computer =>
         play.Logger.debug("Checking: " + computer)
         sSHOrderService.check(computer._1,computer._2)("Scheduled Checker")
       }
     }
     val results: Seq[(ComputerState, Seq[ConnectedUser])] = Await.result(task,Duration.Inf)
+    play.Logger.debug(s"""Computers checked, proceeding to save: $results""")
     for (result <- results) {
       val computerState = result._1
       val addComputerStateTask = computerStateDAO.add(computerState)

@@ -1,6 +1,6 @@
 @import controllers.admin.{routes => adminroutes}
 @import model.Laboratory
-@(laboratories: Seq[Laboratory], admin: Boolean)(implicit messages: Messages)
+@(laboratories: Seq[Laboratory])(implicit messages: Messages, isAdmin: Boolean)
 <div class="panel panel-primary">
     <div class="panel-heading">Laboratorios</div>
     <div class="panel-body">
@@ -8,13 +8,13 @@
             <table class="table table-striped" ng-if={laboratorios.nombre}>
                 <thead>
                     <tr>
-                        @if(admin) {
+                        @if(isAdmin) {
                             <th>ID</th>
                         }
                         <th>Nombre</th>
                         <th>Ubicación</th>
                         <th>Administración</th>
-                        @if(admin) {
+                        @if(isAdmin) {
                             <th>Editar</th>
                             <th>Eliminar</th>
                         }
@@ -23,13 +23,13 @@
                 <tbody>
                 @for(laboratory <- laboratories) {
                     <tr>
-                        @if(admin) {
+                        @if(isAdmin) {
                             <th scope="row">@laboratory.id</th>
                         }
                     <td><a href="@routes.LaboratoryController.get(laboratory.id)">@laboratory.name</a></td>
                     <td>@laboratory.location</td>
                     <td>@laboratory.administration</td>
-                        @if(admin) {
+                        @if(isAdmin) {
                             <td><a href="@adminroutes.LaboratoryController.edit(laboratory.id)">Editar</a></td>
                             <td><a href="@adminroutes.LaboratoryController.delete(laboratory.id)">
                                 Eliminar</a></td>
@@ -42,24 +42,17 @@
             <div id="no-encontrado">
                 <i class="icon ion-earth"></i>
                 <h1>Aquí no hay laboratorios</h1>
-                <p>Parece que no se han encontrado laboratorios. @if(admin) {Si deseas puedes agregar salas desde el siguiente botón:}else{
+                <p>Parece que no se han encontrado laboratorios. @if(isAdmin) {Si deseas puedes agregar salas desde el siguiente botón:}else{
                 @messages("contactAdmin")
                 }</p>
             </div>
         }
 
-        @if(admin) {
+        @if(isAdmin) {
             <div class="btn-agregar-tabla">
                 <a href="@adminroutes.LaboratoryController.add()" class="btn btn-default " role="button">
                     @messages("laboratory.addButton")</a>
             </div>
         }
     </div>
-</div>
-
-<div>
-    Icons made by <a href="http://www.flaticon.com/authors/simpleicon" title="SimpleIcon">SimpleIcon</a>
-    , <a href="http://www.freepik.com" title="Freepik">Freepik</a>
-    from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed
-    by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
 </div>

@@ -1,46 +1,36 @@
 @import controllers.admin.{routes => adminroutes}
-@import model.{Computer, Laboratory, Room}
-@import model.ComputerState
-@(laboratory: Laboratory, roomsWithComputers: Map[Option[Room], Seq[(Computer,Option[ComputerState])]], admin: Boolean)(implicit messages: Messages)
+@import model.{Computer, ComputerState, Laboratory, Room}
+@(laboratory: Laboratory, roomsWithComputers: Map[Option[Room], Seq[(Computer, Option[ComputerState])]], admin: Boolean)(implicit messages: Messages)
 <h1>@messages("laboratory").capitalize @laboratory.name</h1>
-    @if(roomsWithComputers.nonEmpty) {
-        @for((room, computers) <- roomsWithComputers if room.isDefined) {
-            @roomPanel(room.get, computers, admin)
-        }
-        @if(admin) {
-            <div class="btn-agregar-tabla">
-                <a href="@adminroutes.RoomController.add()" class="btn btn-default " role="button">
-                @messages("room.add")</a>
-                <a href="@adminroutes.ComputerController.add" class="btn btn-default " role="button">
-                    @messages("computer.add")</a>
-            </div>
-        }
-    } else {
-        <div class="panel panel-warning">
-            <div class="panel-heading">@messages("empty")</div>
-            <div class="panel-body">
-                <div id="no-encontrado">
-                    <i class="flaticon-boxes27"></i>
-                    <h1>@messages("laboratory.empty.title")</h1>
-                    <p>@messages("laboratory.empty.text")</p>
-                    @if(admin) {
-                        <div class="btn-agregar-tabla">
-                            <a href="@adminroutes.RoomController.add()" class="btn btn-default " role="button">@messages("laboratory.addRoom")</a>
-                        </div>
-                    } else {
-                        <p>@messages("contactAdmin")</p>
-                    }
-                </div>
-
-            </div>
+@if(roomsWithComputers.nonEmpty) {
+    @for((room, computers) <- roomsWithComputers if room.isDefined) {
+        @roomPanel(room.get, computers, admin)
+    }
+    @if(admin) {
+        <div class="btn-agregar-tabla">
+            <a href="@adminroutes.RoomController.add()" class="btn btn-default " role="button">
+            @messages("room.add")</a>
+            <a href="@adminroutes.ComputerController.add" class="btn btn-default " role="button">
+            @messages("computer.add")</a>
         </div>
     }
-<div>
-    Icons made by <a href="http://www.flaticon.com/authors/simpleicon"
-title="SimpleIcon">SimpleIcon</a>, <a
-href="http://www.freepik.com" title="Freepik">Freepik</a> from <a
-href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>
-    is licensed by <a
-href="http://creativecommons.org/licenses/by/3.0/"
-title="Creative Commons BY 3.0">CC BY 3.0</a>
-</div>
+} else {
+    <div class="panel panel-warning">
+        <div class="panel-heading">@messages("empty")</div>
+        <div class="panel-body">
+            <div id="no-encontrado">
+                <i class="flaticon-boxes27"></i>
+                <h1>@messages("laboratory.empty.title")</h1>
+                <p>@messages("laboratory.empty.text")</p>
+                @if(admin) {
+                    <div class="btn-agregar-tabla">
+                        <a href="@adminroutes.RoomController.add()" class="btn btn-default " role="button">@messages("laboratory.addRoom")</a>
+                    </div>
+                } else {
+                    <p>@messages("contactAdmin")</p>
+                }
+            </div>
+
+        </div>
+    </div>
+}

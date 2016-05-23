@@ -1,16 +1,19 @@
 # Application
 app.name=Aton Web
+app.information=Aton, administrador de salas de computadoras web. Desarrollado por Camilo A. Sampedro.
 # Computer
 computer.ip=Dirección IP / Hostname
 computer.SSHUser=Usuario SSH
 computer.SSHPassword=Contraseña SSH
 computer.sendCommand=Enviar comando
+computer.add=Agregar equipo
 # Header texts
 header.editUser=Editar usuario
 # Menu texts
 menu.suggestions=Sugerencias
 menu.administration=Administración
 menu.laboratories=Laboratorios
+menu.sshorders=Órdenes SSH
 menu.about=Acerca de
 # Room panel
 room.name=Nombre
@@ -22,9 +25,12 @@ room.empty.title=Aquí no hay computadores
 room.empty.body=Parece que no se han encontrado computadores.
 room.edit=Editar
 room.notFound=Sala no encontrada con el id especificado
+room.add=Agregar sala
 # Suggestion
 suggestion.notImplemented=El módulo de sugerencias no está implementado... aún
 # General
+edit=Editar
+delete=Eliminar
 empty=Vacío
 notImplemented=No implementado
 contactAdmin=Por favor ayúdanos en sugerencias reportando este problema.
@@ -48,4 +54,10 @@ user.notLoggedIn=No has iniciado sesión
 user.login=Iniciar sesión
 user.loginFormTitle=Inicia sesión en el sistema
 user.goToHome=Volver a la página de inicio
+# SSH Order
+sshorders=Órdenes SSH
+sshorder.command=Comando
+sshorder.sentdatetime=Fecha de envío
+sshorder.superuser=Como super usuario
+sshorder.webuser=Usuario
 

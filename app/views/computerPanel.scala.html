@@ -1,14 +1,14 @@
 @import controllers.admin.{routes => adminroutes}
 @import model.{Computer, ComputerState}
 @(computer: Computer, computerState: Option[ComputerState], isAdmin: Boolean)(implicit messages: Messages)
-<div class="col-xs-2 panel-inicio">
+<div class="col-md-2 panel-inicio">
 
     <div class="panel panel-@{
         if(computerState.isDefined) {
             computerState.get.state match {
                 case 1 => "success"
                 case 2 => "default"
-                case _ => "error"
+                case _ => "danger"
             }
         } else {
             "default"
@@ -47,9 +47,9 @@
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#commandBox@computer.ip">@messages("computer.sendCommand")</button>
                             </li>
                             <li><a href="@adminroutes.ComputerController.editForm(computer.ip)" class="btn btn-danger">
-                                Editar</a></li>
+                                @messages("edit")</a></li>
                             <li><a href="@adminroutes.ComputerController.delete(computer.ip)" class="btn btn-warning">
-                                Eliminar</a></li>
+                                @messages("delete")</a></li>
                         }
                     </ul>
                 </div>

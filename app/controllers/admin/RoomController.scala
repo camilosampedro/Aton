@@ -39,7 +39,7 @@ class RoomController @Inject()(userDAO: UserDAO, roomDAO: RoomDAO, laboratoryDAO
       data => {
         val newRoom = Room(0, data.name, data.audiovisualResources, data.basicTools, data.laboratoryID)
         roomDAO.add(newRoom).map { res =>
-          Redirect(routes.RoomController.addForm())
+          Redirect(normalroutes.HomeController.home())
         }
       }
     )

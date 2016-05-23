@@ -40,7 +40,8 @@ class ComputerStateDAOImpl @Inject()
   override def add(estado: ComputerState): Future[String] = {
     // Se realiza un insert y por cada insert se crea un String
     db.run(estados += estado).map(res => "ComputerState agregado correctamente").recover {
-      case ex: Exception => ex.getCause.getMessage
+      case ex: Exception => play.Logger.error("Error saving: " + estado,ex)
+        "Error"
     }
   }
 
