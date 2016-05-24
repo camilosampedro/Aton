@@ -4,7 +4,7 @@ import java.sql.Timestamp
 import java.util.Calendar
 
 import com.google.inject.{Inject, Singleton}
-import com.jcraft.jsch.JSchException
+import com.jcraft.jsch.{JSch, JSchException}
 import dao.{SSHOrderDAO, SSHOrderToComputerDAO}
 import fr.janalyse.ssh.{Expect, SSHOptions}
 import model._
@@ -20,6 +20,9 @@ import scala.concurrent.duration.Duration
   */
 @Singleton
 class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputerDAO: SSHOrderToComputerDAO) extends SSHOrderService {
+
+
+
   @throws(classOf[JSchException])
   override def execute(computer: Computer, sshOrder: SSHOrder): (String, Int) = {
     play.Logger.debug(s"""Executing: $sshOrder into: $computer""")
@@ -27,6 +30,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
       case Some(id) =>
         val settings = generateSSHSettings(computer, sshOrder)
         val (result, exitCode) = if (sshOrder.superUser) {
+          executeWithSudoWorkaround(sshOrder,settings)
           jassh.SSH.shell(settings) { ssh =>
             /*ssh.executeWithExpects("sudo -S su", List(new Expect(_.contains("password"), settings.password.password.getOrElse(""))))
             ssh.become("root", settings.password.password)*/
@@ -160,5 +164,16 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     } catch {
       case e: Exception => Seq()
     }
+  }
+
+  private def executeWithSudoWorkaround(sshOrder: SSHOrder, settings: SSHOptions) = {
+    val jsch = new JSch()
+    val sshSession = jsch.getSession(settings.username,settings.host,settings.port)
+    sshSession.setConfig("StrictHostKeyChecking", "no")
+    settings.password.password match {
+      case Some(password) =>sshSession.setPassword(password)
+        sshSession.connect()
+    }
+
   }
 }

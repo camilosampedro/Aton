@@ -1,7 +1,7 @@
 @import controllers.admin.{routes => adminroutes}
 @import model.{Computer, Room}
 @import model.ComputerState
-@(room: Room, computers: Seq[(Computer,Option[ComputerState])], isAdmin: Boolean)(implicit messages: Messages)
+@(room: Room, computers: Seq[(Computer,Option[ComputerState])])(implicit messages: Messages,isAdmin: Boolean)
 
 <div class="panel panel-primary">
     <div class="panel-heading">@room.name@if(isAdmin){ <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-default pull-right" role="button">@messages("room.edit")</a> <a href="@adminroutes.RoomController.delete(room.id)" class="btn btn-default pull-right" role="button">@messages("room.delete")</a>}</div>

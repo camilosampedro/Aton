@@ -38,7 +38,8 @@ class LaboratoryServiceImpl @Inject()(laboratoryDAO: LaboratoryDAO)(implicit exe
         case e =>
           None
       }
-
     }
   }
+
+  override def listAll: Future[Seq[Laboratory]] = laboratoryDAO.listAll
 }

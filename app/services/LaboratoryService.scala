@@ -12,4 +12,5 @@ import scala.concurrent.Future
 @ImplementedBy(classOf[LaboratoryServiceImpl])
 trait LaboratoryService {
   def get(id: Long): Future[Option[(Laboratory, Map[Option[Room], Seq[(Computer, Option[ComputerState])]])]]
+  def listAll: Future[Seq[Laboratory]]
 }
