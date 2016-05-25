@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2016-05-22 17:31:14.796
+-- Last modification date: 2016-05-25 16:30:49.694
 
 -- tables
 -- Table: computer
@@ -88,7 +88,7 @@ CREATE INDEX Sala_idx_laboratorio ON room (laboratory_id);
 CREATE TABLE ssh_order (
   id bigint NOT NULL AUTO_INCREMENT,
   superuser bool NOT NULL,
-  sent_datetime timestamp(6) NOT NULL,
+  sent_datetime timestamp NOT NULL,
   interrupt bool NOT NULL,
   command text NOT NULL,
   web_user varchar(32) NOT NULL,
@@ -107,7 +107,7 @@ DO
 -- Table: ssh_order_to_computer
 CREATE TABLE ssh_order_to_computer (
   computer_ip varchar(20) NOT NULL,
-  sent_datetime timestamp(6) NOT NULL,
+  sent_datetime timestamp NOT NULL,
   result text NULL,
   exit_code int NULL,
   ssh_order_id bigint NOT NULL,
@@ -157,7 +157,9 @@ INSERT INTO user(username,password,role) VALUES("Scheduled Checker","@JZhY4ut)3)
 -- foreign keys
 -- Reference: OrdenSSH_UsuarioWeb (table: ssh_order)
 ALTER TABLE ssh_order ADD CONSTRAINT OrdenSSH_UsuarioWeb FOREIGN KEY OrdenSSH_UsuarioWeb (web_user)
-REFERENCES `user` (username);
+REFERENCES `user` (username)
+  ON DELETE CASCADE
+  ON UPDATE RESTRICT;
 
 -- Reference: computer (table: ssh_order_to_computer)
 ALTER TABLE ssh_order_to_computer ADD CONSTRAINT computer FOREIGN KEY computer (computer_ip)
@@ -199,7 +201,9 @@ REFERENCES state (id);
 
 -- Reference: suggestion_user_fk (table: suggestion)
 ALTER TABLE suggestion ADD CONSTRAINT suggestion_user_fk FOREIGN KEY suggestion_user_fk (username)
-REFERENCES `user` (username);
+REFERENCES `user` (username)
+  ON DELETE CASCADE
+  ON UPDATE RESTRICT;
 
 -- Reference: usuarioweb_rolusuario_fk (table: user)
 ALTER TABLE `user` ADD CONSTRAINT usuarioweb_rolusuario_fk FOREIGN KEY usuarioweb_rolusuario_fk (role)

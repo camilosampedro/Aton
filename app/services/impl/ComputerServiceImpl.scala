@@ -2,7 +2,7 @@ package services.impl
 
 import com.google.inject.{Inject, Singleton}
 import dao.ComputerDAO
-import model.{Computer, ComputerState}
+import model.{Computer, ComputerState, ConnectedUser}
 import services.{ComputerService, SSHOrderService}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -23,7 +23,7 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
     computerDAO.edit(computer)
   }
 
-  override def listAll: Future[Seq[(Computer, Option[ComputerState])]] = {
+  override def listAll: Future[Seq[(Computer, Option[ComputerState], Seq[ConnectedUser])]] = {
 
     computerDAO.listAll.map(computers =>
       computers.groupBy(_._1).map(computer=>(computer._1,computer._2.map(_._2).flatten.sortBy(_.registeredDate.getTime).headOption)).toSeq

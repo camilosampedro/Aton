@@ -2,7 +2,7 @@ package dao
 
 import com.google.inject.ImplementedBy
 import dao.impl.ComputerDAOImpl
-import model.{Computer, ComputerState}
+import model.{Computer, ComputerState, ConnectedUser}
 
 import scala.concurrent.Future
 
@@ -43,7 +43,7 @@ trait ComputerDAO {
     *
     * @return Todos los computers
     */
-  def listAll: Future[Seq[(Computer,Option[ComputerState])]]
+  def listAll: Future[Seq[(Computer,Option[ComputerState],Option[ConnectedUser])]]
 
   def edit(computer: Computer): Future[Int]
 }

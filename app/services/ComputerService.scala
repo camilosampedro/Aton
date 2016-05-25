@@ -1,7 +1,7 @@
 package services
 
 import com.google.inject.ImplementedBy
-import model.{Computer, ComputerState}
+import model.{Computer, ComputerState, ConnectedUser}
 import services.impl.ComputerServiceImpl
 
 import scala.concurrent.Future
@@ -11,7 +11,7 @@ import scala.concurrent.Future
   */
 @ImplementedBy(classOf[ComputerServiceImpl])
 trait ComputerService {
-  def listAll: Future[Seq[(Computer,Option[ComputerState])]]
+  def listAll: Future[Seq[(Computer,Option[ComputerState],Seq[ConnectedUser])]]
 
   def add(computer: Computer): Future[String]
   def edit(computer: Computer): Future[Int]

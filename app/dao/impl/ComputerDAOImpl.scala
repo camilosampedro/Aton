@@ -4,8 +4,8 @@ import javax.inject.Inject
 
 import com.google.inject.Singleton
 import dao.ComputerDAO
-import model.{Computer, ComputerState}
-import model.table.{ComputerStateTable, ComputerTable}
+import model.{Computer, ComputerState, ConnectedUser}
+import model.table.{ComputerStateTable, ComputerTable, ConnectedUserTable}
 import play.Logger
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._
@@ -30,6 +30,7 @@ class ComputerDAOImpl @Inject()
     */
   implicit val computers = TableQuery[ComputerTable]
   implicit val computerStates = TableQuery[ComputerStateTable]
+  implicit val connectedUsers = TableQuery[ConnectedUserTable]
 
   /**
     * Adiciona un laboratory
@@ -78,10 +79,8 @@ class ComputerDAOImpl @Inject()
     *
     * @return Todos los computers
     */
-  override def listAll: Future[Seq[(Computer, Option[ComputerState])]] = db.run {
-    computers.joinLeft(computerStates).on(_.ip === _.computerIp).result
+  override def listAll: Future[Seq[(Computer, Option[ComputerState],Option[ConnectedUser])]] = db.run {
+    computers.joinLeft(computerStates).on(_.ip === _.computerIp).joinLeft(connectedUsers).on((x,y)=>x._2.map(_.computerIp) === y.computerStateComputerIp && x._2.map(_.registeredDate) === y.computerStateRegisteredDate).map(x=>(x._1._1,x._1._2,x._2)).result
   }
-
-
 }
 
