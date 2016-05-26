@@ -26,7 +26,13 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
   override def listAll: Future[Seq[(Computer, Option[ComputerState], Seq[ConnectedUser])]] = {
 
     computerDAO.listAll.map(computers =>
-      computers.groupBy(_._1).map(computer=>(computer._1,computer._2.map(_._2).flatten.sortBy(_.registeredDate.getTime).headOption)).toSeq
+
+      computers
+        // Grouping the computers
+        .groupBy(_._1)
+        .map{computer=>
+        (computer._1,computer._2.flatMap(_._2).sortBy(_.registeredDate.getTime).headOption)
+      }.toSeq
     )
   }
 }
