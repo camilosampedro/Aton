@@ -175,6 +175,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     settings.password.password match {
       case Some(password) =>sshSession.setPassword(password)
         sshSession.connect()
+      case _ =>
     }
 
   }
