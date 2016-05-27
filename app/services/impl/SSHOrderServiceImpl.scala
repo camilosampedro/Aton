@@ -83,12 +83,13 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
           jassh.SSH.shell(settings) { ssh =>
             def executeWhile(commands: Seq[String], result: (String, Int)): (String,Int) ={
               (result,commands) match {
-                case ((_,i),List()) => ("",i)
-                case ((s,i),_) if s!="" => (s,i)
+                case ((_,i),List()) => play.Logger.debug("Empty")
+                  ("",i)
+                case ((s,i),_) if s!="" => play.Logger.debug("Result: " + s)
+                  (s,i)
                 case (_,command::restOfCommands) => play.Logger.debug(s"""trying: $command""")
                   executeWhile(restOfCommands,ssh.executeWithStatus(command))
               }
-
             }
             executeWhile(sshOrders.map(_.command),("",1))
           }
