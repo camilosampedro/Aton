@@ -1,5 +1,8 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2016-05-25 16:30:49.694
+-- Last modification date: 2016-05-27 19:57:34.351
+
+DROP DATABASE IF EXISTS aton;
+CREATE DATABASE aton;
 
 -- tables
 -- Table: computer
@@ -208,5 +211,8 @@ REFERENCES `user` (username)
 -- Reference: usuarioweb_rolusuario_fk (table: user)
 ALTER TABLE `user` ADD CONSTRAINT usuarioweb_rolusuario_fk FOREIGN KEY usuarioweb_rolusuario_fk (role)
 REFERENCES role (id);
+
+CREATE USER 'aton'@'localhost' IDENTIFIED BY 'aton';
+GRANT ALL PRIVILEGES ON aton.* TO 'aton'@'localhost' WITH GRANT OPTION;
 
 -- End of file.

@@ -14,27 +14,7 @@
             <a href="@adminroutes.ComputerController.add" class="btn btn-default " role="button">
             @messages("computer.add")</a>
         </div>
-            <div id="commandbox" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                        <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">@messages("computer.executeCommandTitle")</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>@messages("computer.executeCommandBody")</p>
-                            <a id="shutdown" class="btn btn-danger" href="" onclick="return confirm(@messages("computer.shutdown.confirm"))">@messages("computer.shutdown")</a>
-                            <a id="upgrade" class="btn btn-info" href="" onclick="return confirm(@messages("computer.upgrade.confirm"))">@messages("computer.upgrade")</a>
-                            <a id="unfreeze" class="btn btn-info" href="" onclick="return confirm(@messages("computer.unfreeze.confirm"))">@messages("computer.unfreeze")</a>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">@messages("close")</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            @commandPanel()
 
     }
 
