@@ -14,6 +14,7 @@ import services.exec.SSHFunction._
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
+import scala.concurrent.duration._
 
 /**
   * Created by camilo on 14/05/16.
@@ -103,8 +104,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
       case _ =>
         ("", 0)
     }
-
-    Await.result(future, Duration.Inf)
+    Await.result(future, 30 seconds)
   }
 
   override def getMac(computer: Computer, operatingSystem: Option[String])(implicit username: String): Option[String] = {
