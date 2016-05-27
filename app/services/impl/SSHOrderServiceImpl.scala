@@ -22,7 +22,6 @@ import scala.concurrent.duration.Duration
 class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputerDAO: SSHOrderToComputerDAO) extends SSHOrderService {
 
 
-
   @throws(classOf[JSchException])
   override def execute(computer: Computer, sshOrder: SSHOrder): (String, Int) = {
     play.Logger.debug(s"""Executing: $sshOrder into: $computer""")
@@ -30,7 +29,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
       case Some(id) =>
         val settings = generateSSHSettings(computer, sshOrder)
         val (result, exitCode) = if (sshOrder.superUser) {
-          executeWithSudoWorkaround(sshOrder,settings)
+          executeWithSudoWorkaround(sshOrder, settings)
           jassh.SSH.shell(settings) { ssh =>
             /*ssh.executeWithExpects("sudo -S su", List(new Expect(_.contains("password"), settings.password.password.getOrElse(""))))
             ssh.become("root", settings.password.password)*/
@@ -59,15 +58,15 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     play.Logger.debug(s"""Executing: $sshOrders into: $computer""")
     val joinedSSHOrder = sshOrders.headOption match {
       case Some(sshOrder) =>
-        sshOrder.copy(command=sshOrders.map(_.command).mkString(" & "))
+        sshOrder.copy(command = sshOrders.map(_.command).mkString(" & "))
       case _ =>
-        return ("",1)
+        return ("", 1)
     }
     val future = sSHOrderDAO.add(joinedSSHOrder).map {
       case Some(id) =>
         val settings = generateSSHSettings(computer, joinedSSHOrder)
         val (result, exitCode) = if (joinedSSHOrder.superUser) {
-          executeWithSudoWorkaround(joinedSSHOrder,settings)
+          executeWithSudoWorkaround(joinedSSHOrder, settings)
           jassh.SSH.shell(settings) { ssh =>
             /*ssh.executeWithExpects("sudo -S su", List(new Expect(_.contains("password"), settings.password.password.getOrElse(""))))
             ssh.become("root", settings.password.password)*/
@@ -79,12 +78,12 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
           }
           //jassh.SSH.once(settings)(_.executeWithStatus("sudo " + sshOrder.command))
         } else {
-          jassh.SSH.shell(settings){ssh=>
+          jassh.SSH.shell(settings) { ssh =>
             val (result, exitStatus) = ("", 1)
-            for (command <- sshOrders.map(_.command) if exitStatus != 0 && result.trim != ""){
-              (result,exitStatus)=ssh.executeWithStatus(joinedSSHOrder.command)
+            for (command <- sshOrders.map(_.command) if exitStatus != 0 && result.trim != "") {
+              (result, exitStatus) = ssh.executeWithStatus(joinedSSHOrder.command)
             }
-            (result,exitStatus)
+            (result, exitStatus)
           }
         }
         //play.Logger.debug("ID: " + id)
@@ -101,21 +100,18 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   override def getMac(computer: Computer, operatingSystem: Option[String])(implicit username: String): Option[String] = {
     //play.Logger.debug(s"""Looking for mac of "${computer.ip}"""")
     val orders = operatingSystem match {
-      case Some(os)=> macOrders(os)
+      case Some(os) => macOrders(os)
       case _ => macOrders("")
     }
-    for (order <- orders) {
-      //play.Logger.debug(s"""Trying "${order}"""")
-      try {
-        val (result, _) = execute(computer, new SSHOrder(now, order, username))
-        //play.Logger.debug(s"""Result: $result""")
-        if (result != "") Some(result)
-      } catch {
-        case e: JSchException=>None
-        case e: Exception =>
-          play.Logger.error("An error occurred while looking for computer's mac: " + computer, e)
-          None
-      }
+    //play.Logger.debug(s"""Trying "${order}"""")
+    try {
+      val (result, _) = executeUntilResult(computer, orders.map(new SSHOrder(now, _, username)))
+      //play.Logger.debug(s"""Result: $result""")
+      if (result != "") Some(result)
+    } catch {
+      case e: JSchException => None
+      case e: Exception =>
+        play.Logger.error("An error occurred while looking for computer's mac: " + computer, e)
     }
     None
   }
@@ -156,20 +152,20 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   override def check(computer: Computer)(implicit username: String): (ComputerState, Seq[ConnectedUser]) = {
     //play.Logger.debug(s"""Checking the $computer's state""")
     //play.Logger.debug(s"""Checking if $computer's on""")
-    try{
+    try {
       val state = checkState(computer)
       play.Logger.debug(s"""$computer is  $state""")
       val date = now
-      val (operatingSystem, mac, whoIsUsing) = if(state != Connected()){
-        (None,None,Seq.empty)
+      val (operatingSystem, mac, whoIsUsing) = if (state != Connected()) {
+        (None, None, Seq.empty)
       } else {
         val os = getOperatingSystem(computer)
-        (os,getMac(computer,os), whoAreUsing(computer).map { username => ConnectedUser(0, username, computer.ip, date)})
+        (os, getMac(computer, os), whoAreUsing(computer).map { username => ConnectedUser(0, username, computer.ip, date) })
       }
       (ComputerState(computer.ip, date, state.id, operatingSystem, mac), whoIsUsing)
     } catch {
-      case e:Exception=> play.Logger.error(s"There was an error checking $computer's state")
-        (ComputerState(computer.ip,now,NotConnected().id,None,None),Seq.empty)
+      case e: Exception => play.Logger.error(s"There was an error checking $computer's state")
+        (ComputerState(computer.ip, now, NotConnected().id, None, None), Seq.empty)
 
     }
 
@@ -180,7 +176,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     val settings = generateSSHSettings(computer, sSHOrder)
     try {
       val isConnected = jassh.SSH.once(settings)(_.executeWithStatus(sSHOrder.command)._1 == "Ping from Aton")
-      if(isConnected){
+      if (isConnected) {
         Connected()
       } else {
         NotConnected()
@@ -190,16 +186,16 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
         ex.getMessage match {
           case "Auth fail" => AuthFailed()
           case "timeout: socket is not established" => NotConnected()
-          case e =>play.Logger.error(s"The error checking $computer was : " + e)
+          case e => play.Logger.error(s"The error checking $computer was : " + e)
             UnknownError()
         }
-      case e: Exception => play.Logger.error("There was an error checking for " + computer + "'s state",e)
+      case e: Exception => play.Logger.error("There was an error checking for " + computer + "'s state", e)
         UnknownError()
     }
   }
 
 
-  private def generateSSHSettings(computer: Computer, sSHOrder: SSHOrder) = SSHOptions(host = computer.ip, username = computer.SSHUser, password = computer.SSHPassword, connectTimeout = 10000,prompt = Some("prompt"))
+  private def generateSSHSettings(computer: Computer, sSHOrder: SSHOrder) = SSHOptions(host = computer.ip, username = computer.SSHUser, password = computer.SSHPassword, connectTimeout = 10000, prompt = Some("prompt"))
 
   @throws[JSchException]
   override def whoAreUsing(computer: Computer)(implicit username: String): Seq[String] = {
@@ -213,10 +209,10 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
 
   private def executeWithSudoWorkaround(sshOrder: SSHOrder, settings: SSHOptions) = {
     val jsch = new JSch()
-    val sshSession = jsch.getSession(settings.username,settings.host,settings.port)
+    val sshSession = jsch.getSession(settings.username, settings.host, settings.port)
     sshSession.setConfig("StrictHostKeyChecking", "no")
     settings.password.password match {
-      case Some(password) =>sshSession.setPassword(password)
+      case Some(password) => sshSession.setPassword(password)
         sshSession.connect()
       case _ =>
     }
