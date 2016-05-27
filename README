@@ -1,49 +1,82 @@
-This is your new Play application
-=================================
+[![Build Status](https://travis-ci.org/ProjectAton/AtonLab.svg?branch=master)](https://travis-ci.org/ProjectAton/AtonLab)
+# ATON
+Administrador de laboratorios de computadoras.
 
-This file will be packaged with your application when using `activator dist`.
+## Advertencia
+Este proyecto todavía se encuentra en fase de desarrollo.
 
-There are several demonstration files available in this template.
+## Como instalar
+### 1. Descargar una copia de este proyecto
+```bash
+git clone https://github.com/ProjectAton/Aton.git
+```
 
-Controllers
-===========
+### 2. Instalar postgresql. Ir al paso 4 si ya se tiene configurado PostgreSQL.
 
-- LoginController.scala:
+Instalar la base de datos PostgreSQL, usando el gestor de paquetes por defecto o con cualquier otro método.
 
-  Shows how to handle simple HTTP requests.
+**Instalación en Ubuntu - Debian**
 
-- AsyncController.scala:
+```bash
+sudo apt-get install postgresql
+```
 
-  Shows how to do asynchronous programming when handling a request.
+**Instalación en RHEL**
 
-- CountController.scala:
+```bash
+sudo yum install postgresql-server
+```
 
-  Shows how to inject a component into a controller and use the component when
-  handling requests.
+### 3. Asignar un password para acceder a PostgreSQL:
 
-Components
-==========
+**Ingresar al shell de PostgreSQL:**
 
-- Module.scala:
+```bash
+sudo -u postgres psql
+```
 
-  Shows how to use Guice to bind all the components needed by your application.
+**Ejecutar para cambiar el password**
 
-- Counter.scala:
+```bash
+\password postgres
+```
 
-  An example of a component that contains state, in this case a simple counter.
+### 4. Importar la base de datos de database.sql
+```bash
+sudo -u postgres psql < database.sql
+```
 
-- ApplicationTimer.scala:
+### 5. Modificar los archivos de configuración
 
-  An example of a component that starts when the application starts and stops
-  when the application stops.
+#### `src/main/resources/aplicacion.properties`
+En este archivo se encuentran todas las configuraciones de la base de datos. Las propiedades importantes son las siguientes:
 
-Filters
-=======
+**jdbc.url**
+En este campo se inserta el URL de la base de datos. El formato es *jdbc:postgresql://host:puerto/basededatos*
 
-- Filters.scala:
+**jdbc.username**
+Nombre de usuario para acceder a la base de datos.
 
-  Creates the list of HTTP filters used by your application.
+**jdbc.password**
+Contraseña para acceder a la base de datos.
 
-- ExampleFilter.scala
+### 6. Compilar
+Si no se tiene instalado maven instalar antes de este paso.
 
-  A simple filter that adds a header to every response.
+**Instalación en Ubuntu - Debian**
+```bash
+sudo apt-get install maven
+```
+
+**Instalación en RHEL**
+```bash
+sudo yum install maven
+```
+
+Ejecutar la compilación con Maven
+
+```bash
+mvn clean install
+```
+
+##
