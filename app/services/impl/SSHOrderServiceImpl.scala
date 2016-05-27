@@ -156,7 +156,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   }
 
 
-  private def generateSSHSettings(computer: Computer, sSHOrder: SSHOrder) = SSHOptions(host = computer.ip, username = computer.SSHUser, password = computer.SSHPassword, connectTimeout = 1000,prompt = Some("prompt"))
+  private def generateSSHSettings(computer: Computer, sSHOrder: SSHOrder) = SSHOptions(host = computer.ip, username = computer.SSHUser, password = computer.SSHPassword, connectTimeout = 3000,prompt = Some("prompt"))
 
   @throws[JSchException]
   override def whoAreUsing(computer: Computer)(implicit username: String): Seq[String] = {
