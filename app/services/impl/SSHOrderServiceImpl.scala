@@ -55,6 +55,49 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     Await.result(future, Duration.Inf)
   }
 
+  def executeUntilResult(computer: Computer, sshOrders: Seq[SSHOrder]): (String, Int) = {
+    play.Logger.debug(s"""Executing: $sshOrders into: $computer""")
+    val joinedSSHOrder = sshOrders.headOption match {
+      case Some(sshOrder) =>
+        sshOrder.copy(command=sshOrders.map(_.command).mkString(" & "))
+      case _ =>
+        return ("",1)
+    }
+    val future = sSHOrderDAO.add(joinedSSHOrder).map {
+      case Some(id) =>
+        val settings = generateSSHSettings(computer, joinedSSHOrder)
+        val (result, exitCode) = if (joinedSSHOrder.superUser) {
+          executeWithSudoWorkaround(joinedSSHOrder,settings)
+          jassh.SSH.shell(settings) { ssh =>
+            /*ssh.executeWithExpects("sudo -S su", List(new Expect(_.contains("password"), settings.password.password.getOrElse(""))))
+            ssh.become("root", settings.password.password)*/
+
+            ssh.executeWithExpects("""SUDO_PROMPT="prompt" sudo -S su -""", List(new Expect(_.endsWith("prompt"), settings.password.password.getOrElse(""))))
+            val (result, exitCode) = ssh.executeWithStatus(joinedSSHOrder.command)
+            ssh.execute("exit")
+            (result, exitCode)
+          }
+          //jassh.SSH.once(settings)(_.executeWithStatus("sudo " + sshOrder.command))
+        } else {
+          jassh.SSH.shell(settings){ssh=>
+            val (result, exitStatus) = ("", 1)
+            for (command <- sshOrders.map(_.command) if exitStatus != 0 && result.trim != ""){
+              (result,exitStatus)=ssh.executeWithStatus(joinedSSHOrder.command)
+            }
+            (result,exitStatus)
+          }
+        }
+        //play.Logger.debug("ID: " + id)
+        val resultSSHOrder = SSHOrderToComputer(computer.ip, id, now, Some(result), Some(exitCode))
+        sSHOrderToComputerDAO.add(resultSSHOrder)
+        (result, exitCode)
+      case _ =>
+        ("", 0)
+    }
+
+    Await.result(future, Duration.Inf)
+  }
+
   override def getMac(computer: Computer, operatingSystem: Option[String])(implicit username: String): Option[String] = {
     //play.Logger.debug(s"""Looking for mac of "${computer.ip}"""")
     val orders = operatingSystem match {
