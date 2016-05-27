@@ -149,7 +149,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
           case "timeout: socket is not established" => NotConnected()
           case _ => UnknownError()
         }
-      case e: Exception => UnknownError()
+      case e: Exception => play.Logger.error("There was an error checking for " + computer + "'s state",e)
+        UnknownError()
     }
   }
 
