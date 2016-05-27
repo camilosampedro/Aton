@@ -46,7 +46,7 @@
                         @if(isAdmin) {
                             <li role="separator" class="divider"></li>
                             <li>
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#commandBox@computer.ip">@messages("computer.sendCommand")</button>
+                                <button type="button" class="btn btn-info commandboxbutton" id="@computer.ip">@messages("computer.sendCommand")</button>
                             </li>
                             <li><a href="@adminroutes.ComputerController.editForm(computer.ip)" class="btn btn-danger">
                                 @messages("edit")</a></li>
@@ -57,30 +57,6 @@
                     </ul>
                 </div>
             </div>
-            @if(isAdmin) {
-                <div id="commandBox@computer.ip" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-
-                            <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">@messages("computer.executeCommandTitle")</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>@messages("computer.executeCommandBody")</p>
-                                <a class="btn btn-danger" href="@adminroutes.ComputerController.shutdown(computer.ip)" onclick="return confirm(@messages("computer.shutdown.confirm"))">@messages("computer.shutdown")</a>
-                                <a class="btn btn-info" href="@adminroutes.ComputerController.upgrade(computer.ip)" onclick="return confirm(@messages("computer.upgrade.confirm"))">@messages("computer.upgrade")</a>
-                                <a class="btn btn-info" href="@adminroutes.ComputerController.unfreeze(computer.ip)" onclick="return confirm(@messages("computer.unfreeze.confirm"))">@messages("computer.unfreeze")</a>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">@messages("close")</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            }
         </div>
     </div>
 </div>
