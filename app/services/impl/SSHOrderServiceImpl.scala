@@ -54,6 +54,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     Await.result(future, Duration.Inf)
   }
 
+
+
   def executeUntilResult(computer: Computer, sshOrders: Seq[SSHOrder]): (String, Int) = {
     play.Logger.debug(s"""Executing: $sshOrders into: $computer""")
     val joinedSSHOrder = sshOrders.headOption match {
@@ -79,11 +81,15 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
           //jassh.SSH.once(settings)(_.executeWithStatus("sudo " + sshOrder.command))
         } else {
           jassh.SSH.shell(settings) { ssh =>
-            val (result, exitStatus) = ("", 1)
-            for (command <- sshOrders.map(_.command) if exitStatus != 0 && result.trim != "") {
-              (result, exitStatus) = ssh.executeWithStatus(joinedSSHOrder.command)
+            def executeWhile(commands: Seq[String], result: (String, Int)): (String,Int) ={
+              (result,commands) match {
+                case ((_,i),List()) => ("",i)
+                case ((s,i),_) if s!="" => (s,i)
+                case (_,command::restOfCommands) => executeWhile(restOfCommands,ssh.executeWithStatus(command))
+              }
+
             }
-            (result, exitStatus)
+            executeWhile(sshOrders.map(_.command),("",1))
           }
         }
         //play.Logger.debug("ID: " + id)
