@@ -6,7 +6,7 @@ import java.util.Calendar
 import com.google.inject.{Inject, Singleton}
 import com.jcraft.jsch.{JSch, JSchException}
 import dao.{SSHOrderDAO, SSHOrderToComputerDAO}
-import fr.janalyse.ssh.{Expect, SSHOptions}
+import fr.janalyse.ssh.{Expect, SSHCommand, SSHOptions}
 import model._
 import services.SSHOrderService
 import services.exec.SSHFunction._
@@ -81,24 +81,20 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
           }
           //jassh.SSH.once(settings)(_.executeWithStatus("sudo " + sshOrder.command))
         } else {
-          jassh.SSH.shell(settings) { ssh =>
-            def executeWhile(commands: List[String], result: (String, Int)): (String,Int) ={
-              val newResult = (result._1.trim,result._2)
-              (newResult,commands) match {
-                case ((_,i),List()) => play.Logger.debug("Empty")
-                  ("",i)
-                case ((s,i),_) if s!="" => play.Logger.debug("Result: " + s)
-                  (s,i)
-                case (_,command::restOfCommands) => play.Logger.debug(s"""trying: $command | $restOfCommands""")
-                  executeWhile(restOfCommands,ssh.executeWithStatus(command))
-                case _ => play.Logger.error("There was an error")
-                  ("",1)
-              }
+          jassh.SSH.once(settings) { ssh =>
+            var (result,exitStatus) = ("",1)
+            val commands = sshOrders.map(_.command)
+            var i = 0
+            while(i<commands.size && result == "" && exitStatus != 0) {
+              val command = commands(i)
+              val (newResult,newExit) = ssh.executeWithStatus(SSHCommand.stringToCommand(command))
+              result=newResult
+              exitStatus = newExit
+              i += 1
             }
-            executeWhile(sshOrders.map(_.command).toList,("",1))
+            (result,exitStatus)
           }
         }
-        play.Logger.debug("ID: " + id)
         val resultSSHOrder = SSHOrderToComputer(computer.ip, id, now, Some(result), Some(exitCode))
         sSHOrderToComputerDAO.add(resultSSHOrder)
         (result, exitCode)
