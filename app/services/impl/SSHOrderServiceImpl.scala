@@ -116,15 +116,15 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     }
     //play.Logger.debug(s"""Trying "${order}"""")
     try {
-      val (result, _) = executeUntilResult(computer, orders.map(new SSHOrder(now, _, username)))
+      val (result, a) = executeUntilResult(computer, orders.map(new SSHOrder(now, _, username)))
       //play.Logger.debug(s"""Result: $result""")
-      if (result != "") Some(result)
+      if (result != "") {Some(result)} else {None}
     } catch {
       case e: JSchException => None
-      case e: Exception =>
-        play.Logger.error("An error occurred while looking for computer's mac: " + computer, e)
+      case e: Exception => play.Logger.error("An error occurred while looking for computer's mac: " + computer, e)
+        None
     }
-    None
+
   }
 
   @throws[JSchException]
