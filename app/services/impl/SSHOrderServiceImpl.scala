@@ -147,7 +147,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
         ex.getMessage match {
           case "Auth fail" => AuthFailed()
           case "timeout: socket is not established" => NotConnected()
-          case _ => UnknownError()
+          case e =>play.Logger.error(s"The error checking $computer was : " + e)
+            UnknownError()
         }
       case e: Exception => play.Logger.error("There was an error checking for " + computer + "'s state",e)
         UnknownError()
