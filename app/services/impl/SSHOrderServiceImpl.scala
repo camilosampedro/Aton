@@ -96,7 +96,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
             executeWhile(sshOrders.map(_.command).toList,("",1))
           }
         }
-        //play.Logger.debug("ID: " + id)
+        play.Logger.debug("ID: " + id)
         val resultSSHOrder = SSHOrderToComputer(computer.ip, id, now, Some(result), Some(exitCode))
         sSHOrderToComputerDAO.add(resultSSHOrder)
         (result, exitCode)
