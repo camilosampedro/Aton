@@ -85,7 +85,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
               (result,commands) match {
                 case ((_,i),List()) => ("",i)
                 case ((s,i),_) if s!="" => (s,i)
-                case (_,command::restOfCommands) => executeWhile(restOfCommands,ssh.executeWithStatus(command))
+                case (_,command::restOfCommands) => play.Logger.debug(s"""trying: $command""")
+                  executeWhile(restOfCommands,ssh.executeWithStatus(command))
               }
 
             }
