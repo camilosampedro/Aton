@@ -52,7 +52,7 @@
                                 @messages("edit")</a></li>
                             <li><a href="@adminroutes.ComputerController.delete(computer.ip)" class="btn btn-warning">
                                 @messages("delete")</a></li>
-                            <li>@messages("user.connectedusers") @computerState.get._2.length</li>
+                            @if(computerState.isDefined){<li>@messages("user.connectedusers") @computerState.get._2.length</li>}
                         }
                     </ul>
                 </div>
