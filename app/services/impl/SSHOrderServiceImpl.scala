@@ -81,7 +81,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
           //jassh.SSH.once(settings)(_.executeWithStatus("sudo " + sshOrder.command))
         } else {
           jassh.SSH.shell(settings) { ssh =>
-            def executeWhile(commands: Seq[String], result: (String, Int)): (String,Int) ={
+            def executeWhile(commands: List[String], result: (String, Int)): (String,Int) ={
               (result,commands) match {
                 case ((_,i),List()) => play.Logger.debug("Empty")
                   ("",i)
@@ -93,7 +93,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
                   ("",1)
               }
             }
-            executeWhile(sshOrders.map(_.command),("",1))
+            executeWhile(sshOrders.map(_.command).toList,("",1))
           }
         }
         //play.Logger.debug("ID: " + id)
