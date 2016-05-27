@@ -1,8 +1,9 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2016-05-27 19:57:34.351
+-- Last modification date: 2016-05-27 20:00:03.752
 
 DROP DATABASE IF EXISTS aton;
 CREATE DATABASE aton;
+USE aton;
 
 -- tables
 -- Table: computer
