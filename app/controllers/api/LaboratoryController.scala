@@ -29,7 +29,7 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryService: Labora
     Logger.debug("Petición de listar el laboratory " + id + " [API] respondida.")
     implicit val username = Some("")
     laboratoryService.get(id).map {
-      case Some((laboratoryObject, roomsWithComputers)) => Ok(index("Laboratory" + laboratoryObject.name,laboratory(laboratoryObject, roomsWithComputers)))
+      case Some((laboratoryObject, roomsWithComputers)) => Ok(laboratoryObject.toString()+roomsWithComputers.toString())
       case _ => NotImplemented(index(messagesApi("laboratory.notFound"),notImplemented(messagesApi("laboratory.notFound"))))
     }
   }

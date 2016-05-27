@@ -15,7 +15,7 @@ trait SSHOrderService {
 
   def checkState(computer: Computer)(implicit username: String): StateRef
 
-  def check(computer: Computer, optionalComputerState: Option[ComputerState])(implicit username: String): (ComputerState,Seq[ConnectedUser])
+  def check(computer: Computer)(implicit username: String): (ComputerState,Seq[ConnectedUser])
 
   def unfreeze(computer: Computer)(implicit username:String): (String,Boolean)
 

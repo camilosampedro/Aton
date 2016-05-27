@@ -15,11 +15,11 @@ class ComputerChecker @Inject()(connectedUserDAO: ConnectedUserDAO, computerStat
   @scala.throws[Exception](classOf[Exception])
   override def onReceive(message: Any): Unit =  {
     play.Logger.debug("Executing computer checker.")
-    val task = computerService.listAll.map{ computers =>
+    val task = computerService.listAllSimple.map{ computers =>
       play.Logger.debug(s"""$computers""")
       computers.map{ computer =>
         play.Logger.debug("Checking: " + computer)
-        sSHOrderService.check(computer._1,computer._2)("Scheduled Checker")
+        sSHOrderService.check(computer)("Scheduled Checker")
       }
     }
     val results: Seq[(ComputerState, Seq[ConnectedUser])] = Await.result(task,Duration.Inf)

@@ -2,7 +2,7 @@ package dao
 
 import com.google.inject.ImplementedBy
 import dao.impl.LaboratoryDAOImpl
-import model.{Computer, ComputerState, Laboratory, Room}
+import model._
 
 import scala.concurrent.Future
 
@@ -20,7 +20,7 @@ trait LaboratoryDAO {
     * @param id
     * @return
     */
-  def getWithChildren(id: Long): Future[Seq[(Laboratory, Option[Room], (Option[Computer],Option[ComputerState]))]]
+  def getWithChildren(id: Long): Future[Seq[(Laboratory, Option[Room], (Option[Computer],Option[ComputerState],Option[ConnectedUser]))]]
 
 
   /**

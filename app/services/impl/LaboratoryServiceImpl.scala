@@ -2,7 +2,7 @@ package services.impl
 
 import com.google.inject.{Inject, Singleton}
 import dao.LaboratoryDAO
-import model.{Computer, ComputerState, Laboratory, Room}
+import model._
 import services.LaboratoryService
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -12,7 +12,7 @@ import scala.concurrent.{ExecutionContext, Future}
   */
 @Singleton
 class LaboratoryServiceImpl @Inject()(laboratoryDAO: LaboratoryDAO)(implicit executionContext: ExecutionContext) extends LaboratoryService {
-  def get(id: Long ): Future[Option[(Laboratory, Map[Option[Room], Seq[(Computer, Option[ComputerState])]])]] ={
+  def get(id: Long ): Future[Option[(Laboratory, Map[Option[Room], Seq[(Computer, Option[(ComputerState,Seq[ConnectedUser])])]])]] ={
     laboratoryDAO.getWithChildren(id).map { res =>
       val grouped = res.groupBy(_._1)
       grouped.headOption match {
@@ -26,10 +26,17 @@ class LaboratoryServiceImpl @Inject()(laboratoryDAO: LaboratoryDAO)(implicit exe
               (k, v
                 .map(_._2)
                 .groupBy(_._1)
-                .filter(_._1.isDefined)
-                .map(x => (x._1.get, x._2.map(_._2)))
+                .flatMap{
+                  case (Some(computer),second)=>Some((computer,second.flatMap{
+                    case (_,Some(state),user) => Some((state,user))
+                    case _ => None
+                  }))
+                  case _ => None
+                }
                 .map { x =>
-                  (x._1,x._2.flatten.sortBy(_.registeredDate.getTime).headOption)
+                  (x._1,x._2.groupBy(_._1).map{groupedState=>
+                    (groupedState._1,groupedState._2.flatMap(_._2))
+                  }.toSeq.sortBy(_._1.registeredDate.getTime).headOption)
                 }.toSeq)
           }.filter {
             row => row._1.isDefined

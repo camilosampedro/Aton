@@ -13,6 +13,8 @@ import scala.concurrent.Future
   */
 @ImplementedBy(classOf[ComputerDAOImpl])
 trait ComputerDAO {
+  def listAllSimple: Future[Seq[Computer]]
+
 
   /**
     * Adiciona un inicio

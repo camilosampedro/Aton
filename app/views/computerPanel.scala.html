@@ -1,12 +1,14 @@
 @import controllers.admin.{routes => adminroutes}
 @import model.{Computer, ComputerState}
-@(computer: Computer, computerState: Option[ComputerState], isAdmin: Boolean)(implicit messages: Messages)
+@import model.ConnectedUser
+@(computer: Computer, computerState: Option[(ComputerState,Seq[ConnectedUser])], isAdmin: Boolean)(implicit messages: Messages)
 <div class="col-md-2 panel-inicio">
 
     <div class="panel panel-@{
         if(computerState.isDefined) {
-            computerState.get.state match {
-                case 1 => "success"
+            computerState.get._1.state match {
+                case 1 if computerState.get._2.nonEmpty => "info"
+                case 1 if computerState.get._2.isEmpty => "success"
                 case 2 => "default"
                 case _ => "danger"
             }
@@ -28,17 +30,17 @@
                         <i class="icon ion-information-circled"></i> <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        @if(computerState.isDefined && computerState.get.mac.isDefined) {
+                        @if(computerState.isDefined && computerState.get._1.mac.isDefined) {
                             <li>
-                                <p class="dropdown-text">MAC: @computerState.get.mac.get</p>
+                                <p class="dropdown-text">MAC: @computerState.get._1.mac.get</p>
                             </li>
                         }
                         <li>
                             <p class="dropdown-text">IP: @computer.ip</p>
                         </li>
-                        @if(computerState.isDefined && computerState.get.operatingSystem.isDefined) {
+                        @if(computerState.isDefined && computerState.get._1.operatingSystem.isDefined) {
                             <li>
-                                <p class="dropdown-text">OS: @computerState.get.operatingSystem.get</p>
+                                <p class="dropdown-text">OS: @computerState.get._1.operatingSystem.get</p>
                             </li>
                         }
                         @if(isAdmin) {
@@ -50,6 +52,7 @@
                                 @messages("edit")</a></li>
                             <li><a href="@adminroutes.ComputerController.delete(computer.ip)" class="btn btn-warning">
                                 @messages("delete")</a></li>
+                            <li>@messages("user.connectedusers") @computerState.get._2.length</li>
                         }
                     </ul>
                 </div>

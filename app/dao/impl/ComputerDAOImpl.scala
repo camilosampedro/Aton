@@ -82,5 +82,9 @@ class ComputerDAOImpl @Inject()
   override def listAll: Future[Seq[(Computer, Option[ComputerState],Option[ConnectedUser])]] = db.run {
     computers.joinLeft(computerStates).on(_.ip === _.computerIp).joinLeft(connectedUsers).on((x,y)=>x._2.map(_.computerIp) === y.computerStateComputerIp && x._2.map(_.registeredDate) === y.computerStateRegisteredDate).map(x=>(x._1._1,x._1._2,x._2)).result
   }
+
+  override def listAllSimple: Future[Seq[Computer]] = db.run{
+    computers.result
+  }
 }
 

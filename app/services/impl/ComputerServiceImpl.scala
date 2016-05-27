@@ -23,16 +23,28 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
     computerDAO.edit(computer)
   }
 
-  override def listAll: Future[Seq[(Computer, Option[ComputerState], Seq[ConnectedUser])]] = {
+  override def listAll: Future[Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]] = {
 
     computerDAO.listAll.map(computers =>
 
       computers
-        // Grouping the computers
+        // Grouping by the computer
         .groupBy(_._1)
-        .map{computer=>
-        (computer._1,computer._2.flatMap(_._2).sortBy(_.registeredDate.getTime).headOption)
-      }.toSeq
+
+        .map { groupedComputer =>
+          (groupedComputer._1, groupedComputer._2.map { computerStateWithUsers =>
+            (computerStateWithUsers._2, computerStateWithUsers._3)
+          }.groupBy(_._1).map { groupedState =>
+            (groupedState._1, groupedState._2.flatMap(_._2))
+          }.flatMap {
+            case (Some(computerstate), users) => Some((computerstate, users))
+            case _ => None
+          }.toSeq.sortBy(_._1.registeredDate.getTime).headOption)
+        }.toSeq
     )
+  }
+
+  override def listAllSimple: Future[Seq[Computer]] = {
+    computerDAO.listAllSimple
   }
 }

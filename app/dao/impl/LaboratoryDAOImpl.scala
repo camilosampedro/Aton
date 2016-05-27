@@ -4,8 +4,8 @@ import javax.inject.Inject
 
 import com.google.inject.Singleton
 import dao.{LaboratoryDAO, RoomDAO}
-import model.table.{ComputerStateTable, ComputerTable, LaboratoryTable, RoomTable}
-import model.{Computer, ComputerState, Laboratory, Room}
+import model.table._
+import model._
 import play.Logger
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits._
@@ -38,7 +38,10 @@ class LaboratoryDAOImpl @Inject()
   implicit val rooms = TableQuery[RoomTable]
   implicit val computers = TableQuery[ComputerTable]
   implicit val computerStates = TableQuery[ComputerStateTable]
-  implicit val computersAndRoomsQuadJoin = laboratories joinLeft rooms on {_.id === _.laboratoryId } joinLeft computers  on {(x,y)=>x._2.map(_.id)===y.roomId} joinLeft computerStates on {(x,y)=>x._2.map(_.ip)===y.computerIp}
+  implicit val connectedUsers = TableQuery[ConnectedUserTable]
+  implicit val computersAndRoomsPentaJoin = {
+    laboratories joinLeft rooms on {_.id === _.laboratoryId } joinLeft computers  on {(x,y)=>x._2.map(_.id)===y.roomId} joinLeft computerStates on {(x,y)=>x._2.map(_.ip)===y.computerIp} joinLeft connectedUsers on {(x,y)=>x._2.map(_.computerIp)===y.computerStateComputerIp && x._2.map(_.registeredDate) === y.computerStateRegisteredDate}
+  }
 
   /**
     * Adiciona un laboratory
@@ -83,11 +86,11 @@ class LaboratoryDAOImpl @Inject()
     * @param id
     * @return
     */
-  override def getWithChildren(id: Long): Future[Seq[(Laboratory, Option[Room], (Option[Computer],Option[ComputerState]))]] = {
+  override def getWithChildren(id: Long): Future[Seq[(Laboratory, Option[Room], (Option[Computer],Option[ComputerState],Option[ConnectedUser]))]] = {
     db.run {
-      computersAndRoomsQuadJoin
-        .filter(_._1._1._1.id === id)
-        .map(x => (x._1._1._1, x._1._1._2, (x._1._2,x._2)))
+      computersAndRoomsPentaJoin
+        .filter(_._1._1._1._1.id === id)
+        .map(x => (x._1._1._1._1, x._1._1._1._2, (x._1._1._2,x._1._2,x._2)))
         .result
     }
   }

@@ -110,7 +110,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   }
 
 
-  override def check(computer: Computer, optionalComputerState: Option[ComputerState])(implicit username: String): (ComputerState, Seq[ConnectedUser]) = {
+  override def check(computer: Computer)(implicit username: String): (ComputerState, Seq[ConnectedUser]) = {
     //play.Logger.debug(s"""Checking the $computer's state""")
     //play.Logger.debug(s"""Checking if $computer's on""")
     try{
