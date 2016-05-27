@@ -83,12 +83,13 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
         } else {
           jassh.SSH.shell(settings) { ssh =>
             def executeWhile(commands: List[String], result: (String, Int)): (String,Int) ={
-              (result,commands) match {
+              val newResult = (result._1.trim,result._2)
+              (newResult,commands) match {
                 case ((_,i),List()) => play.Logger.debug("Empty")
                   ("",i)
                 case ((s,i),_) if s!="" => play.Logger.debug("Result: " + s)
                   (s,i)
-                case (_,command::restOfCommands) => play.Logger.debug(s"""trying: $command""")
+                case (_,command::restOfCommands) => play.Logger.debug(s"""trying: $command | $restOfCommands""")
                   executeWhile(restOfCommands,ssh.executeWithStatus(command))
                 case _ => play.Logger.error("There was an error")
                   ("",1)
@@ -176,7 +177,6 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     } catch {
       case e: Exception => play.Logger.error(s"There was an error checking $computer's state")
         (ComputerState(computer.ip, now, NotConnected().id, None, None), Seq.empty)
-
     }
 
   }
