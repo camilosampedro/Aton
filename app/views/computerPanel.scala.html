@@ -1,7 +1,7 @@
 @import controllers.admin.{routes => adminroutes}
 @import model.{Computer, ComputerState}
 @import model.ConnectedUser
-@(computer: Computer, computerState: Option[(ComputerState,Seq[ConnectedUser])], isAdmin: Boolean)(implicit messages: Messages)
+@(computer: Computer, computerState: Option[(ComputerState, Seq[ConnectedUser])], isAdmin: Boolean)(implicit messages: Messages)
 <div class="col-md-2 panel-inicio">
 
     <div class="panel panel-@{
@@ -35,9 +35,20 @@
                                 <p class="dropdown-text">MAC: @computerState.get._1.mac.get</p>
                             </li>
                         }
-                        <li>
-                            <p class="dropdown-text">IP: @computer.ip</p>
-                        </li>
+                    <li>
+                        <p class="dropdown-text">IP: @computer.ip</p>
+                    </li>
+                        @if(computerState.isDefined) {
+                            <li>
+                                <p class="dropdown-text">@{messages("computer.state")} @{computerState.get._1.state match {
+                                        case 1 if computerState.get._2.nonEmpty => messages("computer.occupied")
+                                        case 1 if computerState.get._2.isEmpty => messages("computer.available")
+                                        case 2 => messages("computer.notconnected")
+                                        case _ => messages("computer.error")
+                                    }
+                                }</p>
+                            </li>
+                        }
                         @if(computerState.isDefined && computerState.get._1.operatingSystem.isDefined) {
                             <li>
                                 <p class="dropdown-text">OS: @computerState.get._1.operatingSystem.get</p>
@@ -49,10 +60,12 @@
                                 <button type="button" class="btn btn-info commandboxbutton" id="@computer.ip">@messages("computer.sendCommand")</button>
                             </li>
                             <li><a href="@adminroutes.ComputerController.editForm(computer.ip)" class="btn btn-danger">
-                                @messages("edit")</a></li>
+                            @messages("edit")</a></li>
                             <li><a href="@adminroutes.ComputerController.delete(computer.ip)" class="btn btn-warning">
-                                @messages("delete")</a></li>
-                            @if(computerState.isDefined){<li>@messages("user.connectedusers") @computerState.get._2.length</li>}
+                            @messages("delete")</a></li>
+                            @if(computerState.isDefined) {
+                                <li>@messages("user.connectedusers") @computerState.get._2.length</li>
+                            }
                         }
                     </ul>
                 </div>

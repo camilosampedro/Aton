@@ -11,15 +11,17 @@
                 <div class="row"><p>@messages("computer.executeCommandBody")</p></div>
 
                 <div class="row">
-                    <form id="commandform" method="post">
+                    <form action="" id="commandform" method="post">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="@messages("sshorder.command")">
+                            <span class="input-group-addon">
+                                <input id="sshorder_superuser" name="sshorder.superuser" type="checkbox" aria-label="@messages("sshorder.superuser")">
+                            </span>
+                            <input id="sshorder_command" name="sshorder.command" type="text" class="form-control" placeholder="@messages("sshorder.command")">
                             <span class="input-group-btn">
-                                <button class="btn btn-secondary" type="button">@messages("computer.sendCommand")</button>
+                                <button class="btn btn-secondary" type="submit">@messages("computer.sendCommand")</button>
                             </span>
                         </div>
                     </form>
-
                 </div>
                 <div class="row">
                     <a id="shutdown" class="btn btn-danger" href="" onclick="return confirm(@messages("computer.shutdown.confirm"))">@messages("computer.shutdown")</a>

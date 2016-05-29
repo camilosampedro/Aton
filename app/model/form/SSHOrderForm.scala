@@ -10,9 +10,8 @@ import play.api.data.Forms._
 object SSHOrderForm {
   val form = Form(
     mapping(
-      "superUser" -> boolean,
-      "interrupt" -> boolean,
-      "command" -> nonEmptyText
+      "sshorder.superuser" -> boolean,
+      "sshorder.command" -> nonEmptyText
     )(SSHOrderFormData.apply)(SSHOrderFormData.unapply)
   )
 }

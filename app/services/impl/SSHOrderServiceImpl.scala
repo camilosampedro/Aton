@@ -1,10 +1,11 @@
 package services.impl
 
+import java.io.{BufferedReader, InputStreamReader}
 import java.sql.Timestamp
 import java.util.Calendar
 
 import com.google.inject.{Inject, Singleton}
-import com.jcraft.jsch.{JSch, JSchException}
+import com.jcraft.jsch.{ChannelExec, JSch, JSchException}
 import dao.{SSHOrderDAO, SSHOrderToComputerDAO}
 import fr.janalyse.ssh.{Expect, SSHCommand, SSHOptions}
 import model._
@@ -15,6 +16,7 @@ import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.concurrent.duration._
+import scala.sys.process.processInternal.IOException
 
 /**
   * Created by camilo on 14/05/16.
@@ -56,7 +58,6 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   }
 
 
-
   def executeUntilResult(computer: Computer, sshOrders: Seq[SSHOrder]): (String, Int) = {
     play.Logger.debug(s"""Executing: $sshOrders into: $computer""")
     val joinedSSHOrder = sshOrders.headOption match {
@@ -82,17 +83,17 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
           //jassh.SSH.once(settings)(_.executeWithStatus("sudo " + sshOrder.command))
         } else {
           jassh.SSH.once(settings) { ssh =>
-            var (result,exitStatus) = ("",1)
+            var (result, exitStatus) = ("", 1)
             val commands = sshOrders.map(_.command)
             var i = 0
-            while(i<commands.size && result == "" && exitStatus != 0) {
+            while (i < commands.size && result == "" && exitStatus != 0) {
               val command = commands(i)
-              val (newResult,newExit) = ssh.executeWithStatus(SSHCommand.stringToCommand(command))
-              result=newResult
+              val (newResult, newExit) = ssh.executeWithStatus(SSHCommand.stringToCommand(command))
+              result = newResult
               exitStatus = newExit
               i += 1
             }
-            (result,exitStatus)
+            (result, exitStatus)
           }
         }
         val resultSSHOrder = SSHOrderToComputer(computer.ip, id, now, Some(result), Some(exitCode))
@@ -114,7 +115,11 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     try {
       val (result, a) = executeUntilResult(computer, orders.map(new SSHOrder(now, _, username)))
       //play.Logger.debug(s"""Result: $result""")
-      if (result != "") {Some(result)} else {None}
+      if (result != "") {
+        Some(result)
+      } else {
+        None
+      }
     } catch {
       case e: JSchException => None
       case e: Exception => play.Logger.error("An error occurred while looking for computer's mac: " + computer, e)
@@ -214,14 +219,62 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   }
 
   private def executeWithSudoWorkaround(sshOrder: SSHOrder, settings: SSHOptions) = {
-    val jsch = new JSch()
-    val sshSession = jsch.getSession(settings.username, settings.host, settings.port)
-    sshSession.setConfig("StrictHostKeyChecking", "no")
+
+    val command: String = sshOrder.command.split(" ") match {
+      case first::rest if first=="sudo"=> (first::rest).mkString(" ")
+      case first::rest => ("sudo"::first::rest).mkString(" ")
+      case e => ""
+    }
     settings.password.password match {
-      case Some(password) => sshSession.setPassword(password)
+      case Some(password) =>
+        val jsch = new JSch()
+        val sshSession = jsch.getSession(settings.username, settings.host, settings.port)
+        sshSession.setConfig("StrictHostKeyChecking", "no")
+        sshSession.setPassword(password)
         sshSession.connect()
+        val channel: ChannelExec = sshSession.openChannel("exec").asInstanceOf[ChannelExec]
+        val (result, exitCode) = try {
+          val stream = channel.getInputStream
+          val out = channel.getOutputStream
+          channel.setCommand(sshOrder.command)
+          channel.connect()
+          out.write((password + "\n").getBytes())
+          out.flush()
+          if (sshOrder.interrupt) {
+            Thread.sleep(1000)
+            out.write("~.\n".getBytes())
+            out.flush()
+            ("Interrupted succesfully", 0)
+          } else {
+            val reader = new BufferedReader(new InputStreamReader(stream))
+            val lines = Stream.continually(reader.readLine()).takeWhile(_ != null)
+            (lines.mkString("\n"), 0)
+          }
+        } catch {
+          case e: IOException =>
+            play.Logger.error("An exception occurred while creating stream executing a sudo action", e)
+            ("Error, check aton log", 1)
+          case e: JSchException =>
+            play.Logger.error("SSH Exception ocurred while executing ssh sudo action", e)
+            ("Error, check aton log", 1)
+          case e: Exception =>
+            play.Logger.error("Something unexpected happened executing with sudo", e)
+            ("Error, check aton log", 1)
+        }
+        val exitStatus = channel.getExitStatus
+        if (channel != null) {
+          channel.disconnect()
+        }
+        if (sshSession != null) {
+          sshSession.disconnect()
+        }
+        (result, exitStatus)
       case _ =>
     }
 
+  }
+
+  override def execute(computer: Computer, superUser: Boolean, command: String)(implicit username: String): (String, Int) = {
+    execute(computer, new SSHOrder(now, superUser, false, command, username))
   }
 }

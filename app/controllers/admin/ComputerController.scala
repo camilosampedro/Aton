@@ -4,10 +4,10 @@ import com.google.inject.Inject
 import controllers.{AuthConfigImpl, routes => normalroutes}
 import dao.{ComputerDAO, RoomDAO, UserDAO}
 import jp.t2v.lab.play2.auth.AuthElement
-import model.Computer
+import model.{Computer, SSHOrder}
 import model.Role._
 import model.form.data.{ComputerFormData, LoginFormData}
-import model.form.ComputerForm
+import model.form.{ComputerForm, SSHOrderForm}
 import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
@@ -76,7 +76,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
           Logger.debug("Adding a new computer: " + newComputer)
           computerService.add(newComputer)
         }.toSeq
-        Future.sequence(futures).map( res => Redirect(normalroutes.HomeController.home()))
+        Future.sequence(futures).map(res => Redirect(normalroutes.HomeController.home()))
       }
     )
   }
@@ -162,6 +162,24 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
           }
         case _ => NotImplemented(index(messagesApi("computer.notFound"), notImplemented(messagesApi("computer.notFoundMessage"))))
       }
+  }
+
+  def sendCommand(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+    implicit request =>
+      implicit val username = Some(loggedIn.username)
+      implicit val user = loggedIn.username
+      SSHOrderForm.form.bindFromRequest.fold(
+        errorForm => {
+          Future.successful(BadRequest(index(messagesApi("sshorder.formerror"),notImplemented(messagesApi("sshorder.notimplemented")))))
+        },
+        data => {
+          computerDAO.get(ip).map {
+            case Some(computer) => val (result,exitstatus) = sSHOrderService.execute(computer, data.superUser, data.command)
+              Ok(index(messagesApi("sshorder.executed"),notImplemented(messagesApi("sshorder.resulttext",result,exitstatus))))
+            case _ => BadRequest(index(messagesApi("computer.notfound"),notImplemented(messagesApi("computer.notfound"))))
+          }
+        }
+      )
   }
 
 }

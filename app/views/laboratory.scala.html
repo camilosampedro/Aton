@@ -2,7 +2,8 @@
 @import model.{Computer, ComputerState, Laboratory, Room}
 @import model.ConnectedUser
 @(laboratory: Laboratory, roomsWithComputers: Map[Option[Room], Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]])(implicit messages: Messages, isAdmin: Boolean)
-<h1>@messages("laboratory").capitalize @laboratory.name</h1>
+
+        <h1>@messages("laboratory").capitalize @laboratory.name</h1>
 @if(roomsWithComputers.nonEmpty) {
     @for((room, computers) <- roomsWithComputers if room.isDefined) {
         @roomPanel(room.get, computers)
@@ -14,8 +15,7 @@
             <a href="@adminroutes.ComputerController.add" class="btn btn-default " role="button">
             @messages("computer.add")</a>
         </div>
-            @commandPanel()
-
+        @commandPanel()
     }
 
 } else {

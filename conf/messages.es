@@ -12,6 +12,11 @@ computer.executeCommandBody=Ejecutar un comando SSH dentro del equipo
 computer.shutdown=Apagar
 computer.upgrade=Actualizar
 computer.unfreeze=Descongelar
+computer.state=Estado:
+computer.occupied=Ocupado
+computer.available=Disponible
+computer.error=Error
+computer.notconnected=No conectado
 # Header texts
 header.editUser=Editar usuario
 # Menu texts
@@ -67,4 +72,5 @@ sshorder.command=Comando
 sshorder.sentdatetime=Fecha de envío
 sshorder.superuser=Como super usuario
 sshorder.webuser=Usuario
+sshorder.resulttext=Pero el resultado de ejecutar el comando fue "{0}" con código de salida {1}
 

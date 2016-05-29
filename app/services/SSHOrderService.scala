@@ -10,6 +10,7 @@ import services.impl.SSHOrderServiceImpl
   */
 @ImplementedBy(classOf[SSHOrderServiceImpl])
 trait SSHOrderService {
+  def execute(computer: Computer, superUser: Boolean, command: String)(implicit username:String): (String,Int)
 
   def whoAreUsing(computer: Computer)(implicit username: String): Seq[String]
 
