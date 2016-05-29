@@ -1,6 +1,6 @@
 package services.impl
 
-import java.io.{BufferedReader, InputStreamReader}
+import java.io.{BufferedReader, IOException, InputStreamReader}
 import java.sql.Timestamp
 import java.util.Calendar
 
@@ -16,7 +16,6 @@ import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.concurrent.duration._
-import scala.sys.process.processInternal.IOException
 
 /**
   * Created by camilo on 14/05/16.
@@ -28,23 +27,20 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   @throws(classOf[JSchException])
   override def execute(computer: Computer, sshOrder: SSHOrder): (String, Int) = {
     play.Logger.debug(s"""Executing: $sshOrder into: $computer""")
-    val future = sSHOrderDAO.add(sshOrder).map {
-      case Some(id) =>
-        val settings = generateSSHSettings(computer, sshOrder)
-        val (result, exitCode) = if (sshOrder.superUser) {
-          executeWithSudoWorkaround(sshOrder, settings)
-          jassh.SSH.shell(settings) { ssh =>
-            /*ssh.executeWithExpects("sudo -S su", List(new Expect(_.contains("password"), settings.password.password.getOrElse(""))))
-            ssh.become("root", settings.password.password)*/
+    val newSSHOrder = if(sshOrder.superUser){
+      sshOrder.copy(command = sudofy(sshOrder.command))
+    } else {
+      sshOrder
+    }
 
-            ssh.executeWithExpects("""SUDO_PROMPT="prompt" sudo -S su -""", List(new Expect(_.endsWith("prompt"), settings.password.password.getOrElse(""))))
-            val (result, exitCode) = ssh.executeWithStatus(sshOrder.command)
-            ssh.execute("exit")
-            (result, exitCode)
-          }
+    val future = sSHOrderDAO.add(newSSHOrder).map {
+      case Some(id) =>
+        val settings = generateSSHSettings(computer, newSSHOrder)
+        val (result, exitCode) = if (newSSHOrder.superUser) {
+          executeWithSudoWorkaround(newSSHOrder, settings)
           //jassh.SSH.once(settings)(_.executeWithStatus("sudo " + sshOrder.command))
         } else {
-          jassh.SSH.once(settings)(_.executeWithStatus(sshOrder.command))
+          jassh.SSH.once(settings)(_.executeWithStatus(newSSHOrder.command))
         }
         //play.Logger.debug("ID: " + id)
         val resultSSHOrder = SSHOrderToComputer(computer.ip, id, now, Some(result), Some(exitCode))
@@ -53,7 +49,6 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
       case _ =>
         ("", 0)
     }
-
     Await.result(future, Duration.Inf)
   }
 
@@ -108,7 +103,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   override def getMac(computer: Computer, operatingSystem: Option[String])(implicit username: String): Option[String] = {
     //play.Logger.debug(s"""Looking for mac of "${computer.ip}"""")
     val orders = operatingSystem match {
-      case Some(os) => macOrders(os)
+      case Some(os) => macOrders(translateOS(os))
       case _ => macOrders("")
     }
     //play.Logger.debug(s"""Trying "${order}"""")
@@ -130,15 +125,16 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
 
   @throws[JSchException]
   override def shutdown(computer: Computer)(implicit username: String): Boolean = {
-    val (_, _) = execute(computer, new SSHOrder(now, superUser = false, interrupt = true, command = shutdownOrder, username = username))
+    val (_, _) = execute(computer, new SSHOrder(now, superUser = true, interrupt = false, command = shutdownOrder, username = username))
     true
   }
 
   private def now = new Timestamp(Calendar.getInstance().getTime.getTime)
 
   @throws[JSchException]
-  override def upgrade(computer: Computer)(implicit username: String): (String, Boolean) = {
-    val (result, exitCode) = execute(computer, new SSHOrder(now, superUser = false, interrupt = true, command = upgradeOrder, username = username))
+  override def upgrade(computer: Computer,computerState: ComputerState)(implicit username: String): (String, Boolean) = {
+    val order = upgradeOrder(translateOS(computerState.operatingSystem.getOrElse("")))
+    val (result, exitCode) = execute(computer, new SSHOrder(now, superUser = true, interrupt = false, command = order, username = username))
     if (exitCode == 0) {
       ("", true)
     } else {
@@ -205,7 +201,6 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     }
   }
 
-
   private def generateSSHSettings(computer: Computer, sSHOrder: SSHOrder) = SSHOptions(host = computer.ip, username = computer.SSHUser, password = computer.SSHPassword, connectTimeout = 10000, prompt = Some("prompt"))
 
   @throws[JSchException]
@@ -218,13 +213,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     }
   }
 
-  private def executeWithSudoWorkaround(sshOrder: SSHOrder, settings: SSHOptions) = {
-
-    val command: String = sshOrder.command.split(" ") match {
-      case first::rest if first=="sudo"=> (first::rest).mkString(" ")
-      case first::rest => ("sudo"::first::rest).mkString(" ")
-      case e => ""
-    }
+  private def executeWithSudoWorkaround(sshOrder: SSHOrder, settings: SSHOptions): (String,Int) = {
+    play.Logger.debug(s"""Trying sudo workaround with $sshOrder""")
     settings.password.password match {
       case Some(password) =>
         val jsch = new JSch()
@@ -232,22 +222,36 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
         sshSession.setConfig("StrictHostKeyChecking", "no")
         sshSession.setPassword(password)
         sshSession.connect()
+        play.Logger.debug("Connected!")
         val channel: ChannelExec = sshSession.openChannel("exec").asInstanceOf[ChannelExec]
+        play.Logger.debug("Channel created")
         val (result, exitCode) = try {
           val stream = channel.getInputStream
           val out = channel.getOutputStream
+          val err = channel.getErrStream
           channel.setCommand(sshOrder.command)
+          play.Logger.debug("Command sent")
           channel.connect()
+          play.Logger.debug("Channel connected")
           out.write((password + "\n").getBytes())
+          play.Logger.debug("Wrote seccond password")
           out.flush()
+          play.Logger.debug("Everything sent")
           if (sshOrder.interrupt) {
             Thread.sleep(1000)
             out.write("~.\n".getBytes())
             out.flush()
+            play.Logger.debug("Interrupted succesfully")
             ("Interrupted succesfully", 0)
           } else {
-            val reader = new BufferedReader(new InputStreamReader(stream))
-            val lines = Stream.continually(reader.readLine()).takeWhile(_ != null)
+            play.Logger.debug("Reading output")
+            val readerInput = new BufferedReader(new InputStreamReader(stream))
+            val readerErr = new BufferedReader(new InputStreamReader(err))
+            val lines = Stream.continually(readerInput.readLine()).takeWhile{ line=>
+                play.Logger.debug(line)
+                line != null
+            }.toList:::Stream.continually(readerErr.readLine()).takeWhile(_ != null).toList
+            play.Logger.debug(s"Lines gotten: $lines")
             (lines.mkString("\n"), 0)
           }
         } catch {
@@ -262,19 +266,28 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
             ("Error, check aton log", 1)
         }
         val exitStatus = channel.getExitStatus
+        play.Logger.debug(s"Exit status: $exitStatus")
         if (channel != null) {
           channel.disconnect()
+          play.Logger.debug("Channel disconnected")
         }
         if (sshSession != null) {
+          play.Logger.debug("Session disconnected")
           sshSession.disconnect()
         }
         (result, exitStatus)
       case _ =>
+        play.Logger.error("There is not a password for executing")
+        ("There is not a password for executing",1)
     }
 
   }
 
   override def execute(computer: Computer, superUser: Boolean, command: String)(implicit username: String): (String, Int) = {
     execute(computer, new SSHOrder(now, superUser, false, command, username))
+  }
+
+  override def blockPage(computer: Computer, page: String)(implicit username: String): (String,Int) = {
+    execute(computer, new SSHOrder(now,superUser = true,interrupt= false,blockPageOrder(page),username ))
   }
 }

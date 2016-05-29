@@ -86,5 +86,9 @@ class ComputerDAOImpl @Inject()
   override def listAllSimple: Future[Seq[Computer]] = db.run{
     computers.result
   }
+
+  override def getWithStatus(ip: String): Future[Seq[(Computer, Option[ComputerState])]] = db.run{
+    computers.joinLeft(computerStates).on(_.ip === _.computerIp).filter(_._1.ip === ip).result
+  }
 }
 

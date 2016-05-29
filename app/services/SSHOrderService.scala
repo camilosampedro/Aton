@@ -10,6 +10,8 @@ import services.impl.SSHOrderServiceImpl
   */
 @ImplementedBy(classOf[SSHOrderServiceImpl])
 trait SSHOrderService {
+  def blockPage(computer: Computer, page: String)(implicit username: String): (String,Int)
+
   def execute(computer: Computer, superUser: Boolean, command: String)(implicit username:String): (String,Int)
 
   def whoAreUsing(computer: Computer)(implicit username: String): Seq[String]
@@ -20,7 +22,7 @@ trait SSHOrderService {
 
   def unfreeze(computer: Computer)(implicit username:String): (String,Boolean)
 
-  def upgrade(computer: Computer)(implicit username:String): (String,Boolean)
+  def upgrade(computer: Computer,computerState: ComputerState)(implicit username:String): (String,Boolean)
 
   def shutdown(computer: Computer)(implicit username: String): Boolean
 

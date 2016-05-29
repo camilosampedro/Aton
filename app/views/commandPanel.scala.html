@@ -14,11 +14,21 @@
                     <form action="" id="commandform" method="post">
                         <div class="input-group">
                             <span class="input-group-addon">
-                                <input id="sshorder_superuser" name="sshorder.superuser" type="checkbox" aria-label="@messages("sshorder.superuser")">
+                                <input id="sshorder_superuser" name="sshorder.superuser" type="checkbox"/>
                             </span>
                             <input id="sshorder_command" name="sshorder.command" type="text" class="form-control" placeholder="@messages("sshorder.command")">
                             <span class="input-group-btn">
-                                <button class="btn btn-secondary" type="submit">@messages("computer.sendCommand")</button>
+                                <button id="sendcommandbutton" class="btn btn-default" type="submit">@messages("computer.sendCommand")</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
+                    <form action="" id="blockpageform" method="post">
+                        <div class="input-group">
+                            <input id="page_url" name="page.url" type="text" class="form-control" placeholder="@messages("page.urlplaceholder")"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">@messages("page.block")</button>
                             </span>
                         </div>
                     </form>
