@@ -18,6 +18,7 @@ $(document).ready(function () {
             return true;
         });
         commandBox.find(".modal-body #blockpageform").attr("action", "/computer/blockpage/" + event.target.id);
+        commandBox.find(".modal-body #sendmessageform").attr("action", "/computer/sendmessage/" + event.target.id);
         commandBox.modal('show');
     })
 });

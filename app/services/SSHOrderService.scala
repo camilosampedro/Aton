@@ -10,6 +10,8 @@ import services.impl.SSHOrderServiceImpl
   */
 @ImplementedBy(classOf[SSHOrderServiceImpl])
 trait SSHOrderService {
+  def sendMessage(computer: Computer, message: String)(implicit username: String):(String, Int)
+
   def blockPage(computer: Computer, page: String)(implicit username: String): (String,Int)
 
   def execute(computer: Computer, superUser: Boolean, command: String)(implicit username:String): (String,Int)

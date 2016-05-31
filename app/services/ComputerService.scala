@@ -12,9 +12,8 @@ import scala.concurrent.Future
 @ImplementedBy(classOf[ComputerServiceImpl])
 trait ComputerService {
   def listAllSimple: Future[Seq[Computer]]
-
   def listAll: Future[Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]]
-
   def add(computer: Computer): Future[String]
   def edit(computer: Computer): Future[Int]
+  def get(ip: String): Future[Option[(Computer, Option[ComputerState], Seq[ConnectedUser])]]
 }

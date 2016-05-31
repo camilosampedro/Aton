@@ -38,6 +38,7 @@ GET         /computer/upgrade/:ip            controllers.admin.ComputerControlle
 GET         /computer/unfreeze/:ip           controllers.admin.ComputerController.unfreeze(ip: String)
 POST        /computer/sendcommand/:ip        controllers.admin.ComputerController.sendCommand(ip: String)
 POST        /computer/blockpage/:ip          controllers.admin.ComputerController.blockPage(ip: String)
+POST        /computer/sendmessage/:op        controllers.admin.ComputerController.sendMessage(ip: String)
 
 # SSH Order
 GET         /sshorders                       controllers.admin.SSHOrderController.listAll

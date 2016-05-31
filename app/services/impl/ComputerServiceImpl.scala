@@ -13,6 +13,8 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDAO: ComputerDAO)(implicit executionContext: ExecutionContext) extends ComputerService {
 
+
+
   override def add(computer: Computer): Future[String] = {
     play.Logger.debug("Adding computer")
     computerDAO.add(computer)
@@ -46,5 +48,13 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
 
   override def listAllSimple: Future[Seq[Computer]] = {
     computerDAO.listAllSimple.map(computers => computers.sortBy(_.ip))
+  }
+
+  override def get(ip: String): Future[Option[(Computer, Option[ComputerState], Seq[ConnectedUser])]] = computerDAO.getWithStatus(ip).map{computers=>
+    val x: Map[Computer, Seq[(Option[ComputerState], Seq[ConnectedUser])]] = computers.groupBy(_._1).map{ computerWithStatus=>
+      (computerWithStatus._1,computerWithStatus._2.map(x=>(x._2,x._3)).groupBy(_._1).map{status=>
+        (status._1,status._2.flatMap(_._2).toSeq)
+      }.headOption)
+    }
   }
 }

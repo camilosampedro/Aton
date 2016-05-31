@@ -53,9 +53,9 @@ object SSHFunction {
   def COMPUTER_WAKEUP_ORDER(sufijoIPSala: Int, mac: String) = "wakeonlan -i 192.168." + sufijoIPSala + ".255 " + mac
 
 
-  def NOTIFICACION_ORDER(usuario: String, mensaje: String) = GENERATE_ORDER_FOR_USER(usuario, "zenity --info --title=\"Mensaje desde Aton\" --text=\"" + mensaje + "\"")
+  def notificationOrder(user: String, message: String) = generateOrderForUser(user, s"""zenity --info --title="Mensaje desde Aton" --text="$message"""")
 
-  def GENERATE_ORDER_FOR_USER(usuario: String, orden: String) = "sudo -u " + usuario + " DISPLAY=:0.0 " + orden
+  def generateOrderForUser(usuario: String, orden: String) = "sudo -u " + usuario + " DISPLAY=:0.0 " + orden
 
   def sudofy(comando: String) = "sudo -S -p '' -- sh -c '" + comando.replace("$", "\\$").replace("'", "\"") + "'"
 }

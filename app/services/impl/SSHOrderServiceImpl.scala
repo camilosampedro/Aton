@@ -290,4 +290,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   override def blockPage(computer: Computer, page: String)(implicit username: String): (String,Int) = {
     execute(computer, new SSHOrder(now,superUser = true,interrupt= false,blockPageOrder(page),username ))
   }
+
+  override def sendMessage(computer: Computer, message: String)(implicit username: String): (String, Int) = {
+    execute(computer, new SSHOrder(now,superUser = false, interrupt= false, ))
+  }
 }

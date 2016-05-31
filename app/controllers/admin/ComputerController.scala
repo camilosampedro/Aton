@@ -8,7 +8,7 @@ import jp.t2v.lab.play2.auth.AuthElement
 import model.{Computer, ComputerState, SSHOrder}
 import model.Role._
 import model.form.data.{ComputerFormData, LoginFormData}
-import model.form.{BlockPageForm, ComputerForm, SSHOrderForm}
+import model.form.{BlockPageForm, ComputerForm, MessageForm, SSHOrderForm}
 import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
@@ -217,5 +217,28 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
         }
       )
   }
+
+  def sendmessage(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+    implicit request =>
+      implicit val username = Some(loggedIn.username)
+      implicit val user = loggedIn.username
+      MessageForm.form.bindFromRequest.fold(
+        errorForm => {
+          play.Logger.error(errorForm.toString)
+          play.Logger.error(errorForm.errors.toString)
+          Future.successful(BadRequest(index(messagesApi("message.formerror"), notImplemented(messagesApi("page.notimplemented")))))
+        },
+        data => {
+          computerDAO.getWithStatus(ip).map {
+            case Some((computer,_,)) =>
+              val (result, exitstatus) = sSHOrderService.sendMessage(computer,data.message)
+              Ok(index(messagesApi("message.done"), notImplemented(messagesApi("message.resulttext", result, exitstatus))))
+            case _ => BadRequest(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
+          }
+        }
+      )
+  }
+
+
 
 }

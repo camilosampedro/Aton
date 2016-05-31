@@ -32,7 +32,7 @@ trait ComputerDAO {
     */
   def get(ip: String): Future[Option[Computer]]
 
-  def getWithStatus(ip: String): Future[Seq[(Computer, Option[ComputerState])]]
+  def getWithStatus(ip: String): Future[Seq[(Computer, Option[ComputerState], Option[ConnectedUser])]]
 
   /**
     * Elimina un inicio de la base de datos

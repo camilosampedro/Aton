@@ -34,6 +34,16 @@
                     </form>
                 </div>
                 <div class="row">
+                    <form action="" id="sendmessageform" method="post">
+                        <div class="input-group">
+                            <input id="message_message" name="message.message" type="text" class="form-control" placeholder="@messages("computer.messageplaceholder")"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">@messages("computer.sendmessage")</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
                     <a id="shutdown" class="btn btn-danger" href="" onclick="return confirm(@messages("computer.shutdown.confirm"))">@messages("computer.shutdown")</a>
                     <a id="upgrade" class="btn btn-info" href="" onclick="return confirm(@messages("computer.upgrade.confirm"))">@messages("computer.upgrade")</a>
                     <a id="unfreeze" class="btn btn-info" href="" onclick="return confirm(@messages("computer.unfreeze.confirm"))">@messages("computer.unfreeze")</a>
