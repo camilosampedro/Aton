@@ -32,7 +32,7 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
         .groupBy(_._1)
 
         .map { groupedComputer =>
-          (groupedComputer._1, groupedComputer._2.map { computerStateWithUsers =>
+          (groupedComputer._1.copy(SSHPassword = ""), groupedComputer._2.map { computerStateWithUsers =>
             (computerStateWithUsers._2, computerStateWithUsers._3)
           }.groupBy(_._1).map { groupedState =>
             (groupedState._1, groupedState._2.flatMap(_._2))
@@ -45,6 +45,6 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
   }
 
   override def listAllSimple: Future[Seq[Computer]] = {
-    computerDAO.listAllSimple.map(computers => computers.sortBy(_.ip))
+    computerDAO.listAllSimple.map(computers => computers.map(_.copy(SSHPassword = "")).sortBy(_.ip))
   }
 }

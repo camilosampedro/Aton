@@ -19,7 +19,6 @@ class ComputerChecker @Inject()(connectedUserDAO: ConnectedUserDAO, computerStat
     play.Logger.debug("Executing computer checker.")
     time {
       val task = computerService.listAllSimple.map { computers =>
-        play.Logger.debug(s"""$computers""")
         computers.map { computer =>
           play.Logger.debug("Checking: " + computer)
           sSHOrderService.check(computer)("Scheduled Checker")
@@ -45,7 +44,7 @@ class ComputerChecker @Inject()(connectedUserDAO: ConnectedUserDAO, computerStat
     val t0 = System.nanoTime()
     val result = block // call-by-name
     val t1 = System.nanoTime()
-    play.Logger.debug("Elapsed time: " + (t1 - t0) + "ns")
+    play.Logger.debug("Elapsed time: " + (t1 - t0)/ 60000000000L + "ns")
     result
   }
 }
