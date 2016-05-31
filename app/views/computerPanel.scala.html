@@ -29,6 +29,10 @@
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="icon ion-information-circled"></i> <span class="caret"></span>
                     </button>
+                    <label class="btn btn-primary">
+                        <input type="checkbox" autocomplete="off">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </label>
                     <ul class="dropdown-menu">
                         @if(computerState.isDefined && computerState.get._1.mac.isDefined) {
                             <li>
