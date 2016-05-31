@@ -291,7 +291,10 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     execute(computer, new SSHOrder(now,superUser = true,interrupt= false,blockPageOrder(page),username ))
   }
 
-  override def sendMessage(computer: Computer, message: String)(implicit username: String): (String, Int) = {
-    execute(computer, new SSHOrder(now,superUser = false, interrupt= false, ))
+  override def sendMessage(computer: Computer, message: String, users: Seq[ConnectedUser])(implicit username: String): (String, Int) = {
+    users.map{user=>
+      execute(computer, new SSHOrder(now,superUser = false, interrupt= false, notificationOrder(user.username,message),username))
+    }
+
   }
 }

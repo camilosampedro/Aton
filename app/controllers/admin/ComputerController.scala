@@ -229,9 +229,9 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
           Future.successful(BadRequest(index(messagesApi("message.formerror"), notImplemented(messagesApi("page.notimplemented")))))
         },
         data => {
-          computerDAO.getWithStatus(ip).map {
-            case Some((computer,_,)) =>
-              val (result, exitstatus) = sSHOrderService.sendMessage(computer,data.message)
+          computerService.get(ip).map {
+            case Some((computer,_,connectedUsers)) =>
+              val (result, exitstatus) = sSHOrderService.sendMessage(computer,data.message,connectedUsers)
               Ok(index(messagesApi("message.done"), notImplemented(messagesApi("message.resulttext", result, exitstatus))))
             case _ => BadRequest(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
           }
