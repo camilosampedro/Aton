@@ -1,6 +1,7 @@
 package controllers.admin
 
 import com.google.inject.Inject
+import com.jcraft.jsch.JSchException
 import controllers.{AuthConfigImpl, routes => normalroutes}
 import dao.{ComputerDAO, RoomDAO, UserDAO}
 import jp.t2v.lab.play2.auth.AuthElement
@@ -180,7 +181,14 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
         },
         data => {
           computerDAO.get(ip).map {
-            case Some(computer) => val (result, exitstatus) = sSHOrderService.execute(computer, data.superUser, data.command)
+
+            case Some(computer) =>
+              val (result, exitstatus) = try {
+                 sSHOrderService.execute(computer, data.superUser, data.command)
+              } catch {
+                case e: JSchException => (e.getCause,1)
+                case e: Exception => ("Error no esperado: " + e.getCause,1)
+              }
               Ok(index(messagesApi("sshorder.executed"), notImplemented(messagesApi("sshorder.resulttext", result, exitstatus))))
             case _ => BadRequest(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
           }
