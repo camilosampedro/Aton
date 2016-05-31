@@ -218,7 +218,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       )
   }
 
-  def sendmessage(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+  def sendMessage(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
