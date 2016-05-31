@@ -40,11 +40,11 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
             case (Some(computerstate), users) => Some((computerstate, users))
             case _ => None
           }.toSeq.sortBy(_._1.registeredDate.getTime).headOption)
-        }.toSeq
+        }.toSeq.sortBy(_._1.ip)
     )
   }
 
   override def listAllSimple: Future[Seq[Computer]] = {
-    computerDAO.listAllSimple
+    computerDAO.listAllSimple.map(computers => computers.sortBy(_.ip))
   }
 }
