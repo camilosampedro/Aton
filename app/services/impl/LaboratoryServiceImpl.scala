@@ -36,7 +36,7 @@ class LaboratoryServiceImpl @Inject()(laboratoryDAO: LaboratoryDAO)(implicit exe
                 .map { x =>
                   (x._1,x._2.groupBy(_._1).map{groupedState=>
                     (groupedState._1,groupedState._2.flatMap(_._2))
-                  }.toSeq.sortBy(_._1.registeredDate.getTime).headOption)
+                  }.toSeq.sortBy(_._1.registeredDate.getTime).reverse.headOption)
                 }.toSeq.sortBy(_._1.ip))
           }.filter {
             row => row._1.isDefined
