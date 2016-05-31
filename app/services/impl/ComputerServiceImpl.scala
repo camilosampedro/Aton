@@ -51,10 +51,12 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
   }
 
   override def get(ip: String): Future[Option[(Computer, Option[ComputerState], Seq[ConnectedUser])]] = computerDAO.getWithStatus(ip).map{computers=>
-    val x: Map[Computer, Seq[(Option[ComputerState], Seq[ConnectedUser])]] = computers.groupBy(_._1).map{ computerWithStatus=>
+    computers.groupBy(_._1).map{ computerWithStatus=>
       (computerWithStatus._1,computerWithStatus._2.map(x=>(x._2,x._3)).groupBy(_._1).map{status=>
-        (status._1,status._2.flatMap(_._2).toSeq)
-      }.headOption)
-    }
+        (status._1,status._2.flatMap(_._2))
+      }.head)
+    }.toSeq.map{triple=>
+      (triple._1,triple._2._1,triple._2._2)
+    }.headOption
   }
 }
