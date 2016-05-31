@@ -16,12 +16,12 @@ GET         /laboratory/admin                controllers.admin.LaboratoryControl
 GET         /laboratory/get/:id              controllers.LaboratoryController.get(id:Long)
 POST        /laboratory/edit/:id             controllers.admin.LaboratoryController.edit(id:Long)
 GET         /laboratory/edit/:id             controllers.admin.LaboratoryController.edit(id:Long)
-GET         /laboratory/add                  controllers.admin.LaboratoryController.addForm
+GET         /laboratory/add                  controllers.admin.LaboratoryController.addForm()
 POST        /laboratory/add                  controllers.admin.LaboratoryController.add
 GET         /laboratory/delete/:id           controllers.admin.LaboratoryController.delete(id:Long)
 
 # Room
-GET         /room/add                        controllers.admin.RoomController.addForm
+GET         /room/add                        controllers.admin.RoomController.addForm()
 POST        /room/add                        controllers.admin.RoomController.add
 GET         /room/edit/:roomId               controllers.admin.RoomController.editForm(roomId:Long)
 POST        /room/edit/:roomId               controllers.admin.RoomController.edit(roomId:Long)
@@ -29,7 +29,7 @@ GET         /room/delete/:roomId             controllers.admin.RoomController.de
 
 # Computer
 POST        /computer/add                    controllers.admin.ComputerController.add
-GET         /computer/add                    controllers.admin.ComputerController.addForm
+GET         /computer/add                    controllers.admin.ComputerController.addForm()
 GET         /computer/edit/:ip               controllers.admin.ComputerController.editForm(ip: String)
 POST        /computer/edit                   controllers.admin.ComputerController.edit
 GET         /computer/delete/:ip             controllers.admin.ComputerController.delete(ip: String)
@@ -44,14 +44,14 @@ GET         /sshorders                       controllers.admin.SSHOrderControlle
 GET         /sshorders/get/:id               controllers.admin.SSHOrderController.get(id: Long)
 GET         /sshorders/delete/:id            controllers.admin.SSHOrderController.delete(id: Long)
 
-# Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)
-
 # Suggestion
 GET         /suggestion                      controllers.SuggestionController.home
 
 # API
 GET         /api/laboratories                controllers.api.LaboratoryController.listAll()
 GET         /api/laboratory/:id              controllers.api.LaboratoryController.get(id: Long)
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)
 
 
