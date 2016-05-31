@@ -26,7 +26,7 @@ class HomeController @Inject()(userDAO: UserDAO, laboratoryDAO: LaboratoryDAO, v
   val logger = Logger("HomeController")
 
   play.Logger.debug("Computer Checker configured.")
-  actorSystem.scheduler.schedule(0.microseconds,5.minutes, computerChecker,"Execute")
+  actorSystem.scheduler.schedule(0.microseconds,10.minutes, computerChecker,"Execute")
 
   def home = AsyncStack { implicit request =>
     //play.Logger..debug("Logged user: " + loggedIn
