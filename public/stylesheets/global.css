@@ -241,3 +241,10 @@ a.mobile:active {
 .boton-login {
     text-align: right;
 }
+
+.btn span.glyphicon {
+    opacity: 0;
+}
+.btn.active span.glyphicon {
+    opacity: 1;
+}
