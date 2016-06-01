@@ -48,7 +48,7 @@ object SSHFunction {
   val REBOOT_ORDER = "shutdown -r now"
   val IP_OBTAINING_ORDER = "ifconfig eth0 2>/dev/null|awk '/Direc. inet:/ {print $2}'|sed 's/inet://'"
   val userListOrder = "who | cut -d' ' -f1 | sort | uniq"
-  def blockPageOrder(page: String) = s"""cp /etc/hosts{,.bak} && echo "127.0.0.1 $page" >> /etc/hosts && Added page"""
+  def blockPageOrder(page: String) = s"""cp /etc/hosts{,.bak} && echo "127.0.0.1 $page" >> /etc/hosts && echo "Added page" """
 
   def COMPUTER_WAKEUP_ORDER(sufijoIPSala: Int, mac: String) = "wakeonlan -i 192.168." + sufijoIPSala + ".255 " + mac
 
