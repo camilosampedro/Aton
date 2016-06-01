@@ -194,6 +194,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
         ex.getMessage match {
           case "Auth fail" => AuthFailed()
           case "timeout: socket is not established" => NotConnected()
+          case "Session.connect: java.net.SocketTimeoutException: Read timed out" => NotConnected()
+          case "java.net.NoRouteToHostException: No route to host" => NotConnected()
           case e => play.Logger.error(s"The error checking $computer was : " + e)
             UnknownError()
         }
