@@ -144,7 +144,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
           case Some((computer,Some(computerState))) =>
             val (result,success)=sSHOrderService.upgrade(computer,computerState)
             if(success) {
-              NotImplemented(index(messagesApi("computer.upgradesucceded"),notImplemented(messagesApi("computer.upgradesuccededbody"))))
+              NotImplemented(index(messagesApi("computer.upgradesucceeded"),notImplemented(messagesApi("computer.upgradesucceededbody"))))
             } else {
               NotImplemented(index(messagesApi("computer.upgrade.failed"), notImplemented(messagesApi("computer.upgrade.failed") + result)))
             }

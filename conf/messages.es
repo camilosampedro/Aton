@@ -11,12 +11,18 @@ computer.executeCommandTitle=Ejecutar comando
 computer.executeCommandBody=Ejecutar un comando SSH dentro del equipo
 computer.shutdown=Apagar
 computer.upgrade=Actualizar
+computer.upgradesucceeded=Actualización completada
+computer.upgradesucceededbody=¡Actualización completada con éxito!
 computer.unfreeze=Descongelar
 computer.state=Estado:
 computer.occupied=Ocupado
 computer.available=Disponible
 computer.error=Error
 computer.notconnected=No conectado
+computer.messageplaceholder=Mensaje
+computer.sendmessage=Enviar mensaje
+page.urlplaceholder=URL página
+page.block=Bloquear página
 # Header texts
 header.editUser=Editar usuario
 # Menu texts
