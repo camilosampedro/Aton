@@ -50,13 +50,13 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
     computerDAO.listAllSimple.map(computers => computers.sortBy(_.ip))
   }
 
-  override def get(ip: String): Future[Option[(Computer, Option[ComputerState], Seq[ConnectedUser])]] = computerDAO.getWithStatus(ip).map{computers=>
+  override def get(ip: String): Future[Option[(Computer, Option[(ComputerState,Seq[ConnectedUser])])]] = computerDAO.getWithStatus(ip).map{computers=>
     computers.groupBy(_._1).map{ computerWithStatus=>
       (computerWithStatus._1,computerWithStatus._2.map(x=>(x._2,x._3)).groupBy(_._1).map{status=>
         (status._1,status._2.flatMap(_._2))
-      }.head)
+      }.filter(_._1.isDefined).map(x=>(x._1.get,x._2)).toSeq.sortBy(_._1.registeredDate.getTime).reverse.headOption)
     }.toSeq.map{triple=>
-      (triple._1,triple._2._1,triple._2._2)
+      (triple._1,triple._2)
     }.headOption
   }
 }

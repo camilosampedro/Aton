@@ -230,9 +230,10 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
         },
         data => {
           computerService.get(ip).map {
-            case Some((computer,_,connectedUsers)) =>
+            case Some((computer,Some((_,connectedUsers)))) =>
               sSHOrderService.sendMessage(computer,data.message,connectedUsers)
               Ok(index(messagesApi("message.done"), notImplemented(messagesApi("message.resulttext"))))
+            case Some((computer,_)) => Ok(index(messagesApi("message.emptycomputer"), notImplemented(messagesApi("message.emptycomputerbody"))))
             case _ => BadRequest(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
           }
         }
