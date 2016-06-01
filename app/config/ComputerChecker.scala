@@ -44,6 +44,7 @@ class ComputerChecker @Inject()(connectedUserDAO: ConnectedUserDAO, computerStat
         Await.result(f, Duration.Inf)
       }
     } else {
+      isExecuting=false
       play.Logger.debug("Already executing computer checker. omiting")
     }
   }
