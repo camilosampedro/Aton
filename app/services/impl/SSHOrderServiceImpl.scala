@@ -291,9 +291,17 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     execute(computer, new SSHOrder(now,superUser = true,interrupt= false,blockPageOrder(page),username ))
   }
 
-  override def sendMessage(computer: Computer, message: String, users: Seq[ConnectedUser])(implicit username: String): (String, Int) = {
+  override def sendMessage(computer: Computer, message: String, users: Seq[ConnectedUser])(implicit username: String): Unit = {
+
     users.map{user=>
-      execute(computer, new SSHOrder(now,superUser = false, interrupt= false, notificationOrder(user.username,message),username))
+      try {
+        execute(computer, new SSHOrder(now,superUser = false, interrupt= false, notificationOrder(user.username,message),username))
+      } catch {
+        case e: JSchException => play.Logger.error(s"There was a SSH error sending messages to the $computer",e)
+          ("There was a SSH error sending messages",1)
+        case e: Exception =>play.Logger.error(s"There was a non SSH error sending messages to the $computer",e)
+          ("There was a non SSH error sending messages",1)
+      }
     }
 
   }
