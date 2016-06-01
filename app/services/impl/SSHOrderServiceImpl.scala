@@ -1,6 +1,7 @@
 package services.impl
 
 import java.io.{BufferedReader, IOException, InputStreamReader}
+import java.net.NoRouteToHostException
 import java.sql.Timestamp
 import java.util.Calendar
 
@@ -196,6 +197,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
           case e => play.Logger.error(s"The error checking $computer was : " + e)
             UnknownError()
         }
+      case e: NoRouteToHostException =>play.Logger.error("There was an error checking for " + computer + "'s state", e)
+        NotConnected()
       case e: Exception => play.Logger.error("There was an error checking for " + computer + "'s state", e)
         UnknownError()
     }
