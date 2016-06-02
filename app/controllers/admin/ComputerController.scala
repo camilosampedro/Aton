@@ -133,20 +133,17 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       }
   }
 
-  def shutdown() = AsyncStack(AuthorityKey -> Administrator) {
+  def shutdownSeveral() = AsyncStack(AuthorityKey -> Administrator) {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       SelectComputersForm.form.bindFromRequest().fold(
-        errorForm => BadRequest,
-          data => computerService.get(data.selectedComputers).map{
-
+        errorForm => Future.successful(BadRequest),
+          data => {
+            val computerTask=computerService.get(data.selectedComputers).map(_.map(sSHOrderService.shutdown))
+            computerTask.map(result=>Ok(index(messagesApi("done"),notImplemented("done"))))
           }
       )
-      computerDAO.get(ip).map {
-        case Some(computer) if sSHOrderService.shutdown(computer) => Redirect(normalroutes.HomeController.home())
-        case _ => NotImplemented(index(messagesApi("computer.notFound"), notImplemented(messagesApi("computer.notFoundMessage"))))
-      }
   }
 
   def upgrade(ip: String) = AsyncStack(AuthorityKey -> Administrator) {

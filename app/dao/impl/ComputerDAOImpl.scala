@@ -9,7 +9,9 @@ import model.table.{ComputerStateTable, ComputerTable, ConnectedUserTable}
 import play.Logger
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._
+import slick.dbio.Effect.Read
 import slick.driver.JdbcProfile
+import slick.jdbc.{GetResult, SQLActionBuilder}
 
 import scala.concurrent.Future
 
@@ -91,9 +93,11 @@ class ComputerDAOImpl @Inject()
     computers.joinLeft(computerStates).on(_.ip === _.computerIp).joinLeft(connectedUsers).on((x,y)=>x._2.map(_.computerIp) === y.computerStateComputerIp && x._2.map(_.registeredDate) === y.computerStateRegisteredDate).map(x=>(x._1._1,x._1._2,x._2)).filter(_._1.ip === ip).result
   }
 
-  override def get(severalComputers: List[String]): Future[Seq[Computer]] = db.run{
-    val x = severalComputers.map(computerIp=>computers.filter(_.ip===computerIp))
-    x.result
+  override def get(severalComputers: List[String]): Future[Seq[Computer]] = {
+    implicit val getComputerResult = GetResult(c=>Computer(c.<<, c.<<, c.<<, c.<<, c.<<, c.<<))
+    val ips = severalComputers.mkString(",")
+    val sql = sql"""SELECT * FROM computer WHERE id IN (#${ips})""".as[Computer]
+    db.run(sql)
   }
 }
 

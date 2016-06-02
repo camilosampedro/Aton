@@ -5,13 +5,14 @@
 <h1>@messages("laboratory").capitalize @laboratory.name</h1>
 @if(roomsWithComputers.nonEmpty) {
     @if(isAdmin) {
-        <form action="@adminroutes.ComputerController.shutdown(laboratory.id)" method="post">
+        <form action="@adminroutes.ComputerController.shutdownSeveral()" method="post">
         }
     @for((room, computers) <- roomsWithComputers if room.isDefined) {
         @roomPanel(room.get, computers)
     }
-    <button type="submit">Apagar</button>
+
     @if(isAdmin) {
+        <button type="submit">Apagar</button>
     </form>
         <div class="btn-agregar-tabla">
             <a href="@adminroutes.RoomController.add()" class="btn btn-default " role="button">

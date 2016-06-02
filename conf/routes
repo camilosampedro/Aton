@@ -35,7 +35,7 @@ GET         /computer/edit/:ip               controllers.admin.ComputerControlle
 POST        /computer/edit                   controllers.admin.ComputerController.edit
 GET         /computer/delete/:ip             controllers.admin.ComputerController.delete(ip: String)
 GET         /computer/shutdown/:ip           controllers.admin.ComputerController.shutdown(ip: String)
-POST        /computer/shutdown               controllers.admin.ComputerController.shutdown()
+POST        /computer/shutdown               controllers.admin.ComputerController.shutdownSeveral()
 GET         /computer/upgrade/:ip            controllers.admin.ComputerController.upgrade(ip: String)
 GET         /computer/unfreeze/:ip           controllers.admin.ComputerController.unfreeze(ip: String)
 POST        /computer/sendcommand/:ip        controllers.admin.ComputerController.sendCommand(ip: String)
