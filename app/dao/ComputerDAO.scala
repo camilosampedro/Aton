@@ -13,6 +13,8 @@ import scala.concurrent.Future
   */
 @ImplementedBy(classOf[ComputerDAOImpl])
 trait ComputerDAO {
+  def get(severalComputers: List[String]): Future[Seq[Computer]]
+
   def listAllSimple: Future[Seq[Computer]]
 
 

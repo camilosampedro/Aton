@@ -1,7 +1,7 @@
 @import controllers.admin.{routes => adminroutes}
 @import model.{Computer, ComputerState}
 @import model.ConnectedUser
-@(computer: Computer, computerState: Option[(ComputerState, Seq[ConnectedUser])], isAdmin: Boolean)(implicit messages: Messages)
+@(computer: Computer, computerState: Option[(ComputerState, Seq[ConnectedUser])], isAdmin: Boolean, index: Int)(implicit messages: Messages)
 <div class="col-md-2 panel-inicio">
 
     <div class="panel panel-@{
@@ -29,10 +29,10 @@
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="icon ion-information-circled"></i> <span class="caret"></span>
                     </button>
-                    <label class="btn btn-primary">
-                        <input type="checkbox" autocomplete="off">
+                    @if(isAdmin){<label class="btn btn-primary">
+                        <input type="checkbox" name="selectedComputer[@index]" autocomplete="off" value="@computer.ip">
                         <span class="glyphicon glyphicon-ok"></span>
-                    </label>
+                    </label>}
                     <ul class="dropdown-menu">
                         @if(computerState.isDefined && computerState.get._1.mac.isDefined) {
                             <li>

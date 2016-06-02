@@ -59,4 +59,8 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
       (triple._1,triple._2)
     }.headOption
   }
+
+  override def get(severalComputers: List[String]): Future[Seq[Computer]] = {
+    computerDAO.get(severalComputers)
+  }
 }

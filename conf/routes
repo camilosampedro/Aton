@@ -20,6 +20,7 @@ GET         /laboratory/add                  controllers.admin.LaboratoryControl
 POST        /laboratory/add                  controllers.admin.LaboratoryController.add
 GET         /laboratory/delete/:id           controllers.admin.LaboratoryController.delete(id:Long)
 
+
 # Room
 GET         /room/add                        controllers.admin.RoomController.addForm()
 POST        /room/add                        controllers.admin.RoomController.add
@@ -34,11 +35,13 @@ GET         /computer/edit/:ip               controllers.admin.ComputerControlle
 POST        /computer/edit                   controllers.admin.ComputerController.edit
 GET         /computer/delete/:ip             controllers.admin.ComputerController.delete(ip: String)
 GET         /computer/shutdown/:ip           controllers.admin.ComputerController.shutdown(ip: String)
+POST        /computer/shutdown               controllers.admin.ComputerController.shutdown()
 GET         /computer/upgrade/:ip            controllers.admin.ComputerController.upgrade(ip: String)
 GET         /computer/unfreeze/:ip           controllers.admin.ComputerController.unfreeze(ip: String)
 POST        /computer/sendcommand/:ip        controllers.admin.ComputerController.sendCommand(ip: String)
 POST        /computer/blockpage/:ip          controllers.admin.ComputerController.blockPage(ip: String)
 POST        /computer/sendmessage/:ip        controllers.admin.ComputerController.sendMessage(ip: String)
+
 
 # SSH Order
 GET         /sshorders                       controllers.admin.SSHOrderController.listAll

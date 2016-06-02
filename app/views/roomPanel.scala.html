@@ -1,16 +1,16 @@
 @import controllers.admin.{routes => adminroutes}
-@import model.{Computer, Room}
-@import model.ComputerState
-@import model.ConnectedUser
-@(room: Room, computers: Seq[(Computer,Option[(ComputerState,Seq[ConnectedUser])])])(implicit messages: Messages,isAdmin: Boolean)
+@import model.{Computer, ComputerState, ConnectedUser, Room}
+@(room: Room, computers: Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])])(implicit messages: Messages, isAdmin: Boolean)
 
 <div class="panel panel-primary">
-    <div class="panel-heading">@room.name@if(isAdmin){ <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-default pull-right" role="button">@messages("room.edit")</a> <a href="@adminroutes.RoomController.delete(room.id)" class="btn btn-default pull-right" role="button">@messages("room.delete")</a>}</div>
+    <div class="panel-heading">@room.name @if(isAdmin) {
+        <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-default pull-right" role="button">@messages("room.edit")</a> <a href="@adminroutes.RoomController.delete(room.id)" class="btn btn-default pull-right" role="button">@messages("room.delete")</a>
+    }</div>
     <div class="panel-body">
     @if(computers.nonEmpty) {
         <div class="row">
-        @for((computer,computerState) <- computers) {
-            @computerPanel(computer,computerState, isAdmin)
+        @for(((computer, computerState), index) <- computers.zipWithIndex) {
+            @computerPanel(computer, computerState, isAdmin, index)
         }
         </div>
     } else {
@@ -21,7 +21,7 @@
             @if(isAdmin) {
                 <div class="btn-agregar-tabla">
                     <a href="@adminroutes.ComputerController.add" class="btn btn-default " role="button">
-                        @messages("computer.add")</a>
+                    @messages("computer.add")</a>
                 </div>
             }
         </div>

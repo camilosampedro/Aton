@@ -8,7 +8,7 @@ import jp.t2v.lab.play2.auth.AuthElement
 import model.{Computer, ComputerState, SSHOrder}
 import model.Role._
 import model.form.data.{ComputerFormData, LoginFormData}
-import model.form.{BlockPageForm, ComputerForm, MessageForm, SSHOrderForm}
+import model.form._
 import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
@@ -127,6 +127,22 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
+      computerDAO.get(ip).map {
+        case Some(computer) if sSHOrderService.shutdown(computer) => Redirect(normalroutes.HomeController.home())
+        case _ => NotImplemented(index(messagesApi("computer.notFound"), notImplemented(messagesApi("computer.notFoundMessage"))))
+      }
+  }
+
+  def shutdown() = AsyncStack(AuthorityKey -> Administrator) {
+    implicit request =>
+      implicit val username = Some(loggedIn.username)
+      implicit val user = loggedIn.username
+      SelectComputersForm.form.bindFromRequest().fold(
+        errorForm => BadRequest,
+          data => computerService.get(data.selectedComputers).map{
+
+          }
+      )
       computerDAO.get(ip).map {
         case Some(computer) if sSHOrderService.shutdown(computer) => Redirect(normalroutes.HomeController.home())
         case _ => NotImplemented(index(messagesApi("computer.notFound"), notImplemented(messagesApi("computer.notFoundMessage"))))
