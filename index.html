@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>AtonLab by ProjectAton</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>AtonLab</h1>
+        <h2>Computer room administration made easy</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/ProjectAton/AtonLab/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/ProjectAton/AtonLab/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/ProjectAton/AtonLab" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <p><a href="https://travis-ci.org/ProjectAton/AtonLab"><img src="https://travis-ci.org/ProjectAton/AtonLab.svg?branch=master" alt="Build Status"></a></p>
+
+<h1>
+<a id="aton" class="anchor" href="#aton" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ATON</h1>
+
+<p>Administrador de laboratorios de computadoras.</p>
+
+<h2>
+<a id="advertencia" class="anchor" href="#advertencia" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Advertencia</h2>
+
+<p>Este proyecto todavía se encuentra en fase de desarrollo.</p>
+
+<h2>
+<a id="como-instalar" class="anchor" href="#como-instalar" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Como instalar</h2>
+
+<h3>
+<a id="1-descargar-una-copia-de-este-proyecto" class="anchor" href="#1-descargar-una-copia-de-este-proyecto" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Descargar una copia de este proyecto</h3>
+
+<div class="highlight highlight-source-shell"><pre>git clone https://github.com/ProjectAton/Aton.git</pre></div>
+
+<h3>
+<a id="2-instalar-postgresql-ir-al-paso-4-si-ya-se-tiene-configurado-postgresql" class="anchor" href="#2-instalar-postgresql-ir-al-paso-4-si-ya-se-tiene-configurado-postgresql" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. Instalar postgresql. Ir al paso 4 si ya se tiene configurado PostgreSQL.</h3>
+
+<p>Instalar la base de datos PostgreSQL, usando el gestor de paquetes por defecto o con cualquier otro método.</p>
+
+<p><strong>Instalación en Ubuntu - Debian</strong></p>
+
+<div class="highlight highlight-source-shell"><pre>sudo apt-get install postgresql</pre></div>
+
+<p><strong>Instalación en RHEL</strong></p>
+
+<div class="highlight highlight-source-shell"><pre>sudo yum install postgresql-server</pre></div>
+
+<h3>
+<a id="3-asignar-un-password-para-acceder-a-postgresql" class="anchor" href="#3-asignar-un-password-para-acceder-a-postgresql" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. Asignar un password para acceder a PostgreSQL:</h3>
+
+<p><strong>Ingresar al shell de PostgreSQL:</strong></p>
+
+<div class="highlight highlight-source-shell"><pre>sudo -u postgres psql</pre></div>
+
+<p><strong>Ejecutar para cambiar el password</strong></p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-cce">\p</span>assword postgres</pre></div>
+
+<h3>
+<a id="4-importar-la-base-de-datos-de-databasesql" class="anchor" href="#4-importar-la-base-de-datos-de-databasesql" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. Importar la base de datos de database.sql</h3>
+
+<div class="highlight highlight-source-shell"><pre>sudo -u postgres psql <span class="pl-k">&lt;</span> database.sql</pre></div>
+
+<h3>
+<a id="5-modificar-los-archivos-de-configuración" class="anchor" href="#5-modificar-los-archivos-de-configuraci%C3%B3n" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. Modificar los archivos de configuración</h3>
+
+<h4>
+<a id="srcmainresourcesaplicacionproperties" class="anchor" href="#srcmainresourcesaplicacionproperties" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>src/main/resources/aplicacion.properties</code>
+</h4>
+
+<p>En este archivo se encuentran todas las configuraciones de la base de datos. Las propiedades importantes son las siguientes:</p>
+
+<p><strong>jdbc.url</strong>
+En este campo se inserta el URL de la base de datos. El formato es <em>jdbc:postgresql://host:puerto/basededatos</em></p>
+
+<p><strong>jdbc.username</strong>
+Nombre de usuario para acceder a la base de datos.</p>
+
+<p><strong>jdbc.password</strong>
+Contraseña para acceder a la base de datos.</p>
+
+<h3>
+<a id="6-compilar" class="anchor" href="#6-compilar" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>6. Compilar</h3>
+
+<p>Si no se tiene instalado maven instalar antes de este paso.</p>
+
+<p><strong>Instalación en Ubuntu - Debian</strong></p>
+
+<div class="highlight highlight-source-shell"><pre>sudo apt-get install maven</pre></div>
+
+<p><strong>Instalación en RHEL</strong></p>
+
+<div class="highlight highlight-source-shell"><pre>sudo yum install maven</pre></div>
+
+<p>Ejecutar la compilación con Maven</p>
+
+<div class="highlight highlight-source-shell"><pre>mvn clean install</pre></div>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
