@@ -22,15 +22,15 @@ class ComputerController @Inject()(computerService: ComputerService, computerDAO
       computerDAO.get(ip).map {
         case Some(computer) if sSHOrderService.shutdown(computer)("API") => Ok(Json.parse(
           """
-            |{
-            |   "answer":"apagado"
-            |}
+            {
+               "answer":"apagado"
+            }
           """))
         case _ => NotFound(Json.parse(
           """
-            |{
-            |   "answer":"no encontrado"
-            |}
+            {
+               "answer":"no encontrado"
+            }
           """))
       }
   }
