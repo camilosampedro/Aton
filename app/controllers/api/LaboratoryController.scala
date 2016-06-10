@@ -30,7 +30,7 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryService: Labora
     val roomsConverted = roomsWithComputers.toSeq
     val grouped = roomsConverted.groupBy(_._1)
     val hasRooms = grouped.filter(_._1.isDefined)
-    val resultRooms: Seq[(Room, Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])])] = hasRooms.map(filtered=>(filtered._1.get,filtered._2.map(_._2.head))).toSeq
+    val resultRooms: Seq[(Room, Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])])] = hasRooms.map(filtered=>(filtered._1.get,filtered._2.map(_._2).head)).toSeq
     Json.toJson((laboratoryObject,resultRooms))
   }
 
