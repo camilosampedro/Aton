@@ -20,7 +20,7 @@ class ComputerController @Inject()(computerService: ComputerService, computerDAO
   def shutdown(ip: String) = Action.async {
     implicit request =>
       computerDAO.get(ip).map {
-        case Some(computer) if sSHOrderService.shutdown(computer)("API") => Ok(Json.parse(
+        case Some(computer) if sSHOrderService.shutdown(computer)("Scheduled Checker") => Ok(Json.parse(
           """
             {
                "answer":"apagado"
