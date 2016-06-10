@@ -66,8 +66,8 @@ object Writes {
 
   implicit val computerWithStateWrites = new Writes[(Computer, Option[(ComputerState, Seq[ConnectedUser])])] {
     def writes(computerWithState: (Computer, Option[(ComputerState, Seq[ConnectedUser])])) = Json.obj (
-      "computer" -> Json.toJson(computerWithState._1),
-      "state" -> Json.toJson(computerWithState._2)
+      "state" -> Json.toJson(computerWithState._2),
+      "computer" -> Json.toJson(computerWithState._1)
     )
   }
 
