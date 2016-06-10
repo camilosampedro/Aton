@@ -43,11 +43,11 @@ object Writes {
   }
 
   implicit val computerStateWrites = new Writes[ComputerState] {
-    def writes(state: ComputerState) = Json.obj{
-      "mac"->state.mac
-      "operatingSystem"->state.operatingSystem
+    def writes(state: ComputerState) = Json.obj(
+      "mac"->state.mac,
+      "operatingSystem"->state.operatingSystem,
       "state"->state.state
-    }
+    )
   }
 
   implicit val computerStatePairWrites = new Writes[Option[(ComputerState, Seq[ConnectedUser])]] {
