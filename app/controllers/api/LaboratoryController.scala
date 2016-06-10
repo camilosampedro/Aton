@@ -5,6 +5,7 @@ import com.google.inject.Inject
 import dao.{LaboratoryDAO, UserDAO}
 import jp.t2v.lab.play2.auth.OptionalAuthElement
 import model._
+import model.json.Writes._
 import model.form.data.LoginFormData
 import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -30,13 +31,7 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryService: Labora
     val grouped = roomsConverted.groupBy(_._1)
     val hasRooms = grouped.filter(_._1.isDefined)
     val resultRooms: Seq[(Room, Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])])] = hasRooms.map(filtered=>(filtered._1.get,filtered._2.map(_._2.head))).toSeq
-    Json.parse(
-      s"""
-        |{
-        |  "laboratory":${Json.toJson(laboratoryObject)},
-        |  "rooms":${Json.toJson(resultRooms)}
-        |}
-      """)
+    Json.toJson((laboratoryObject,resultRooms))
   }
 
   def get(id: Long) = Action.async { implicit request =>
@@ -44,7 +39,12 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryService: Labora
     implicit val username = Some("")
     laboratoryService.get(id).map {
       case Some((laboratoryObject, roomsWithComputers)) => Ok(convertToJson(laboratoryObject, roomsWithComputers))
-      case _ => NotImplemented(index(messagesApi("laboratory.notFound"),notImplemented(messagesApi("laboratory.notFound"))))
+      case _ => NotFound(Json.parse(
+        """
+          |{
+          |  "answer"->"no encontrado"
+          |}
+        """))
     }
   }
 

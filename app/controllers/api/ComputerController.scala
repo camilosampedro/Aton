@@ -7,7 +7,6 @@ import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
-import sbt.serialization.JsonValue
 import services.{ComputerService, LaboratoryService, SSHOrderService}
 import views.html._
 
@@ -21,7 +20,7 @@ class ComputerController @Inject()(computerService: ComputerService, computerDAO
   def shutdown(ip: String) = Action.async {
     implicit request =>
       computerDAO.get(ip).map {
-        case Some(computer) if sSHOrderService.shutdown(computer) => Ok(Json.parse(
+        case Some(computer) if sSHOrderService.shutdown(computer)("API") => Ok(Json.parse(
           """
             |{
             |   "answer":"apagado"
