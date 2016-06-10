@@ -9,10 +9,10 @@ import play.api.libs.json.{Json, Writes}
 object Writes {
   implicit val computerWrites = new Writes[Computer] {
     def writes(computer: Computer) = Json.obj {
-      "ip" -> computer.ip
       "name" -> computer.name
       "description" -> computer.description
       "roomID" -> computer.roomID
+      "ip" -> computer.ip
     }
   }
 
