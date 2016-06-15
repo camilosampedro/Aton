@@ -19,7 +19,7 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * Created by camilo on 14/05/16.
   */
-class SuggestionController @Inject()(suggestionDAO: SuggestionDAO, val messagesApi: MessagesApi, userDAO: UserDAO) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
+class SuggestionController @Inject()(suggestionDAO: SuggestionDAO, val messagesApi: MessagesApi, userDAO: UserDAO) (implicit executionContext: ExecutionContext) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
   override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 
   def home = AsyncStack { implicit request =>
