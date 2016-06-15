@@ -25,7 +25,7 @@ class SuggestionTable(tag: Tag) extends Table[Suggestion](tag, "suggestion") {
 
   def registeredDate = column[Timestamp]("registered_date") //(DateMapper.utilDateToSQLTimeStamp)
 
-  def username = column[String]("username")
+  def username = column[Option[String]]("username")
 
   def username_fk = foreignKey("suggestion_user_fk", username, TableQuery[UserTable])(_.username)
 }
