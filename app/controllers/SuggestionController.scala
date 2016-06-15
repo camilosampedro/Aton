@@ -17,7 +17,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class SuggestionController @Inject()(val messagesApi: MessagesApi,userDAO: UserDAO) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
   override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 
-  def home = AsyncStack { implicit request =>
+  def home = StackAction { implicit request =>
     implicit val (username: Option[String], isAdmin: Boolean) = loggedIn match {
       case Some(user) => (Some(user.username), user.role == Role.Administrator)
       case _ => (None, false)
