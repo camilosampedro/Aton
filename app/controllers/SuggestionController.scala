@@ -49,7 +49,7 @@ class SuggestionController @Inject()(suggestionDAO: SuggestionDAO, val messagesA
         val text = data.suggestion
         val suggestion = Suggestion(0,text,now,username)
         suggestionDAO.add(suggestion).map{res=>
-          Ok(index(messagesApi("suggestion"),suggestionHome(SuggestionForm.form)))
+          Redirect(routes.SuggestionController.home)
         }
       }
     )
