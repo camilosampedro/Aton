@@ -94,6 +94,6 @@ suggestion.suggestionText=Sugerencia
 suggestion.text=Sugerencia
 suggestion.registereddate=Fecha de registro
 suggestion.username=Usuario
-suggesiton.help.head=Enviar nueva sugerencia
-suggesiton.help.body=Envía al administrador sugerencias acerca de la sala, por ejemplo programas que quieras que se \
+suggestion.help.head=Enviar nueva sugerencia
+suggestion.help.body=Envía al administrador sugerencias acerca de la sala, por ejemplo programas que quieras que se \
   instalen o alguna queja sobre algún proceso.
