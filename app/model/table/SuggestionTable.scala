@@ -27,5 +27,5 @@ class SuggestionTable(tag: Tag) extends Table[Suggestion](tag, "suggestion") {
 
   def username = column[Option[String]]("username")
 
-  def username_fk = foreignKey("suggestion_user_fk", username, TableQuery[UserTable])(_.username)
+  def username_fk = foreignKey("suggestion_user_fk", username, TableQuery[UserTable])(_.username.?)
 }

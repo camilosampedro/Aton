@@ -5,36 +5,42 @@
 }
 <div class="row">
     @if(isAdmin) {
-        @if(suggestions.nonEmpty) {
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>@messages("suggestion.text")</th>
-                        <th>@messages("suggestion.registereddate")</th>
-                        <th>@messages("suggestion.username")</th>
-                        <th>@messages("delete")</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @for(suggestion <- suggestions) {
-                    <tr>
-                        <td>@suggestion.suggestionText</td>
-                        <td>@suggestion.registeredDate</td>
-                        <td>@suggestion.username</td>
-                        <td><a href="@adminroutes.SuggestionController.delete(suggestion.id)">
-                        @messages("delete")</a>
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-        } else {
-            <div id="no-encontrado">
-                <i class="icon ion-earth"></i>
-                <h1>Aquí no hay sugerencias</h1>
-                <p>Parece que nadie ha hecho sugerencias.</p>
+        <div class="panel panel-primary">
+            <div class="panel-heading">@messages("suggestions")</div>
+            <div class="panel-body">
+            @if(suggestions.nonEmpty) {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>@messages("suggestion.text")</th>
+                            <th>@messages("suggestion.registereddate")</th>
+                            <th>@messages("suggestion.username")</th>
+                            <th>@messages("delete")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for(suggestion <- suggestions) {
+                        <tr>
+                            <td>@suggestion.suggestionText</td>
+                            <td>@suggestion.registeredDate</td>
+                            <td>@suggestion.username</td>
+                            <td><a href="@adminroutes.SuggestionController.delete(suggestion.id)">
+                            @messages("delete")</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+
+            } else {
+                <div id="no-encontrado">
+                    <i class="icon ion-earth"></i>
+                    <h1>Aquí no hay sugerencias</h1>
+                    <p>Parece que nadie ha hecho sugerencias.</p>
+                </div>
+            }
             </div>
-        }
+        </div>
     }
     <div class="col-md-6">
         <div class="panel panel-primary">
