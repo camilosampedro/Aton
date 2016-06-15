@@ -12,7 +12,6 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
 import views.html._
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration._
 
@@ -20,7 +19,7 @@ import scala.concurrent.duration._
   * Created by camilo on 16/05/16.
   */
 @Singleton
-class HomeController @Inject()(userDAO: UserDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi, @Named("computerChecker") computerChecker: ActorRef, actorSystem: ActorSystem) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
+class HomeController @Inject()(userDAO: UserDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi, @Named("computerChecker") computerChecker: ActorRef, actorSystem: ActorSystem)(implicit executionContext: ExecutionContext) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
   override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 
   val logger = Logger("HomeController")

@@ -14,7 +14,7 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * Created by camilosampedro on 10/05/16.
   */
-class AdministrationController @Inject()(val messagesApi: MessagesApi, userDAO: UserDAO) extends Controller with I18nSupport with AuthElement with AuthConfigImpl {
+class AdministrationController @Inject()(val messagesApi: MessagesApi, userDAO: UserDAO)(implicit executionContext: ExecutionContext) extends Controller with I18nSupport with AuthElement with AuthConfigImpl {
 
   override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 

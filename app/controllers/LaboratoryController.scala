@@ -11,13 +11,12 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
 import services.LaboratoryService
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * Created by camilo on 20/03/16.
   */
-class LaboratoryController @Inject()(laboratoryService: LaboratoryService, userDAO: UserDAO, val messagesApi: MessagesApi) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
+class LaboratoryController @Inject()(laboratoryService: LaboratoryService, userDAO: UserDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
 
   override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 

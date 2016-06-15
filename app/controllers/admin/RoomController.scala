@@ -11,7 +11,6 @@ import model.form.data.{LoginFormData, RoomFormData}
 import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
-import scala.concurrent.ExecutionContext.Implicits.global
 import views.html._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -19,7 +18,7 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * Created by camilosampedro on 11/05/16.
   */
-class RoomController @Inject()(userDAO: UserDAO, roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi) extends Controller with I18nSupport with AuthElement with AuthConfigImpl {
+class RoomController @Inject()(userDAO: UserDAO, roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext) extends Controller with I18nSupport with AuthElement with AuthConfigImpl {
 
   override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 

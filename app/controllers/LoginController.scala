@@ -7,13 +7,12 @@ import model.form.LoginForm
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, Controller}
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * Created by camilo on 14/05/16.
   */
-class LoginController @Inject()(userDAO: UserDAO, val messagesApi: MessagesApi) extends Controller with I18nSupport with LoginLogout with AuthConfigImpl {
+class LoginController @Inject()(userDAO: UserDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext) extends Controller with I18nSupport with LoginLogout with AuthConfigImpl {
 
   /**
     * A function that returns a `User` object from an `Id`.
