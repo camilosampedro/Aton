@@ -23,6 +23,11 @@ computer.messageplaceholder=Mensaje
 computer.sendmessage=Enviar mensaje
 page.urlplaceholder=URL página
 page.block=Bloquear página
+computer.help.head=Ingresar computardores
+computer.help.body=Aquí podrás ingresar computadores a una sala. \nCada computador necesita una dirección IP \
+  (O host name), un nombre de usuario SSH y una contraseña del usuario SSH. Estos campos se requieren debido a que Aton\
+  se comunica por SSH a cada uno de los computadores para ejecutar órdenes remotas y verificar su estado.\n\n\
+  Es posible insertar cada uno de los equipos, separando con comas sus direcciones IP y sus nombres.
 # Header texts
 header.editUser=Editar usuario
 # Menu texts
@@ -42,6 +47,8 @@ room.empty.body=Parece que no se han encontrado computadores.
 room.edit=Editar
 room.notFound=Sala no encontrada con el id especificado
 room.add=Agregar sala
+room.help.head=Ingresar una nueva sala
+room.help.body=Aquí podrás ingresar una nueva sala al sistema. Las salas son conjuntos de computadoras.
 # Suggestion
 suggestion.notImplemented=El módulo de sugerencias no está implementado... aún
 # General
@@ -63,8 +70,8 @@ laboratory.empty.text=Parece que no se han encontrado salas.
 laboratory.location=Ubicación:
 laboratory.administration=Administración:
 laboratory.name=Nombre:
-laboratory.help.head=Ingresando un nuevo laboratorio
-laboratory.help.body=Aquí podrás ingresar un nuevo laboratorio al sistema.
+laboratory.help.head=Ingresar un nuevo laboratorio
+laboratory.help.body=Aquí podrás ingresar un nuevo laboratorio al sistema. Los laboratorios son conjuntos de salas que se encuentran reunidos en el mismo espacio.
 # User
 user.username=Nombre de usuario
 user.notLoggedIn=No has iniciado sesión
