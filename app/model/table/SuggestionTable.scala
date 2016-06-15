@@ -21,7 +21,7 @@ class SuggestionTable(tag: Tag) extends Table[Suggestion](tag, "suggestion") {
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 
   // Other columns/attributes
-  def suggestionText = column[Option[String]]("suggestion_text")
+  def suggestionText = column[String]("suggestion_text")
 
   def registeredDate = column[Timestamp]("registered_date") //(DateMapper.utilDateToSQLTimeStamp)
 

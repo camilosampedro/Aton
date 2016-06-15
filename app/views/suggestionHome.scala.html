@@ -1,0 +1,55 @@
+@import controllers.admin.{routes => adminroutes}
+@(form: Form[model.form.data.SuggestionFormData], suggestions: Seq[model.Suggestion])(implicit messages: Messages, isAdmin: Boolean)
+@implicitField = @{
+    helper.FieldConstructor(fieldConstructorTemplate.f)
+}
+<div class="row">
+    @if(isAdmin) {
+        @if(suggestions.nonEmpty) {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>@messages("suggestion.text")</th>
+                        <th>@messages("suggestion.registereddate")</th>
+                        <th>@messages("suggestion.username")</th>
+                        <th>@messages("delete")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(suggestion <- suggestions) {
+                    <tr>
+                        <td>@suggestion.suggestionText</td>
+                        <td>@suggestion.registeredDate</td>
+                        <td>@suggestion.username</td>
+                        <td><a href="@adminroutes.SuggestionController.delete(suggestion.id)">
+                        @messages("delete")</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        } else {
+            <div id="no-encontrado">
+                <i class="icon ion-earth"></i>
+                <h1>Aquí no hay sugerencias</h1>
+                <p>Parece que nadie ha hecho sugerencias.</p>
+            </div>
+        }
+    }
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Agregar sala</div>
+            <div class="panel-body">
+            @helper.form(action = routes.SuggestionController.add, 'class -> "form-horizontal") {
+                @helper.inputText(form("suggestion.suggestionText"), 'class -> "form-control", 'placeholder -> messages("suggestion.suggestionText"))
+                <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                        <button type="submit" class="btn btn-primary">@messages("submit")</button>
+                    </div>
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+    @helpPanel(messages("room.help.head"), messages("room.help.body"))
+</div>

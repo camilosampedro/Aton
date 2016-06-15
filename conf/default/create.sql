@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2016-06-15 19:33:40.095
+-- Last modification date: 2016-06-15 20:07:56.171
 
 DROP DATABASE IF EXISTS aton;
 CREATE DATABASE aton;
@@ -139,7 +139,7 @@ INSERT INTO state(id,code) VALUES(4,"state.unknownerror");;
 -- Table: suggestion
 CREATE TABLE suggestion (
     id bigint NOT NULL AUTO_INCREMENT,
-    suggestion_text text NULL,
+    suggestion_text text NOT NULL,
     registered_date timestamp NOT NULL,
     username varchar(32) NULL,
     CONSTRAINT suggestion_pk PRIMARY KEY (id)

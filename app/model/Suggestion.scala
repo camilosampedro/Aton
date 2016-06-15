@@ -5,7 +5,7 @@ package model
   */
 case class Suggestion(
                        id: Long,
-                       suggestionText: Option[String],
+                       suggestionText: String,
                        registeredDate: java.sql.Timestamp,
                        username: Option[String]
                      )

@@ -86,4 +86,5 @@ sshorder.sentdatetime=Fecha de envío
 sshorder.superuser=Como super usuario
 sshorder.webuser=Usuario
 sshorder.resulttext=Pero el resultado de ejecutar el comando fue "{0}" con código de salida {1}
-
+# Suggestion
+suggestion.suggestionText=Sugerencia
