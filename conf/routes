@@ -50,6 +50,7 @@ GET         /sshorders/delete/:id            controllers.admin.SSHOrderControlle
 
 # Suggestion
 GET         /suggestion                      controllers.SuggestionController.home
+POST        /suggestion/add                  controllers.SuggestionController.add
 GET         /suggestion/delete/:id          controllers.admin.SuggestionController.delete(id: Long)
 
 # API
