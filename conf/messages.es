@@ -59,6 +59,7 @@ empty=Vacío
 notImplemented=No implementado
 contactAdmin=Por favor ayúdanos en sugerencias reportando este problema.
 submit=Agregar
+send=Enviar
 about=Acerca de
 # Laboratory
 laboratory=laboratorio
@@ -87,4 +88,9 @@ sshorder.superuser=Como super usuario
 sshorder.webuser=Usuario
 sshorder.resulttext=Pero el resultado de ejecutar el comando fue "{0}" con código de salida {1}
 # Suggestion
+suggestions=Sugerencias
+suggestion.add=Agregar sugerencia
 suggestion.suggestionText=Sugerencia
+suggestion.text=Sugerencia
+suggestion.registereddate=Fecha de registro
+suggestion.username=Usuario

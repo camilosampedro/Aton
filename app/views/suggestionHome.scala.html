@@ -45,18 +45,18 @@
     }
     <div class="col-md-6">
         <div class="panel panel-primary">
-            <div class="panel-heading">Agregar sala</div>
+            <div class="panel-heading">@messages("suggestion.add")</div>
             <div class="panel-body">
             @helper.form(action = routes.SuggestionController.add, 'class -> "form-horizontal") {
                 @helper.inputText(form("suggestion.suggestionText"), 'class -> "form-control", 'placeholder -> messages("suggestion.suggestionText"))
                 <div class="form-group">
                     <div class="col-xs-offset-3 col-xs-9">
-                        <button type="submit" class="btn btn-primary">@messages("submit")</button>
+                        <button type="submit" class="btn btn-primary">@messages("send")</button>
                     </div>
                 </div>
             }
             </div>
         </div>
     </div>
-    @helpPanel(messages("room.help.head"), messages("room.help.body"))
+    @helpPanel(messages("suggesiton.help.head"), messages("suggestion.help.body"))
 </div>
