@@ -14,12 +14,6 @@ import scala.concurrent.{ExecutionContext, Future}
   */
 class LoginController @Inject()(userDAO: UserDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext) extends Controller with I18nSupport with LoginLogout with AuthConfigImpl {
 
-  /**
-    * A function that returns a `User` object from an `Id`.
-    * You can alter the procedure to suit your application.
-    */
-  def resolveUser(id: Id)(implicit ctx: ExecutionContext): Future[Option[User]] = userDAO.get(id)
-
   def loginForm = Action {
     Ok(views.html.login(LoginForm.form))
   }
@@ -35,13 +29,19 @@ class LoginController @Inject()(userDAO: UserDAO, val messagesApi: MessagesApi)(
         results.map { res =>
           res._1 match {
             case Some(user) => res._2
-            case _ => Forbidden("Loggin failed. Try again")
+            case _ => Forbidden("Login failed. Try again")
           }
         }
 
       }
     )
   }
+
+  /**
+    * A function that returns a `User` object from an `Id`.
+    * You can alter the procedure to suit your application.
+    */
+  def resolveUser(id: Id)(implicit ctx: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 
   def logout = Action.async { implicit request =>
     gotoLogoutSucceeded

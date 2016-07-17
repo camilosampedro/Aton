@@ -2,39 +2,31 @@ package controllers.admin
 
 import com.google.inject.Inject
 import com.jcraft.jsch.JSchException
-import controllers.{AuthConfigImpl, routes => normalroutes}
+import controllers.{routes => normalroutes}
 import dao.{ComputerDAO, RoomDAO, UserDAO}
-import jp.t2v.lab.play2.auth.AuthElement
-import model.{Computer, ComputerState, SSHOrder}
-import model.Role._
-import model.form.data.{ComputerFormData, LoginFormData}
+import model.Computer
 import model.form._
+import model.form.data.ComputerFormData
 import play.Logger
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.Controller
+import play.api.i18n.MessagesApi
 import services.{ComputerService, SSHOrderService}
 import views.html._
 
-import scala.collection.immutable.Iterable
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 
 /**
   * Created by camilo on 7/05/16.
   */
-class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext) extends Controller with I18nSupport with AuthElement with AuthConfigImpl {
-  override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
-
-  implicit val isAdmin = true
-
-  def edit = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
+class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext) extends ControllerWithAuthRequired {
+  def edit = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     ComputerForm.form.bindFromRequest().fold(
       errorForm => {
         computerDAO.get(errorForm.get.ip).map {
           case Some(computer) =>
             computer.roomID match {
-              case Some(roomID) => {
+              case Some(roomID) =>
                 Await.result(roomDAO.get(roomID), 5 seconds) match {
                   case Some(room) =>
                     val rooms = Await.result(roomDAO.getByLaboratory(room.id), 5 seconds)
@@ -43,7 +35,6 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
                   case _ =>
                     NotFound("Computer has not asociated")
                 }
-              }
               case _ => val rooms = Await.result(roomDAO.listAll, 5 seconds)
                 val pairs = rooms.map(x => (x.id.toString, x.laboratoryID + x.name))
 
@@ -64,7 +55,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
     )
   }
 
-  def add = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
+  def add = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     Logger.debug("Request de agregar equipo ingresada:" + request)
     ComputerForm.form.bindFromRequest.fold(
@@ -82,7 +73,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
     )
   }
 
-  def editForm(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+  def editForm(ip: String) = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       Logger.debug("Looking for computer: " + ip)
@@ -104,7 +95,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       )
   }
 
-  def addForm() = AsyncStack(AuthorityKey -> Administrator) {
+  def addForm() = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       roomDAO.listAll.map {
@@ -114,7 +105,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       }
   }
 
-  def delete(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+  def delete(ip: String) = AuthRequiredAction {
     implicit request =>
       computerDAO.delete(ip) map {
         res =>
@@ -122,7 +113,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       }
   }
 
-  def shutdown(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+  def shutdown(ip: String) = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
@@ -132,7 +123,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       }
   }
 
-  def shutdownSeveral() = AsyncStack(AuthorityKey -> Administrator) {
+  def shutdownSeveral() = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
@@ -145,7 +136,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       )
   }
 
-  def upgrade(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+  def upgrade(ip: String) = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
@@ -165,7 +156,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       }
   }
 
-  def unfreeze(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+  def unfreeze(ip: String) = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
@@ -181,7 +172,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       }
   }
 
-  def sendCommand(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+  def sendCommand(ip: String) = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
@@ -208,7 +199,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       )
   }
 
-  def blockPage(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+  def blockPage(ip: String) = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
@@ -230,7 +221,7 @@ class ComputerController @Inject()(userDAO: UserDAO, sSHOrderService: SSHOrderSe
       )
   }
 
-  def sendMessage(ip: String) = AsyncStack(AuthorityKey -> Administrator) {
+  def sendMessage(ip: String) = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username

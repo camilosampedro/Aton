@@ -8,5 +8,4 @@ case class ComputerState(
                           registeredDate: java.sql.Timestamp,
                           state: Int,
                           operatingSystem: Option[String],
-                          mac: Option[String]
-                        )
+                          mac: Option[String])

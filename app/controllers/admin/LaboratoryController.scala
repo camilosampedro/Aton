@@ -1,34 +1,29 @@
 package controllers.admin
 
 import com.google.inject.Inject
-import controllers.{AuthConfigImpl, routes => normalroutes}
+import controllers.{routes => normalroutes}
 import dao.{LaboratoryDAO, UserDAO}
-import jp.t2v.lab.play2.auth.AuthElement
 import model.Role._
 import model.form.LaboratoryForm
-import model.form.data.{LaboratoryFormData, LoginFormData}
+import model.form.data.LaboratoryFormData
 import model.{Laboratory, Role}
 import play.Logger
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.Controller
-import scala.concurrent.ExecutionContext.Implicits.global
+import play.api.i18n.MessagesApi
 import views.html._
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * Created by camilo on 20/03/16.
   */
-class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi) extends Controller with I18nSupport with AuthElement with AuthConfigImpl {
-
-  override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
-
-  def administrateLaboratories = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
+class LaboratoryController @Inject()(laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext) extends ControllerWithAuthRequired {
+  def administrateLaboratories = AuthRequiredAction { implicit request =>
     Logger.debug("Petición de listar los laboratorios administrativamente recibida.")
     Future.successful(Redirect(normalroutes.HomeController.home()))
   }
 
-  def edit(id: Long) = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
+  def edit(id: Long) = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     implicit val isAdmin = loggedIn.role == Role.Administrator
     laboratoryDAO.get(id).map {
@@ -39,7 +34,7 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryDAO: Laboratory
     }
   }
 
-  def add = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
+  def add = AuthRequiredAction { implicit request =>
     Logger.debug("Adding laboratory... ")
     implicit val username = Some(loggedIn.username)
     implicit val isAdmin = loggedIn.role == Role.Administrator
@@ -65,7 +60,7 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryDAO: Laboratory
     Ok(index("Add laboratory",registerLaboratory(LaboratoryForm.form)))
   }
 
-  def delete(id: Long) = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
+  def delete(id: Long) = AuthRequiredAction { implicit request =>
     laboratoryDAO.delete(id) map { res =>
       Redirect(normalroutes.HomeController.home())
     }

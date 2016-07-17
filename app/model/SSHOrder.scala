@@ -11,14 +11,9 @@ case class SSHOrder(
                      superUser: Boolean,
                      interrupt: Boolean,
                      command: String,
-                     webUser: String
-                   ) {
-
-  def this(sentDatetime: Timestamp,
-           superUser: Boolean,
-           interrupt: Boolean,
-           command: String,
-           username:String) = this(0, sentDatetime, superUser, interrupt, command, username)
+                     webUser: String) {
+  def this(sentDatetime: Timestamp, superUser: Boolean, interrupt: Boolean, command: String, username: String) =
+    this(0, sentDatetime, superUser, interrupt, command, username)
 
   def this(sentDatetime: Timestamp, superUser: Boolean, command: String) = this(0, sentDatetime, superUser, false, command, "")
 

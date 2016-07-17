@@ -11,5 +11,6 @@ case class SSHOrderToComputer(
                                sshOrderDatetime: Timestamp,
                                result: Option[String],
                                exitCode: Option[Int]) {
-  def this(computerIp: String, sshOrderDatetime: Timestamp, sshOrderId: Long) = this(computerIp, sshOrderId, sshOrderDatetime, None, None)
+  def this(computerIp: String, sshOrderDatetime: Timestamp, sshOrderId: Long) =
+    this(computerIp, sshOrderId, sshOrderDatetime, None, None)
 }

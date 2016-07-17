@@ -13,38 +13,41 @@ import scala.reflect.{ClassTag, classTag}
   */
 trait AuthConfigImpl extends AuthConfig {
   /**
-    * A type that is used to identify a user.
-    * `String`, `Int`, `Long` and so on.
+    * User information is of type LoginFormData
     */
   type Id = LoginFormData
 
   /**
-    * A type that represents a user in your application.
-    * `User`, `Account` and so on.
+    * User class is User
     */
   type User = model.User
 
   /**
-    * A type that is defined by every action for authorization.
-    * This sample uses the following trait:
-    *
-    * sealed trait Role
-    * case object Administrator extends Role
-    * case object NormalUser extends Role
+    * Authority is represented by an Int.
     */
   type Authority = Int
-
+  /**
+    * (Optional)
+    * You can custom SessionID Token handler.
+    * Default implementation use Cookie.
+    */
+  override lazy val tokenAccessor = new CookieTokenAccessor(
+    /*
+     * Whether use the secure option or not use it in the cookie.
+     * Following code is default.
+     */
+    cookieSecureOption = play.api.Play.isProd(play.api.Play.current),
+    cookieMaxAge = Some(sessionTimeoutInSeconds)
+  )
   /**
     * A `ClassTag` is used to retrieve an id from the Cache API.
     * Use something like this:
     */
   val idTag: ClassTag[Id] = classTag[Id]
-
   /**
-    * The session timeout in seconds
+    * The session timeout in seconds.
     */
   val sessionTimeoutInSeconds: Int = 3600
-
 
   /**
     * Where to redirect the user after a successful login.
@@ -54,15 +57,13 @@ trait AuthConfigImpl extends AuthConfig {
     Future.successful(Redirect(routes.HomeController.home()))
   }
 
-
   /**
-    * Where to redirect the user after logging out
+    * Where to redirect the user after logging out.
     */
   def logoutSucceeded(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] = {
     play.Logger.debug("Logout succeeded")
     Future.successful(Redirect(routes.LoginController.login()))
   }
-
 
   /**
     * If the user is not logged in and tries to access a protected resource then redirect them as follows:
@@ -89,19 +90,5 @@ trait AuthConfigImpl extends AuthConfig {
       case _ => false
     }
   }
-
-  /**
-    * (Optional)
-    * You can custom SessionID Token handler.
-    * Default implementation use Cookie.
-    */
-  override lazy val tokenAccessor = new CookieTokenAccessor(
-    /*
-     * Whether use the secure option or not use it in the cookie.
-     * Following code is default.
-     */
-    cookieSecureOption = play.api.Play.isProd(play.api.Play.current),
-    cookieMaxAge = Some(sessionTimeoutInSeconds)
-  )
 
 }

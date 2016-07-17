@@ -7,5 +7,4 @@ case class ConnectedUser(
                           id: Int,
                           username: String,
                           computerStateComputerIp: String,
-                          computerStateRegisteredDate: java.sql.Timestamp
-                        )
+                          computerStateRegisteredDate: java.sql.Timestamp)

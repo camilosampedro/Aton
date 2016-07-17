@@ -1,12 +1,10 @@
 package config
 
-import akka.actor.ActorSystem
-import com.google.inject.{AbstractModule, Inject}
+import com.google.inject.AbstractModule
 import play.api.libs.concurrent.AkkaGuiceSupport
-import scala.concurrent.duration._
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
+  * This class contains information about actors. Actually there's only one actor: Computer Checker.
   * Created by camilo on 21/05/16.
   */
 class ActorModule extends AbstractModule with AkkaGuiceSupport {

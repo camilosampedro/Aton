@@ -7,5 +7,4 @@ case class Suggestion(
                        id: Long,
                        suggestionText: String,
                        registeredDate: java.sql.Timestamp,
-                       username: Option[String]
-                     )
+                       username: Option[String])

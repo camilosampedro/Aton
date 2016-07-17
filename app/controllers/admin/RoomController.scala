@@ -1,30 +1,24 @@
 package controllers.admin
 
 import com.google.inject.Inject
-import controllers.{AuthConfigImpl, routes => normalroutes}
+import controllers.{routes => normalroutes}
 import dao.{LaboratoryDAO, RoomDAO, UserDAO}
-import jp.t2v.lab.play2.auth.AuthElement
 import model.Role._
 import model.Room
 import model.form.RoomForm
-import model.form.data.{LoginFormData, RoomFormData}
+import model.form.data.RoomFormData
 import play.Logger
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.Controller
+import play.api.i18n.MessagesApi
 import views.html._
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 /**
   * Created by camilosampedro on 11/05/16.
   */
-class RoomController @Inject()(userDAO: UserDAO, roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext) extends Controller with I18nSupport with AuthElement with AuthConfigImpl {
+class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext) extends ControllerWithAuthRequired {
 
-  override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
-
-  implicit val isAdmin = true
-
-  def add = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
+  def add = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     Logger.debug("Adding roomPanel... ")
     RoomForm.form.bindFromRequest().fold(
@@ -44,7 +38,7 @@ class RoomController @Inject()(userDAO: UserDAO, roomDAO: RoomDAO, laboratoryDAO
     )
   }
 
-  def addForm() = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
+  def addForm() = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     laboratoryDAO.listAll.map { laboratories =>
       val pairs = laboratories.map(x => (x.id.toString, x.name))
@@ -52,7 +46,7 @@ class RoomController @Inject()(userDAO: UserDAO, roomDAO: RoomDAO, laboratoryDAO
     }
   }
 
-  def editForm(roomId: Long) = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
+  def editForm(roomId: Long) = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     val results = for {
       roomResult <- roomDAO.get(roomId)
@@ -74,7 +68,7 @@ class RoomController @Inject()(userDAO: UserDAO, roomDAO: RoomDAO, laboratoryDAO
     NotImplemented
   }
 
-  def delete(roomId: Long) = AsyncStack(AuthorityKey -> Administrator) { implicit request =>
+  def delete(roomId: Long) = AuthRequiredAction { implicit request =>
     roomDAO.delete(roomId).map { res =>
       Redirect(normalroutes.HomeController.home())
     }
