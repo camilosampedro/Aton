@@ -8,7 +8,7 @@ import play.api.i18n.MessagesApi
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Created by camilosampedro on 10/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class AdministrationController @Inject()(val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, userDAO: UserDAO) extends ControllerWithAuthRequired {
   def administrationPanel = AuthRequiredAction { implicit request =>

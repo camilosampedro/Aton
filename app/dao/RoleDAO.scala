@@ -7,7 +7,7 @@ import model.Role
 import scala.concurrent.Future
 
 /**
-  * Controla las acciones sobre la base de datos.
+  * Performs role database actions
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
@@ -15,34 +15,34 @@ import scala.concurrent.Future
 trait RoleDAO {
 
   /**
-    * Adiciona una RoleText
+    * Adds a new Role
     *
-    * @param role Role a agregar
-    * @return String con el mensaje del result
+    * @param role Role to add
+    * @return Result String
     */
   def add(role: Role): Future[String]
 
   /**
-    * Obtiene un RoleText según el roleId
+    * Gets a Role with its ID
     *
-    * @param roleId roleIdentificador del RoleText
-    * @return Role encontrado o None si no se encontró
+    * @param roleId Role's ID
+    * @return Some Role found, None if its not found.
     */
   def get(roleId: Int): Future[Option[Role]]
 
 
   /**
-    * Elimina un RoleText de la base de datos
+    * Deletes a Role from database.
     *
-    * @param roleId roleIdentificador del RoleText
-    * @return Resultado de la operación
+    * @param roleId Role's ID
+    * @return Operation result
     */
   def delete(roleId: Int): Future[Int]
 
   /**
-    * Lista todos los roles en la base de datos
+    * List all the ROles on the database.
     *
-    * @return Todos los roles
+    * @return All Roles found.
     */
   def listAll: Future[Seq[Role]]
 }

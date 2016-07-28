@@ -16,7 +16,7 @@ import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 
 /**
-  * Created by camilo on 7/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext) extends ControllerWithAuthRequired {
   def edit = AuthRequiredAction { implicit request =>
@@ -27,15 +27,15 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
           case Some(computer) =>
             computer.roomID match {
               case Some(roomID) =>
-                Await.result(roomDAO.get(roomID), 5 seconds) match {
+                Await.result(roomDAO.get(roomID), 5.seconds) match {
                   case Some(room) =>
-                    val rooms = Await.result(roomDAO.getByLaboratory(room.id), 5 seconds)
+                    val rooms = Await.result(roomDAO.getByLaboratory(room.id), 5.seconds)
                     val pairs = rooms.map(x => (x.id.toString, x.name))
                     Ok(index(messagesApi("computer.edit"), editComputer(errorForm, pairs)))
                   case _ =>
-                    NotFound("Computer has not asociated")
+                    NotFound("Computer has not associated room")
                 }
-              case _ => val rooms = Await.result(roomDAO.listAll, 5 seconds)
+              case _ => val rooms = Await.result(roomDAO.listAll, 5.seconds)
                 val pairs = rooms.map(x => (x.id.toString, x.laboratoryID + x.name))
 
                 val computerForm = ComputerFormData(computer.ip, computer.name, computer.SSHUser, computer.SSHPassword, computer.description, None)
@@ -57,7 +57,7 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
 
   def add = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
-    Logger.debug("Request de agregar equipo ingresada:" + request)
+    Logger.debug("Add computer request received:" + request)
     ComputerForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(errorForm.toString)),
       data => {
@@ -77,12 +77,12 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
     implicit request =>
       implicit val username = Some(loggedIn.username)
       Logger.debug("Looking for computer: " + ip)
-      val resultados = for {
+      val results = for {
         computerSearch <- computerDAO.get(ip)
         roomsSearch <- roomDAO.listAll
       } yield (computerSearch, roomsSearch)
 
-      resultados.map(res =>
+      results.map(res =>
         res._1 match {
           case Some(Computer(`ip`, name, sSHUser, sSHPassword, description, room)) =>
             val computerForm = ComputerFormData(ip, name, sSHUser, sSHPassword, description, room)
@@ -147,7 +147,7 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
           case Some((computer,Some(computerState))) =>
             val (result,success)=sSHOrderService.upgrade(computer,computerState)
             if(success) {
-              NotImplemented(index(messagesApi("computer.upgradesucceeded"),notImplemented(messagesApi("computer.upgradesucceededbody"))))
+              NotImplemented(index(messagesApi("computer.upgrade.succeeded"),notImplemented(messagesApi("computer.upgrade.succeeded.body"))))
             } else {
               NotImplemented(index(messagesApi("computer.upgrade.failed"), notImplemented(messagesApi("computer.upgrade.failed") + result)))
             }

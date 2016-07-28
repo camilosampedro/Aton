@@ -4,9 +4,9 @@ import model.Role
 import slick.driver.MySQLDriver.api._
 
 /**
-  * Mapeo de la tabla Suggestion con Slick
+  * Role table map with Slick
   *
-  * @param tag
+  * @param tag Table tag
   */
 class RoleTable(tag: Tag) extends Table[Role](tag, "role") {
 

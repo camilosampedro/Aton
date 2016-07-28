@@ -14,16 +14,16 @@ import slick.driver.JdbcProfile
 import scala.concurrent.Future
 
 /**
-  * Se encarga de implementar las acciones sobre la base de datos
+  * Implements DAO operations of Laboratories
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
-  * @param dbConfigProvider Inyección del gestor de la base de datos
+  * @param dbConfigProvider DB manager injected.
   */
 @Singleton
 class LaboratoryDAOImpl @Inject()
-(dbConfigProvider: DatabaseConfigProvider, salaDAO: RoomDAO) extends LaboratoryDAO {
+(dbConfigProvider: DatabaseConfigProvider, roomDAO: RoomDAO) extends LaboratoryDAO {
   /**
-    * Configuración de la base de datos
+    * Database configuration
     */
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
@@ -32,7 +32,7 @@ class LaboratoryDAOImpl @Inject()
 
 
   /**
-    * Tabla con "todos los laboratorios", similar a select * from laboratory
+    * Table with all laboratories, like select * from laboratory
     */
   implicit val laboratories = TableQuery[LaboratoryTable]
   implicit val rooms = TableQuery[RoomTable]
@@ -44,10 +44,10 @@ class LaboratoryDAOImpl @Inject()
   }
 
   /**
-    * Adiciona un laboratory
+    * Adds a new laboratory to database.
     *
-    * @param laboratory Laboratory a agregar
-    * @return String con el mensaje del result
+    * @param laboratory Laboratory to add.
+    * @return Result string message.
     */
   override def add(laboratory: Laboratory): Future[String] = {
     // Se realiza un insert y por cada insert se crea un String
@@ -60,10 +60,10 @@ class LaboratoryDAOImpl @Inject()
   }
 
   /**
-    * Elimina un laboratory de la base de datos
+    * Removes a laboratory
     *
-    * @param id Identificador del laboratory
-    * @return Resultado de la operación
+    * @param id Laboratory's ID.
+    * @return Operation result.
     */
   override def delete(id: Long): Future[Int] = {
     db.run(search(id).delete)
@@ -72,19 +72,19 @@ class LaboratoryDAOImpl @Inject()
   private def search(id: Long) = laboratories.filter(_.id === id)
 
   /**
-    * Lista todas los laboratorios en la base de datos
+    * List all the laboratories on the database.
     *
-    * @return Todos los laboratorios
+    * @return All the laboratories found.
     */
   override def listAll: Future[Seq[Laboratory]] = {
     db.run(laboratories.result)
   }
 
   /**
-    * Obtiene el laboratory con todos las rooms y PC asociadas
+    * Gets the laboratory with all the rooms an computers associated.
     *
-    * @param id
-    * @return
+    * @param id Laboratory's ID.
+    * @return Found laboratory with all its rooms and computers.
     */
   override def getWithChildren(id: Long): Future[Seq[(Laboratory, Option[Room], (Option[Computer],Option[ComputerState],Option[ConnectedUser]))]] = {
     db.run {
@@ -96,13 +96,13 @@ class LaboratoryDAOImpl @Inject()
   }
 
   /**
-    * Obtiene un laboratory según el id
+    * Gets a laboratory by its ID.
     *
-    * @param id Identificador del laboratory
-    * @return Laboratory encontrado o None si no se encontró
+    * @param id Laboratory's ID.
+    * @return Some found laboratory or None if its not found.
     */
   override def get(id: Long): Future[Option[Laboratory]] = {
-    // Se realiza un select * from laboratory where id = $id
+    // Select * from laboratory where id = $id
     db.run(search(id).result.headOption)
   }
 }

@@ -13,10 +13,10 @@ import slick.driver.JdbcProfile
 import scala.concurrent.Future
 
 /**
-  * Se encarga de implementar las acciones sobre la base de datos
+  * Performs role database actions
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
-  * @param dbConfigProvider Inyección del gestor de la base de datos
+  * @param dbConfigProvider Database manager injected
   */
 @Singleton
 class RoleDAOImpl @Inject()
@@ -26,15 +26,15 @@ class RoleDAOImpl @Inject()
 
 
   /**
-    * Tabla con "todos los roles", similar a select * from roleText
+    * Table of Roles
     */
   implicit val roles = TableQuery[RoleTable]
 
   /**
-    * Adiciona un roleText
+    * Adds a new Role
     *
-    * @param role Role a agregar
-    * @return String con el mensaje del result
+    * @param role Role to add
+    * @return Result String
     */
   override def add(role: Role): Future[String] = {
     // Se realiza un insert y por cada insert se crea un String
@@ -44,32 +44,32 @@ class RoleDAOImpl @Inject()
   }
 
   /**
-    * Obtiene un roleText según el id
+    * Gets a Role with its ID
     *
-    * @param id Identificador del roleText
-    * @return Role encontrado o None si no se encontró
+    * @param roleId Role's ID
+    * @return Some Role found, None if its not found.
     */
-  override def get(id: Int): Future[Option[Role]] = {
+  override def get(roleId: Int): Future[Option[Role]] = {
     // Se realiza un select * from roleText where id = $id
-    db.run(search(id).result.headOption)
+    db.run(search(roleId).result.headOption)
   }
 
   private def search(id: Int) = roles.filter(_.id === id)
 
   /**
-    * Elimina un roleText de la base de datos
+    * Deletes a Role from database.
     *
-    * @param id Identificador del roleText
-    * @return Resultado de la operación
+    * @param roleId Role's ID
+    * @return Operation result
     */
-  override def delete(id: Int): Future[Int] = {
-    db.run(search(id).delete)
+  override def delete(roleId: Int): Future[Int] = {
+    db.run(search(roleId).delete)
   }
 
   /**
-    * Lista todas los roles en la base de datos
+    * List all the ROles on the database.
     *
-    * @return Todos los roles
+    * @return All Roles found.
     */
   override def listAll: Future[Seq[Role]] = {
     db.run(roles.result)

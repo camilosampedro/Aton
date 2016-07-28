@@ -14,10 +14,10 @@ import slick.driver.JdbcProfile
 import scala.concurrent.Future
 
 /**
-  * Se encarga de implementar las acciones sobre la base de datos
+  * Performs all ComputerState database operations
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
-  * @param dbConfigProvider Inyección del gestor de la base de datos
+  * @param dbConfigProvider Database manager injected
   */
 @Singleton
 class ComputerStateDAOImpl @Inject()
@@ -27,55 +27,53 @@ class ComputerStateDAOImpl @Inject()
 
 
   /**
-    * Tabla con "todos los estados", similar a select * from estado
+    * Table with all the computer states
     */
-  implicit val estados = TableQuery[ComputerStateTable]
+  implicit val computerStates = TableQuery[ComputerStateTable]
 
   /**
-    * Adiciona un estado
+    * Adds a new ComputerState
     *
-    * @param estado ComputerState a agregar
-    * @return String con el mensaje del result
+    * @param computerState ComputerState to add
+    * @return Result String
     */
-  override def add(estado: ComputerState): Future[String] = {
-    // Se realiza un insert y por cada insert se crea un String
-    db.run(estados += estado).map(res => "ComputerState agregado correctamente").recover {
-      case ex: Exception => play.Logger.error("Error saving: " + estado,ex)
+  override def add(computerState: ComputerState): Future[String] = {
+    db.run(computerStates += computerState).map(res => "ComputerState agregado correctamente").recover {
+      case ex: Exception => play.Logger.error("Error saving: " + computerState,ex)
         "Error"
     }
   }
 
   /**
-    * Obtiene un estado según el id
+    * Gets a ComputerState using its two identifiers: IP address and date
     *
-    * @param ip    Dirección IP del estado
-    * @param fecha Fecha del estado
-    * @return ComputerState encontrado o None si no se encontró
+    * @param ip    Computer's IP
+    * @param date Date on which the ComputerState was added
+    * @return Some ComputerState found or None if its not found
     */
-  override def get(ip: String, fecha: Timestamp): Future[Option[ComputerState]] = {
-    // Se realiza un select * from estado where id = $id
-    db.run(search(ip, fecha).result.headOption)
+  override def get(ip: String, date: Timestamp): Future[Option[ComputerState]] = {
+    db.run(search(ip, date).result.headOption)
   }
 
   /**
-    * Elimina un estado de la base de datos
+    * Deletes a ComputerState from the database
     *
-    * @param ip    Dirección IP del estado
-    * @param fecha Fecha del estado
-    * @return Resultado de la operación
+    * @param ip    Computer's IP
+    * @param date Date on which the ComputerState was added
+    * @return Operation result
     */
-  override def delete(ip: String, fecha: Timestamp): Future[Int] = {
-    db.run(search(ip, fecha).delete)
+  override def delete(ip: String, date: Timestamp): Future[Int] = {
+    db.run(search(ip, date).delete)
   }
 
-  private def search(ip: String, fecha: Timestamp) = estados.filter(a => a.computerIp === ip && a.registeredDate == fecha)
+  private def search(ip: String, fecha: Timestamp) = computerStates.filter(a => a.computerIp === ip && a.registeredDate == fecha)
 
   /**
-    * Lista todas los estados en la base de datos
+    * List all ComputerStates on the database
     *
-    * @return Todos los estados
+    * @return All ComputerStates found.
     */
   override def listAll: Future[Seq[ComputerState]] = {
-    db.run(estados.result)
+    db.run(computerStates.result)
   }
 }

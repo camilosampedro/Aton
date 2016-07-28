@@ -9,6 +9,6 @@ import services.{ComputerService, SSHOrderService}
 import scala.concurrent.ExecutionContext
 
 /**
-  * Created by camilo on 7/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext) extends ControllerWithNoAuthRequired

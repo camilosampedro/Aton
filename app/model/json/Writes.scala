@@ -4,7 +4,7 @@ import model._
 import play.api.libs.json.{Json, Writes}
 
 /**
-  * Created by camilosampedro on 20/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 object Writes {
   implicit val computerWrites = new Writes[Computer] {
@@ -53,12 +53,11 @@ object Writes {
   implicit val computerStatePairWrites = new Writes[Option[(ComputerState, Seq[ConnectedUser])]] {
     def writes(state: Option[(ComputerState, Seq[ConnectedUser])]) = {
       state match {
-        case Some(pair) => {
+        case Some(pair) =>
           Json.obj (
             "state" -> Json.toJson(pair._1),
             "users" -> pair._2.map(Json.toJson(_))
           )
-        }
         case _ => Json.parse("")
       }
     }

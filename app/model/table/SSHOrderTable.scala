@@ -7,9 +7,9 @@ import slick.driver.MySQLDriver.api._
 import slick.profile.SqlProfile.ColumnOption.SqlType
 
 /**
-  * command table map with Slick
+  * SSHOrder table map with Slick
   *
-  * @param tag
+  * @param tag Table tag
   */
 class SSHOrderTable(tag: Tag) extends Table[SSHOrder](tag, "ssh_order") {
 

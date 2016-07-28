@@ -8,7 +8,7 @@ import slick.driver.MySQLDriver.api._
 /**
   * ComputerState table map with Slick
   *
-  * @param tag
+  * @param tag Table tag
   */
 class ComputerStateTable(tag: Tag) extends Table[ComputerState](tag, "computer_state") {
   // All tables need the * method with the type that it was created the table.

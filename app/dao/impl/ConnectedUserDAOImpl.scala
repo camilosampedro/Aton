@@ -14,10 +14,10 @@ import slick.driver.JdbcProfile
 import scala.concurrent.Future
 
 /**
-  * Se encarga de implementar las acciones sobre la base de datos
+  * Performs connected user database actions
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
-  * @param dbConfigProvider Inyección del gestor de la base de datos
+  * @param dbConfigProvider Database manager injected
   */
 @Singleton
 class ConnectedUserDAOImpl @Inject()
@@ -27,44 +27,42 @@ class ConnectedUserDAOImpl @Inject()
 
 
   /**
-    * Tabla con "todos los sesions", similar a select * from sesion
+    * Connected user table
     */
-  implicit val sesions = TableQuery[ConnectedUserTable]
+  implicit val connectedUsers = TableQuery[ConnectedUserTable]
 
   /**
-    * Adiciona un sesion
+    * Adds a new connected user.
     *
-    * @param sesion ComputerSession a agregar
-    * @return String con el mensaje del result
+    * @param user User to add
+    * @return Result String
     */
-  override def add(sesion: ConnectedUser): Future[String] = {
-    // Se realiza un insert y por cada insert se crea un String
-    db.run(sesions += sesion).map(res => "ComputerSession agregado correctamente").recover {
-      case ex: Exception => play.Logger.error("Error saving: " + sesion,ex)
+  override def add(user: ConnectedUser): Future[String] = {
+    db.run(connectedUsers += user).map(res => "ComputerSession added").recover {
+      case ex: Exception => play.Logger.error("Error saving: " + user,ex)
         "Error"
     }
   }
 
   /**
-    * Obtiene un sesion según el id
+    * Gets a connected user based on the computer's IP and date on which it was registered.
     *
-    * @param ip    Dirección IP del sesion
-    * @param fecha Fecha del sesion
-    * @return ComputerSession encontrado o None si no se encontró
+    * @param ip    Computer's IP
+    * @param date Date on which user was registered connected
+    * @return Some User found
     */
-  override def get(ip: String, fecha: Timestamp): Future[Seq[ConnectedUser]] = {
-    // Se realiza un select * from sesion where id = $id
-    db.run(search(ip, fecha).result)
+  override def get(ip: String, date: Timestamp): Future[Seq[ConnectedUser]] = {
+    db.run(search(ip, date).result)
   }
 
   /**
-    * Elimina un sesion de la base de datos
+    * Deletes a connected user from database
     *
-    * @return Resultado de la operación
+    * @return Operation result
     */
   override def delete(id: Int): Future[Int] = {
-    db.run(sesions.filter(_.id===id).delete)
+    db.run(connectedUsers.filter(_.id===id).delete)
   }
 
-  private def search(ip: String, fecha: Timestamp) = sesions.filter(a => a.computerStateComputerIp === ip && a.computerStateRegisteredDate == fecha)
+  private def search(ip: String, date: Timestamp) = connectedUsers.filter(a => a.computerStateComputerIp === ip && a.computerStateRegisteredDate == date)
 }

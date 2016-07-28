@@ -5,7 +5,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 
 /**
-  * Created by camilo on 7/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 object ComputerForm {
   val form = Form(

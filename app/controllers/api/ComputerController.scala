@@ -13,7 +13,7 @@ import views.html._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
-  * Created by camilo on 20/03/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class ComputerController @Inject()(computerService: ComputerService, computerDAO: ComputerDAO, sSHOrderService: SSHOrderService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
@@ -23,13 +23,13 @@ class ComputerController @Inject()(computerService: ComputerService, computerDAO
         case Some(computer) if sSHOrderService.shutdown(computer)("Scheduled Checker") => Ok(Json.parse(
           """
             {
-               "answer":"apagado"
+               "answer":"shutted down"
             }
           """))
         case _ => NotFound(Json.parse(
           """
             {
-               "answer":"no encontrado"
+               "answer":"not found"
             }
           """))
       }

@@ -14,7 +14,7 @@ import views.html._
 import scala.concurrent.ExecutionContext
 
 /**
-  * Created by camilosampedro on 11/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext) extends ControllerWithAuthRequired {
 

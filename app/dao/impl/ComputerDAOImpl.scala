@@ -16,10 +16,10 @@ import slick.jdbc.{GetResult, SQLActionBuilder}
 import scala.concurrent.Future
 
 /**
-  * Se encarga de implementar las acciones sobre la base de datos
+  * Performs all Computer database actions
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
-  * @param dbConfigProvider Inyección del gestor de la base de datos
+  * @param dbConfigProvider Database manager injected
   */
 @Singleton
 class ComputerDAOImpl @Inject()
@@ -28,32 +28,32 @@ class ComputerDAOImpl @Inject()
   import driver.api._
 
   /**
-    * Tabla con "todos los computers", similar a select * from laboratory
+    * Table with all the computers.
     */
   implicit val computers = TableQuery[ComputerTable]
   implicit val computerStates = TableQuery[ComputerStateTable]
   implicit val connectedUsers = TableQuery[ConnectedUserTable]
 
   /**
-    * Adiciona un laboratory
+    * Adds a new computer
     *
-    * @param equipo Computer a agregar
-    * @return String con el mensaje del result
+    * @param computer Computer to add
+    * @return Result String message
     */
-  override def add(equipo: Computer): Future[String] = {
-    // Se realiza un insert y por cada insert se crea un String
-    db.run(computers += equipo).map(res => "Computer agregado correctamente").recover {
+  override def add(computer: Computer): Future[String] = {
+    // It's done an insertion and convert the result to a String.
+    db.run(computers += computer).map(res => "Computer added").recover {
       case ex: Exception =>
-        Logger.error("Ocurrió un error agregando un equipo", ex)
+        Logger.error("An error occurred", ex)
         ex.getMessage
     }
   }
 
   /**
-    * Obtiene un laboratory según el id
+    * Gets a computer based on its IP
     *
-    * @param ip Dirección IP del laboratory
-    * @return Computer encontrado o None si no se encontró
+    * @param ip Computer's IP
+    * @return Some Computer found or None if its not found.
     */
   override def get(ip: String): Future[Option[Computer]] = {
     // Se realiza un select * from laboratory where id = $id
@@ -61,10 +61,10 @@ class ComputerDAOImpl @Inject()
   }
 
   /**
-    * Elimina un laboratory de la base de datos
+    * Deletes a computer from database
     *
-    * @param ip Dirección IP del laboratory
-    * @return Resultado de la operación
+    * @param ip Computer's IP
+    * @return Operation result
     */
   override def delete(ip: String): Future[Int] = {
     db.run(search(ip).delete)
@@ -77,9 +77,9 @@ class ComputerDAOImpl @Inject()
   }
 
   /**
-    * Lista todos los computers en la base de datos
+    * Lists all computers in the database.
     *
-    * @return Todos los computers
+    * @return All computers found.
     */
   override def listAll: Future[Seq[(Computer, Option[ComputerState],Option[ConnectedUser])]] = db.run {
     computers.joinLeft(computerStates).on(_.ip === _.computerIp).joinLeft(connectedUsers).on((x,y)=>x._2.map(_.computerIp) === y.computerStateComputerIp && x._2.map(_.registeredDate) === y.computerStateRegisteredDate).map(x=>(x._1._1,x._1._2,x._2)).result
@@ -96,7 +96,7 @@ class ComputerDAOImpl @Inject()
   override def get(severalComputers: List[String]): Future[Seq[Computer]] = {
     implicit val getComputerResult = GetResult(c=>Computer(c.<<, c.<<, c.<<, c.<<, c.<<, c.<<))
     val ips = severalComputers.mkString(",")
-    val sql = sql"""SELECT * FROM computer WHERE id IN (#${ips})""".as[Computer]
+    val sql = sql"""SELECT * FROM computer WHERE id IN (#$ips)""".as[Computer]
     db.run(sql)
   }
 }

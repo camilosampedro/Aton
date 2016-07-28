@@ -9,7 +9,7 @@ import model.ComputerState
 import scala.concurrent.Future
 
 /**
-  * Controla las acciones sobre la base de datos.
+  * Performs ComputerState database actions
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
@@ -17,35 +17,35 @@ import scala.concurrent.Future
 trait ComputerStateDAO {
 
   /**
-    * Adiciona un estado
+    * Adds a new ComputerState
     *
-    * @param estado ComputerState a agregar
-    * @return String con el mensaje del result
+    * @param computerState ComputerState to add
+    * @return Result String
     */
-  def add(estado: ComputerState): Future[String]
+  def add(computerState: ComputerState): Future[String]
 
   /**
-    * Obtiene un estado según el identificador compuesto
+    * Gets a ComputerState using its two identifiers: IP address and date
     *
-    * @param ip    Dirección IP del estado
-    * @param fecha Fecha del estado
-    * @return ComputerState encontrado o None si no se encontró
+    * @param ip    Computer's IP
+    * @param date Date on which the ComputerState was added
+    * @return Some ComputerState found or None if its not found
     */
-  def get(ip: String, fecha: Timestamp): Future[Option[ComputerState]]
+  def get(ip: String, date: Timestamp): Future[Option[ComputerState]]
 
   /**
-    * Elimina un estado de la base de datos
+    * Deletes a ComputerState from the database
     *
-    * @param ip    Dirección IP del estado
-    * @param fecha Fecha del estado
-    * @return Resultado de la operación
+    * @param ip    Computer's IP
+    * @param date Date on which the ComputerState was added
+    * @return Operation result
     */
-  def delete(ip: String, fecha: Timestamp): Future[Int]
+  def delete(ip: String, date: Timestamp): Future[Int]
 
   /**
-    * Lista todos los estados en la base de datos
+    * List all ComputerStates on the database
     *
-    * @return Todos los estados
+    * @return All ComputerStates found.
     */
   def listAll: Future[Seq[ComputerState]]
 }

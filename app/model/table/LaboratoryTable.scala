@@ -7,7 +7,7 @@ import slick.lifted.ProvenShape
 /**
   * Laboratory table map with Slick
   *
-  * @param tag
+  * @param tag Table tag.
   */
 class LaboratoryTable(tag: Tag) extends Table[Laboratory](tag, "laboratory") {
 

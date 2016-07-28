@@ -15,42 +15,42 @@ import scala.concurrent.Future
 trait LaboratoryDAO {
 
   /**
-    * Obtiene el laboratory con todos las rooms y PC asociadas
+    * Gets the laboratory with all the rooms an computers associated.
     *
-    * @param id
-    * @return
+    * @param id Laboratory's ID.
+    * @return Found laboratory with all its rooms and computers.
     */
-  def getWithChildren(id: Long): Future[Seq[(Laboratory, Option[Room], (Option[Computer],Option[ComputerState],Option[ConnectedUser]))]]
+  def getWithChildren(id: Long): Future[Seq[(Laboratory, Option[Room], (Option[Computer], Option[ComputerState], Option[ConnectedUser]))]]
 
 
   /**
-    * Adiciona un laboratory
+    * Adds a new laboratory to database.
     *
-    * @param laboratorio Laboratory a agregar
-    * @return String con el mensaje del result
+    * @param laboratory Laboratory to add.
+    * @return Result string message.
     */
-  def add(laboratorio: Laboratory): Future[String]
+  def add(laboratory: Laboratory): Future[String]
 
   /**
-    * Obtiene un laboratory según el id
+    * Gets a laboratory by its ID.
     *
-    * @param id Identificador del laboratory
-    * @return Laboratory encontrado o None si no se encontró
+    * @param id Laboratory's ID.
+    * @return Some found laboratory or None if its not found.
     */
   def get(id: Long): Future[Option[Laboratory]]
 
   /**
-    * Elimina un laboratory de la base de datos
+    * Removes a laboratory
     *
-    * @param id Identificador del laboratory
-    * @return Resultado de la operación
+    * @param id Laboratory's ID.
+    * @return Operation result.
     */
   def delete(id: Long): Future[Int]
 
   /**
-    * Lista todos los laboratorios en la base de datos
+    * List all the laboratories on the database.
     *
-    * @return Todos los laboratorios
+    * @return All the laboratories found.
     */
   def listAll: Future[Seq[Laboratory]]
 }

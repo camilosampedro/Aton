@@ -8,7 +8,7 @@ import services.{ComputerService, SSHOrderService}
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Created by camilo on 14/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @Singleton
 class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDAO: ComputerDAO)(implicit executionContext: ExecutionContext) extends ComputerService {
@@ -39,7 +39,7 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
           }.groupBy(_._1).map { groupedState =>
             (groupedState._1, groupedState._2.flatMap(_._2))
           }.flatMap {
-            case (Some(computerstate), users) => Some((computerstate, users))
+            case (Some(computerState), users) => Some((computerState, users))
             case _ => None
           }.toSeq.sortBy(_._1.registeredDate.getTime).headOption)
         }.toSeq.sortBy(_._1.ip)

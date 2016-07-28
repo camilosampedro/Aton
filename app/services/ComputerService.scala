@@ -7,7 +7,7 @@ import services.impl.ComputerServiceImpl
 import scala.concurrent.Future
 
 /**
-  * Created by camilo on 14/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @ImplementedBy(classOf[ComputerServiceImpl])
 trait ComputerService {

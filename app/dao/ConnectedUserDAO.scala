@@ -9,7 +9,7 @@ import model.ConnectedUser
 import scala.concurrent.Future
 
 /**
-  * Controla las acciones sobre la base de datos.
+  * Performs connected user database actions
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
@@ -17,26 +17,26 @@ import scala.concurrent.Future
 trait ConnectedUserDAO {
 
   /**
-    * Adiciona una sesion
+    * Adds a new connected user.
     *
-    * @param user ComputerSession a agregar
-    * @return String con el mensaje del result
+    * @param user User to add
+    * @return Result String
     */
   def add(user: ConnectedUser): Future[String]
 
   /**
-    * Obtiene una sesion según el id
+    * Gets a connected user based on the computer's IP and date on which it was registered.
     *
-    * @param ip    Dirección IP de la sesion
-    * @param fecha Fecha de la sesion
-    * @return ComputerSession encontrado o None si no se encontró
+    * @param ip    Computer's IP
+    * @param date Date on which user was registered connected
+    * @return Some User found
     */
-  def get(ip: String, fecha: Timestamp): Future[Seq[ConnectedUser]]
+  def get(ip: String, date: Timestamp): Future[Seq[ConnectedUser]]
 
   /**
-    * Elimina una sesion de la base de datos
+    * Deletes a connected user from database
     *
-    * @return Resultado de la operación
+    * @return Operation result
     */
   def delete(id: Int): Future[Int]
 }

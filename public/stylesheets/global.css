@@ -161,26 +161,26 @@ div .equipo .equipo-cuerpo {
     background-color: #bdc3c7;
 }
 
-div #no-encontrado {
+div #not-found {
     text-align: center;
     padding-top: 0;
     padding-bottom: 0;
     margin: 0;
 }
 
-div #no-encontrado p {
+div #not-found p {
     padding-top: 0;
     padding-bottom: 0;
     margin: 0;
 }
 
-div #no-encontrado h1 {
+div #not-found h1 {
     padding-top: 0;
     padding-bottom: 0;
     margin: 0;
 }
 
-div #no-encontrado .icon {
+div #not-found .icon {
     font-size: 6em;
 }
 

@@ -1,5 +1,5 @@
 @()(implicit messages: Messages)
-<div id="commandbox" class="modal fade" role="dialog">
+<div id="command-box" class="modal fade" role="dialog">
     <div class="modal-dialog">
             <!-- Modal content-->
         <div class="modal-content">
@@ -11,10 +11,10 @@
                 <div class="row"><p>@messages("computer.executeCommandBody")</p></div>
 
                 <div class="row">
-                    <form action="" id="commandform" method="post">
+                    <form action="" id="command-form" method="post">
                         <div class="input-group">
                             <span class="input-group-addon">
-                                <input id="sshorder_superuser" name="sshorder.superuser" type="checkbox"/>
+                                <label for="sshorder_superuser">@messages("sshorder.superuser")</label><input id="sshorder_superuser" name="sshorder.superuser" type="checkbox"/>
                             </span>
                             <input id="sshorder_command" name="sshorder.command" type="text" class="form-control" placeholder="@messages("sshorder.command")">
                             <span class="input-group-btn">

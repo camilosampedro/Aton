@@ -9,7 +9,7 @@ import model.SSHOrderToComputer
 import scala.concurrent.Future
 
 /**
-  * Controla las acciones sobre la base de datos.
+  * Perform operations with the database.
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
@@ -19,33 +19,33 @@ trait SSHOrderToComputerDAO {
 
 
   /**
-    * Adiciona una orden SSH
+    * Adds a new SSHOrder.
     *
-    * @param ordenSSH command a agregar
-    * @return String con el mensaje del result
+    * @param sshOrderToComputer Order to add.
+    * @return Result String message.
     */
-  def add(ordenSSHToComputer: SSHOrderToComputer): Future[String]
+  def add(sshOrderToComputer: SSHOrderToComputer): Future[String]
 
   /**
-    * Obtiene una orden SSH según el id
+    * Gets a SSHOrder using its ID.
     *
-    * @param id Identificador del command
-    * @return command encontrado o None si no se encontró
+    * @param id SSHOrder's id.
+    * @return Some SSHOrder found or None if it's not found.
     */
   def get(id: Timestamp): Future[Option[SSHOrderToComputer]]
 
   /**
-    * Elimina una orden SSH de la base de datos
+    * Deletes an SSHOrder from database
     *
-    * @param id Identificador del command
-    * @return Resultado de la operación
+    * @param id SSHOrder's id
+    * @return Operation result
     */
   def delete(id: Timestamp): Future[Int]
 
   /**
-    * Lista todas los ordenes SSH en la base de datos
+    * List all SSHOrders from database
     *
-    * @return Todos las ordenes SSH
+    * @return All SSHOrders found.
     */
   def listAll: Future[Seq[SSHOrderToComputer]]
 }

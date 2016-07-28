@@ -12,7 +12,7 @@ import play.api.mvc.Controller
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Created by camilo on 16/07/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 abstract class ControllerWithAuthRequired @Inject()(implicit userDAO: UserDAO) extends Controller with I18nSupport with AuthElement with AuthConfigImpl {
   implicit val isAdmin = true

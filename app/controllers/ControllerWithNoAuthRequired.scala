@@ -10,7 +10,7 @@ import play.api.mvc.Controller
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Created by camilo on 16/07/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 abstract class ControllerWithNoAuthRequired @Inject()(implicit userDAO: UserDAO) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
   override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)

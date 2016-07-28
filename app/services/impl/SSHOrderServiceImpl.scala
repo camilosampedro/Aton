@@ -71,7 +71,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
             /*ssh.executeWithExpects("sudo -S su", List(new Expect(_.contains("password"), settings.password.password.getOrElse(""))))
             ssh.become("root", settings.password.password)*/
 
-            ssh.executeWithExpects("""SUDO_PROMPT="prompt" sudo -S su -""", List(new Expect(_.endsWith("prompt"), settings.password.password.getOrElse(""))))
+            ssh.executeWithExpects("""SUDO_PROMPT="prompt" sudo -S su -""", List(Expect(_.endsWith("prompt"), settings.password.password.getOrElse(""))))
             val (result, exitCode) = ssh.executeWithStatus(joinedSSHOrder.command)
             ssh.execute("exit")
             (result, exitCode)
@@ -98,7 +98,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
       case _ =>
         ("", 0)
     }
-    Await.result(future, 30 seconds)
+    Await.result(future, 30.seconds)
   }
 
   override def getMac(computer: Computer, operatingSystem: Option[String])(implicit username: String): Option[String] = {

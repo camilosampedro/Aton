@@ -7,15 +7,16 @@ import slick.driver.MySQLDriver.api._
 import slick.lifted.ProvenShape
 
 /**
-  * Mapeo de la tabla Suggestion con Slick
+  * Suggestion table map with Slick
   *
-  * @param tag
+  * @param tag Table tag
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class SuggestionTable(tag: Tag) extends Table[Suggestion](tag, "suggestion") {
 
   // All tables need the * method with the type that it was created the table with.
   override def * : ProvenShape[Suggestion] =
-    (id, suggestionText, registeredDate, username) <>(Suggestion.tupled, Suggestion.unapply)
+  (id, suggestionText, registeredDate, username) <> (Suggestion.tupled, Suggestion.unapply)
 
   // Primary key
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)

@@ -9,7 +9,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.reflect.{ClassTag, classTag}
 
 /**
-  * Created by camilo on 15/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 trait AuthConfigImpl extends AuthConfig {
   /**

@@ -1,7 +1,7 @@
 package model.form.data
 
 /**
-  * Created by camilo on 7/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 case class ComputerFormData(
                              ip: String,

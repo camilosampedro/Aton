@@ -7,7 +7,7 @@ import model.{Computer, ComputerState, ConnectedUser}
 import scala.concurrent.Future
 
 /**
-  * Controla las acciones sobre la base de datos.
+  * Performs Computer database actions.
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
@@ -19,37 +19,37 @@ trait ComputerDAO {
 
 
   /**
-    * Adiciona un inicio
+    * Adds a new computer
     *
-    * @param equipo Computer a agregar
-    * @return String con el mensaje del result
+    * @param computer Computer to add
+    * @return Result String message
     */
-  def add(equipo: Computer): Future[String]
+  def add(computer: Computer): Future[String]
 
   /**
-    * Obtiene un inicio según la ip
+    * Gets a computer based on its IP
     *
-    * @param ip Dirección IP del inicio
-    * @return Computer encontrado o None si no se encontró
+    * @param ip Computer's IP
+    * @return Some Computer found or None if its not found.
     */
   def get(ip: String): Future[Option[Computer]]
 
   def getWithStatus(ip: String): Future[Seq[(Computer, Option[ComputerState], Option[ConnectedUser])]]
 
   /**
-    * Elimina un inicio de la base de datos
+    * Deletes a computer from database
     *
-    * @param ip Dirección IP del inicio
-    * @return Resultado de la operación
+    * @param ip Computer's IP
+    * @return Operation result
     */
   def delete(ip: String): Future[Int]
 
   /**
-    * Lista todas los computers en la base de datos
+    * Lists all computers in the database.
     *
-    * @return Todos los computers
+    * @return All computers found.
     */
-  def listAll: Future[Seq[(Computer,Option[ComputerState],Option[ConnectedUser])]]
+  def listAll: Future[Seq[(Computer, Option[ComputerState], Option[ConnectedUser])]]
 
   def edit(computer: Computer): Future[Int]
 }
