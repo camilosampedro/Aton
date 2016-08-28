@@ -31,7 +31,8 @@ libraryDependencies ++= Seq(
   "org.webjars" %% "webjars-play" % "2.5.0",
   "com.typesafe.play" %% "play-slick-evolutions" % "2.0.2",
   "com.typesafe.akka" %% "akka-actor" % "2.4.5",
-  "fr.janalyse" %% "janalyse-ssh" % "0.9.19" % "compile"
+  "fr.janalyse" %% "janalyse-ssh" % "0.9.19" % "compile",
+  "org.mindrot"  % "jbcrypt"   % "0.3m"
 )
 
 libraryDependencies ++= Seq(
@@ -39,10 +40,6 @@ libraryDependencies ++= Seq(
   "org.webjars" % "jquery" % "2.2.1",
   "org.webjars" % "requirejs" % "2.2.0",
   "org.webjars" % "ionicons" % "2.0.1"
-)
-
-libraryDependencies ++= Seq(
-  "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.0" % "test"
 )
 
 
