@@ -48,6 +48,8 @@ header {
 }
 
 div#container {
+
+    /*height: calc(100vh - 50px) !important;*/
     width: 100%;
     margin: 0 auto;
 }
@@ -97,7 +99,7 @@ aside ul li a.selected {
 .content {
     /*width: auto;*/
     margin-left: 200px;
-    /*height: calc(100% - 50px);*/
+    /*height: calc(100vh - 65px);*/
     background-color: #bdc3c7;
     padding: 15px;
 }
@@ -118,8 +120,12 @@ aside ul li a.selected {
     margin-right: 1.2em;
 }
 
+.panel-body {
+    padding-bottom: 0;
+}
+
 .command {
-    font-family: "Courier New";
+    font-family: "Courier New", serif;
 }
 
 div .box {
@@ -219,7 +225,7 @@ a.mobile:active {
 
 @media only screen and (min-width: 401px) {
     .sidebar {
-        height: calc(100% - 50px);
+        height: calc(100vh - 45px);
     }
 
     a.mobile {
@@ -245,6 +251,7 @@ a.mobile:active {
 .btn span.glyphicon {
     opacity: 0;
 }
+
 .btn.active span.glyphicon {
     opacity: 1;
 }

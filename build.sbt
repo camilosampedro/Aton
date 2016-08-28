@@ -41,6 +41,10 @@ libraryDependencies ++= Seq(
   "org.webjars" % "ionicons" % "2.0.1"
 )
 
+libraryDependencies ++= Seq(
+  "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.0" % "test"
+)
+
 
 
 

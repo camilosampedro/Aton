@@ -25,8 +25,8 @@ class HomeController @Inject()(laboratoryDAO: LaboratoryDAO, @Named("computerChe
   def home = AsyncStack { implicit request =>
     //play.Logger..debug("Logged user: " + loggedIn
     implicit val (username: Option[String], isAdmin: Boolean) = loggedIn match {
-      case Some(User(String, password, Some(name), role)) => (Some(name), role == Role.Administrator)
-      case Some(User(String, password, None, role)) => (Some(username), role == Role.Administrator)
+      case Some(User(usernameString, password, Some(name), role)) => (Some(name), role == Role.Administrator)
+      case Some(User(usernameString, password, None, role)) => (Some(usernameString), role == Role.Administrator)
       case _ => (None, false)
     }
     //logger.debug("Petición de listar todos los laboratorios con el siguiente request recibida " + request)
@@ -38,8 +38,8 @@ class HomeController @Inject()(laboratoryDAO: LaboratoryDAO, @Named("computerChe
 
   def about = StackAction { implicit request =>
     implicit val (username: Option[String], isAdmin: Boolean) = loggedIn match {
-      case Some(User(String, password, Some(name), role)) => (Some(name), role == Role.Administrator)
-      case Some(User(String, password, None, role)) => (Some(username), role == Role.Administrator)
+      case Some(User(usernameString, password, Some(name), role)) => (Some(name), role == Role.Administrator)
+      case Some(User(usernameString, password, None, role)) => (Some(usernameString), role == Role.Administrator)
       case _ => (None, false)
     }
 
