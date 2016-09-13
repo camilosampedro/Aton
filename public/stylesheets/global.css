@@ -106,11 +106,16 @@ aside ul li a.selected {
 
 .content p {
     color: #7f8c8d;
-    font-size: 1em;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 1.1em;
 }
 
 .content h1 h2 h3 h4 {
     font-family: 'Merriweather Sans', sans-serif !important;
+}
+
+.add-button {
+    margin-top: 0.7em;
 }
 
 .panel-heading a {
@@ -186,7 +191,7 @@ div #not-found h1 {
     margin: 0;
 }
 
-div #not-found .icon {
+div #not-found .not-found-icon {
     font-size: 6em;
 }
 

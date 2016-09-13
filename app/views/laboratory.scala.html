@@ -2,7 +2,7 @@
 @import model.{Computer, ComputerState, ConnectedUser, Laboratory, Room}
 @(laboratory: Laboratory, roomsWithComputers: Map[Option[Room], Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]])(implicit messages: Messages, isAdmin: Boolean)
 
-<h1>@messages("laboratory").capitalize @laboratory.name</h1>
+<h1 class="icon ion-earth"> @messages("laboratory").capitalize @laboratory.name</h1>
 @if(roomsWithComputers.nonEmpty) {
     @if(isAdmin) {
         <form action="@adminroutes.ComputerController.shutdownSeveral()" method="post">
@@ -12,10 +12,10 @@
     }
 
     @if(isAdmin) {
-        <button type="submit">Apagar</button>
+        <button class="btn btn-danger icon ion-power" type="submit"></button>
     </form>
         <div class="btn-agregar-tabla">
-            <a href="@adminroutes.RoomController.add()" class="btn btn-default " role="button">
+            <a href="@adminroutes.RoomController.add()" class="btn btn-default icon ion-plus add-button" role="button">
             @messages("room.add")</a>
             <a href="@adminroutes.ComputerController.add" class="btn btn-default " role="button">
             @messages("computer.add")</a>
@@ -24,16 +24,16 @@
     }
 
 } else {
-    <div class="panel panel-warning">
+    <div class="panel panel-info">
         <div class="panel-heading">@messages("empty")</div>
         <div class="panel-body">
             <div id="not-found">
-                <i class="flaticon-boxes27"></i>
+                <i class="not-found-icon icon ion-cube"></i>
                 <h1>@messages("laboratory.empty.title")</h1>
                 <p>@messages("laboratory.empty.text")</p>
                 @if(isAdmin) {
-                    <div class="btn-agregar-tabla">
-                        <a href="@adminroutes.RoomController.add()" class="btn btn-default " role="button">@messages("laboratory.addRoom")</a>
+                    <div class="btn-agregar-tabla ">
+                        <a href="@adminroutes.RoomController.add()" class="btn btn-success icon ion-plus add-button " role="button">@messages("laboratory.addRoom")</a>
                     </div>
                 } else {
                     <p>@messages("contactAdmin")</p>

@@ -1,6 +1,6 @@
 # Application
 app.name=Aton Web
-app.information=Aton, administrador web de salas de computadoras. Desarrollado por Camilo A. Sampedro.
+app.information=Administrador web de salas de computadoras. Desarrollado por Camilo A. Sampedro.
 # Computer
 computer.ip=Dirección IP / Hostname
 computer.SSHUser=Usuario SSH
@@ -58,7 +58,7 @@ edit=Editar
 delete=Eliminar
 empty=Vacío
 notImplemented=No implementado
-contactAdmin=Por favor ayúdanos en sugerencias reportando este problema.
+contactAdmin=Por favor ayúdanos en sugerencias reportando este problema. Si eres administrador del laboratorio, por favor autentícate en la parte superior.
 submit=Agregar
 send=Enviar
 about=Acerca de
@@ -67,6 +67,9 @@ laboratory=laboratorio
 laboratory.laboratoryListTitle=Lista de laboratorios
 laboratory.addButton=Agregar laboratorio
 laboratory.addRoom=Agregar sala
+laboratory.list.empty.body=Parece que no se han encontrado laboratorios.
+laboratory.list.empty.title=Aquí no hay laboratorios
+laboratory.list.empty.adminMessage=Si deseas puedes agregar salas desde el siguiente botón:
 laboratory.empty.title=Aquí no hay salas
 laboratory.empty.text=Parece que no se han encontrado salas.
 laboratory.location=Ubicación:

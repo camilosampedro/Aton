@@ -67,7 +67,7 @@ class ComputerControllerTest @Inject()(sSHOrderService: SSHOrderService, compute
     }
 
     "add" in {
-      val computer = new ComputerFormData("127.0.0.1", Some("Localhost"), "aton", "00000", Some(""), None)
+      val computer = ComputerFormData("127.0.0.1", Some("Localhost"), "aton", "00000", Some(""), None)
       val computerForm = ComputerForm.form.fill(computer)
       val result = controller.add.apply(FakeRequest().withFormUrlEncodedBody().withFormUrlEncodedBody(computerForm.data.toSeq: _ *))
       val bodyText = contentAsString(result)

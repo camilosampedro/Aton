@@ -4,7 +4,7 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">@room.name @if(isAdmin) {
-        <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-default pull-right" role="button">@messages("room.edit")</a> <a href="@adminroutes.RoomController.delete(room.id)" class="btn btn-default pull-right" role="button">@messages("room.delete")</a>
+        <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-warning icon ion-edit pull-right" role="button" title="@messages("room.edit")"></a> <a href="@adminroutes.RoomController.delete(room.id)" title="@messages("room.delete")" class="btn btn-danger icon ion-minus pull-right" role="button"></a>
     }</div>
     <div class="panel-body">
     @if(computers.nonEmpty) {
@@ -15,12 +15,12 @@
         </div>
     } else {
         <div id="not-found">
-            <i class="icon ion-earth"></i>
+            <i class="not-found-icon icon ion-earth"></i>
             <h1>@messages("room.empty.title")</h1>
             <p>@messages("room.empty.body")</p>
             @if(isAdmin) {
                 <div class="btn-agregar-tabla">
-                    <a href="@adminroutes.ComputerController.add" class="btn btn-default " role="button">
+                    <a href="@adminroutes.ComputerController.add" class="btn btn-success icon ion-plus add-button" role="button">
                     @messages("computer.add")</a>
                 </div>
             }

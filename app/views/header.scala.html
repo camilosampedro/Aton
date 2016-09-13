@@ -5,16 +5,16 @@
     </div>
     <div class="usuario">
         @if(userName.isDefined) {
-            <button type="button" class="btn btn-default dropdown-toggle"
+            <button type="button" class="btn btn-default icon ion-android-person dropdown-toggle"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @userName.get <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li><a href="/admin/editar-userName-@userName"
-                class="flaticon-edit18"> @messages("header.editUser")</a></li>
+                class="icon ion-edit"> @messages("header.editUser")</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="@routes.LoginController.logout"
-                class="flaticon-power107"> Cerrar sesión</a></li>
+                class="icon ion-power"> Cerrar sesión</a></li>
             </ul>
         } else {
             <button type="button" class="btn btn-default dropdown-toggle"
@@ -23,7 +23,7 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li><a href="@routes.LoginController.login"
-                class="flaticon-login12"> @messages("user.login")</a></li>
+                class="icon ion-log-in"> @messages("user.login")</a></li>
             </ul>
         }
     </div>

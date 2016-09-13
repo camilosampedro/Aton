@@ -40,9 +40,9 @@
             </table>
         } else {
             <div id="not-found">
-                <i class="icon ion-earth"></i>
-                <h1>Aquí no hay laboratorios</h1>
-                <p>Parece que no se han encontrado laboratorios. @if(isAdmin) {Si deseas puedes agregar salas desde el siguiente botón:}else{
+                <i class="not-found-icon icon ion-cube"></i>
+                <h1>@messages("laboratory.list.empty.title")</h1>
+                <p>@messages("laboratory.list.empty.body") @if(isAdmin) { @messages("laboratory.list.empty.adminMessage")}else{
                 @messages("contactAdmin")
                 }</p>
             </div>
@@ -50,7 +50,7 @@
 
         @if(isAdmin) {
             <div class="btn-agregar-tabla">
-                <a href="@adminroutes.LaboratoryController.add()" class="btn btn-default " role="button">
+                <a href="@adminroutes.LaboratoryController.add()" class="btn btn-success icon ion-plus add-button" role="button">
                     @messages("laboratory.addButton")</a>
             </div>
         }
