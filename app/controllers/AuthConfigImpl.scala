@@ -69,7 +69,7 @@ trait AuthConfigImpl extends AuthConfig {
     * If the user is not logged in and tries to access a protected resource then redirect them as follows:
     */
   def authenticationFailed(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] =
-    Future.successful(Redirect(routes.LoginController.login()))
+  Future.successful(Redirect(routes.LoginController.login()))
 
   /**
     * If authorization failed (usually incorrect password) redirect the user as follows:

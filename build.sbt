@@ -2,7 +2,7 @@ name := """aton"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, DebianPlugin)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, DebianPlugin, JavaServerAppPackaging)
 
 maintainer in Linux := "Camilo Sampedro <camilo.sampedro@udea.edu.co>"
 
@@ -10,7 +10,7 @@ packageSummary in Linux := "Aton, Laboratory Administrator"
 
 packageDescription := "Computer laboratory administrator with useful tools. Built on top of SSH."
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 resolvers += "JAnalyse Repository" at "http://www.janalyse.fr/repository/"
 

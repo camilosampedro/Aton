@@ -15,33 +15,33 @@ import scala.concurrent.Future
 trait SuggestionDAO {
 
   /**
-    * Adiciona una suggestionText
+    * Adds a new suggestion
     *
-    * @param sugerencia Suggestion a agregar
-    * @return String con el mensaje del result
+    * @param suggestion Suggestion to be added
+    * @return String result message
     */
-  def add(sugerencia: Suggestion): Future[String]
+  def add(suggestion: Suggestion): Future[String]
 
   /**
-    * Obtiene un suggestionText según el id
+    * Gets a suggestion by its ID
     *
-    * @param id Identificador del suggestionText
-    * @return Suggestion encontrado o None si no se encontró
+    * @param id Suggestion ID
+    * @return Some found suggestion or None
     */
   def get(id: Long): Future[Option[Suggestion]]
 
   /**
-    * Elimina un suggestionText de la base de datos
+    * Deletes a suggestion from database
     *
-    * @param id Identificador del suggestionText
-    * @return Resultado de la operación
+    * @param id Suggestion ID
+    * @return Operation result
     */
   def delete(id: Long): Future[Int]
 
   /**
-    * Lista todos los sugerencias en la base de datos
+    * Lists all suggestions on the database
     *
-    * @return Todos los sugerencias
+    * @return All the suggestions
     */
   def listAll: Future[Seq[Suggestion]]
 }

@@ -7,7 +7,7 @@ import model.Room
 import scala.concurrent.Future
 
 /**
-  * Controla las acciones sobre la base de datos.
+  * Controls all room database operations
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
@@ -17,33 +17,33 @@ trait RoomDAO {
 
 
   /**
-    * Adiciona una roomPanel
+    * Adds a new room
     *
-    * @param sala Room a agregar
-    * @return String con el mensaje del result
+    * @param room Room to be added
+    * @return String result message
     */
-  def add(sala: Room): Future[String]
+  def add(room: Room): Future[String]
 
   /**
-    * Obtiene una roomPanel según el id
+    * Gets a room by its ID
     *
-    * @param id Identificador del roomPanel
-    * @return Room encontrado o None si no se encontró
+    * @param id Room ID
+    * @return Some found room or None otherwise
     */
   def get(id: Long): Future[Option[Room]]
 
   /**
-    * Elimina una roomPanel de la base de datos
+    * Deletes a room by its ID
     *
-    * @param id Identificador del roomPanel
-    * @return Resultado de la operación
+    * @param id Room ID
+    * @return Operation result
     */
   def delete(id: Long): Future[Int]
 
   /**
-    * Lista todas las rooms en la base de datos
+    * List all the rooms in the database
     *
-    * @return Todas las rooms
+    * @return All the rooms
     */
   def listAll: Future[Seq[Room]]
 }
