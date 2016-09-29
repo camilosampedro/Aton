@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import dao.UserDAO
 import jp.t2v.lab.play2.auth.LoginLogout
 import model.form.LoginForm
+import play.api.Environment
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, Controller}
 
@@ -12,7 +13,7 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * Created by camilo on 14/05/16.
   */
-class LoginController @Inject()(userDAO: UserDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext) extends Controller with I18nSupport with LoginLogout with AuthConfigImpl {
+class LoginController @Inject()(userDAO: UserDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, override val cookieSecureOptionPlay: Environment) extends Controller with I18nSupport with LoginLogout with AuthConfigImpl {
 
   def loginForm = Action {
     Ok(views.html.login(LoginForm.form))

@@ -8,6 +8,7 @@ import model.Room
 import model.form.RoomForm
 import model.form.data.RoomFormData
 import play.Logger
+import play.api.Environment
 import play.api.i18n.MessagesApi
 import views.html._
 
@@ -16,7 +17,7 @@ import scala.concurrent.ExecutionContext
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext) extends ControllerWithAuthRequired {
+class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
 
   def add = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)

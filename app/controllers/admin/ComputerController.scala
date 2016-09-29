@@ -8,6 +8,7 @@ import model.Computer
 import model.form._
 import model.form.data.ComputerFormData
 import play.Logger
+import play.api.Environment
 import play.api.i18n.MessagesApi
 import services.{ComputerService, SSHOrderService}
 import views.html._
@@ -18,7 +19,7 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext) extends ControllerWithAuthRequired {
+class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
   def edit = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     ComputerForm.form.bindFromRequest().fold(

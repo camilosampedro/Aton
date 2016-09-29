@@ -2,6 +2,7 @@ package controllers
 
 import jp.t2v.lab.play2.auth._
 import model.form.data.LoginFormData
+import play.api.Mode
 import play.api.mvc.Results._
 import play.api.mvc.{RequestHeader, Result}
 
@@ -22,6 +23,8 @@ trait AuthConfigImpl extends AuthConfig {
     */
   type User = model.User
 
+  val cookieSecureOptionPlay: play.api.Environment
+
   /**
     * Authority is represented by an Int.
     */
@@ -36,7 +39,14 @@ trait AuthConfigImpl extends AuthConfig {
      * Whether use the secure option or not use it in the cookie.
      * Following code is default.
      */
-    cookieSecureOption = play.api.Play.isProd(play.api.Play.current),
+    cookieSecureOption = cookieSecureOptionPlay.mode match {
+      case Mode.Prod =>
+        play.Logger.debug("Using secure cookie option, it's in production mode")
+        false //Set true if using encrypted connection
+      case _ =>
+        play.Logger.debug("Using testing cookie option, it's in development mode")
+        false
+    },
     cookieMaxAge = Some(sessionTimeoutInSeconds)
   )
   /**
@@ -47,13 +57,13 @@ trait AuthConfigImpl extends AuthConfig {
   /**
     * The session timeout in seconds.
     */
-  val sessionTimeoutInSeconds: Int = 3600
+  val sessionTimeoutInSeconds = 3600
 
   /**
     * Where to redirect the user after a successful login.
     */
   def loginSucceeded(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] = {
-    play.Logger.debug("Login succeeded")
+    play.Logger.info("Login succeeded")
     Future.successful(Redirect(routes.HomeController.home()))
   }
 
@@ -61,20 +71,23 @@ trait AuthConfigImpl extends AuthConfig {
     * Where to redirect the user after logging out.
     */
   def logoutSucceeded(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] = {
-    play.Logger.debug("Logout succeeded")
+    play.Logger.info("Logout succeeded")
     Future.successful(Redirect(routes.LoginController.login()))
   }
 
   /**
     * If the user is not logged in and tries to access a protected resource then redirect them as follows:
     */
-  def authenticationFailed(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] =
-  Future.successful(Redirect(routes.LoginController.login()))
+  def authenticationFailed(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] = {
+    play.Logger.warn("Authentication failed")
+    Future.successful(Redirect(routes.LoginController.login()))
+  }
 
   /**
     * If authorization failed (usually incorrect password) redirect the user as follows:
     */
   override def authorizationFailed(request: RequestHeader, user: User, authority: Option[Authority])(implicit context: ExecutionContext): Future[Result] = {
+    play.Logger.warn("Authorization failed")
     Future.successful(Forbidden("no permission"))
   }
 
@@ -84,6 +97,7 @@ trait AuthConfigImpl extends AuthConfig {
     */
   def authorize(user: User, authority: Authority)(implicit ctx: ExecutionContext): Future[Boolean] = Future.successful {
     import model.Role._
+    play.Logger.debug("Authenticating  [ User: " + user + ", Authority: " + authority)
     (user.role, authority) match {
       case (Administrator, _) => true
       case (NormalUser, NormalUser) => true
