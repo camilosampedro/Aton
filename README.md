@@ -1,11 +1,14 @@
 [![Build Status](https://travis-ci.org/ProjectAton/AtonLab.svg?branch=master)](https://travis-ci.org/ProjectAton/AtonLab)
 # ATON
-Administrador de laboratorios de computadoras.
+Computer laboratory administrator
 
-## Advertencia
-Este proyecto todavía se encuentra en fase de desarrollo.
+## Warning
+This project is still in development stage. Use it under your own risk because it doesn't come with any kind of warranty.
 
-## Como instalar
+## How to install
+### Install from release
+
+### Build
 ### 1. Descargar una copia de este proyecto
 ```bash
 git clone https://github.com/ProjectAton/Aton.git

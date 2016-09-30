@@ -1,12 +1,20 @@
 name := """aton"""
 
-version := "1.0-SNAPSHOT"
+version := "0.1-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, DebianPlugin, JavaServerAppPackaging)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, DebianPlugin, RpmPlugin, LinuxPlugin, UniversalPlugin, WindowsPlugin,JDKPackagerPlugin, JavaServerAppPackaging)
 
 maintainer in Linux := "Camilo Sampedro <camilo.sampedro@udea.edu.co>"
 
 packageSummary in Linux := "Aton, Laboratory Administrator"
+
+rpmRelease := "0.1"
+
+rpmVendor := "co.edu.udea"
+
+rpmUrl := Some("http://projectaton.github.io/AtonLab")
+
+rpmLicense := Some("GPL 3.0")
 
 packageDescription := "Computer laboratory administrator with useful tools. Built on top of SSH."
 
@@ -41,7 +49,3 @@ libraryDependencies ++= Seq(
   "org.webjars" % "requirejs" % "2.2.0",
   "org.webjars" % "ionicons" % "2.0.1"
 )
-
-
-
-
