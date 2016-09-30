@@ -1,85 +1,88 @@
 [![Build Status](https://travis-ci.org/ProjectAton/AtonLab.svg?branch=master)](https://travis-ci.org/ProjectAton/AtonLab)
+[![GitHub version](https://badge.fury.io/gh/ProjectAton%2FAtonLab.svg)](https://badge.fury.io/gh/ProjectAton%2FAtonLab)
+[![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
+[![Open Source Love](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
+[![forthebadge](http://forthebadge.com/images/badges/powered-by-responsibility.svg)](http://forthebadge.com)
+[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
 # ATON
 Computer laboratory administrator
 
 ## Warning
 This project is still in development stage. Use it under your own risk because it doesn't come with any kind of warranty.
 
+## Dependencies
+
+Before installing it is required:
+ - `Java 8`
+ - `MySQL 5.7`
+
 ## How to install
-### Install from release
+### Install from release file
 
-### Build
-### 1. Descargar una copia de este proyecto
+Go to [releases page](https://github.com/ProjectAton/AtonLab/releases) and download the ones who fits you most.
+
+#### Debian / Ubuntu / Linux Mint `.deb`
+After downloading, execute:
 ```bash
-git clone https://github.com/ProjectAton/Aton.git
+sudo dpkg -i aton-VERSION.deb
+mysql -p < /usr/share/aton/conf/default/create.sql
 ```
 
-### 2. Instalar postgresql. Ir al paso 4 si ya se tiene configurado PostgreSQL.
-
-Instalar la base de datos PostgreSQL, usando el gestor de paquetes por defecto o con cualquier otro método.
-
-**Instalación en Ubuntu - Debian**
-
+### Uninstalling from release file
+#### Debian / Ubuntu / Linux Mint
 ```bash
-sudo apt-get install postgresql
+sudo apt-get remove aton
 ```
 
-**Instalación en RHEL**
+### Compile from source code
+#### Compile requirements
+You will need to have installed:
+ - [Lightbend Activator](https://www.lightbend.com/activator/download)
 
+
+#### Clone GitHub repository
 ```bash
-sudo yum install postgresql-server
+git clone https://github.com/ProjectAton/AtonLab.git
 ```
 
-### 3. Asignar un password para acceder a PostgreSQL:
-
-**Ingresar al shell de PostgreSQL:**
-
+#### Try it in non-production mode
 ```bash
-sudo -u postgres psql
+activator run
 ```
 
-**Ejecutar para cambiar el password**
+#### Compile it with activator
+You can generate your own native package with the following syntax
+```bash
+activator [target]:packageBin
+```
+`target` can be replaced depending on the target package format. The following are included:
+ - `rpm` for RPM based Linux distributions. You will need `rpmbuild` installed
+ - `debian` for Debian based Linux distributions. You will need `dpkg` installed
+ - `windows` for generating a MSI installation file. You will need `wix` installed
+ - `jdkPackage` for generating a Java file.
+
+## Service
+When you install from a release file you will have a service called `aton` in your system (For reference, located in `/etc/init/aton.conf`) that can be managed with service:
+ - __To start:__ `sudo service aton start`
+ - __To restart:__ `sudo service aton restart`
+ - __To stop:__ `sudo service aton stop`
+ - __To check status:__ `sudo service aton status`
+
+## Port
+By default, Aton uses Play Framework's default port: `9000`. If you want to start Aton on another port, you can do it by editing the service script `/etc/init/aton.conf`. You will need to look for a segment similar to
 
 ```bash
-\password postgres
+# Start the process
+script
+  exec sudo -u aton bin/aton
+end script
 ```
 
-### 4. Importar la base de datos de database.sql
-```bash
-sudo -u postgres psql < database.sql
-```
-
-### 5. Modificar los archivos de configuración
-
-#### `src/main/resources/aplicacion.properties`
-En este archivo se encuentran todas las configuraciones de la base de datos. Las propiedades importantes son las siguientes:
-
-**jdbc.url**
-En este campo se inserta el URL de la base de datos. El formato es *jdbc:postgresql://host:puerto/basededatos*
-
-**jdbc.username**
-Nombre de usuario para acceder a la base de datos.
-
-**jdbc.password**
-Contraseña para acceder a la base de datos.
-
-### 6. Compilar
-Si no se tiene instalado maven instalar antes de este paso.
-
-**Instalación en Ubuntu - Debian**
-```bash
-sudo apt-get install maven
-```
-
-**Instalación en RHEL**
-```bash
-sudo yum install maven
-```
-
-Ejecutar la compilación con Maven
+And add `-Dhttp.port=THE_NEW_PORT`
 
 ```bash
-mvn clean install
+# Start the process
+script
+  exec sudo -u aton bin/aton -Dhttp.port=8080
+end script
 ```
-
-##
