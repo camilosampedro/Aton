@@ -7,7 +7,7 @@
 }
 
 body {
-    font-family: 'Sura', serif;
+    font-family: 'Merriweather Sans', sans-serif;
     background-color: #bdc3c7;
 }
 
@@ -106,12 +106,12 @@ aside ul li a.selected {
 
 .content p {
     color: #7f8c8d;
-    font-family: 'Merriweather Sans', sans-serif;
+    font-family: 'Sura', serif;
     font-size: 1.1em;
 }
 
 .content h1 h2 h3 h4 {
-    font-family: 'Merriweather Sans', sans-serif !important;
+    font-family: 'Sura', serif;
 }
 
 .add-button {
