@@ -3,6 +3,7 @@ package controllers.admin
 import com.google.inject.Inject
 import controllers.{routes => normalroutes}
 import dao.{SSHOrderDAO, UserDAO}
+import play.api.Environment
 import play.api.i18n.MessagesApi
 import views.html._
 
@@ -11,7 +12,7 @@ import scala.concurrent.ExecutionContext
 /**
   * Created by camilosampedro on 11/05/16.
   */
-class SSHOrderController @Inject()(sSHOrderDAO: SSHOrderDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, userDAO: UserDAO) extends ControllerWithAuthRequired {
+class SSHOrderController @Inject()(sSHOrderDAO: SSHOrderDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, userDAO: UserDAO , environment: Environment) extends ControllerWithAuthRequired {
 
   def listAll = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)

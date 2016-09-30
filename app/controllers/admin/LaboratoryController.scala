@@ -8,6 +8,7 @@ import model.form.LaboratoryForm
 import model.form.data.LaboratoryFormData
 import model.{Laboratory, Role}
 import play.Logger
+import play.api.Environment
 import play.api.i18n.MessagesApi
 import views.html._
 
@@ -17,7 +18,7 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * Created by camilo on 20/03/16.
   */
-class LaboratoryController @Inject()(laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext) extends ControllerWithAuthRequired {
+class LaboratoryController @Inject()(laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
   def administrateLaboratories = AuthRequiredAction { implicit request =>
     Logger.debug("Petición de listar los laboratorios administrativamente recibida.")
     Future.successful(Redirect(normalroutes.HomeController.home()))
