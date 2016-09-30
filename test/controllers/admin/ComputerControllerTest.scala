@@ -7,6 +7,7 @@ import model.form.ComputerForm
 import model.form.data.ComputerFormData
 import org.scalatestplus.play.PlaySpec
 import org.specs2.execute.Results
+import play.api.Environment
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import services.{ComputerService, SSHOrderService}
@@ -17,7 +18,7 @@ import scala.concurrent.ExecutionContext
 /**
   * Created by camilo on 27/08/16.
   */
-class ComputerControllerTest @Inject()(sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext) extends PlaySpec with Results {
+class ComputerControllerTest @Inject()(sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends PlaySpec with Results {
 
   val controller = new ComputerController(sSHOrderService, computerService, roomDAO, computerDAO, messagesApi)
 
