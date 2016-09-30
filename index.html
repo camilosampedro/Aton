@@ -1,119 +1,177 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-
     <title>AtonLab by ProjectAton</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/ProjectAton/AtonLab">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/ProjectAton/AtonLab/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/ProjectAton/AtonLab/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <header>
-      <div class="container">
-        <h1>AtonLab</h1>
-        <h2>Computer room administration made easy</h2>
+    <div class="wrapper">
 
-        <section id="downloads">
-          <a href="https://github.com/ProjectAton/AtonLab/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/ProjectAton/AtonLab/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/ProjectAton/AtonLab" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+      <section>
+        <div id="title">
+          <h1>AtonLab</h1>
+          <p>Computer room administration made easy</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/ProjectAton">ProjectAton</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-    <div class="container">
-      <section id="main_content">
-        <p><a href="https://travis-ci.org/ProjectAton/AtonLab"><img src="https://travis-ci.org/ProjectAton/AtonLab.svg?branch=master" alt="Build Status"></a></p>
+        <p><a href="https://travis-ci.org/ProjectAton/AtonLab"><img src="https://travis-ci.org/ProjectAton/AtonLab.svg?branch=master" alt="Build Status"></a>
+<a href="https://badge.fury.io/gh/ProjectAton%2FAtonLab"><img src="https://badge.fury.io/gh/ProjectAton%2FAtonLab.svg" alt="GitHub version"></a>
+<a href="https://github.com/ellerbrock/open-source-badge/"><img src="https://badges.frapsoft.com/os/v2/open-source.svg?v=102" alt="Open Source Love"></a>
+<a href="https://github.com/ellerbrock/open-source-badge/"><img src="https://badges.frapsoft.com/os/gpl/gpl.svg?v=102" alt="Open Source Love"></a></p>
+
+<p><a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/powered-by-responsibility.svg" alt="forthebadge"></a></p>
 
 <h1>
 <a id="aton" class="anchor" href="#aton" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ATON</h1>
 
-<p>Administrador de laboratorios de computadoras.</p>
+<p>Computer laboratory administrator</p>
 
 <h2>
-<a id="advertencia" class="anchor" href="#advertencia" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Advertencia</h2>
+<a id="warning" class="anchor" href="#warning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Warning</h2>
 
-<p>Este proyecto todavía se encuentra en fase de desarrollo.</p>
+<p>This project is still in development stage. Use it under your own risk because it doesn't come with any kind of warranty.</p>
 
 <h2>
-<a id="como-instalar" class="anchor" href="#como-instalar" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Como instalar</h2>
+<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependencies</h2>
+
+<p>Before installing it is required:</p>
+
+<ul>
+<li><code>Java 8</code></li>
+<li><code>MySQL 5.7</code></li>
+</ul>
+
+<h2>
+<a id="how-to-install" class="anchor" href="#how-to-install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to install</h2>
 
 <h3>
-<a id="1-descargar-una-copia-de-este-proyecto" class="anchor" href="#1-descargar-una-copia-de-este-proyecto" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Descargar una copia de este proyecto</h3>
+<a id="install-from-release-file" class="anchor" href="#install-from-release-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install from release file</h3>
 
-<div class="highlight highlight-source-shell"><pre>git clone https://github.com/ProjectAton/Aton.git</pre></div>
-
-<h3>
-<a id="2-instalar-postgresql-ir-al-paso-4-si-ya-se-tiene-configurado-postgresql" class="anchor" href="#2-instalar-postgresql-ir-al-paso-4-si-ya-se-tiene-configurado-postgresql" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. Instalar postgresql. Ir al paso 4 si ya se tiene configurado PostgreSQL.</h3>
-
-<p>Instalar la base de datos PostgreSQL, usando el gestor de paquetes por defecto o con cualquier otro método.</p>
-
-<p><strong>Instalación en Ubuntu - Debian</strong></p>
-
-<div class="highlight highlight-source-shell"><pre>sudo apt-get install postgresql</pre></div>
-
-<p><strong>Instalación en RHEL</strong></p>
-
-<div class="highlight highlight-source-shell"><pre>sudo yum install postgresql-server</pre></div>
-
-<h3>
-<a id="3-asignar-un-password-para-acceder-a-postgresql" class="anchor" href="#3-asignar-un-password-para-acceder-a-postgresql" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. Asignar un password para acceder a PostgreSQL:</h3>
-
-<p><strong>Ingresar al shell de PostgreSQL:</strong></p>
-
-<div class="highlight highlight-source-shell"><pre>sudo -u postgres psql</pre></div>
-
-<p><strong>Ejecutar para cambiar el password</strong></p>
-
-<div class="highlight highlight-source-shell"><pre><span class="pl-cce">\p</span>assword postgres</pre></div>
-
-<h3>
-<a id="4-importar-la-base-de-datos-de-databasesql" class="anchor" href="#4-importar-la-base-de-datos-de-databasesql" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. Importar la base de datos de database.sql</h3>
-
-<div class="highlight highlight-source-shell"><pre>sudo -u postgres psql <span class="pl-k">&lt;</span> database.sql</pre></div>
-
-<h3>
-<a id="5-modificar-los-archivos-de-configuración" class="anchor" href="#5-modificar-los-archivos-de-configuraci%C3%B3n" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. Modificar los archivos de configuración</h3>
+<p>Go to <a href="https://github.com/ProjectAton/AtonLab/releases">releases page</a> and download the ones who fits you most.</p>
 
 <h4>
-<a id="srcmainresourcesaplicacionproperties" class="anchor" href="#srcmainresourcesaplicacionproperties" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>src/main/resources/aplicacion.properties</code>
+<a id="debian--ubuntu--linux-mint-deb" class="anchor" href="#debian--ubuntu--linux-mint-deb" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Debian / Ubuntu / Linux Mint <code>.deb</code>
 </h4>
 
-<p>En este archivo se encuentran todas las configuraciones de la base de datos. Las propiedades importantes son las siguientes:</p>
+<p>After downloading, execute:</p>
 
-<p><strong>jdbc.url</strong>
-En este campo se inserta el URL de la base de datos. El formato es <em>jdbc:postgresql://host:puerto/basededatos</em></p>
-
-<p><strong>jdbc.username</strong>
-Nombre de usuario para acceder a la base de datos.</p>
-
-<p><strong>jdbc.password</strong>
-Contraseña para acceder a la base de datos.</p>
+<div class="highlight highlight-source-shell"><pre>sudo dpkg -i aton-VERSION.deb
+mysql -p <span class="pl-k">&lt;</span> /usr/share/aton/conf/default/create.sql</pre></div>
 
 <h3>
-<a id="6-compilar" class="anchor" href="#6-compilar" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>6. Compilar</h3>
+<a id="uninstalling-from-release-file" class="anchor" href="#uninstalling-from-release-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Uninstalling from release file</h3>
 
-<p>Si no se tiene instalado maven instalar antes de este paso.</p>
+<h4>
+<a id="debian--ubuntu--linux-mint" class="anchor" href="#debian--ubuntu--linux-mint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Debian / Ubuntu / Linux Mint</h4>
 
-<p><strong>Instalación en Ubuntu - Debian</strong></p>
+<div class="highlight highlight-source-shell"><pre>sudo apt-get remove aton</pre></div>
 
-<div class="highlight highlight-source-shell"><pre>sudo apt-get install maven</pre></div>
+<h3>
+<a id="compile-from-source-code" class="anchor" href="#compile-from-source-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compile from source code</h3>
 
-<p><strong>Instalación en RHEL</strong></p>
+<h4>
+<a id="compile-requirements" class="anchor" href="#compile-requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compile requirements</h4>
 
-<div class="highlight highlight-source-shell"><pre>sudo yum install maven</pre></div>
+<p>You will need to have installed:</p>
 
-<p>Ejecutar la compilación con Maven</p>
+<ul>
+<li><a href="https://www.lightbend.com/activator/download">Lightbend Activator</a></li>
+</ul>
 
-<div class="highlight highlight-source-shell"><pre>mvn clean install</pre></div>
+<h4>
+<a id="clone-github-repository" class="anchor" href="#clone-github-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Clone GitHub repository</h4>
+
+<div class="highlight highlight-source-shell"><pre>git clone https://github.com/ProjectAton/AtonLab.git</pre></div>
+
+<h4>
+<a id="try-it-in-non-production-mode" class="anchor" href="#try-it-in-non-production-mode" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Try it in non-production mode</h4>
+
+<div class="highlight highlight-source-shell"><pre>activator run</pre></div>
+
+<h4>
+<a id="compile-it-with-activator" class="anchor" href="#compile-it-with-activator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compile it with activator</h4>
+
+<p>You can generate your own native package with the following syntax</p>
+
+<div class="highlight highlight-source-shell"><pre>activator [target]:packageBin</pre></div>
+
+<p><code>target</code> can be replaced depending on the target package format. The following are included:</p>
+
+<ul>
+<li>
+<code>rpm</code> for RPM based Linux distributions. You will need <code>rpmbuild</code> installed</li>
+<li>
+<code>debian</code> for Debian based Linux distributions. You will need <code>dpkg</code> installed</li>
+<li>
+<code>windows</code> for generating a MSI installation file. You will need <code>wix</code> installed</li>
+<li>
+<code>jdkPackage</code> for generating a Java file.</li>
+</ul>
+
+<h2>
+<a id="service" class="anchor" href="#service" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Service</h2>
+
+<p>When you install from a release file you will have a service called <code>aton</code> in your system (For reference, located in <code>/etc/init/aton.conf</code>) that can be managed with service:</p>
+
+<ul>
+<li>
+<strong>To start:</strong> <code>sudo service aton start</code>
+</li>
+<li>
+<strong>To restart:</strong> <code>sudo service aton restart</code>
+</li>
+<li>
+<strong>To stop:</strong> <code>sudo service aton stop</code>
+</li>
+<li>
+<strong>To check status:</strong> <code>sudo service aton status</code>
+</li>
+</ul>
+
+<h2>
+<a id="port" class="anchor" href="#port" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Port</h2>
+
+<p>By default, Aton uses Play Framework's default port: <code>9000</code>. If you want to start Aton on another port, you can do it by editing the service script <code>/etc/init/aton.conf</code>. You will need to look for a segment similar to</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># Start the process</span>
+script
+  <span class="pl-c1">exec</span> sudo -u aton bin/aton
+end script</pre></div>
+
+<p>And add <code>-Dhttp.port=THE_NEW_PORT</code></p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># Start the process</span>
+script
+  <span class="pl-c1">exec</span> sudo -u aton bin/aton -Dhttp.port=8080
+end script</pre></div>
       </section>
-    </div>
 
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
