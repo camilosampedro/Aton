@@ -2,8 +2,9 @@
 [![GitHub version](https://badge.fury.io/gh/ProjectAton%2FAtonLab.svg)](https://badge.fury.io/gh/ProjectAton%2FAtonLab)
 [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 [![Open Source Love](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
+
 [![forthebadge](http://forthebadge.com/images/badges/powered-by-responsibility.svg)](http://forthebadge.com)
-[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
+
 # ATON
 Computer laboratory administrator
 
