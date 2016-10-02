@@ -1,45 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640">
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
     <title>Aton by camilosampedro</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-dark.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/camilosampedro/AtonLab">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/camilosampedro/AtonLab/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/camilosampedro/AtonLab/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+    <a id="forkme_banner" href="https://github.com/camilosampedro/Aton">View on GitHub</a>
+    <div class="shell">
 
-    <div class="wrapper">
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Aton</h1>
+            <h2>Computer room administration made easy</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
 
-      <section>
-        <div id="title">
-          <h1>Aton</h1>
-          <p>Computer room administration made easy</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/camilosampedro">camilosampedro</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/camilosampedro/Aton/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/camilosampedro/Aton/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
 
-        <p><a href="https://travis-ci.org/ProjectAton/AtonLab"><img src="https://travis-ci.org/ProjectAton/AtonLab.svg?branch=master" alt="Build Status"></a>
-<a href="https://badge.fury.io/gh/ProjectAton%2FAtonLab"><img src="https://badge.fury.io/gh/ProjectAton%2FAtonLab.svg" alt="GitHub version"></a>
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <p><a href="https://travis-ci.org/camilosampedro/AtonLab"><img src="https://travis-ci.org/camilosampedro/AtonLab.svg?branch=master" alt="Build Status"></a>
+<a href="https://badge.fury.io/gh/camilosampedro%2FAtonLab"><img src="https://badge.fury.io/gh/camilosampedro%2FAtonLab.svg" alt="GitHub version"></a>
 <a href="https://github.com/ellerbrock/open-source-badge/"><img src="https://badges.frapsoft.com/os/v2/open-source.svg?v=102" alt="Open Source Love"></a>
 <a href="https://github.com/ellerbrock/open-source-badge/"><img src="https://badges.frapsoft.com/os/gpl/gpl.svg?v=102" alt="Open Source Love"></a></p>
 
@@ -170,8 +178,20 @@ script
 end script</pre></div>
       </section>
 
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/camilosampedro">camilosampedro</a> can be found on <a href="https://github.com/camilosampedro/Aton">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="https://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
     
   </body>
 </html>
