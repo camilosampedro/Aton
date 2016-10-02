@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/ProjectAton/AtonLab.svg?branch=master)](https://travis-ci.org/ProjectAton/AtonLab)
-[![GitHub version](https://badge.fury.io/gh/ProjectAton%2FAtonLab.svg)](https://badge.fury.io/gh/ProjectAton%2FAtonLab)
+[![Build Status](https://travis-ci.org/camilosampedro/AtonLab.svg?branch=master)](https://travis-ci.org/camilosampedro/AtonLab)
+[![GitHub version](https://badge.fury.io/gh/camilosampedro%2FAtonLab.svg)](https://badge.fury.io/gh/camilosampedro%2FAtonLab)
 [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 [![Open Source Love](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 
