@@ -8,3 +8,6 @@ jdk:
 notifications:
   email:
     - camilo.sampedro@udea.edu.co
+addons:
+    code_climate:
+        repo_token: f75769c5a1d1f960768e19e3efed17f89e061a8f6cd0d2ca578847226c8c462b
