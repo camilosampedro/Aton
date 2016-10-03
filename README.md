@@ -7,7 +7,7 @@
 [![forthebadge](http://forthebadge.com/images/badges/powered-by-responsibility.svg)](http://forthebadge.com)
 
 # ATON
-Computer laboratory administrator
+Web computer laboratory administrator.
 
 ## Warning
 This project is still in development stage. Use it under your own risk because it doesn't come with any kind of warranty.
