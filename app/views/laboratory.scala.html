@@ -2,7 +2,7 @@
 @import model.{Computer, ComputerState, ConnectedUser, Laboratory, Room}
 @(laboratory: Laboratory, roomsWithComputers: Map[Option[Room], Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]])(implicit messages: Messages, isAdmin: Boolean)
 
-<h1 class="icon ion-earth"> @messages("laboratory").capitalize @laboratory.name</h1>
+<h1 class="icon ion-earth"> @messages("laboratory.title",laboratory.name)</h1>
 @if(roomsWithComputers.nonEmpty) {
     @if(isAdmin) {
         <form action="@adminroutes.ComputerController.shutdownSeveral()" method="post">

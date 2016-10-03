@@ -1,6 +1,6 @@
 name := """aton"""
 
-version := "0.1-SNAPSHOT"
+version := "0.1.2"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, DebianPlugin, RpmPlugin, LinuxPlugin, UniversalPlugin, WindowsPlugin,JDKPackagerPlugin, JavaServerAppPackaging)
 

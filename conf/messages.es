@@ -64,6 +64,7 @@ send=Enviar
 about=Acerca de
 # Laboratory
 laboratory=laboratorio
+laboratory.title=Laboratorio {0}
 laboratory.laboratoryListTitle=Lista de laboratorios
 laboratory.addButton=Agregar laboratorio
 laboratory.addRoom=Agregar sala

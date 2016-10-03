@@ -115,7 +115,11 @@ aside ul li a.selected {
 }
 
 .add-button {
-    margin-top: 0.7em;
+    margin: 0.7em 0;
+}
+
+.panel {
+    display: table-cell;
 }
 
 .panel-heading a {

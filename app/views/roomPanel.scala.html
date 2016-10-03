@@ -3,7 +3,7 @@
 @(room: Room, computers: Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])])(implicit messages: Messages, isAdmin: Boolean)
 
 <div class="panel panel-primary">
-    <div class="panel-heading">@room.name @if(isAdmin) {
+    <div class="panel-heading fa fa-graduation-cap">@room.name @if(isAdmin) {
         <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-warning icon ion-edit pull-right" role="button" title="@messages("room.edit")"></a> <a href="@adminroutes.RoomController.delete(room.id)" title="@messages("room.delete")" class="btn btn-danger icon ion-minus pull-right" role="button"></a>
     }</div>
     <div class="panel-body">
