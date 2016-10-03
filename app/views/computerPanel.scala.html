@@ -2,7 +2,7 @@
 @import model.{Computer, ComputerState}
 @import model.ConnectedUser
 @(computer: Computer, computerState: Option[(ComputerState, Seq[ConnectedUser])], isAdmin: Boolean, index: Int)(implicit messages: Messages)
-<div class="col-md-2 panel-inicio">
+<div class="col-md-2 panel-inicio computer-panel">
 
     <div class="panel panel-@{
         if(computerState.isDefined) {
@@ -23,7 +23,7 @@
         })
         </div>
 
-        <div class="panel-body interior-laboratorio">
+        <div class="panel-body computer-body">
             <div class="btn-group btn-group-justified boton-interior-laboratorio" role="group" aria-label="...">
                 <div class="btn-group dropdown" role="group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

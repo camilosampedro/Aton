@@ -118,6 +118,10 @@ aside ul li a.selected {
     margin: 0.7em 0;
 }
 
+.computer-panel {
+    margin: 0.8em 0;
+}
+
 .panel {
     display: table-cell;
 }
@@ -248,9 +252,9 @@ a.mobile:active {
     margin: 0 !important;
 }
 
-.interior-equipo {
+.computer-body {
     padding: 10px !important;
-    margin: 0 !important;
+    margin: 0 0.3em !important;
 }
 
 .boton-login {
