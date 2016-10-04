@@ -3,51 +3,38 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640">
-
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
     <title>Aton by camilosampedro</title>
   </head>
 
   <body>
-    <a id="forkme_banner" href="https://github.com/camilosampedro/Aton">View on GitHub</a>
-    <div class="shell">
+    <div id="container">
+      <div class="inner">
 
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>Aton</h1>
-            <h2>Computer room administration made easy</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
+        <header>
+          <h1>Aton</h1>
+          <h2>Computer room administration made easy</h2>
+        </header>
 
-      <section id="downloads">
-        <span class="inner">
-          <a href="https://github.com/camilosampedro/Aton/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/camilosampedro/Aton/tarball/master" class="tgz"><em>download</em> .TGZ</a>
-        </span>
-      </section>
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/camilosampedro/Aton/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/camilosampedro/Aton/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/camilosampedro/Aton" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
 
+        <hr>
 
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
-        <p><a href="https://travis-ci.org/camilosampedro/Aton"><img src="https://travis-ci.org/camilosampedro/Aton.svg?branch=master" alt="Build Status"></a>
+        <section id="main_content">
+          <p><a href="https://travis-ci.org/camilosampedro/Aton"><img src="https://travis-ci.org/camilosampedro/Aton.svg?branch=master" alt="Build Status"></a>
 <a href="https://badge.fury.io/gh/camilosampedro%2FAton"><img src="https://badge.fury.io/gh/camilosampedro%2FAton.svg" alt="GitHub version"></a>
+<a href="https://codeclimate.com/github/camilosampedro/Aton"><img src="https://codeclimate.com/github/camilosampedro/Aton/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://codeclimate.com/github/camilosampedro/Aton"><img src="https://codeclimate.com/github/camilosampedro/Aton/badges/issue_count.svg" alt="Issue Count"></a>
 <a href="https://github.com/ellerbrock/open-source-badge/"><img src="https://badges.frapsoft.com/os/v2/open-source.svg?v=102" alt="Open Source Love"></a>
 <a href="https://github.com/ellerbrock/open-source-badge/"><img src="https://badges.frapsoft.com/os/gpl/gpl.svg?v=102" alt="Open Source Love"></a>
 <a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/powered-by-responsibility.svg" alt="forthebadge"></a></p>
@@ -55,7 +42,9 @@
 <h1>
 <a id="aton" class="anchor" href="#aton" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ATON</h1>
 
-<p>Computer laboratory administrator</p>
+<p>Web computer laboratory administrator.</p>
+
+<p><img src="https://github.com/camilosampedro/Aton/raw/gh-pages/images/Aton_screenshot.png" alt="Screenshot"></p>
 
 <h2>
 <a id="warning" class="anchor" href="#warning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Warning</h2>
@@ -175,22 +164,15 @@ end script</pre></div>
 script
   <span class="pl-c1">exec</span> sudo -u aton bin/aton -Dhttp.port=8080
 end script</pre></div>
-      </section>
+        </section>
 
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/camilosampedro">camilosampedro</a> can be found on <a href="https://github.com/camilosampedro/Aton">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="https://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
-      </footer>
+        <footer>
+          Aton is maintained by <a href="https://github.com/camilosampedro">camilosampedro</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
 
+        
+      </div>
     </div>
-
-    
   </body>
 </html>
