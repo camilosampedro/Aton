@@ -6,8 +6,11 @@
 [![Open Source Love](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 [![forthebadge](http://forthebadge.com/images/badges/powered-by-responsibility.svg)](http://forthebadge.com)
 
+
 # ATON
 Web computer laboratory administrator.
+
+![Screenshot](https://github.com/camilosampedro/Aton/raw/gh-pages/images/Aton_screenshot.png)
 
 ## Warning
 This project is still in development stage. Use it under your own risk because it doesn't come with any kind of warranty.
