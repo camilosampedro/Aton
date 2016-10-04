@@ -1,13 +1,14 @@
 package services.exec
 
 /**
+  * SSH functions and orders. They are Strings that could be executed on a remote computer via SSH.
   * Created by camilosampedro on 12/05/16.
   */
 object SSHFunction {
   val translateOS = Map(
     "Arch" -> "Arch",
     "ManjaroLinux" -> "Arch",
-    "Debian"->"Debian",
+    "Debian" -> "Debian",
     "Ubuntu" -> "Debian",
     "LinuxMint" -> "Debian"
   )
@@ -33,8 +34,8 @@ object SSHFunction {
   ))
 
   val upgradeOrder = Map(
-    "Arch"->"""sudo pacman -Syu --noconfirm""",
-    "Debian"->"""apt-get update; apt-get upgrade --assume-yes"""
+    "Arch" ->"""sudo pacman -Syu --noconfirm""",
+    "Debian" ->"""apt-get update; apt-get upgrade --assume-yes"""
   )
 
   val operatingSystemCheck = """lsb_release -a 2>/dev/null | grep "Distributor ID" | awk '{print $3}'"""
@@ -48,6 +49,7 @@ object SSHFunction {
   val REBOOT_ORDER = "shutdown -r now"
   val IP_OBTAINING_ORDER = "ifconfig eth0 2>/dev/null|awk '/Direc. inet:/ {print $2}'|sed 's/inet://'"
   val userListOrder = "who | cut -d' ' -f1 | sort | uniq"
+
   def blockPageOrder(page: String) = s"""cp /etc/hosts /etc/hosts.bak && echo "127.0.0.1 $page" >> /etc/hosts && echo "Added page" """
 
   def COMPUTER_WAKEUP_ORDER(sufijoIPSala: Int, mac: String) = "wakeonlan -i 192.168." + sufijoIPSala + ".255 " + mac
