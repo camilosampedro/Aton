@@ -1,58 +1,63 @@
 @import controllers.admin.{routes => adminroutes}
 @import model.Laboratory
 @(laboratories: Seq[Laboratory])(implicit messages: Messages, isAdmin: Boolean)
-<div class="panel panel-primary">
-    <div class="panel-heading">Laboratorios</div>
-    <div class="panel-body">
-        @if(laboratories.nonEmpty) {
-            <table class="table table-striped" ng-if={laboratorios.nombre}>
-                <thead>
-                    <tr>
-                        @if(isAdmin) {
-                            <th>ID</th>
-                        }
-                        <th>Nombre</th>
-                        <th>Ubicación</th>
-                        <th>Administración</th>
-                        @if(isAdmin) {
-                            <th>Editar</th>
-                            <th>Eliminar</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                @for(laboratory <- laboratories) {
-                    <tr>
-                        @if(isAdmin) {
-                            <th scope="row">@laboratory.id</th>
-                        }
-                    <td><a href="@routes.LaboratoryController.get(laboratory.id)">@laboratory.name</a></td>
-                    <td>@laboratory.location</td>
-                    <td>@laboratory.administration</td>
-                        @if(isAdmin) {
-                            <td><a href="@adminroutes.LaboratoryController.edit(laboratory.id)">Editar</a></td>
-                            <td><a href="@adminroutes.LaboratoryController.delete(laboratory.id)">
-                                Eliminar</a></td>
-                        }
-                    </tr>
-                }
-                </tbody>
-            </table>
-        } else {
-            <div id="not-found">
-                <i class="not-found-icon icon ion-cube"></i>
-                <h1>@messages("laboratory.list.empty.title")</h1>
-                <p>@messages("laboratory.list.empty.body") @if(isAdmin) { @messages("laboratory.list.empty.adminMessage")}else{
-                @messages("contactAdmin")
-                }</p>
-            </div>
-        }
+<div class="row"><div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Laboratorios</div>
+        <div class="panel-body">
+            @if(laboratories.nonEmpty) {
+                <table class="table table-striped" ng-if={laboratorios.nombre}>
+                    <thead>
+                        <tr>
+                            @if(isAdmin) {
+                                <th>ID</th>
+                            }
+                            <th>Nombre</th>
+                            <th>Ubicación</th>
+                            <th>Administración</th>
+                            @if(isAdmin) {
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for(laboratory <- laboratories) {
+                        <tr>
+                            @if(isAdmin) {
+                                <th scope="row">@laboratory.id</th>
+                            }
+                        <td><a href="@routes.LaboratoryController.get(laboratory.id)">@laboratory.name</a></td>
+                        <td>@laboratory.location</td>
+                        <td>@laboratory.administration</td>
+                            @if(isAdmin) {
+                                <td><a href="@adminroutes.LaboratoryController.edit(laboratory.id)">Editar</a></td>
+                                <td><a href="@adminroutes.LaboratoryController.delete(laboratory.id)">
+                                    Eliminar</a></td>
+                            }
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            } else {
+                <div id="not-found">
+                    <i class="not-found-icon icon ion-cube"></i>
+                    <h1>@messages("laboratory.list.empty.title")</h1>
+                    <p>@messages("laboratory.list.empty.body") @if(isAdmin) {
+                        @messages("laboratory.list.empty.adminMessage")
+                    } else {
+                        @messages("contactAdmin")
+                    }</p>
+                </div>
+            }
 
-        @if(isAdmin) {
-            <div class="btn-agregar-tabla">
-                <a href="@adminroutes.LaboratoryController.add()" class="btn btn-success icon ion-plus add-button" role="button">
+            @if(isAdmin) {
+                <div class="btn-agregar-tabla">
+                    <a href="@adminroutes.LaboratoryController.add()" class="btn btn-success icon ion-plus add-button" role="button">
                     @messages("laboratory.addButton")</a>
-            </div>
-        }
+                </div>
+            }
+        </div>
     </div>
+</div>
 </div>

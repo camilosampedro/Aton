@@ -19,7 +19,7 @@
 
 
             <!-- Script básico para la página -->
-           <script type="text/javascript" src="@routes.Assets.versioned("javascripts/general.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/general.js")"></script>
             <!-- Estilos generales -->
         <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/global.css")"/>
 
@@ -37,10 +37,10 @@
     <body>
         <div class="wrapper">
             @header()
-        <div id="container">
-            @menu()
-        <div class="content">@content</div>
-        </div>
+            <div id="container">
+                @menu()
+                <div class="content">@content</div>
+            </div>
         </div>
     </body>
 </html>

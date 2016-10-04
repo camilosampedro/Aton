@@ -97,9 +97,10 @@ aside ul li a.selected {
 }
 
 .content {
+    overflow-y: scroll;
     /*width: auto;*/
     margin-left: 200px;
-    /*height: calc(100vh - 65px);*/
+    height: calc(100vh - 45px);
     background-color: #bdc3c7;
     padding: 15px;
 }
