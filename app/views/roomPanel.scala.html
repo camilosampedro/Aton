@@ -1,30 +1,33 @@
 @import controllers.admin.{routes => adminroutes}
 @import model.{Computer, ComputerState, ConnectedUser, Room}
 @(room: Room, computers: Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])])(implicit messages: Messages, isAdmin: Boolean)
-
-<div class="panel panel-primary">
-    <div class="panel-heading icon ion-easel">@room.name @if(isAdmin) {
-        <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-warning icon ion-edit pull-right" role="button" title="@messages("room.edit")"></a> <a href="@adminroutes.RoomController.delete(room.id)" title="@messages("room.delete")" class="btn btn-danger icon ion-minus pull-right" role="button"></a>
-    }</div>
-    <div class="panel-body">
-    @if(computers.nonEmpty) {
-        <div class="row">
-        @for(((computer, computerState), index) <- computers.zipWithIndex) {
-            @computerPanel(computer, computerState, isAdmin, index)
-        }
-        </div>
-    } else {
-        <div id="not-found">
-            <i class="not-found-icon icon ion-earth"></i>
-            <h1>@messages("room.empty.title")</h1>
-            <p>@messages("room.empty.body")</p>
-            @if(isAdmin) {
-                <div class="btn-agregar-tabla">
-                    <a href="@adminroutes.ComputerController.add" class="btn btn-success icon ion-plus add-button" role="button">
-                    @messages("computer.add")</a>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading icon ion-easel">@room.name @if(isAdmin) {
+                <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-warning icon ion-edit pull-right" role="button" title="@messages("room.edit")"></a> <a href="@adminroutes.RoomController.delete(room.id)" title="@messages("room.delete")" class="btn btn-danger icon ion-minus pull-right" role="button"></a>
+            }</div>
+            <div class="panel-body">
+            @if(computers.nonEmpty) {
+                <div class="row">
+                @for(((computer, computerState), index) <- computers.zipWithIndex) {
+                    @computerPanel(computer, computerState, isAdmin, index)
+                }
+                </div>
+            } else {
+                <div id="not-found">
+                    <i class="not-found-icon icon ion-earth"></i>
+                    <h1>@messages("room.empty.title")</h1>
+                    <p>@messages("room.empty.body")</p>
+                    @if(isAdmin) {
+                        <div class="btn-agregar-tabla">
+                            <a href="@adminroutes.ComputerController.add" class="btn btn-success icon ion-plus add-button" role="button">
+                            @messages("computer.add")</a>
+                        </div>
+                    }
                 </div>
             }
+            </div>
         </div>
-    }
     </div>
 </div>
