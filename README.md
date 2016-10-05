@@ -24,7 +24,7 @@ Before installing it is required:
 ## How to install
 ### Install from release file
 
-Go to [releases page](https://github.com/ProjectAton/AtonLab/releases) and download the ones who fits you most.
+Go to [releases page](https://github.com/camilosampedro/Aton/releases) and download the ones who fits you most.
 
 #### Debian / Ubuntu / Linux Mint `.deb`
 After downloading, execute:
@@ -47,7 +47,7 @@ You will need to have installed:
 
 #### Clone GitHub repository
 ```bash
-git clone https://github.com/ProjectAton/AtonLab.git
+git clone https://github.com/camilosampedro/Aton.git
 ```
 
 #### Try it in non-production mode
