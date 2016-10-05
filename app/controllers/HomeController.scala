@@ -32,7 +32,7 @@ class HomeController @Inject()(laboratoryDAO: LaboratoryDAO, @Named("computerChe
     logger.debug("Petición de listar todos los laboratorios con el siguiente request recibida " + request)
     logger.debug("User: " + username + ", is admin: " + isAdmin)
     laboratoryDAO.listAll.map { labs =>
-      Ok(index(messagesApi("laboratory.laboratoryListTitle"),laboratories(labs)))
+      Ok(index(messagesApi("laboratory.list.title"),laboratories(labs)))
     }
   }
 

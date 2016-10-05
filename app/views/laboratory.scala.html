@@ -18,7 +18,7 @@
         </form>
             <div class="btn-agregar-tabla">
                 <a href="@adminroutes.RoomController.add()" class="btn btn-default icon ion-plus add-button" role="button">
-                @messages("room.add")</a>
+                @messages("room.add_room")</a>
                 <a href="@adminroutes.ComputerController.add" class="btn btn-default " role="button">
                 @messages("computer.add")</a>
             </div>
@@ -31,11 +31,11 @@
             <div class="panel-body">
                 <div id="not-found">
                     <i class="not-found-icon icon ion-cube"></i>
-                    <h1>@messages("laboratory.empty.title")</h1>
-                    <p>@messages("laboratory.empty.text")</p>
+                    <h1>@messages("room.list.empty.title")</h1>
+                    <p>@messages("room.list.empty.body")</p>
                     @if(isAdmin) {
                         <div class="btn-agregar-tabla ">
-                            <a href="@adminroutes.RoomController.add()" class="btn btn-success icon ion-plus add-button " role="button">@messages("laboratory.addRoom")</a>
+                            <a href="@adminroutes.RoomController.add()" class="btn btn-success icon ion-plus add-button " role="button">@messages("room.add_room")</a>
                         </div>
                     } else {
                         <p>@messages("contactAdmin")</p>

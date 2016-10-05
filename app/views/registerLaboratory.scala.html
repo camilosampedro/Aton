@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">Agregar laboratory</div>
+                <div class="panel-heading">@messages("laboratory.register.title")</div>
                 <div class="panel-body">
                 @helper.form(action = adminroutes.LaboratoryController.add, 'class -> "form-horizontal") {
                     @helper.inputText(laboratoryForm("laboratory.name"), 'class -> "form-control", 'placeholder -> "Nombre del laboratory")

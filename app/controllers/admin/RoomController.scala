@@ -27,7 +27,7 @@ class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, v
         Logger.error("There was an error with the input" + errorForm)
         laboratoryDAO.listAll.map { laboratories =>
           val pairs = laboratories.map(x => (x.id.toString, x.name))
-          Ok(index(messagesApi("room.add"),registerRoom(errorForm, pairs)))
+          Ok(index(messagesApi("room.add_room"),registerRoom(errorForm, pairs)))
         }
       },
       data => {
@@ -43,7 +43,7 @@ class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, v
     implicit val username = Some(loggedIn.username)
     laboratoryDAO.listAll.map { laboratories =>
       val pairs = laboratories.map(x => (x.id.toString, x.name))
-      Ok(index(messagesApi("room.add"),registerRoom(RoomForm.form, pairs)))
+      Ok(index(messagesApi("room.add_room"),registerRoom(RoomForm.form, pairs)))
     }
   }
 

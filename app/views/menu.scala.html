@@ -2,7 +2,7 @@
 @()(implicit messages: Messages, isAdmin: Boolean)
 <aside class="sidebar">
     <ul id="nav">
-        <li><a href="@routes.HomeController.home()" class="selected icon ion-home"> Inicio </a></li>
+        <li><a href="@routes.HomeController.home()" class="selected icon ion-home"> @messages("menu.home")</a></li>
         <li><a href="@routes.SuggestionController.home()" class="icon ion-pull-request"> @messages("menu.suggestions")</a></li>
         @if(isAdmin) {
             @*Panel de administrador*@

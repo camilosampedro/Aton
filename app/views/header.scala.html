@@ -14,12 +14,12 @@
                 class="icon ion-edit"> @messages("header.editUser")</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="@routes.LoginController.logout"
-                class="icon ion-power"> Cerrar sesión</a></li>
+                class="icon ion-power">@messages("user.logout")</a></li>
             </ul>
         } else {
             <button type="button" class="btn btn-default dropdown-toggle"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                @messages("user.notLoggedIn") <span class="caret"></span>
+                @messages("user.not_logged_in") <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li><a href="@routes.LoginController.login"

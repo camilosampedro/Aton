@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">Registrar equipo</div>
+                <div class="panel-heading">@messages("computer.register.title")</div>
                 <div class="panel-body">
                 @helper.form(action = adminroutes.ComputerController.add, 'class -> "form-horizontal") {
                     @helper.inputText(roomForm("computer.ip"), 'class -> "form-control", 'placeholder -> "Dirección IP del equipo")

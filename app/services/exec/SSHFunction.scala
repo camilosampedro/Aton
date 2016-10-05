@@ -69,7 +69,6 @@ object SSHFunction {
   // IP checking orders
   val ipExtractingOrder = "ifconfig eth0 2>/dev/null|awk '/Direc. inet:/ {print $2}'|sed 's/inet://'"
   val alternativeIpExtractingOrder = "ifconfig eth0 |awk '/inet addr:/ {print $2}'|sed 's/addr://'"
-  val IP_OBTAINING_ORDER = "ifconfig eth0 2>/dev/null|awk '/Direc. inet:/ {print $2}'|sed 's/inet://'"
 
   /**
     * Look for the computer hostname

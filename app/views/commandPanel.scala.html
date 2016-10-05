@@ -5,10 +5,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">@messages("computer.executeCommandTitle")</h4>
+                <h4 class="modal-title">@messages("computer.execute_command.title")</h4>
             </div>
             <div class="modal-body">
-                <div class="row"><p>@messages("computer.executeCommandBody")</p></div>
+                <div class="row"><p>@messages("computer.execute_command.body")</p></div>
 
                 <div class="row">
                     <form action="" id="command-form" method="post">
@@ -18,7 +18,7 @@
                             </span>
                             <input id="sshorder_command" name="sshorder.command" type="text" class="form-control" placeholder="@messages("sshorder.command")">
                             <span class="input-group-btn">
-                                <button id="sendcommandbutton" class="btn btn-default" type="submit">@messages("computer.sendCommand")</button>
+                                <button id="sendcommandbutton" class="btn btn-default" type="submit">@messages("computer.send_command")</button>
                             </span>
                         </div>
                     </form>
@@ -26,9 +26,9 @@
                 <div class="row">
                     <form action="" id="blockpageform" method="post">
                         <div class="input-group">
-                            <input id="page_url" name="page.url" type="text" class="form-control" placeholder="@messages("page.urlplaceholder")"/>
+                            <input id="page_url" name="page.url" type="text" class="form-control" placeholder="@messages("computer.block_page.placeholder")"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit">@messages("page.block")</button>
+                                <button class="btn btn-default" type="submit">@messages("computer.block_page.block")</button>
                             </span>
                         </div>
                     </form>
@@ -36,9 +36,9 @@
                 <div class="row">
                     <form action="" id="sendmessageform" method="post">
                         <div class="input-group">
-                            <input id="message_message" name="message.message" type="text" class="form-control" placeholder="@messages("computer.messageplaceholder")"/>
+                            <input id="message_message" name="message.message" type="text" class="form-control" placeholder="@messages("computer.message.placeholder")"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit">@messages("computer.sendmessage")</button>
+                                <button class="btn btn-default" type="submit">@messages("computer.message.send_message")</button>
                             </span>
                         </div>
                     </form>

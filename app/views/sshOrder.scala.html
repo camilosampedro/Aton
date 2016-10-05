@@ -2,7 +2,7 @@
 @import controllers.admin.{routes=>adminroutes}
 @(optionalSSHOrder: Option[SSHOrder])(implicit messages: Messages)
 <div class="panel panel-primary">
-    <div class="panel-heading">@messages("sshOrder")</div>
+    <div class="panel-heading">@messages("sshorder")</div>
     <div class="panel-body">
     @if(optionalSSHOrder.isDefined) {
 
@@ -35,8 +35,8 @@
     } else {
         <div id="not-found">
             <i class="icon ion-earth"></i>
-            <h1>Aquí no hay laboratorios</h1>
-            <p>Parece que no se han encontrado laboratorios. @messages("contactAdmin")</p>
+            <h1>@messages("sshorder.notfound.title")</h1>
+            <p>@messages("sshorder.notfound.body")</p>
         </div>
     }
     </div>

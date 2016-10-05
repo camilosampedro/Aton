@@ -12,12 +12,12 @@
                             @if(isAdmin) {
                                 <th>ID</th>
                             }
-                            <th>Nombre</th>
-                            <th>Ubicación</th>
-                            <th>Administración</th>
+                            <th>@messages("laboratory.name")</th>
+                            <th>@messages("laboratory.location")</th>
+                            <th>@messages("laboratory.administration")</th>
                             @if(isAdmin) {
-                                <th>Editar</th>
-                                <th>Eliminar</th>
+                                <th>@messages("edit")</th>
+                                <th>@messages("delete")</th>
                             }
                         </tr>
                     </thead>
@@ -44,7 +44,7 @@
                     <i class="not-found-icon icon ion-cube"></i>
                     <h1>@messages("laboratory.list.empty.title")</h1>
                     <p>@messages("laboratory.list.empty.body") @if(isAdmin) {
-                        @messages("laboratory.list.empty.adminMessage")
+                        @messages("laboratory.list.empty.admin_message")
                     } else {
                         @messages("contactAdmin")
                     }</p>
@@ -54,7 +54,7 @@
             @if(isAdmin) {
                 <div class="btn-agregar-tabla">
                     <a href="@adminroutes.LaboratoryController.add()" class="btn btn-success icon ion-plus add-button" role="button">
-                    @messages("laboratory.addButton")</a>
+                    @messages("laboratory.add_laboratory")</a>
                 </div>
             }
         </div>

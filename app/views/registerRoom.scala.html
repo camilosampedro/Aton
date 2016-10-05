@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">Agregar sala</div>
+                <div class="panel-heading">@messages("room.register.title")</div>
                 <div class="panel-body">
                 @helper.form(action = adminroutes.RoomController.add, 'class -> "form-horizontal") {
                     @helper.inputText(roomForm("room.name"), 'class -> "form-control", 'placeholder -> "Nombre de la sala")

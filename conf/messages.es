@@ -1,97 +1,132 @@
 # Application
 app.name=Aton Web
 app.information=Administrador web de salas de computadoras. Desarrollado por Camilo A. Sampedro.
+
+# General Strings
+about=Acerca de
+close=Cerrar
+contactAdmin=Por favor ayúdanos en sugerencias reportando este problema. Si eres administrador del laboratorio, por favor autentícate en la parte superior.
+delete=Eliminar
+edit=Editar
+empty=Vacío
+notImplemented=No implementado
+send=Enviar
+submit=Agregar
+
 # Computer
+# - Computer form3
 computer.ip=Dirección IP / Hostname
 computer.SSHUser=Usuario SSH
 computer.SSHPassword=Contraseña SSH
-computer.sendCommand=Enviar comando
+# - Computer buttons
+computer.send_command=Enviar comando
 computer.add=Agregar equipo
-computer.executeCommandTitle=Ejecutar comando
-computer.executeCommandBody=Ejecutar un comando SSH dentro del equipo
 computer.shutdown=Apagar
-computer.upgrade=Actualizar
-computer.upgrade.succeeded=Actualización completada
-computer.upgrade.succeeded.body=¡Actualización completada con éxito!
 computer.unfreeze=Descongelar
-computer.state=Estado:
-computer.occupied=Ocupado
+computer.upgrade=Actualizar
+computer.upgrade.succeeded.title=Actualización completada
+computer.upgrade.succeeded.body=¡Actualización completada con éxito!
+# - Computer commands form
+computer.execute_command.title=Ejecutar comando
+computer.execute_command.body=Ejecutar un comando SSH dentro del equipo
+# - Computer states
+computer.state=Estado
 computer.available=Disponible
 computer.error=Error
-computer.addNew.header=Agregar computador
-computer.notconnected=No conectado
-computer.messageplaceholder=Mensaje
-computer.sendmessage=Enviar mensaje
-page.urlplaceholder=URL página
-page.block=Bloquear página
-computer.help.head=Ingresar computardores
+computer.occupied=Ocupado
+computer.not_connected=No conectado
+# - Computer remote messages
+computer.message.placeholder=Mensaje
+computer.message.send_message=Enviar mensaje
+# - Block pages
+computer.block_page.placeholder=URL página
+computer.block_page.block=Bloquear página
+# - Empty computer list
+computer.list.empty.title=Aquí no hay computadores
+computer.list.empty.body=Parece que no se han encontrado computadores.
+# - Computer register
+computer.register.title=Registrar computador
+# - Computer update
+computer.update.title=Agregar computador
+# - Computer register: Help
+computer.help.head=Ingresar computadores
 computer.help.body=Aquí podrás ingresar computadores a una sala. \nCada computador necesita una dirección IP \
   (O host name), un nombre de usuario SSH y una contraseña del usuario SSH. Estos campos se requieren debido a que Aton\
   se comunica por SSH a cada uno de los computadores para ejecutar órdenes remotas y verificar su estado.\n\n\
   Es posible insertar cada uno de los equipos, separando con comas sus direcciones IP y sus nombres.
+
 # Header texts
 header.editUser=Editar usuario
+
 # Menu texts
+menu.home=Inicio
 menu.suggestions=Sugerencias
 menu.administration=Administración
 menu.laboratories=Laboratorios
 menu.sshorders=Órdenes SSH
 menu.about=Acerca de
+
 # Room panel
-room.name=Nombre
+# - Room fields
 room.audiovisualResources=Recursos audiovisuales
 room.basicTools=Herramientas básicas
 room.laboratoryID=Laboratorio
+room.name=Nombre
+# - Room buttons
+room.add_room=Agregar sala
 room.delete=Eliminar
-room.empty.title=Aquí no hay computadores
-room.empty.body=Parece que no se han encontrado computadores.
 room.edit=Editar
+# - Empty room list
+room.list.empty.title=Aquí no hay salas
+room.list.empty.body=Parece que no se han encontrado salas.
+# - Not found
 room.notFound=Sala no encontrada con el id especificado
-room.add=Agregar sala
+# - Room register
+room.register.title=Registrar sala
+# - Room register help
 room.help.head=Ingresar una nueva sala
 room.help.body=Aquí podrás ingresar una nueva sala al sistema. Las salas son conjuntos de computadoras.
+
 # Suggestion
 suggestion.notImplemented=El módulo de sugerencias no está implementado... aún
-# General
-close=Cerrar
-edit=Editar
-delete=Eliminar
-empty=Vacío
-notImplemented=No implementado
-contactAdmin=Por favor ayúdanos en sugerencias reportando este problema. Si eres administrador del laboratorio, por favor autentícate en la parte superior.
-submit=Agregar
-send=Enviar
-about=Acerca de
+
 # Laboratory
 laboratory=laboratorio
 laboratory.title=Laboratorio {0}
-laboratory.laboratoryListTitle=Lista de laboratorios
-laboratory.addButton=Agregar laboratorio
-laboratory.addRoom=Agregar sala
-laboratory.list.empty.body=Parece que no se han encontrado laboratorios.
+laboratory.add_laboratory=Agregar laboratorio
+laboratory.list.title=Lista de laboratorios
+# - Empty laboratory list
 laboratory.list.empty.title=Aquí no hay laboratorios
-laboratory.list.empty.adminMessage=Si deseas puedes agregar salas desde el siguiente botón:
-laboratory.empty.title=Aquí no hay salas
-laboratory.empty.text=Parece que no se han encontrado salas.
-laboratory.location=Ubicación:
-laboratory.administration=Administración:
-laboratory.name=Nombre:
+laboratory.list.empty.body=Parece que no se han encontrado laboratorios.
+laboratory.list.empty.admin_message=Si deseas puedes agregar salas desde el siguiente botón:
+# - Laboratory fields
+laboratory.location=Ubicación
+laboratory.administration=Administración
+laboratory.name=Nombre
 laboratory.help.head=Ingresar un nuevo laboratorio
 laboratory.help.body=Aquí podrás ingresar un nuevo laboratorio al sistema. Los laboratorios son conjuntos de salas que se encuentran reunidos en el mismo espacio.
+laboratory.register.title=Registrar laboratorio
+
 # User
 user.username=Nombre de usuario
-user.notLoggedIn=No has iniciado sesión
+user.not_logged_in=No has iniciado sesión
+user.logout=Cerrar sesión
 user.login=Iniciar sesión
 user.loginFormTitle=Inicia sesión en el sistema
 user.goToHome=Volver a la página de inicio
 user.connectedusers=Usuarios conectados:
 # SSH Order
-sshorders=Órdenes SSH
+sshorder=Orden SSH
 sshorder.command=Comando
 sshorder.sentdatetime=Fecha de envío
 sshorder.superuser=Como super usuario
 sshorder.webuser=Usuario
 sshorder.resulttext=Pero el resultado de ejecutar el comando fue "{0}" con código de salida {1}
+sshorder.notfound.title=Orden SSH no encontrada
+sshorder.notfound.body=La orden SSH solicitada no se encontró en la base de datos.
+sshorder.list.empty.title=No hay órdenes SSH en el historial
+sshorder.list.empty.body=No se encontraron órdenes SSH registradas en el historial de la base de datos
+sshorders=Órdenes SSH
 # Suggestion
 suggestions=Sugerencias
 suggestion.add=Agregar sugerencia
@@ -102,3 +137,5 @@ suggestion.username=Usuario
 suggestion.help.head=Enviar nueva sugerencia
 suggestion.help.body=Envía al administrador sugerencias acerca de la sala, por ejemplo programas que quieras que se \
   instalen o alguna queja sobre algún proceso.
+suggestion.list.empty.title=Aquí no hay sugerencias
+suggestion.list.empty.body=Parece que nadie ha hecho sugerencias.

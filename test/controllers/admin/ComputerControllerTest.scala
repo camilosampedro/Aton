@@ -73,7 +73,6 @@ class ComputerControllerTest @Inject()(sSHOrderService: SSHOrderService, compute
       val result = controller.add.apply(FakeRequest().withFormUrlEncodedBody().withFormUrlEncodedBody(computerForm.data.toSeq: _ *))
       val bodyText = contentAsString(result)
       bodyText mustBe "ok"
-
     }
 
     "sendMessage" in {

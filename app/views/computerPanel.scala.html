@@ -47,7 +47,7 @@
                                 <p class="dropdown-text">@{messages("computer.state")} @{computerState.get._1.state match {
                                         case 1 if computerState.get._2.nonEmpty => messages("computer.occupied")
                                         case 1 if computerState.get._2.isEmpty => messages("computer.available")
-                                        case 2 => messages("computer.notconnected")
+                                        case 2 => messages("computer.not_connected")
                                         case _ => messages("computer.error")
                                     }
                                 }</p>
@@ -61,7 +61,7 @@
                         @if(isAdmin) {
                             <li role="separator" class="divider"></li>
                             <li>
-                                <button type="button" class="btn btn-info commandboxbutton" id="@computer.ip">@messages("computer.sendCommand")</button>
+                                <button type="button" class="btn btn-info command-box-button" id="@computer.ip">@messages("computer.send_command")</button>
                             </li>
                             <li><a href="@adminroutes.ComputerController.editForm(computer.ip)" class="btn btn-danger">
                             @messages("edit")</a></li>
