@@ -7,6 +7,7 @@ import slick.lifted.{ForeignKeyQuery, ProvenShape}
 /**
   * Computer table map with Slick
   *
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   * @param tag Table tag
   */
 class ComputerTable(tag: Tag) extends Table[Computer](tag, "computer") {

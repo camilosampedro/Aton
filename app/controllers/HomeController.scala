@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
 /**
-  * Created by camilo on 16/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @Singleton
 class HomeController @Inject()(laboratoryDAO: LaboratoryDAO, @Named("computerChecker") computerChecker: ActorRef, actorSystem: ActorSystem, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithNoAuthRequired {

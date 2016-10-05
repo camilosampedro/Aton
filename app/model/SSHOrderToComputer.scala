@@ -3,7 +3,7 @@ package model
 import java.sql.Timestamp
 
 /**
-  * Created by camilo on 14/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 case class SSHOrderToComputer(
                                computerIp: String,

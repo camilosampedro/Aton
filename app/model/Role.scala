@@ -2,7 +2,7 @@ package model
 
 
 /**
-  * Created by camilo on 15/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 case class Role(
                  id: Int,

@@ -1,7 +1,7 @@
 package services
 
 /**
-  * Created by camilo on 16/07/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 trait Timer {
   def time[R](block: => R): R = {

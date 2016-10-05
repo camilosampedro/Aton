@@ -6,6 +6,7 @@ import slick.driver.MySQLDriver.api._
 /**
   * User table map with Slick
   *
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   * @param tag Table tag
   */
 class UserTable(tag: Tag) extends Table[User](tag, "user") {

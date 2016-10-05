@@ -7,7 +7,7 @@ import services.impl.LaboratoryServiceImpl
 import scala.concurrent.Future
 
 /**
-  * Created by camilo on 21/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @ImplementedBy(classOf[LaboratoryServiceImpl])
 trait LaboratoryService {

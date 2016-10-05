@@ -1,6 +1,6 @@
 package model.form.data
 
 /**
-  * Created by camilo on 15/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 case class LoginFormData(username: String, password: String)

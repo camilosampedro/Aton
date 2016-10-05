@@ -3,7 +3,7 @@ package model
 abstract class StateRef(val id: Int)
 
 /**
-  * Created by camilo on 22/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 case class State(
                   override val id: Int,

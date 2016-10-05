@@ -9,6 +9,7 @@ import slick.profile.SqlProfile.ColumnOption.SqlType
 /**
   * SSHOrder table map with Slick
   *
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   * @param tag Table tag
   */
 class SSHOrderTable(tag: Tag) extends Table[SSHOrder](tag, "ssh_order") {

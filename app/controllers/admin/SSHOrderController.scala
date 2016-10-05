@@ -10,7 +10,7 @@ import views.html._
 import scala.concurrent.ExecutionContext
 
 /**
-  * Created by camilosampedro on 11/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class SSHOrderController @Inject()(sSHOrderDAO: SSHOrderDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, userDAO: UserDAO , environment: Environment) extends ControllerWithAuthRequired {
 

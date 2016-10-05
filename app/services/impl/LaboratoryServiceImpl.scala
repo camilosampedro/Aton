@@ -8,7 +8,7 @@ import services.LaboratoryService
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Created by camilo on 21/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @Singleton
 class LaboratoryServiceImpl @Inject()(laboratoryDAO: LaboratoryDAO)(implicit executionContext: ExecutionContext) extends LaboratoryService {

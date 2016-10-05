@@ -11,7 +11,7 @@ import play.api.mvc.{Action, Controller}
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Created by camilo on 14/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class LoginController @Inject()(userDAO: UserDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, override val cookieSecureOptionPlay: Environment) extends Controller with I18nSupport with LoginLogout with AuthConfigImpl {
 

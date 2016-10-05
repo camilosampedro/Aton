@@ -16,7 +16,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Created by camilo on 20/03/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class LaboratoryController @Inject()(laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
   def administrateLaboratories = AuthRequiredAction { implicit request =>

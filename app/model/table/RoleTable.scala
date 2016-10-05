@@ -6,6 +6,7 @@ import slick.driver.MySQLDriver.api._
 /**
   * Role table map with Slick
   *
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   * @param tag Table tag
   */
 class RoleTable(tag: Tag) extends Table[Role](tag, "role") {

@@ -1,7 +1,7 @@
 package model.form.data
 
 /**
-  * Created by camilosampedro on 10/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 case class RoomFormData(name: String,
                         audiovisualResources: Option[String],

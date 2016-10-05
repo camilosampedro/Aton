@@ -119,6 +119,10 @@ aside ul li a.selected {
     margin: 0.7em 0;
 }
 
+.room-panel {
+    margin-bottom: 10px;
+}
+
 .computer-panel {
     margin: 0.8em 0;
 }
@@ -135,7 +139,7 @@ aside ul li a.selected {
 }
 
 .panel-body {
-    padding-bottom: 0;
+    /*padding-bottom: 0;*/
 }
 
 .command {

@@ -8,6 +8,7 @@ import slick.driver.MySQLDriver.api._
 /**
   * ComputerState table map with Slick
   *
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   * @param tag Table tag
   */
 class StateTable(tag: Tag) extends Table[State](tag, "computer_state") {

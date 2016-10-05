@@ -4,6 +4,7 @@ import java.sql.Timestamp
 
 /**
   * POJO with the basic SSH Order information (Used by the SSH Order DAO, Service and Controller)
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 case class SSHOrder(
                      id: Long,

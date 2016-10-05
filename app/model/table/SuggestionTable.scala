@@ -9,6 +9,7 @@ import slick.lifted.ProvenShape
 /**
   * Suggestion table map with Slick
   *
+  *
   * @param tag Table tag
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */

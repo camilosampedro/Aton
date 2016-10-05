@@ -18,7 +18,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Created by camilo on 20/03/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryService: LaboratoryService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
 

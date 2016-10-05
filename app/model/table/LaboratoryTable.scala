@@ -7,13 +7,14 @@ import slick.lifted.ProvenShape
 /**
   * Laboratory table map with Slick
   *
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   * @param tag Table tag.
   */
 class LaboratoryTable(tag: Tag) extends Table[Laboratory](tag, "laboratory") {
 
   // All tables need the * method with the type that it was created the table with.
   override def * : ProvenShape[Laboratory] =
-    (id, name, location, administration) <>(Laboratory.tupled, Laboratory.unapply)
+  (id, name, location, administration) <> (Laboratory.tupled, Laboratory.unapply)
 
   // Primary key
   def id = column[Long]("id", O.PrimaryKey, O.AutoInc)

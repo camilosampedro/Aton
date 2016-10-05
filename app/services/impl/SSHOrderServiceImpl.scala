@@ -19,7 +19,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.duration._
 
 /**
-  * Created by camilo on 14/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @Singleton
 class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputerDAO: SSHOrderToComputerDAO) extends SSHOrderService {

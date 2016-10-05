@@ -7,7 +7,7 @@ import model._
 import scala.concurrent.Future
 
 /**
-  * Controla las acciones sobre la base de datos.
+  * Performs Laboratory database actions
   *
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */

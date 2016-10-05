@@ -14,7 +14,7 @@ import views.html._
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Created by camilo on 14/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class SuggestionController @Inject()(suggestionDAO: SuggestionDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithNoAuthRequired {
   def home = AsyncStack { implicit request =>

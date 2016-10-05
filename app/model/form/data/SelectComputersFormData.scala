@@ -1,6 +1,6 @@
 package model.form.data
 
 /**
-  * Created by camilosampedro on 11/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 case class SelectComputersFormData(selectedComputers: List[String])

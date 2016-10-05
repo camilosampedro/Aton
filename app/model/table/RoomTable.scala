@@ -6,6 +6,7 @@ import slick.driver.MySQLDriver.api._
 /**
   * Room table map with Slick
   *
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   * @param tag Table tag
   */
 class RoomTable(tag: Tag) extends Table[Room](tag, "room") {

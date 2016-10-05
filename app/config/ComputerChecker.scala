@@ -13,6 +13,7 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 
 /**
   * This has the task of checking periodically the computers' state, without blocking the main thread.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   *
   * @param connectedUserDAO Injected.
   * @param computerStateDAO Injected.

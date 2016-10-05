@@ -6,7 +6,7 @@ import model._
 import services.impl.SSHOrderServiceImpl
 
 /**
-  * Created by camilo on 14/05/16.
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @ImplementedBy(classOf[SSHOrderServiceImpl])
 trait SSHOrderService {
