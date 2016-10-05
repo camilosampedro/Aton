@@ -24,6 +24,8 @@ Before installing it is required:
 ## How to install
 ### Install from release file
 
+- For more detailed instructions, please go to the [Installation wiki page](https://github.com/camilosampedro/Aton/wiki/How-to-install-Aton). 
+
 Go to [releases page](https://github.com/camilosampedro/Aton/releases) and download the ones who fits you most.
 
 #### Debian / Ubuntu / Linux Mint `.deb`
