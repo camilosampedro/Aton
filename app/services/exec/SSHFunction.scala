@@ -160,4 +160,18 @@ object SSHFunction {
     * @return Formatted super user order String
     */
   def sudofy(order: String) = "sudo -S -p '' -- sh -c '" + order.replace("$", "\\$").replace("'", "\"") + "'"
+  
+  /**
+    * Blocks the user from login on that computer
+    * @param user block this username from login on that computer
+    * @return "passwd: password expiry information changed." on success, "passwd: user 'user' does not exist" on failure
+    */
+  def blockUser(user: String) = "sudo passwd -l " + user
+  
+  /**
+    * Unblocks the user, so that user login on that computer
+    * @param user unblock this username from login on that computer
+    * @return "passwd: password expiry information changed." on success, "passwd: user 'user' does not exist" on failure
+    */
+  def unblockUser(user: String) = "sudo passwd -u " + user
 }
