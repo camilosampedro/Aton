@@ -93,3 +93,18 @@ script
   exec sudo -u aton bin/aton -Dhttp.port=8080
 end script
 ```
+
+# Testing
+Thanks to [LIS](lis.udea.edu.co), Aton could be tested on a real 80 computers environment. The system specifications was:
+## Aton server
+ - __Operating system:__ `Ubuntu 14.04.5 LTS`
+ - __RAM:__ 512 mb
+ - __Cores:__ 1 core @ 1.60GHz
+ 
+## Managed computers
+ - __Operatings system:__ `Linux Mint Debian Edition 2`
+ - __RAM:__ ~4 gb (Some have 2gb, others have 8gb)
+ - __Processors:__ Intel core 2 Duo and Intel core i7
+ - A room full of software engineering students! Most of them use IDEs, test commands, navigate through SSH.
+ - LDAP user management.
+ 
