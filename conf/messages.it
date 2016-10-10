@@ -1,0 +1,63 @@
+# Application
+app.name=Aton Web
+app.information=Aton, amministratore web sale computer. Realizzato da Camilo A. Sampedro.
+# Computer
+computer.ip=Indirizzo IP / Hostname
+computer.SSHUser=Utente SSH
+computer.SSHPassword=Password SSH
+computer.send_command=Invia comando
+computer.add=Aggiungi computer
+# Header texts
+header.editUser=Modifica utente
+# Menu texts
+menu.suggestions=Suggerimenti
+menu.administration=Amministrazione
+menu.laboratories=Laboratori
+menu.sshorders=Ordini SSH
+menu.about=About
+# Room panel
+room.name=Nome
+room.audiovisualResources=Risorse audiovisive
+room.basicTools=Strumenti base
+room.laboratoryID=Laboratorio
+room.delete=Elimina
+computer.list.empty.title=Qui non ci sono computer
+computer.list.empty.body=Sembra che non siano stati trovati computer.
+room.edit=Modifica
+room.notFound=Non è stata trovata la sala con l'identificativo specificato
+room.add_room=Aggiungi sala
+# Suggestion
+suggestion.notImplemented=Il modulo dei suggerimenti non è (ancora) stato implementato
+# General
+edit=Modifica
+delete=Cancella
+empty=Vuoto
+notImplemented=Non implementato
+contactAdmin=Si prega di aiutare segnalando questo problema
+submit=Aggiungi
+about=About
+# Laboratory
+laboratory=Laboratorio
+laboratory.list.title=Lista dei laboratori
+laboratory.add_laboratory=Aggiungi laboratorio
+room.add_room=Aggiungi sala
+room.list.empty.title=Qui non ci sono sale
+room.list.empty.body=Sembra che non ci siano sale.
+laboratory.location=Posizione:
+laboratory.administration=Amministrazione:
+laboratory.name=Nome:
+laboratory.help.head=Inserimento di un nuovo laboratorio
+laboratory.help.body=Qui è possibile inserire un nuovo laboratorio nel sistema.
+# User
+user.username=Nome utente
+user.not_logged_in=Utente non loggato
+user.login=Login
+user.loginFormTitle=Accedere al sistema
+user.goToHome=Torna alla home
+# SSH Order
+sshorders=Ordini SSH
+sshorder.command=Comando
+sshorder.sentdatetime=Data di invio
+sshorder.superuser=Superutente
+sshorder.webuser=Utente
+
