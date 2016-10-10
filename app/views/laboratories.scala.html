@@ -3,7 +3,7 @@
 @(laboratories: Seq[Laboratory])(implicit messages: Messages, isAdmin: Boolean)
 <div class="row"><div class="col-md-12">
     <div class="panel panel-primary">
-        <div class="panel-heading">Laboratorios</div>
+        <div class="panel-heading">@messages("laboratory.list.title")</div>
         <div class="panel-body">
             @if(laboratories.nonEmpty) {
                 <table class="table table-striped" ng-if={laboratorios.nombre}>
@@ -31,9 +31,9 @@
                         <td>@laboratory.location</td>
                         <td>@laboratory.administration</td>
                             @if(isAdmin) {
-                                <td><a href="@adminroutes.LaboratoryController.edit(laboratory.id)">Editar</a></td>
+                                <td><a href="@adminroutes.LaboratoryController.edit(laboratory.id)">@messages("edit")</a></td>
                                 <td><a href="@adminroutes.LaboratoryController.delete(laboratory.id)">
-                                    Eliminar</a></td>
+                                    @messages("delete")</a></td>
                             }
                         </tr>
                     }
