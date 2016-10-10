@@ -109,9 +109,11 @@ laboratory.register.title=Labor erstellen
 
 # User
 user.username=Benutzername
+user.password=Passwort
 user.not_logged_in=Nicht eingeloggt
 user.logout=Ausloggen
 user.login=Einloggen
+user.loginAction=Einloggen
 user.loginFormTitle=Im System anmelden
 user.goToHome=Zurück zur Hauptseite
 user.connectedusers=Verbundene Benutzer:
