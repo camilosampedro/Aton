@@ -60,7 +60,7 @@ header.editUser=Benutzer bearbeiten
 
 # Menu texts
 menu.home=Hauptseite
-menu.suggestions=Tipps
+menu.suggestions=Anfragen
 menu.administration=Administration
 menu.laboratories=Räume
 menu.sshorders=SSH-Befehle
