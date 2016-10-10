@@ -27,11 +27,11 @@
                     <input type="text" name="username" placeholder="@messages("user.username")" id="username" value="@form("username").value">
                 </p>
                 <p>
-                    <input type="password" name="password" id="password" placeholder="Password">
+                    <input type="password" name="password" id="password" placeholder="@messages("user.password")">
                 </p>
                 <p>
-                    <button type="submit" class="btn">
-                        Login</button><button class="btn btn-default"><a href="@routes.HomeController.home()" role="button">@messages("user.goToHome")</a></button>
+                    <button type="submit" class="btn">@messages("user.loginAction")</button>
+                    <button class="btn btn-default"><a href="@routes.HomeController.home()" role="button">@messages("user.goToHome")</a></button>
                 </p>
 
             }

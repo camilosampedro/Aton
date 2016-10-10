@@ -109,9 +109,11 @@ laboratory.register.title=Registrar laboratorio
 
 # User
 user.username=Nombre de usuario
+user.password=Password
 user.not_logged_in=No has iniciado sesión
 user.logout=Cerrar sesión
 user.login=Iniciar sesión
+user.loginAction=Login
 user.loginFormTitle=Inicia sesión en el sistema
 user.goToHome=Volver a la página de inicio
 user.connectedusers=Usuarios conectados:
