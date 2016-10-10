@@ -1,0 +1,142 @@
+# Application
+app.name=Aton Web
+app.information=Weboberfläche zur Administration von Computerräumen. Entwickelt von Camilo A. Sampedro.
+
+# General Strings
+about=Über
+close=Schließen
+contactAdmin=Bitte hilf uns, indem du diesen Fehler meldest. Wenn du Administrator bist, bitte melde dich in der Administrationspberfläche an.
+delete=Löschen
+edit=Bearbeiten
+empty=leer
+notImplemented=Nicht implementiert
+send=Senden
+submit=Subsenden
+
+# Not Implemented page
+page.notimplemented=Diese Seite ist leider noch nicht implementiert. Bitte versuche es später erneut.
+
+# Computer
+# - Computer form3
+computer.ip=IP-Adresse oder Hostname
+computer.SSHUser=SSH-Benutzername
+computer.SSHPassword=SSH-Passwort
+# - Computer buttons
+computer.send_command=Befehl ausführen
+computer.add=Computer eintragen
+computer.shutdown=Herunterfahren
+computer.unfreeze=Freischalten
+computer.upgrade=Updaten
+computer.upgrade.succeeded.title=Update erfolgreich
+computer.upgrade.succeeded.body=Das Update wurde erfolgreich beendet!
+# - Computer commands form
+computer.execute_command.title=Befehl ausführen
+computer.execute_command.body=Hier kannst du via SSH einen Befehl am entfernten Computer ausführen.
+# - Computer states
+computer.state=Status:
+computer.available=verfügbar
+computer.error=Fehler
+computer.occupied=besetzt
+computer.not_connected=nicht verbunden
+# - Computer remote messages
+computer.message.placeholder=Nachricht
+computer.message.send_message=Nachricht senden
+# - Block pages
+computer.block_page.placeholder=URL der Webseite
+computer.block_page.block=Webseite blockieren
+# - Empty computer list
+computer.list.empty.title=Keine Computer
+computer.list.empty.body=Es scheint, als wären hier keine Computer.
+# - Computer register
+computer.register.title=Computer registrieren
+# - Computer update
+computer.update.title=Computer bearbeiten
+# - Computer register: Help
+computer.help.head=Computer eintragen
+computer.help.body=Hier kannst du einen Computer eintragen.\nJeder Computer braucht zumindest IP-Adresse oder Hostname, sowie Benutzername und Passwort für SSH. Aton muss sich mit jedem Computer via SSH verbinden können, um Befehle auszuführen und den Computerstatus zu verifizieren.\n\nEs ist möglich, mehrere Computer gleichzeitig einzutragen, indem die Namen und IP-Adressen durch Beistriche getrennt werden.
+
+# Header texts
+header.editUser=Benutzer bearbeiten
+
+# Menu texts
+menu.home=Hauptseite
+menu.suggestions=Tipps
+menu.administration=Administration
+menu.laboratories=Räume
+menu.sshorders=SSH-Befehle
+menu.about=Über Aton Web
+
+# Room panel
+# - Room fields
+room.audiovisualResources=Mediensysteme
+room.basicTools=Geräte
+room.laboratoryID=Labor
+room.name=Name
+# - Room buttons
+room.add_room=Raum eintragen
+room.delete=Löschen
+room.edit=Bearbeiten
+# - Empty room list
+room.list.empty.title=Keine Räume
+room.list.empty.body=Es scheint, als gäbe es in diesem Labor keine Räume.
+# - Not found
+room.notFound=Kein Raum mit dieser ID gefunden.
+# - Room register
+room.register.title=Raum eintragen
+# - Room register help
+room.help.head=Neuen Raum eintragen
+room.help.body=Hier kannst du einen neuen Raum ins System eintragen. Ein Raum fasst mehrere Computer zusammen.
+
+# Suggestion
+suggestion.notImplemented=Voschläge sind nicht implementiert... noch!
+
+# Laboratory
+laboratory=Labor
+laboratory.title=Labor {0}
+laboratory.add_laboratory=Neues Labor
+laboratory.list.title=Liste der Labors
+# - Empty laboratory list
+laboratory.list.empty.title=Keine Labore
+laboratory.list.empty.body=Es scheint, als gäbe es noch keine Labore.
+laboratory.list.empty.admin_message=Wenn du ein Labor anlegen willst, klicke hier\:
+# - Laboratory fields
+laboratory.location=Ort
+laboratory.administration=Verantwortung
+laboratory.name=Name
+laboratory.help.head=Neues Labor eintragen
+laboratory.help.body=Hier kannst du ein neues Labor im System eintragen. Ein Labor fasst mehrere Räume zusammen, die nahe zueinander liegen.
+laboratory.register.title=Labor erstellen
+
+# User
+user.username=Benutzername
+user.password=Passwort
+user.not_logged_in=Nicht eingeloggt
+user.logout=Ausloggen
+user.login=Einloggen
+user.loginAction=Einloggen
+user.loginFormTitle=Im System anmelden
+user.goToHome=Zurück zur Hauptseite
+user.connectedusers=Verbundene Benutzer:
+# SSH Order
+sshorder=SSH-Befehl
+sshorder.command=Befehl
+sshorder.sentdatetime=Sendedatum
+sshorder.superuser=Als Superuser
+sshorder.webuser=Benutzer
+sshorder.resulttext=Die Ausgabe des Befehls war "{0}", mit Exit Code {1}
+sshorder.notfound.title=SSH-Befehl nicht gefunden
+sshorder.notfound.body=Es gibt keinen solchen SSH-Befehl in der Datenbank.
+sshorder.list.empty.title=Noch keine Befehle
+sshorder.list.empty.body=Es gibt noch keine Befehle in der Datenbank.
+sshorders=SSH-Befehle
+# Suggestion
+suggestions=Anfragen
+suggestion.add=Anfrage abschicken
+suggestion.suggestionText=Anfragetext
+suggestion.text=Anfrage
+suggestion.registereddate=Sendedatum
+suggestion.username=Autor
+suggestion.help.head=Eine Anfrage abschicken
+suggestion.help.body=Hier kannst du Anfragen an die Administratoren der Räume abschicken. Wenn du zum Beispiel ein spezielles Programm installiert brauchst, kannst du das hier anfordern.
+suggestion.list.empty.title=Keine Anfragen
+suggestion.list.empty.body=Scheinbar hat noch niemand eine Anfrage abgeschickt.
