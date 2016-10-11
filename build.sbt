@@ -32,7 +32,6 @@ libraryDependencies ++= Seq(
   "jp.t2v" %% "play2-auth-test" % "0.14.2" % "test",
   cache,
   ws,
-  specs2 % Test,
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test,
   "mysql" % "mysql-connector-java" % "5.1.34",
   "com.typesafe.play" %% "play-slick" % "2.0.2",
@@ -40,7 +39,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick-evolutions" % "2.0.2",
   "com.typesafe.akka" %% "akka-actor" % "2.4.5",
   "fr.janalyse" %% "janalyse-ssh" % "0.9.19" % "compile",
-  "org.mindrot"  % "jbcrypt"   % "0.3m"
+  "org.mindrot"  % "jbcrypt"   % "0.3m",
+  "org.scalatest" %% "scalatest" % "3.0.0" % "test"
 )
 
 libraryDependencies ++= Seq(
