@@ -4,6 +4,10 @@ version := "0.1.3"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, DebianPlugin, RpmPlugin, LinuxPlugin, UniversalPlugin, WindowsPlugin,JDKPackagerPlugin, JavaServerAppPackaging)
 
+parallelExecution in Test := false
+
+fork in Test := true
+
 maintainer in Linux := "Camilo Sampedro <camilo.sampedro@udea.edu.co>"
 
 packageSummary in Linux := "Aton, Laboratory Administrator"
@@ -40,7 +44,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.4.5",
   "fr.janalyse" %% "janalyse-ssh" % "0.9.19" % "compile",
   "org.mindrot"  % "jbcrypt"   % "0.3m",
-  "org.scalatest" %% "scalatest" % "3.0.0" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.0" % "test",
+  "org.mockito" % "mockito-all" % "1.10.19"
 )
 
 libraryDependencies ++= Seq(

@@ -62,8 +62,8 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
     ComputerForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(errorForm.toString)),
       data => {
-        val ips: Array[String] = data.ip.split(",")
-        val names: Array[String] = data.name.getOrElse("").split(",")
+        val ips = data.ip.split(",")
+        val names = data.name.getOrElse("").split(",")
         val futures = ips.zip(names).map { pair =>
           val newComputer = Computer(pair._1, Some(pair._2), data.SSHUser, data.SSHPassword, data.description, data.roomID)
           Logger.debug("Adding a new computer: " + newComputer)
