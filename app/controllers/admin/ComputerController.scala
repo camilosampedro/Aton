@@ -10,6 +10,7 @@ import model.form.data.ComputerFormData
 import play.Logger
 import play.api.Environment
 import play.api.i18n.MessagesApi
+import services.state.Completed
 import services.{ComputerService, SSHOrderService}
 import views.html._
 
@@ -19,12 +20,12 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
+class ComputerController @Inject()(computerService: ComputerService, roomDAO: RoomDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
   def edit = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     ComputerForm.form.bindFromRequest().fold(
       errorForm => {
-        computerDAO.get(errorForm.get.ip).map {
+        computerService.getSingle(errorForm.get.ip).map {
           case Some(computer) =>
             computer.roomID match {
               case Some(roomID) =>
@@ -79,10 +80,9 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
       implicit val username = Some(loggedIn.username)
       Logger.debug("Looking for computer: " + ip)
       val results = for {
-        computerSearch <- computerDAO.get(ip)
+        computerSearch <- computerService.getSingle(ip)
         roomsSearch <- roomDAO.listAll
       } yield (computerSearch, roomsSearch)
-
       results.map(res =>
         res._1 match {
           case Some(Computer(`ip`, name, sSHUser, sSHPassword, description, room)) =>
@@ -108,7 +108,7 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
 
   def delete(ip: String) = AuthRequiredAction {
     implicit request =>
-      computerDAO.delete(ip) map {
+      computerService.delete(ip) map {
         res =>
           Redirect(normalroutes.HomeController.home())
       }
@@ -118,8 +118,8 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
-      computerDAO.get(ip).map {
-        case Some(computer) if sSHOrderService.shutdown(computer) => Redirect(normalroutes.HomeController.home())
+      computerService.shutdown(ip).map {
+        case Completed => Redirect(normalroutes.HomeController.home())
         case _ => NotImplemented(index(messagesApi("computer.notFound"), notImplemented(messagesApi("computer.notFoundMessage"))))
       }
   }
@@ -130,10 +130,14 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
       implicit val user = loggedIn.username
       SelectComputersForm.form.bindFromRequest().fold(
         errorForm => Future.successful(BadRequest),
-          data => {
-            val computerTask=computerService.get(data.selectedComputers).map(_.map(sSHOrderService.shutdown))
-            computerTask.map(result=>Ok(index(messagesApi("done"),notImplemented("done"))))
+        data => {
+          computerService.shutdown(data.selectedComputers).map {
+            case Completed => Ok
+            case _ => ServiceUnavailable
           }
+          val computerTask = computerService.getSeveral(data.selectedComputers).map(_.map(sSHOrderService.shutdown))
+          computerTask.map(result => Ok(index(messagesApi("done"), notImplemented("done"))))
+        }
       )
   }
 
@@ -141,14 +145,14 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
-      computerDAO.getWithStatus(ip).map { computerWithStatuses =>
+      computerService.getWithStatus(ip).map { computerWithStatuses =>
         computerWithStatuses.groupBy(_._1).headOption.map { computerStatus =>
-          (computerStatus._1,computerStatus._2.flatMap(_._2).sortBy(_.registeredDate.getTime).headOption)
+          (computerStatus._1, computerStatus._2.flatMap(_._2).sortBy(_.registeredDate.getTime).headOption)
         } match {
-          case Some((computer,Some(computerState))) =>
-            val (result,success)=sSHOrderService.upgrade(computer,computerState)
-            if(success) {
-              NotImplemented(index(messagesApi("computer.upgrade.succeeded.title"),notImplemented(messagesApi("computer.upgrade.succeeded.body"))))
+          case Some((computer, Some(computerState))) =>
+            val (result, success) = sSHOrderService.upgrade(computer, computerState)
+            if (success) {
+              NotImplemented(index(messagesApi("computer.upgrade.succeeded.title"), notImplemented(messagesApi("computer.upgrade.succeeded.body"))))
             } else {
               NotImplemented(index(messagesApi("computer.upgrade.failed"), notImplemented(messagesApi("computer.upgrade.failed") + result)))
             }
@@ -161,7 +165,7 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
-      computerDAO.get(ip).map {
+      computerService.getSingle(ip).map {
         case Some(computer) =>
           val (result, success) = sSHOrderService.unfreeze(computer)
           if (success) {
@@ -184,14 +188,14 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
           Future.successful(BadRequest(index(messagesApi("sshorder.formerror"), notImplemented(messagesApi("sshorder.notimplemented")))))
         },
         data => {
-          computerDAO.get(ip).map {
+          computerService.getSingle(ip).map {
 
             case Some(computer) =>
               val (result, exitstatus) = try {
-                 sSHOrderService.execute(computer, data.superUser, data.command)
+                sSHOrderService.execute(computer, data.superUser, data.command)
               } catch {
-                case e: JSchException => (e.getCause,1)
-                case e: Exception => ("Error no esperado: " + e.getCause,1)
+                case e: JSchException => (e.getCause, 1)
+                case e: Exception => ("Error no esperado: " + e.getCause, 1)
               }
               Ok(index(messagesApi("sshorder.executed"), notImplemented(messagesApi("sshorder.resulttext", result, exitstatus))))
             case _ => BadRequest(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
@@ -212,9 +216,9 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
         },
         data => {
 
-          computerDAO.get(ip).map {
+          computerService.getSingle(ip).map {
             case Some(computer) =>
-              val (result, exitstatus) = sSHOrderService.blockPage(computer,data.page)
+              val (result, exitstatus) = sSHOrderService.blockPage(computer, data.page)
               Ok(index(messagesApi("page.done"), notImplemented(messagesApi("page.resulttext", result, exitstatus))))
             case _ => BadRequest(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
           }
@@ -228,22 +232,34 @@ class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerSer
       implicit val user = loggedIn.username
       MessageForm.form.bindFromRequest.fold(
         errorForm => {
-          play.Logger.error(errorForm.toString)
-          play.Logger.error(errorForm.errors.toString)
+          /*play.Logger.error(errorForm.toString)*/
+          /*play.Logger.error(errorForm.errors.toString)*/
           Future.successful(BadRequest(index(messagesApi("message.formerror"), notImplemented(messagesApi("page.notimplemented")))))
         },
         data => {
-          computerService.get(ip).map {
-            case Some((computer,Some((_,connectedUsers)))) =>
-              sSHOrderService.sendMessage(computer,data.message,connectedUsers)
-              Ok(index(messagesApi("message.done"), notImplemented(messagesApi("message.resulttext"))))
-            case Some((computer,_)) => Ok(index(messagesApi("message.emptycomputer"), notImplemented(messagesApi("message.emptycomputerbody"))))
-            case _ => BadRequest(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
+          computerService.sendMessage(ip, data.message).map {
+            case services.state.Completed => Ok(index(messagesApi("message.done"), notImplemented(messagesApi("message.resulttext"))))
+            case services.state.NotFound => BadRequest(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
+            case services.state.Empty => Ok(index(messagesApi("message.emptycomputer"), notImplemented(messagesApi("message.emptycomputerbody"))))
           }
         }
       )
   }
 
+  /**
+    * Install a package on the remote computer
+    *
+    * @param ip       IP of the remote computer
+    * @param programs Programs to be installed
+    */
+  def installAPackage(ip: String, programs: String) = AuthRequiredAction {
+    implicit request =>
+      implicit val username = Some(loggedIn.username)
+      implicit val user = loggedIn.username
+      computerService.installAPackage(ip, programs).map {
+        case services.state.Completed => Ok
+      }
+  }
 
 
 }

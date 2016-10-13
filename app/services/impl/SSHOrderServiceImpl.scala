@@ -12,6 +12,7 @@ import fr.janalyse.ssh.{Expect, SSHCommand, SSHOptions}
 import model._
 import services.SSHOrderService
 import services.exec.SSHFunction._
+import services.state.{ActionState, Completed}
 
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -138,9 +139,9 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   }
 
   @throws[JSchException]
-  override def shutdown(computer: Computer)(implicit username: String): Boolean = {
-    val (_, _) = execute(computer, new SSHOrder(now, superUser = true, interrupt = false, command = shutdownOrder, username = username))
-    true
+  override def shutdown(computer: Computer)(implicit username: String): ActionState = {
+    execute(computer, new SSHOrder(now, superUser = true, interrupt = false, command = shutdownOrder, username = username))
+    Completed
   }
 
   private def now = new Timestamp(Calendar.getInstance().getTime.getTime)

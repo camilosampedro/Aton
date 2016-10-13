@@ -3,6 +3,7 @@ package dao
 import com.google.inject.ImplementedBy
 import dao.impl.ComputerDAOImpl
 import model.{Computer, ComputerState, ConnectedUser}
+import services.state.ActionState
 
 import scala.concurrent.Future
 
@@ -24,7 +25,7 @@ trait ComputerDAO {
     * @param computer Computer to add
     * @return Result String message
     */
-  def add(computer: Computer): Future[String]
+  def add(computer: Computer): Future[ActionState]
 
   /**
     * Gets a computer based on its IP
@@ -42,7 +43,7 @@ trait ComputerDAO {
     * @param ip Computer's IP
     * @return Operation result
     */
-  def delete(ip: String): Future[Int]
+  def delete(ip: String): Future[ActionState]
 
   /**
     * Lists all computers in the database.
@@ -51,6 +52,6 @@ trait ComputerDAO {
     */
   def listAll: Future[Seq[(Computer, Option[ComputerState], Option[ConnectedUser])]]
 
-  def edit(computer: Computer): Future[Int]
+  def edit(computer: Computer): Future[ActionState]
 }
 
