@@ -21,7 +21,7 @@ import org.scalatest.FlatSpec
 class ComputerControllerSpec @Inject() (sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi)
 (implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends FlatSpec with Matchers {
 
-  val controller = new ComputerController(sSHOrderService, computerService, roomDAO, computerDAO, messagesApi)
+  val controller = new ComputerController(sSHOrderService, computerService, roomDAO, messagesApi)
 
   it should "send command" in {
 
