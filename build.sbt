@@ -35,6 +35,7 @@ libraryDependencies ++= Seq(
   "jp.t2v" %% "play2-auth" % "0.14.2",
   "jp.t2v" %% "play2-auth-test" % "0.14.2" % "test",
   cache,
+  specs2,
   ws,
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test,
   "mysql" % "mysql-connector-java" % "5.1.34",

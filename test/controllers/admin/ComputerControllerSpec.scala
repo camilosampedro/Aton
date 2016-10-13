@@ -1,35 +1,27 @@
 package controllers.admin
 
-import test.Inject
 import dao.{ComputerDAO, RoomDAO, UserDAO}
-import org.scalatestplus.play.OneAppPerSuite
-import model.{Computer, Role, User}
+import jp.t2v.lab.play2.auth.test.Helpers._
 import model.form.ComputerForm
 import model.form.data.{ComputerFormData, LoginFormData}
+import model.{Computer, Role, User}
+import org.mockito.Matchers._
+import org.mockito.Mockito._
+import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.play.PlaySpec
 import play.api.Environment
 import play.api.i18n.MessagesApi
-import play.api.test.{FakeApplication, FakeRequest}
-import services.{ComputerService, SSHOrderService}
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import jp.t2v.lab.play2.auth.test.Helpers._
+import play.test.WithApplication
+import services.{ComputerService, SSHOrderService}
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.concurrent.ExecutionContext.global
-import org.scalatestplus.play.PlaySpec
-import play.api.mvc.Results
-import play.test.WithApplication
-import org.mockito.Mockito._
-import org.mockito.Matchers._
-import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
-import org.scalatest.mockito.MockitoSugar
-import play.api.inject.guice.GuiceApplicationBuilder
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
   * Created by camilo on 27/08/16.
   */
-class ComputerControllerSpec extends PlaySpec with Results /*with OneAppPerSuite*/ with MockitoSugar with ScalaFutures with IntegrationPatience {
+class ComputerControllerSpec extends PlaySpec with MockitoSugar /*with Results with OneAppPerSuite with ScalaFutures with IntegrationPatience*/  {
   lazy val sSHOrderService = mock[SSHOrderService]
   lazy val computerService = mock[ComputerService]
   //when(computerService.add(any[Computer])) thenReturn Future.successful("Computer added")
@@ -42,15 +34,13 @@ class ComputerControllerSpec extends PlaySpec with Results /*with OneAppPerSuite
   //when(userDAO.get(any[LoginFormData])) thenReturn Future.successful(Some(User("","",None,Role.Administrator)))
   //implicit lazy val executionContext = inject[ExecutionContext]//ExecutionContext.global//app.injector.instanceOf[ExecutionContext]
   implicit lazy val environment = mock[Environment]
-
+  when(computerService.add(any[Computer])(any[ExecutionContext])) thenReturn Future.successful("Computer added")
+  when(computerDAO.add(any[Computer])) thenReturn Future.successful("")
+  when(userDAO.get(any[LoginFormData])) thenReturn Future.successful(Some(User("", "", None, Role.Administrator)))
 
   "ComputerController" should {
-    "add a new computer" in new WithApplication with Inject {
-      val injector = app.injector()
-      implicit lazy val executionContext = inject[ExecutionContext]
-      when(computerService.add(any[Computer])) thenReturn Future.successful("Computer added")
-      when(computerDAO.add(any[Computer])) thenReturn Future.successful("")
-      when(userDAO.get(any[LoginFormData])) thenReturn Future.successful(Some(User("","",None,Role.Administrator)))
+    "add a new computer" in new WithApplication {
+      implicit val executionContext: ExecutionContext = ExecutionContext.global
       lazy val controller = new ComputerController(sSHOrderService, computerService, roomDAO, computerDAO, messagesApi)
       val computer = ComputerFormData("127.0.0.1", Some("Localhost"), "aton", "00000", Some(""), None)
       val computerForm = ComputerForm.form.fill(computer)
@@ -63,5 +53,4 @@ class ComputerControllerSpec extends PlaySpec with Results /*with OneAppPerSuite
       bodyText mustBe ""
     }
   }
-
 }

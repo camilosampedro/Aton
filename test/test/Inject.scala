@@ -11,5 +11,5 @@ import scala.reflect.ClassTag
   */
 trait Inject {
   val injector: Injector
-  def inject[T: ClassTag]: T = injector.instanceOf[T]
+  /*def inject[T: ClassTag]: T = injector.instanceOf[T]*/
 }

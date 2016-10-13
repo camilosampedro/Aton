@@ -15,7 +15,7 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
 
 
 
-  override def add(computer: Computer): Future[String] = {
+  override def add(computer: Computer)(implicit executionContext: ExecutionContext): Future[String] = {
     play.Logger.debug("Adding computer")
     computerDAO.add(computer)
   }
