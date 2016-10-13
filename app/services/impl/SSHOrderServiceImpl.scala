@@ -12,7 +12,7 @@ import fr.janalyse.ssh.{Expect, SSHCommand, SSHOptions}
 import model._
 import services.SSHOrderService
 import services.exec.SSHFunction._
-import services.state.{ActionState, Completed}
+import services.state.{ActionState, Completed, Failed}
 
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -312,18 +312,26 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     execute(computer, new SSHOrder(now,superUser = true,interrupt= false,blockPageOrder(page),username ))
   }
 
-  override def sendMessage(computer: Computer, message: String, users: Seq[ConnectedUser])(implicit username: String): Unit = {
+  override def sendMessage(computer: Computer, message: String, users: Seq[ConnectedUser])(implicit username: String): ActionState = {
 
-    users.map{user=>
+    val actionStates = users.map{user=>
       try {
         execute(computer, new SSHOrder(now,superUser = false, interrupt= false, notificationOrder(user.username,message),username))
+        Completed
       } catch {
         case e: JSchException => play.Logger.error(s"There was a SSH error sending messages to the $computer",e)
-          ("There was a SSH error sending messages",1)
+          Failed
         case e: Exception =>play.Logger.error(s"There was a non SSH error sending messages to the $computer",e)
-          ("There was a non SSH error sending messages",1)
+          Failed
       }
-    }
 
+    }
+    if (actionStates.exists(_!=Completed)){
+      Failed
+    } else {
+      Completed
+    }
   }
+
+  override def installAPackage(computer: Computer, programs: List[String]): ActionState = ???
 }

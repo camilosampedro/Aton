@@ -107,7 +107,7 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
     computerDAO.get(ips)
   }
 
-  override def installAPackage(ip: String, packages: String): Future[ActionState] = {
+  override def installAPackage(ip: String, packages: String)(implicit username: String): Future[ActionState] = {
     val packagesSplitted = packages.split(", ").toList
     play.Logger.debug(s"Installing packages: ${packagesSplitted.mkString("[", ",", "]")}")
     get(ip).map {
@@ -116,7 +116,7 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
     }
   }
 
-  override def sendMessage(ip: String, message: String): Future[ActionState] = {
+  override def sendMessage(ip: String, message: String)(implicit username: String): Future[ActionState] = {
     get(ip).map {
       case Some((computer, Some((_, connectedUsers)))) =>
         sSHOrderService.sendMessage(computer, message, connectedUsers)
@@ -137,14 +137,14 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
     computerDAO.getWithStatus(ip)
   }
 
-  override def shutdown(ip: String): Future[ActionState] = {
+  override def shutdown(ip: String)(implicit username: String): Future[ActionState] = {
     getSingle(ip).map {
       case Some(computer) => sSHOrderService.shutdown(computer)
       case _ => Failed
     }
   }
 
-  override def shutdown(ips: List[String]): Future[ActionState] = {
+  override def shutdown(ips: List[String])(implicit username: String): Future[ActionState] = {
     getSeveral(ips).map{computers=>
       val actionStates = computers.map(sSHOrderService.shutdown(_))
       if(actionStates.exists(_!=Completed)){

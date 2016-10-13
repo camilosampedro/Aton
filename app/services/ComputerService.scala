@@ -13,8 +13,8 @@ import scala.concurrent.Future
   */
 @ImplementedBy(classOf[ComputerServiceImpl])
 trait ComputerService {
-  def shutdown(ip: String): Future[ActionState]
-  def shutdown(ips: List[String]): Future[ActionState]
+  def shutdown(ip: String)(implicit username: String): Future[ActionState]
+  def shutdown(ips: List[String])(implicit username: String): Future[ActionState]
 
   def getWithStatus(ip: String): Future[Seq[(Computer, Option[ComputerState], Option[ConnectedUser])]]
 
@@ -24,13 +24,13 @@ trait ComputerService {
   def getSingle(ip: String): Future[Option[Computer]]
   def getSeveral(ips: List[String]): Future[Seq[Computer]]
 
-  def installAPackage(ip: String, programs: String): Future[ActionState]
-  def sendMessage(ip: String, message: String): Future[ActionState]
+  def installAPackage(ip: String, programs: String)(implicit username: String): Future[ActionState]
+  def sendMessage(ip: String, message: String)(implicit username: String): Future[ActionState]
 
   def listAllSimple: Future[Seq[Computer]]
   def listAll: Future[Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]]
 
-  def add(computer: Computer): Future[String]
+  def add(computer: Computer): Future[ActionState]
 
   def edit(computer: Computer): Future[ActionState]
 }

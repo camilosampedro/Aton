@@ -20,7 +20,7 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class ComputerController @Inject()(computerService: ComputerService, roomDAO: RoomDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
+class ComputerController @Inject()(sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
   def edit = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     ComputerForm.form.bindFromRequest().fold(
