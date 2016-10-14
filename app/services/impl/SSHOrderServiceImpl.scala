@@ -12,7 +12,7 @@ import fr.janalyse.ssh.{Expect, SSHCommand, SSHOptions}
 import model._
 import services.SSHOrderService
 import services.exec.SSHFunction._
-import services.state.{ActionState, Completed, Failed}
+import services.state.{ActionCompleted, ActionState, Failed, OrderCompleted}
 
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -141,7 +141,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   @throws[JSchException]
   override def shutdown(computer: Computer)(implicit username: String): ActionState = {
     execute(computer, new SSHOrder(now, superUser = true, interrupt = false, command = shutdownOrder, username = username))
-    Completed
+    ActionCompleted
   }
 
   private def now = new Timestamp(Calendar.getInstance().getTime.getTime)
@@ -151,7 +151,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     val order = upgradeOrder(translateOS(computerState.operatingSystem.getOrElse("")))
     val (result, exitCode) = execute(computer, new SSHOrder(now, superUser = true, interrupt = false, command = order, username = username))
     if (exitCode == 0) {
-      Completed
+      ActionCompleted
     } else {
       Failed
     }
@@ -310,7 +310,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
 
   override def blockPage(computer: Computer, page: String)(implicit username: String): ActionState = {
     if (execute(computer, new SSHOrder(now,superUser = true,interrupt= false,blockPageOrder(page),username ))._2 == 0) {
-      Completed
+      ActionCompleted
     } else {
       Failed
     }
@@ -320,8 +320,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
 
     val actionStates = users.map{user=>
       try {
-        execute(computer, new SSHOrder(now,superUser = false, interrupt= false, notificationOrder(user.username,message),username))
-        Completed
+        val (result,exitCode) = execute(computer, new SSHOrder(now,superUser = false, interrupt= false, notificationOrder(user.username,message),username))
+        new OrderCompleted(result,exitCode)
       } catch {
         case e: JSchException => play.Logger.error(s"There was a SSH error sending messages to the $computer",e)
           Failed
@@ -330,10 +330,10 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
       }
 
     }
-    if (actionStates.exists(_!=Completed)){
+    if (actionStates.exists(_!=ActionCompleted)){
       Failed
     } else {
-      Completed
+      ActionCompleted
     }
   }
 

@@ -1,14 +1,14 @@
 package controllers.admin
 
 import com.google.inject.Inject
-import dao.{ ComputerDAO, RoomDAO, UserDAO }
+import dao.{ComputerDAO, RoomDAO, UserDAO}
 import model.Computer
 import model.form.ComputerForm
 import model.form.data.ComputerFormData
 import play.api.Environment
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
-import services.{ ComputerService, SSHOrderService }
+import services.{ComputerService, RoomService, SSHOrderService}
 import play.api.test.Helpers._
 
 import scala.concurrent.ExecutionContext
@@ -18,10 +18,10 @@ import org.scalatest.FlatSpec
 /**
  * Created by camilo on 27/08/16.
  */
-class ComputerControllerSpec @Inject() (sSHOrderService: SSHOrderService, computerService: ComputerService, roomDAO: RoomDAO, computerDAO: ComputerDAO, val messagesApi: MessagesApi)
+class ComputerControllerSpec @Inject() (computerService: ComputerService, roomService: RoomService, val messagesApi: MessagesApi)
 (implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends FlatSpec with Matchers {
 
-  val controller = new ComputerController(sSHOrderService, computerService, roomDAO, messagesApi)
+  val controller = new ComputerController(computerService, roomService, messagesApi)
 
   it should "send command" in {
 

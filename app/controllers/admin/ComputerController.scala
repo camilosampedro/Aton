@@ -11,7 +11,7 @@ import play.Logger
 import play.api.Environment
 import play.api.i18n.MessagesApi
 import services.{ComputerService, RoomService, SSHOrderService, state}
-import services.state.Completed
+import services.state.ActionCompleted
 import views.html._
 
 import scala.concurrent.duration._
@@ -109,7 +109,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       computerService.shutdown(ip).map {
-        case state.Completed => Redirect(normalroutes.HomeController.home())
+        case state.ActionCompleted => Redirect(normalroutes.HomeController.home())
         case _ => NotImplemented(index(messagesApi("computer.notFound"), notImplemented(messagesApi("computer.notFoundMessage"))))
       }
   }
@@ -122,7 +122,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
         errorForm => Future.successful(BadRequest),
         data => {
           computerService.shutdown(data.selectedComputers).map {
-            case state.Completed => Ok
+            case state.ActionCompleted => Ok
             case _ => ServiceUnavailable
           }
         }
@@ -134,7 +134,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       computerService.upgrade(ip).map{
-        case state.Completed => NotImplemented(index(messagesApi("computer.upgrade.succeeded.title"), notImplemented(messagesApi("computer.upgrade.succeeded.body"))))
+        case state.ActionCompleted => NotImplemented(index(messagesApi("computer.upgrade.succeeded.title"), notImplemented(messagesApi("computer.upgrade.succeeded.body"))))
         case state.NotFound => NotImplemented(index(messagesApi("computer.notFound"), notImplemented(messagesApi("computer.notFoundMessage"))))
         case _ => NotImplemented(index(messagesApi("computer.upgrade.failed"), notImplemented(messagesApi("computer.upgrade.failed"))))
       }
@@ -145,7 +145,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       computerService.unfreeze(ip).map {
-        case state.Completed => Redirect(normalroutes.HomeController.home())
+        case state.ActionCompleted => Redirect(normalroutes.HomeController.home())
         case state.NotFound => NotImplemented(index(messagesApi("computer.notFound"), notImplemented(messagesApi("computer.notFoundMessage"))))
         case _ => NotImplemented(index(messagesApi("computer.upgrade.failed"), notImplemented(messagesApi("computer.upgrade.failed"))))
       }
@@ -163,7 +163,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
         },
         data => {
           computerService.sendCommand(ip,data.superUser,data.command).map{
-            case state.Completed => Ok(index(messagesApi("sshorder.executed"), notImplemented(messagesApi("sshorder.resulttext"))))
+            case state.ActionCompleted => Ok(index(messagesApi("sshorder.executed"), notImplemented(messagesApi("sshorder.resulttext"))))
             case state.Failed => BadRequest
             case _ => NotFound(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
           }
@@ -183,7 +183,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
         },
         data => {
           computerService.blockPage(ip, data.page).map{
-            case state.Completed => Ok(index(messagesApi("page.done"), notImplemented(messagesApi("page.resulttext"))))
+            case state.ActionCompleted => Ok(index(messagesApi("page.done"), notImplemented(messagesApi("page.resulttext"))))
             case _ => NotFound(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
           }
         }
@@ -202,9 +202,10 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
         },
         data => {
           computerService.sendMessage(ip, data.message).map {
-            case services.state.Completed => Ok(index(messagesApi("message.done"), notImplemented(messagesApi("message.resulttext"))))
-            case services.state.NotFound => BadRequest(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
-            case services.state.Empty => Ok(index(messagesApi("message.emptycomputer"), notImplemented(messagesApi("message.emptycomputerbody"))))
+            case state.OrderCompleted(result,exitCode)=> Ok(index(messagesApi("sshorder.done"), notImplemented(messagesApi("sshorder.resulttext",result,exitCode))))
+            case state.NotFound => NotFound(index(messagesApi("computer.notfound"), notImplemented(messagesApi("computer.notfound"))))
+            case state.Empty => Ok(index(messagesApi("message.emptycomputer"), notImplemented(messagesApi("message.emptycomputerbody"))))
+            case _ => BadRequest
           }
         }
       )
@@ -221,7 +222,8 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       computerService.installAPackage(ip, programs).map {
-        case services.state.Completed => Ok
+        case state.OrderCompleted(_,_) => Ok
+        case _ => BadRequest
       }
   }
 

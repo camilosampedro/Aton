@@ -147,10 +147,10 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
   override def shutdown(ips: List[String])(implicit username: String): Future[ActionState] = {
     getSeveral(ips).map{computers=>
       val actionStates = computers.map(sSHOrderService.shutdown(_))
-      if(actionStates.exists(_!=Completed)){
+      if(actionStates.exists(_!=ActionCompleted)){
         Failed
       } else {
-        Completed
+        ActionCompleted
       }
     }
   }
@@ -172,7 +172,7 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
 
   override def sendCommand(ip: String, superUser: Boolean, command: String)(implicit username: String): Future[ActionState] = {
     getSingle(ip).map{
-      case Some(computer) if sSHOrderService.execute(computer,superUser,command)._2 == 0 => Completed
+      case Some(computer) if sSHOrderService.execute(computer,superUser,command)._2 == 0 => ActionCompleted
       case Some(computer) => Failed
       case _ => NotFound
     }
