@@ -13,6 +13,14 @@ import scala.concurrent.Future
   */
 @ImplementedBy(classOf[ComputerServiceImpl])
 trait ComputerService {
+  def blockPage(ip: String, page: String)(implicit username: String): Future[ActionState]
+
+  def sendCommand(ip: String, superUser: Boolean, command: String)(implicit username: String): Future[ActionState]
+
+  def unfreeze(ip: String)(implicit username: String): Future[ActionState]
+
+  def upgrade(ip: String)(implicit username: String): Future[ActionState]
+
   def shutdown(ip: String)(implicit username: String): Future[ActionState]
   def shutdown(ips: List[String])(implicit username: String): Future[ActionState]
 

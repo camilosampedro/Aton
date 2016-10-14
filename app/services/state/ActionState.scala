@@ -9,3 +9,4 @@ object Completed extends ActionState
 object Failed extends ActionState
 object NotFound extends ActionState
 object Empty extends ActionState
+object NotChecked extends ActionState

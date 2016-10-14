@@ -147,18 +147,18 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   private def now = new Timestamp(Calendar.getInstance().getTime.getTime)
 
   @throws[JSchException]
-  override def upgrade(computer: Computer,computerState: ComputerState)(implicit username: String): (String, Boolean) = {
+  override def upgrade(computer: Computer,computerState: ComputerState)(implicit username: String): ActionState = {
     val order = upgradeOrder(translateOS(computerState.operatingSystem.getOrElse("")))
     val (result, exitCode) = execute(computer, new SSHOrder(now, superUser = true, interrupt = false, command = order, username = username))
     if (exitCode == 0) {
-      ("", true)
+      Completed
     } else {
-      (result, false)
+      Failed
     }
   }
 
   @throws[JSchException]
-  override def unfreeze(computer: Computer)(implicit username: String): (String, Boolean) = ???
+  override def unfreeze(computer: Computer)(implicit username: String): ActionState = ???
 
   @throws[JSchException]
   override def getOperatingSystem(computer: Computer)(implicit username: String) = {
@@ -308,8 +308,12 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     execute(computer, new SSHOrder(now, superUser, false, command, username))
   }
 
-  override def blockPage(computer: Computer, page: String)(implicit username: String): (String,Int) = {
-    execute(computer, new SSHOrder(now,superUser = true,interrupt= false,blockPageOrder(page),username ))
+  override def blockPage(computer: Computer, page: String)(implicit username: String): ActionState = {
+    if (execute(computer, new SSHOrder(now,superUser = true,interrupt= false,blockPageOrder(page),username ))._2 == 0) {
+      Completed
+    } else {
+      Failed
+    }
   }
 
   override def sendMessage(computer: Computer, message: String, users: Seq[ConnectedUser])(implicit username: String): ActionState = {

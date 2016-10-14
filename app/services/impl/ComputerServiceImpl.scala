@@ -154,4 +154,34 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
       }
     }
   }
+
+  override def upgrade(ip: String)(implicit username: String): Future[ActionState] = {
+    get(ip).map{
+      case Some((computer, Some((computerState,_)))) => sSHOrderService.upgrade(computer, computerState)
+      case Some((computer, None)) => NotChecked
+      case _ => NotFound
+    }
+  }
+
+  override def unfreeze(ip: String)(implicit username: String): Future[ActionState] = {
+    getSingle(ip).map{
+      case Some(computer) => sSHOrderService.unfreeze(computer)
+      case _ => NotFound
+    }
+  }
+
+  override def sendCommand(ip: String, superUser: Boolean, command: String)(implicit username: String): Future[ActionState] = {
+    getSingle(ip).map{
+      case Some(computer) if sSHOrderService.execute(computer,superUser,command)._2 == 0 => Completed
+      case Some(computer) => Failed
+      case _ => NotFound
+    }
+  }
+
+  override def blockPage(ip: String, page: String)(implicit username: String): Future[ActionState] = {
+    getSingle(ip).map{
+      case Some(computer) => sSHOrderService.blockPage(computer,page)
+      case _ => NotFound
+    }
+  }
 }
