@@ -15,7 +15,7 @@ import services.exec.SSHFunction._
 import services.state.ActionState
 import services.state
 
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.concurrent.duration._
@@ -24,7 +24,7 @@ import scala.concurrent.duration._
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @Singleton
-class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputerDAO: SSHOrderToComputerDAO) extends SSHOrderService {
+class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputerDAO: SSHOrderToComputerDAO)(implicit executionContext: ExecutionContext) extends SSHOrderService {
 
   private val connectTimeout = 15000
 
