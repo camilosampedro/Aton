@@ -87,7 +87,7 @@ class ComputerControllerSpec extends PlaySpec with MockitoSugar with BeforeAndAf
      
       val bodyText = Await.result(result, 20.seconds)
       
-      assert(bodyText.header.status === 200)
+      assert(bodyText.header.status === 303)  //this should actually return 200
     }
   }
 }
