@@ -9,6 +9,8 @@ import model._
 import play.Logger
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits._
+import services.state.ActionState
+import services.state
 import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
@@ -49,13 +51,12 @@ class LaboratoryDAOImpl @Inject()
     * @param laboratory Laboratory to add.
     * @return Result string message.
     */
-  override def add(laboratory: Laboratory): Future[String] = {
-    // Se realiza un insert y por cada insert se crea un String
+  override def add(laboratory: Laboratory): Future[ActionState] = {
     Logger.debug(s"""Adding to database: $laboratory""")
-    db.run(laboratories += laboratory).map(res => "Laboratory agregado correctamente").recover {
+    db.run(laboratories += laboratory).map(res => state.ActionCompleted).recover {
       case ex: Exception =>
         Logger.error("Ocurrió un error al adicionar en la base de datos", ex)
-        ex.getCause.getMessage
+        state.Failed
     }
   }
 
@@ -65,8 +66,11 @@ class LaboratoryDAOImpl @Inject()
     * @param id Laboratory's ID.
     * @return Operation result.
     */
-  override def delete(id: Long): Future[Int] = {
-    db.run(search(id).delete)
+  override def delete(id: Long): Future[ActionState] = {
+    db.run(search(id).delete).map{
+      case 0 => state.ActionCompleted
+      case _ => state.Failed
+    }
   }
 
   private def search(id: Long) = laboratories.filter(_.id === id)

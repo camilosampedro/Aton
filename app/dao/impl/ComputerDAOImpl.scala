@@ -9,6 +9,7 @@ import model.table.{ComputerStateTable, ComputerTable, ConnectedUserTable}
 import play.Logger
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._
+import services.state.{ActionState, ActionCompleted, Failed}
 import slick.dbio.Effect.Read
 import slick.driver.JdbcProfile
 import slick.jdbc.{GetResult, SQLActionBuilder}
@@ -40,12 +41,12 @@ class ComputerDAOImpl @Inject()
     * @param computer Computer to add
     * @return Result String message
     */
-  override def add(computer: Computer): Future[String] = {
+  override def add(computer: Computer): Future[ActionState] = {
     // It's done an insertion and convert the result to a String.
-    db.run(computers += computer).map(res => "Computer added").recover {
+    db.run(computers += computer).map(res => ActionCompleted).recover {
       case ex: Exception =>
         Logger.error("An error occurred", ex)
-        ex.getMessage
+        Failed
     }
   }
 
@@ -66,14 +67,25 @@ class ComputerDAOImpl @Inject()
     * @param ip Computer's IP
     * @return Operation result
     */
-  override def delete(ip: String): Future[Int] = {
-    db.run(search(ip).delete)
+  override def delete(ip: String): Future[ActionState] = {
+    db.run(search(ip).delete).map{
+      case 0 => ActionCompleted
+      case _ => Failed
+    }
   }
 
   private def search(ip: String) = computers.filter(_.ip === ip)
 
-  override def edit(computer: Computer): Future[Int] = db.run {
+  /**
+    * Updates computer fields on the database
+    * @param computer Computer to be updated, containing its ip
+    * @return
+    */
+  override def edit(computer: Computer): Future[ActionState] = db.run {
     computers.filter(_.ip === computer.ip).update(computer)
+  }.map{
+    case 0 => ActionCompleted
+    case _ => Failed
   }
 
   /**

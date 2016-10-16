@@ -9,6 +9,8 @@ import model.SSHOrder
 import model.table.SSHOrderTable
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits._
+import services.state.ActionState
+import services.state
 import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
@@ -42,12 +44,12 @@ class SSHOrderDAOImpl @Inject()
     * @param ordenSSH command a agregar
     * @return String con el mensaje del result
     */
-  override def add(ordenSSH: SSHOrder): Future[Option[Long]] = {
+  override def add(ordenSSH: SSHOrder): Future[ActionState] = {
     // Se realiza un insert y por cada insert se crea un String
     //play.Logger.debug(s"""Adding the following ssh order: ${ordenSSH}""")
-    db.run(ordenesSSH returning ordenesSSH.map(_.id) into ((sshOrder, id) => sshOrder.copy(id = id)) += ordenSSH).map(res => Some(res.id)).recover {
+    db.run(ordenesSSH returning ordenesSSH.map(_.id) into ((sshOrder, id) => sshOrder.copy(id = id)) += ordenSSH).map(res => state.ActionCompletedWithId(res.id)).recover {
       case ex: Exception => play.Logger.error("There was an error adding the ssh order: " + ordenSSH, ex)
-        None
+        state.Failed
     }
   }
 
@@ -70,8 +72,11 @@ class SSHOrderDAOImpl @Inject()
     * @param id Identificador del command
     * @return Resultado de la operación
     */
-  override def delete(id: Long): Future[Int] = {
-    db.run(search(id).delete)
+  override def delete(id: Long): Future[ActionState] = {
+    db.run(search(id).delete).map{
+      case 0 => state.ActionCompleted
+      case _ => state.Failed
+    }
   }
 
   /**

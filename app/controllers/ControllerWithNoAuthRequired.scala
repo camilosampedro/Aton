@@ -7,15 +7,16 @@ import model.form.data.LoginFormData
 import play.api.Environment
 import play.api.i18n.I18nSupport
 import play.api.mvc.Controller
+import services.UserService
 
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-abstract class ControllerWithNoAuthRequired @Inject()(implicit override val cookieSecureOptionPlay: Environment, userDAO: UserDAO) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
-  override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = {
-    play.Logger.debug("Retrieving user: " + id)
-    userDAO.get(id)
+abstract class ControllerWithNoAuthRequired @Inject()(implicit override val cookieSecureOptionPlay: Environment, userService: UserService) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
+  override def resolveUser(receivedForm: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = {
+    play.Logger.debug("Retrieving user: " + receivedForm)
+    userService.checkAndGet(receivedForm.username,receivedForm.password)
   }
 }

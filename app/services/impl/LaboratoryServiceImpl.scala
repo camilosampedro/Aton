@@ -1,11 +1,12 @@
 package services.impl
 
-import com.google.inject.{ Inject, Singleton }
+import com.google.inject.{Inject, Singleton}
 import dao.LaboratoryDAO
 import model._
 import services.LaboratoryService
+import services.state.ActionState
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
@@ -87,4 +88,10 @@ class LaboratoryServiceImpl @Inject() (laboratoryDAO: LaboratoryDAO)(implicit ex
   }
 
   override def listAll: Future[Seq[Laboratory]] = laboratoryDAO.listAll
+
+  override def getSingle(id: Long): Future[Option[Laboratory]] = laboratoryDAO.get(id)
+
+  override def add(laboratory: Laboratory): Future[ActionState] = laboratoryDAO.add(laboratory)
+
+  override def delete(id: Long): Future[ActionState] = laboratoryDAO.delete(id)
 }
