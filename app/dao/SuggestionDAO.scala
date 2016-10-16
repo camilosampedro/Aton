@@ -3,6 +3,7 @@ package dao
 import com.google.inject.ImplementedBy
 import dao.impl.SuggestionDAOImpl
 import model.Suggestion
+import services.state.ActionState
 
 import scala.concurrent.Future
 
@@ -20,7 +21,7 @@ trait SuggestionDAO {
     * @param suggestion Suggestion to be added
     * @return String result message
     */
-  def add(suggestion: Suggestion): Future[String]
+  def add(suggestion: Suggestion): Future[ActionState]
 
   /**
     * Gets a suggestion by its ID
@@ -36,7 +37,7 @@ trait SuggestionDAO {
     * @param id Suggestion ID
     * @return Operation result
     */
-  def delete(id: Long): Future[Int]
+  def delete(id: Long): Future[ActionState]
 
   /**
     * Lists all suggestions on the database

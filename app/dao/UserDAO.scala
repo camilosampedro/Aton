@@ -4,6 +4,7 @@ import com.google.inject.ImplementedBy
 import dao.impl.UserDAOImpl
 import model.User
 import model.form.data.LoginFormData
+import services.state.ActionState
 
 import scala.concurrent.Future
 
@@ -21,7 +22,7 @@ trait UserDAO {
     * @param user User a agregar
     * @return String con el mensaje del result
     */
-  def add(user: User): Future[String]
+  def add(user: User): Future[ActionState]
 
   /**
     * Obtiene un UserText según el username
@@ -31,7 +32,7 @@ trait UserDAO {
     */
   def get(username: String): Future[Option[User]]
 
-  def get(user: LoginFormData): Future[Option[User]]
+  def checkAndGet(username: String, password: String): Future[Option[User]]
 
   /**
     * Elimina un UserText de la base de datos
@@ -39,7 +40,7 @@ trait UserDAO {
     * @param username usernameentificador del UserText
     * @return Resultado de la operación
     */
-  def delete(username: String): Future[Int]
+  def delete(username: String): Future[ActionState]
 
   /**
     * Lista todos los users en la base de datos

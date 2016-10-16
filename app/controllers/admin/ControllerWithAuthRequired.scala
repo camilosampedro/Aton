@@ -9,16 +9,18 @@ import model.form.data.LoginFormData
 import play.api.Environment
 import play.api.i18n.I18nSupport
 import play.api.mvc.Controller
+import services.UserService
 
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-abstract class ControllerWithAuthRequired @Inject()(implicit userDAO: UserDAO, override val cookieSecureOptionPlay: Environment) extends Controller with I18nSupport with AuthElement with AuthConfigImpl {
+abstract class ControllerWithAuthRequired @Inject()(implicit userService: UserService, override val cookieSecureOptionPlay: Environment) extends Controller with I18nSupport with AuthElement with AuthConfigImpl {
   implicit val isAdmin = true
 
-  override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
+  override def resolveUser(receivedForm: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] =
+    userService.checkAndGet(receivedForm.username,receivedForm.password)
 
   def AuthRequiredAction = AsyncStack(AuthorityKey -> Administrator)(_)
 }

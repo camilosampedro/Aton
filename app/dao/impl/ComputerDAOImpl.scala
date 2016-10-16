@@ -9,7 +9,7 @@ import model.table.{ComputerStateTable, ComputerTable, ConnectedUserTable}
 import play.Logger
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._
-import services.state.{ActionState, Completed, Failed}
+import services.state.{ActionState, ActionCompleted, Failed}
 import slick.dbio.Effect.Read
 import slick.driver.JdbcProfile
 import slick.jdbc.{GetResult, SQLActionBuilder}
@@ -43,7 +43,7 @@ class ComputerDAOImpl @Inject()
     */
   override def add(computer: Computer): Future[ActionState] = {
     // It's done an insertion and convert the result to a String.
-    db.run(computers += computer).map(res => Completed).recover {
+    db.run(computers += computer).map(res => ActionCompleted).recover {
       case ex: Exception =>
         Logger.error("An error occurred", ex)
         Failed
@@ -69,7 +69,7 @@ class ComputerDAOImpl @Inject()
     */
   override def delete(ip: String): Future[ActionState] = {
     db.run(search(ip).delete).map{
-      case 0 => Completed
+      case 0 => ActionCompleted
       case _ => Failed
     }
   }
@@ -84,7 +84,7 @@ class ComputerDAOImpl @Inject()
   override def edit(computer: Computer): Future[ActionState] = db.run {
     computers.filter(_.ip === computer.ip).update(computer)
   }.map{
-    case 0 => Completed
+    case 0 => ActionCompleted
     case _ => Failed
   }
 

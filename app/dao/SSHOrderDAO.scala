@@ -5,6 +5,7 @@ import java.sql.Timestamp
 import com.google.inject.ImplementedBy
 import dao.impl.SSHOrderDAOImpl
 import model.SSHOrder
+import services.state.ActionState
 
 import scala.concurrent.Future
 
@@ -22,7 +23,7 @@ trait SSHOrderDAO {
     * @param ordenSSH command a agregar
     * @return String con el mensaje del result
     */
-  def add(ordenSSH: SSHOrder): Future[Option[Long]]
+  def add(ordenSSH: SSHOrder): Future[ActionState]
 
   /**
     * Obtiene una orden SSH según el id
@@ -38,7 +39,7 @@ trait SSHOrderDAO {
     * @param id Identificador del command
     * @return Resultado de la operación
     */
-  def delete(id: Long): Future[Int]
+  def delete(id: Long): Future[ActionState]
 
   /**
     * Lista todas los ordenes SSH en la base de datos

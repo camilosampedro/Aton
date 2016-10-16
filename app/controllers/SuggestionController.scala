@@ -4,11 +4,11 @@ import java.sql.Timestamp
 import java.util.Calendar
 
 import com.google.inject.Inject
-import dao.{SuggestionDAO, UserDAO}
 import model.form.SuggestionForm
 import model.{Role, Suggestion}
 import play.api.Environment
 import play.api.i18n.MessagesApi
+import services.{SuggestionService, UserService, state}
 import views.html._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -16,15 +16,15 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class SuggestionController @Inject()(suggestionDAO: SuggestionDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithNoAuthRequired {
+class SuggestionController @Inject()(suggestionService: SuggestionService, val messagesApi: MessagesApi)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithNoAuthRequired {
   def home = AsyncStack { implicit request =>
     implicit val (username: Option[String], isAdmin: Boolean) = loggedIn match {
       case Some(user) => (Some(user.username), user.role == Role.Administrator)
       case _ => (None, false)
     }
     if (isAdmin) {
-      suggestionDAO.listAll.map { res =>
-        Ok(index(messagesApi("suggestion"), suggestionHome(SuggestionForm.form, res)))
+      suggestionService.listAll.map { suggestions =>
+        Ok(index(messagesApi("suggestion"), suggestionHome(SuggestionForm.form, suggestions)))
       }
     } else {
       Future.successful(Ok(index(messagesApi("suggestion"), suggestionHome(SuggestionForm.form, Seq.empty[Suggestion]))))
@@ -43,8 +43,9 @@ class SuggestionController @Inject()(suggestionDAO: SuggestionDAO, val messagesA
       data => {
         val text = data.suggestion
         val suggestion = Suggestion(0, text, now, username)
-        suggestionDAO.add(suggestion).map { res =>
-          Redirect(routes.SuggestionController.home())
+        suggestionService.add(suggestion).map {
+          case state.ActionCompleted => Redirect(routes.SuggestionController.home())
+          case _ => BadRequest
         }
       }
     )

@@ -10,6 +10,7 @@ import model.{Laboratory, Role}
 import play.Logger
 import play.api.Environment
 import play.api.i18n.MessagesApi
+import services.{LaboratoryService, UserService, state}
 import views.html._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -18,7 +19,7 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class LaboratoryController @Inject()(laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
+class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val messagesApi: MessagesApi)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
   def administrateLaboratories = AuthRequiredAction { implicit request =>
     Logger.debug("Petición de listar los laboratorios administrativamente recibida.")
     Future.successful(Redirect(normalroutes.HomeController.home()))
@@ -27,7 +28,7 @@ class LaboratoryController @Inject()(laboratoryDAO: LaboratoryDAO, val messagesA
   def edit(id: Long) = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     implicit val isAdmin = loggedIn.role == Role.Administrator
-    laboratoryDAO.get(id).map {
+    laboratoryService.getSingle(id).map {
       case Some(laboratory) =>
         val data = LaboratoryFormData(laboratory.name, laboratory.location, laboratory.administration)
         Ok(index(messagesApi("laboratory.edit"), registerLaboratory(LaboratoryForm.form.fill(data))))
@@ -45,9 +46,8 @@ class LaboratoryController @Inject()(laboratoryDAO: LaboratoryDAO, val messagesA
         Future.successful(Ok(index(messagesApi("laboratory.add"),registerLaboratory(errorForm))))
       },
       data => {
-
         val newLaboratory = Laboratory(0, data.name, data.location, data.administration)
-        laboratoryDAO.add(newLaboratory).map(res =>
+        laboratoryService.add(newLaboratory).map(res =>
           Redirect(normalroutes.HomeController.home())
         )
       }
@@ -62,8 +62,9 @@ class LaboratoryController @Inject()(laboratoryDAO: LaboratoryDAO, val messagesA
   }
 
   def delete(id: Long) = AuthRequiredAction { implicit request =>
-    laboratoryDAO.delete(id) map { res =>
-      Redirect(normalroutes.HomeController.home())
+    laboratoryService.delete(id) map {
+      case state.ActionCompleted => Redirect(normalroutes.HomeController.home())
+      case _ => BadRequest
     }
   }
 }

@@ -3,6 +3,7 @@ package dao
 import com.google.inject.ImplementedBy
 import dao.impl.RoomDAOImpl
 import model.Room
+import services.state.ActionState
 
 import scala.concurrent.Future
 
@@ -22,7 +23,7 @@ trait RoomDAO {
     * @param room Room to be added
     * @return String result message
     */
-  def add(room: Room): Future[String]
+  def add(room: Room): Future[ActionState]
 
   /**
     * Gets a room by its ID
@@ -38,7 +39,7 @@ trait RoomDAO {
     * @param id Room ID
     * @return Operation result
     */
-  def delete(id: Long): Future[Int]
+  def delete(id: Long): Future[ActionState]
 
   /**
     * List all the rooms in the database

@@ -8,6 +8,8 @@ import model.Suggestion
 import model.table.SuggestionTable
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._
+import services.state.ActionState
+import services.state
 import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
@@ -36,10 +38,12 @@ class SuggestionDAOImpl @Inject()
     * @param sugerencia Suggestion a agregar
     * @return String con el mensaje del result
     */
-  override def add(sugerencia: Suggestion): Future[String] = {
+  override def add(sugerencia: Suggestion): Future[ActionState] = {
     // Se realiza un insert y por cada insert se crea un String
-    db.run(sugerencias += sugerencia).map(res => "Suggestion agregado correctamente").recover {
-      case ex: Exception => ex.getCause.getMessage
+    db.run(sugerencias += sugerencia).map(_ => state.ActionCompleted).recover {
+      case ex: Exception =>
+        play.Logger.error("Suggestion adding error", ex)
+        state.Failed
     }
   }
 
@@ -62,8 +66,11 @@ class SuggestionDAOImpl @Inject()
     * @param id Identificador del suggestionText
     * @return Resultado de la operación
     */
-  override def delete(id: Long): Future[Int] = {
-    db.run(search(id).delete)
+  override def delete(id: Long): Future[ActionState] = {
+    db.run(search(id).delete).map {
+      case 0 => state.ActionCompleted
+      case _ => state.Failed
+    }
   }
 
   /**
