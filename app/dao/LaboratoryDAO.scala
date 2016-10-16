@@ -3,6 +3,7 @@ package dao
 import com.google.inject.ImplementedBy
 import dao.impl.LaboratoryDAOImpl
 import model._
+import services.state.ActionState
 
 import scala.concurrent.Future
 
@@ -29,7 +30,7 @@ trait LaboratoryDAO {
     * @param laboratory Laboratory to add.
     * @return Result string message.
     */
-  def add(laboratory: Laboratory): Future[String]
+  def add(laboratory: Laboratory): Future[ActionState]
 
   /**
     * Gets a laboratory by its ID.
@@ -45,7 +46,7 @@ trait LaboratoryDAO {
     * @param id Laboratory's ID.
     * @return Operation result.
     */
-  def delete(id: Long): Future[Int]
+  def delete(id: Long): Future[ActionState]
 
   /**
     * List all the laboratories on the database.

@@ -13,6 +13,12 @@ import scala.concurrent.Future
   */
 @ImplementedBy(classOf[SSHOrderServiceImpl])
 trait SSHOrderService {
+  def listAll: Future[Seq[SSHOrder]]
+
+  def get(id: Long): Future[Option[SSHOrder]]
+
+  def delete(id: Long): Future[ActionState]
+
   def installAPackage(computer: Computer, programs: List[String]): ActionState
 
   def sendMessage(computer: Computer, message: String, users :Seq[ConnectedUser])(implicit username: String): ActionState

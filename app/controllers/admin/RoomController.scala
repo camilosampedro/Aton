@@ -10,14 +10,16 @@ import model.form.data.RoomFormData
 import play.Logger
 import play.api.Environment
 import play.api.i18n.MessagesApi
+import services.{LaboratoryService, RoomService}
 import views.html._
+import services.state
 
 import scala.concurrent.ExecutionContext
 
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
+class RoomController @Inject()(roomService: RoomService, laboratoryService: LaboratoryService, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
 
   def add = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
@@ -25,15 +27,16 @@ class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, v
     RoomForm.form.bindFromRequest().fold(
       errorForm => {
         Logger.error("There was an error with the input" + errorForm)
-        laboratoryDAO.listAll.map { laboratories =>
+        laboratoryService.listAll.map { laboratories =>
           val pairs = laboratories.map(x => (x.id.toString, x.name))
           Ok(index(messagesApi("room.add_room"),registerRoom(errorForm, pairs)))
         }
       },
       data => {
         val newRoom = Room(0, data.name, data.audiovisualResources, data.basicTools, data.laboratoryID)
-        roomDAO.add(newRoom).map { res =>
-          Redirect(normalroutes.HomeController.home())
+        roomService.add(newRoom).map {
+          case state.ActionCompleted => Redirect(normalroutes.HomeController.home())
+          case _ => BadRequest
         }
       }
     )
@@ -41,7 +44,7 @@ class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, v
 
   def addForm() = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
-    laboratoryDAO.listAll.map { laboratories =>
+    laboratoryService.listAll.map { laboratories =>
       val pairs = laboratories.map(x => (x.id.toString, x.name))
       Ok(index(messagesApi("room.add_room"),registerRoom(RoomForm.form, pairs)))
     }
@@ -50,8 +53,8 @@ class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, v
   def editForm(roomId: Long) = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     val results = for {
-      roomResult <- roomDAO.get(roomId)
-      laboratoriesResult <- laboratoryDAO.listAll
+      roomResult <- roomService.get(roomId)
+      laboratoriesResult <- laboratoryService.listAll
     } yield (roomResult, laboratoriesResult)
     results.map { res =>
       res._1 match {
@@ -70,8 +73,10 @@ class RoomController @Inject()(roomDAO: RoomDAO, laboratoryDAO: LaboratoryDAO, v
   }
 
   def delete(roomId: Long) = AuthRequiredAction { implicit request =>
-    roomDAO.delete(roomId).map { res =>
-      Redirect(normalroutes.HomeController.home())
+    roomService.delete(roomId).map {
+      case state.ActionCompleted => Redirect(normalroutes.HomeController.home())
+      case state.NotFound => NotFound
+      case _ => BadRequest
     }
   }
 }

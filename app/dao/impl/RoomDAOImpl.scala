@@ -8,6 +8,8 @@ import model.Room
 import model.table.RoomTable
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits._
+import services.state.ActionState
+import services.state
 import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
@@ -33,18 +35,19 @@ class RoomDAOImpl @Inject()
   /**
     * Tabla con "todos los rooms", similar a select * from roomPanel
     */
-  implicit val salas = TableQuery[RoomTable]
+  implicit val rooms = TableQuery[RoomTable]
 
   /**
     * Adiciona una roomPanel
     *
-    * @param sala Room a agregar
+    * @param room Room a agregar
     * @return String con el mensaje del result
     */
-  override def add(sala: Room): Future[String] = {
-    // Se realiza un insert y por cada insert se crea un String
-    db.run(salas += sala).map(res => "Room agregada correctamente").recover {
-      case ex: Exception => ex.getCause.getMessage
+  override def add(room: Room): Future[ActionState] = {
+    db.run(rooms += room).map(_ => state.ActionCompleted).recover {
+      case ex: Exception =>
+        play.Logger.error("Room adding exception",ex)
+        state.Failed
     }
   }
 
@@ -59,7 +62,7 @@ class RoomDAOImpl @Inject()
     db.run(search(id).result.headOption)
   }
 
-  private def search(id: Long) = salas.filter(_.id === id)
+  private def search(id: Long) = rooms.filter(_.id === id)
 
   /**
     * Elimina una roomPanel de la base de datos
@@ -67,8 +70,11 @@ class RoomDAOImpl @Inject()
     * @param id Identificador de la roomPanel
     * @return Resultado de la operación
     */
-  override def delete(id: Long): Future[Int] = {
-    db.run(search(id).delete)
+  override def delete(id: Long): Future[ActionState] = {
+    db.run(search(id).delete).map{
+      case 0 => state.ActionCompleted
+      case _ => state.Failed
+    }
   }
 
   /**
@@ -77,11 +83,11 @@ class RoomDAOImpl @Inject()
     * @return Todas las rooms
     */
   override def listAll: Future[Seq[Room]] = {
-    db.run(salas.result)
+    db.run(rooms.result)
   }
 
   override def getByLaboratory(id: Long): Future[Seq[Room]] = {
-    db.run(salas.filter(_.laboratoryId === id).result)
+    db.run(rooms.filter(_.laboratoryId === id).result)
   }
 }
 
