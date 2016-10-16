@@ -1,27 +1,61 @@
 package controllers.admin
 
-import dao.{ComputerDAO, RoomDAO, UserDAO}
-import jp.t2v.lab.play2.auth.test.Helpers._
-import model.form.ComputerForm
-import model.form.data.{ComputerFormData, LoginFormData}
-import model.{Computer, Role, User}
-import org.mockito.Matchers._
-import org.mockito.Mockito._
+import scala.annotation.implicitNotFound
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
+import scala.concurrent.duration.DurationInt
+
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
+import org.scalatest.BeforeAndAfterAll
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
+
+import com.google.inject.ImplementedBy
+import com.google.inject.Inject
+
+import dao.ComputerDAO
+import dao.RoomDAO
+import dao.UserDAO
+import dao.impl.ComputerDAOImpl
+import dao.impl.RoomDAOImpl
+import dao.impl.UserDAOImpl
+import jp.t2v.lab.play2.auth.test.Helpers.AuthFakeRequest
+import model.Computer
+import model.Role
+import model.User
+import model.form.ComputerForm
+import model.form.data.ComputerFormData
+import model.form.data.LoginFormData
 import play.api.Environment
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
 import play.test.WithApplication
-import services.{ComputerService, SSHOrderService}
-
-import scala.concurrent.{ExecutionContext, Future}
+import services.ComputerService
+import services.SSHOrderService
+import services.impl.ComputerServiceImpl
+import services.impl.SSHOrderServiceImpl
 
 /**
   * Created by camilo on 27/08/16.
   */
-class ComputerControllerSpec extends PlaySpec with MockitoSugar /*with Results with OneAppPerSuite with ScalaFutures with IntegrationPatience*/  {
+class ComputerControllerSpec extends PlaySpec with MockitoSugar with BeforeAndAfterAll {
+  
+//define the fake application to execute for the tests
+  def application = new WithApplication
+ 
+  //before all the tests, start the fake Play application
+  override def beforeAll() {
+     application.startPlay()
+  }
+  
+  //after the tests execution, shut down the fake application
+  override def afterAll() {
+     application.stopPlay()
+  }
+  
+  
   lazy val sSHOrderService = mock[SSHOrderService]
   lazy val computerService = mock[ComputerService]
   //when(computerService.add(any[Computer])) thenReturn Future.successful("Computer added")
@@ -38,9 +72,11 @@ class ComputerControllerSpec extends PlaySpec with MockitoSugar /*with Results w
   when(computerDAO.add(any[Computer])) thenReturn Future.successful("")
   when(userDAO.get(any[LoginFormData])) thenReturn Future.successful(Some(User("", "", None, Role.Administrator)))
 
+  
+  
   "ComputerController" should {
-    "add a new computer" in new WithApplication {
-      implicit val executionContext: ExecutionContext = ExecutionContext.global
+    "add a new computer" in {
+      implicit lazy val executionContext: ExecutionContext = ExecutionContext.global
       lazy val controller = new ComputerController(sSHOrderService, computerService, roomDAO, computerDAO, messagesApi)
       val computer = ComputerFormData("127.0.0.1", Some("Localhost"), "aton", "00000", Some(""), None)
       val computerForm = ComputerForm.form.fill(computer)
@@ -49,8 +85,10 @@ class ComputerControllerSpec extends PlaySpec with MockitoSugar /*with Results w
           .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
           .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
-      val bodyText = contentAsString(result)
-      bodyText mustBe ""
+     
+      val bodyText = Await.result(result, 20.seconds)
+     
+      bodyText.header.status mustBe equal (200)
     }
   }
 }
