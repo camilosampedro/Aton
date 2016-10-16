@@ -1,6 +1,5 @@
 package controllers.admin
 
-import scala.annotation.implicitNotFound
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -87,8 +86,8 @@ class ComputerControllerSpec extends PlaySpec with MockitoSugar with BeforeAndAf
       }
      
       val bodyText = Await.result(result, 20.seconds)
-     
-      bodyText.header.status mustBe equal (200)
+      
+      assert(bodyText.header.status === 200)
     }
   }
 }
