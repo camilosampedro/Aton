@@ -3,14 +3,13 @@ package controllers.admin
 import com.google.inject.Inject
 import com.jcraft.jsch.JSchException
 import controllers.{routes => normalroutes}
-import dao.{ComputerDAO, RoomDAO, UserDAO}
 import model.Computer
 import model.form._
 import model.form.data.ComputerFormData
 import play.Logger
 import play.api.Environment
 import play.api.i18n.MessagesApi
-import services.{ComputerService, RoomService, SSHOrderService, state}
+import services._
 import services.state.ActionCompleted
 import views.html._
 
@@ -20,7 +19,7 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class ComputerController @Inject()(computerService: ComputerService, roomService: RoomService, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
+class ComputerController @Inject()(computerService: ComputerService, roomService: RoomService, val messagesApi: MessagesApi)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
   def edit = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     ComputerForm.form.bindFromRequest().fold(

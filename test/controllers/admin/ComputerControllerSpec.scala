@@ -8,7 +8,7 @@ import model.form.data.ComputerFormData
 import play.api.Environment
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
-import services.{ComputerService, RoomService, SSHOrderService}
+import services.{ComputerService, RoomService, SSHOrderService, UserService}
 import play.api.test.Helpers._
 
 import scala.concurrent.ExecutionContext
@@ -19,7 +19,7 @@ import org.scalatest.FlatSpec
  * Created by camilo on 27/08/16.
  */
 class ComputerControllerSpec @Inject() (computerService: ComputerService, roomService: RoomService, val messagesApi: MessagesApi)
-(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends FlatSpec with Matchers {
+(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends FlatSpec with Matchers {
 
   val controller = new ComputerController(computerService, roomService, messagesApi)
 

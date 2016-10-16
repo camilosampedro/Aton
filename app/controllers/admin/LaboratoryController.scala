@@ -10,9 +10,8 @@ import model.{Laboratory, Role}
 import play.Logger
 import play.api.Environment
 import play.api.i18n.MessagesApi
-import services.LaboratoryService
+import services.{LaboratoryService, UserService, state}
 import views.html._
-import services.state
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
@@ -20,7 +19,7 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
+class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val messagesApi: MessagesApi)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
   def administrateLaboratories = AuthRequiredAction { implicit request =>
     Logger.debug("Petición de listar los laboratorios administrativamente recibida.")
     Future.successful(Redirect(normalroutes.HomeController.home()))

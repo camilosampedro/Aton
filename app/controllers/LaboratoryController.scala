@@ -6,7 +6,7 @@ import model.Role
 import model.form.data.LoginFormData
 import play.api.Environment
 import play.api.i18n.MessagesApi
-import services.LaboratoryService
+import services.{LaboratoryService, UserService}
 import views.html._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -14,8 +14,7 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * Created by camilo on 20/03/16.
   */
-class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val messagesApi: MessagesApi)(implicit  userDAO: UserDAO, environment: Environment, executionContext: ExecutionContext) extends ControllerWithNoAuthRequired {
-  override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
+class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val messagesApi: MessagesApi)(implicit userService: UserService, environment: Environment, executionContext: ExecutionContext) extends ControllerWithNoAuthRequired {
 
   def get(id: Long) = AsyncStack { implicit request =>
     implicit val (username: Option[String], isAdmin: Boolean) = loggedIn match {

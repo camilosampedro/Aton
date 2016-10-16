@@ -7,13 +7,14 @@ import model.form.LoginForm
 import play.api.Environment
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, Controller}
+import services.UserService
 
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class LoginController @Inject()(userDAO: UserDAO, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, override val cookieSecureOptionPlay: Environment) extends Controller with I18nSupport with LoginLogout with AuthConfigImpl {
+class LoginController @Inject()(userService: UserService, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, override val cookieSecureOptionPlay: Environment) extends Controller with I18nSupport with LoginLogout with AuthConfigImpl {
 
   def loginForm = Action {
     Ok(views.html.login(LoginForm.form))
@@ -42,7 +43,7 @@ class LoginController @Inject()(userDAO: UserDAO, val messagesApi: MessagesApi)(
     * A function that returns a `User` object from an `Id`.
     * You can alter the procedure to suit your application.
     */
-  def resolveUser(id: Id)(implicit ctx: ExecutionContext): Future[Option[User]] = userDAO.get(id)
+  def resolveUser(id: Id)(implicit ctx: ExecutionContext): Future[Option[User]] = userService.checkAndGet(id)
 
   def logout = Action.async { implicit request =>
     gotoLogoutSucceeded

@@ -5,8 +5,7 @@ import controllers.{routes => normalroutes}
 import dao.{SSHOrderDAO, UserDAO}
 import play.api.Environment
 import play.api.i18n.MessagesApi
-import services.SSHOrderService
-import services.state
+import services.{SSHOrderService, UserService, state}
 import views.html._
 
 import scala.concurrent.ExecutionContext
@@ -14,7 +13,7 @@ import scala.concurrent.ExecutionContext
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class SSHOrderController @Inject()(sSHOrderService: SSHOrderService, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, userDAO: UserDAO, environment: Environment) extends ControllerWithAuthRequired {
+class SSHOrderController @Inject()(sSHOrderService: SSHOrderService, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, userService: UserService, environment: Environment) extends ControllerWithAuthRequired {
 
   def listAll = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)

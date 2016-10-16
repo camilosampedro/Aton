@@ -9,6 +9,8 @@ import model.form.data.LoginFormData
 import model.table.UserTable
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._
+import services.state.ActionState
+import services.state
 import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
@@ -37,10 +39,12 @@ class UserDAOImpl @Inject()
     * @param user User a agregar
     * @return String con el mensaje del result
     */
-  override def add(user: User): Future[String] = {
+  override def add(user: User): Future[ActionState] = {
     // Se realiza un insert y por cada insert se crea un String
-    db.run(users += user).map(res => "User agregado correctamente").recover {
-      case ex: Exception => ex.getCause.getMessage
+    db.run(users += user).map(_ => state.ActionCompleted).recover {
+      case ex: Exception =>
+        play.Logger.error("User adding error",ex)
+        state.Failed
     }
   }
 
@@ -55,9 +59,9 @@ class UserDAOImpl @Inject()
     db.run(search(username).result.headOption)
   }
 
-  override def get(user: LoginFormData): Future[Option[User]] = {
-    play.Logger.debug("Looking for user: " + user)
-    db.run(users.filter(row => row.username === user.username && row.password === user.password).result.headOption)
+  override def checkAndGet(username: String, password: String): Future[Option[User]] = {
+    play.Logger.debug("Looking for user: " + username)
+    db.run(users.filter(row => row.username === username && row.password === password).result.headOption)
   }
 
   private def search(username: String) = users.filter(_.username === username)
@@ -68,8 +72,11 @@ class UserDAOImpl @Inject()
     * @param username Identificador del userText
     * @return Resultado de la operación
     */
-  override def delete(username: String): Future[Int] = {
-    db.run(search(username).delete)
+  override def delete(username: String): Future[ActionState] = {
+    db.run(search(username).delete).map {
+      case 0 => state.ActionCompleted
+      case _ => state.Failed
+    }
   }
 
   /**

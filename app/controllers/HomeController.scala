@@ -7,6 +7,7 @@ import dao.{LaboratoryDAO, UserDAO}
 import model.{Role, User}
 import play.api.{Environment, Logger}
 import play.api.i18n.MessagesApi
+import services.{LaboratoryService, UserService}
 import views.html._
 
 import scala.concurrent.ExecutionContext
@@ -16,7 +17,7 @@ import scala.concurrent.duration._
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @Singleton
-class HomeController @Inject()(laboratoryDAO: LaboratoryDAO, @Named("computerChecker") computerChecker: ActorRef, actorSystem: ActorSystem, val messagesApi: MessagesApi)(implicit userDAO: UserDAO, executionContext: ExecutionContext, environment: Environment) extends ControllerWithNoAuthRequired {
+class HomeController @Inject()(laboratoryService: LaboratoryService, @Named("computerChecker") computerChecker: ActorRef, actorSystem: ActorSystem, val messagesApi: MessagesApi)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithNoAuthRequired {
   val logger = Logger("HomeController")
 
   play.Logger.debug("Computer Checker configured.")
@@ -31,7 +32,7 @@ class HomeController @Inject()(laboratoryDAO: LaboratoryDAO, @Named("computerChe
     }
     logger.debug("Petición de listar todos los laboratorios con el siguiente request recibida " + request)
     logger.debug("User: " + username + ", is admin: " + isAdmin)
-    laboratoryDAO.listAll.map { labs =>
+    laboratoryService.listAll.map { labs =>
       Ok(index(messagesApi("laboratory.list.title"),laboratories(labs)))
     }
   }
