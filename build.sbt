@@ -4,6 +4,10 @@ version := "0.1.3"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, DebianPlugin, RpmPlugin, LinuxPlugin, UniversalPlugin, WindowsPlugin,JDKPackagerPlugin, JavaServerAppPackaging)
 
+parallelExecution in Test := false
+
+fork in Test := true
+
 maintainer in Linux := "Camilo Sampedro <camilo.sampedro@udea.edu.co>"
 
 packageSummary in Linux := "Aton, Laboratory Administrator"
@@ -31,6 +35,7 @@ libraryDependencies ++= Seq(
   "jp.t2v" %% "play2-auth" % "0.14.2",
   "jp.t2v" %% "play2-auth-test" % "0.14.2" % "test",
   cache,
+  specs2,
   ws,
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test,
   "mysql" % "mysql-connector-java" % "5.1.34",
@@ -40,9 +45,11 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.4.5",
   "fr.janalyse" %% "janalyse-ssh" % "0.9.19" % "compile",
   "org.mindrot"  % "jbcrypt"   % "0.3m",
-  "org.scalatest" %% "scalatest" % "3.0.0" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.0" % "test",
+  "org.mockito" % "mockito-all" % "1.10.19"
 )
 
+// Web dependencies
 libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "3.3.6",
   "org.webjars" % "jquery" % "2.2.1",

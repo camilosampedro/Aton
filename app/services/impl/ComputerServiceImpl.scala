@@ -158,7 +158,7 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
   override def upgrade(ip: String)(implicit username: String): Future[ActionState] = {
     get(ip).map{
       case Some((computer, Some((computerState,_)))) => sSHOrderService.upgrade(computer, computerState)
-      case Some((computer, None)) => NotChecked
+      case Some((computer, None)) => NotCheckedYet
       case _ => NotFound
     }
   }
@@ -183,5 +183,23 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
       case Some(computer) => sSHOrderService.blockPage(computer,page)
       case _ => NotFound
     }
+  }
+
+  override def add(ip: String, name: Option[String], sSHUser: String, sSHPassword: String, description: Option[String], roomID: Option[Long]): Future[ActionState] = {
+    val ips = ip.split(",")
+    val names = name.getOrElse("").split(",")
+    val futures = ips.zip(names).map { pair =>
+      val newComputer = Computer(pair._1, Some(pair._2), sSHUser, sSHPassword, description, roomID)
+      play.Logger.debug("Adding a new computer: " + newComputer)
+      add(newComputer)
+    }.toSeq
+    Future.sequence(futures).map{states =>
+      if(states.exists(_!=ActionCompleted)){
+        ActionCompleted
+      } else {
+        Failed
+      }
+    }
+
   }
 }

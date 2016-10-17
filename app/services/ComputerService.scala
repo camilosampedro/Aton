@@ -6,7 +6,7 @@ import play.api.mvc.Result
 import services.impl.ComputerServiceImpl
 import services.state.ActionState
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
@@ -39,6 +39,7 @@ trait ComputerService {
   def listAll: Future[Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]]
 
   def add(computer: Computer): Future[ActionState]
+  def add(ip: String, name: Option[String], sSHUser: String, sSHPassword: String, description: Option[String], roomID: Option[Long]): Future[ActionState]
 
   def edit(computer: Computer): Future[ActionState]
 }
