@@ -181,7 +181,8 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
         data => {
           computerService.blockPage(ip, data.page).map {
             case state.ActionCompleted => Ok //(index(messagesApi("page.done"), notImplemented(messagesApi("page.resulttext"))))
-            case _ => NotFound
+            case state.NotFound => NotFound
+            case _ => BadRequest
           }
         })
   }
@@ -218,6 +219,7 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
       implicit val user = loggedIn.username
       computerService.installAPackage(ip, programs).map {
         case state.OrderCompleted(_, _) => Ok
+        case state.NotCheckedYet => InternalServerError("Computer not checked yet")
         case _ => BadRequest
       }
   }

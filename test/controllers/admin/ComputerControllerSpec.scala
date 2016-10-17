@@ -196,4 +196,19 @@ class ComputerControllerSpec extends ControllerTest {
       assertFutureResultStatus(result, 400)
     }
   }
+
+  "Computer Controller on failing operations" should {
+    val controller = createTestForResult("BadRequest", state.Failed, 400)
+    "return BadRequest status on adding a new computer" in {
+      import computer._
+      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
+      val computerForm = ComputerForm.form.fill(computerData)
+      val result = controller.add.apply {
+        FakeRequest()
+          .withLoggedIn(controller)(loggedInUser)
+          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
+      }
+      assertFutureResultStatus(result, 400)
+    }
+  }
 }

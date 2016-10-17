@@ -49,6 +49,7 @@ libraryDependencies ++= Seq(
   "org.mockito" % "mockito-all" % "1.10.19"
 )
 
+// Web dependencies
 libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "3.3.6",
   "org.webjars" % "jquery" % "2.2.1",
