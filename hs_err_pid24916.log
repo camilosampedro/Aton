@@ -1,0 +1,1032 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (sharedRuntime.cpp:834), pid=24916, tid=0x00007ff6c4585700
+#  fatal error: exception happened outside interpreter, nmethods and vtable stubs at pc 0x00007ff6d7c3f8f1
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_102-b14) (build 1.8.0_102-b14)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.102-b14 mixed mode linux-amd64 compressed oops)
+# Core dump written. Default location: /home/camilosampedro/Documentos/git/Aton/core or core.24916
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007ff6e05f2800):  JavaThread "pool-4-thread-1" [_thread_in_Java, id=24960, stack(0x00007ff6c4485000,0x00007ff6c4586000)]
+
+Stack: [0x00007ff6c4485000,0x00007ff6c4586000],  sp=0x00007ff6c4583a90,  free space=1018k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0xac52aa]  VMError::report_and_die()+0x2ba
+V  [libjvm.so+0x4fbe59]  report_fatal(char const*, int, char const*)+0x59
+V  [libjvm.so+0x9c0d6a]  SharedRuntime::continuation_for_implicit_exception(JavaThread*, unsigned char*, SharedRuntime::ImplicitExceptionKind)+0x33a
+V  [libjvm.so+0x92905a]  JVM_handle_linux_signal+0x48a
+V  [libjvm.so+0x91f4b3]  signalHandler(int, siginfo*, void*)+0x43
+C  [libpthread.so.0+0x11080]
+j  java.util.concurrent.ThreadPoolExecutor$Worker.run()V+5
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x68ffc6]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0x1056
+V  [libjvm.so+0x6904d1]  JavaCalls::call_virtual(JavaValue*, KlassHandle, Symbol*, Symbol*, JavaCallArguments*, Thread*)+0x321
+V  [libjvm.so+0x690977]  JavaCalls::call_virtual(JavaValue*, Handle, KlassHandle, Symbol*, Symbol*, Thread*)+0x47
+V  [libjvm.so+0x727660]  thread_entry(JavaThread*, Thread*)+0xa0
+V  [libjvm.so+0xa73ce3]  JavaThread::thread_main_inner()+0x103
+V  [libjvm.so+0xa73e2c]  JavaThread::run()+0x11c
+V  [libjvm.so+0x9249c8]  java_start(Thread*)+0x108
+C  [libpthread.so.0+0x7454]
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x00007ff684026000 JavaThread "pool-4-thread-6" [_thread_blocked, id=24965, stack(0x00007ff67b0d0000,0x00007ff67b1d1000)]
+  0x00007ff698007000 JavaThread "pool-4-thread-5" [_thread_in_vm, id=24964, stack(0x00007ff67b1d1000,0x00007ff67b2d2000)]
+  0x00007ff6e05f5800 JavaThread "pool-4-thread-4" [_thread_blocked, id=24963, stack(0x00007ff67b2d2000,0x00007ff67b3d3000)]
+  0x00007ff6e05f4000 JavaThread "pool-4-thread-3" [_thread_blocked, id=24962, stack(0x00007ff6c46de000,0x00007ff6c47df000)]
+  0x00007ff6e05f3000 JavaThread "pool-4-thread-2" [_thread_blocked, id=24961, stack(0x00007ff6c4283000,0x00007ff6c4384000)]
+=>0x00007ff6e05f2800 JavaThread "pool-4-thread-1" [_thread_in_Java, id=24960, stack(0x00007ff6c4485000,0x00007ff6c4586000)]
+  0x00007ff69000d800 JavaThread "sbt-web-akka.actor.default-dispatcher-4" [_thread_blocked, id=24959, stack(0x00007ff6c45dd000,0x00007ff6c46de000)]
+  0x00007ff6e1e1c000 JavaThread "sbt-web-akka.actor.default-dispatcher-3" [_thread_blocked, id=24958, stack(0x00007ff6c4182000,0x00007ff6c4283000)]
+  0x00007ff6e106a000 JavaThread "sbt-web-akka.actor.default-dispatcher-2" [_thread_blocked, id=24957, stack(0x00007ff6c4081000,0x00007ff6c4182000)]
+  0x00007ff6e1ff7000 JavaThread "sbt-web-scheduler-1" [_thread_blocked, id=24956, stack(0x00007ff6c4384000,0x00007ff6c4485000)]
+  0x00007ff6e0b45800 JavaThread "process reaper" daemon [_thread_blocked, id=24932, stack(0x00007ff6c5c91000,0x00007ff6c5cca000)]
+  0x00007ff6e0185800 JavaThread "Service Thread" daemon [_thread_blocked, id=24929, stack(0x00007ff6c6e57000,0x00007ff6c6f58000)]
+  0x00007ff6e0182800 JavaThread "C1 CompilerThread2" daemon [_thread_blocked, id=24928, stack(0x00007ff6c6f58000,0x00007ff6c7059000)]
+  0x00007ff6e0181000 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=24927, stack(0x00007ff6c7059000,0x00007ff6c715a000)]
+  0x00007ff6e017e000 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=24926, stack(0x00007ff6c715a000,0x00007ff6c725b000)]
+  0x00007ff6e017c800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=24925, stack(0x00007ff6c725b000,0x00007ff6c735c000)]
+  0x00007ff6e0149800 JavaThread "Finalizer" daemon [_thread_blocked, id=24924, stack(0x00007ff6c74f5000,0x00007ff6c75f6000)]
+  0x00007ff6e0145000 JavaThread "Reference Handler" daemon [_thread_blocked, id=24923, stack(0x00007ff6c75f6000,0x00007ff6c76f7000)]
+  0x00007ff6e0008000 JavaThread "main" [_thread_blocked, id=24917, stack(0x00007ff6e6510000,0x00007ff6e6611000)]
+
+Other Threads:
+  0x00007ff6e013d800 VMThread [stack: 0x00007ff6c76f7000,0x00007ff6c77f8000] [id=24922]
+  0x00007ff6e0188800 WatcherThread [stack: 0x00007ff6c6d56000,0x00007ff6c6e57000] [id=24930]
+
+VM state:synchronizing (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00007ff6e0005f70] Safepoint_lock - owner thread: 0x00007ff6e013d800
+[0x00007ff6e0005ff0] Threads_lock - owner thread: 0x00007ff6e013d800
+
+Heap:
+ PSYoungGen      total 305664K, used 200760K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 76% used [0x00000000eab00000,0x00000000f6f0e338,0x00000000fab00000)
+  from space 43520K, 0% used [0x00000000fab00000,0x00000000fab00000,0x00000000fd580000)
+  to   space 43520K, 0% used [0x00000000fd580000,0x00000000fd580000,0x0000000100000000)
+ ParOldGen       total 699392K, used 116289K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 16% used [0x00000000c0000000,0x00000000c71906c8,0x00000000eab00000)
+ Metaspace       used 87381K, capacity 88087K, committed 88488K, reserved 1122304K
+  class space    used 15525K, capacity 15716K, committed 15792K, reserved 1048576K
+
+Card table byte_map: [0x00007ff6d77d2000,0x00007ff6d79d3000] byte_map_base: 0x00007ff6d71d2000
+
+Marking Bits: (ParMarkBitMap*) 0x00007ff6e5a20c60
+ Begin Bits: [0x00007ff6d5379000, 0x00007ff6d6379000)
+ End Bits:   [0x00007ff6d6379000, 0x00007ff6d7379000)
+
+Polling page: 0x00007ff6e6642000
+
+CodeCache: size=131072Kb used=31778Kb max_used=32012Kb free=99294Kb
+ bounds [0x00007ff6d7bd3000, 0x00007ff6d9b43000, 0x00007ff6dfbd3000]
+ total_blobs=11897 nmethods=11410 adapters=393
+ compilation: enabled
+
+Compilation events (10 events):
+Event: 11,775 Thread 0x00007ff6e0182800 nmethod 13791 0x00007ff6d90a4cd0 code [0x00007ff6d90a4e20, 0x00007ff6d90a4f90]
+Event: 11,775 Thread 0x00007ff6e0182800 13800       1       xsbti.api.ClassLike::definitionType (5 bytes)
+Event: 11,775 Thread 0x00007ff6e0182800 nmethod 13800 0x00007ff6d91256d0 code [0x00007ff6d9125820, 0x00007ff6d9125930]
+Event: 11,775 Thread 0x00007ff6e0182800 13801       2       xsbt.api.Discovery$::pathName (194 bytes)
+Event: 11,776 Thread 0x00007ff6e0182800 nmethod 13801 0x00007ff6d8c2fe90 code [0x00007ff6d8c30120, 0x00007ff6d8c30bf8]
+Event: 11,777 Thread 0x00007ff6e0182800 13802       2       scala.collection.mutable.ArrayBuilder$ofRef::$plus$eq (6 bytes)
+Event: 11,777 Thread 0x00007ff6e0182800 nmethod 13802 0x00007ff6d90a4710 code [0x00007ff6d90a4880, 0x00007ff6d90a4ac8]
+Event: 11,777 Thread 0x00007ff6e0182800 13804       2       xsbti.api.ClassLike::structure (13 bytes)
+Event: 11,777 Thread 0x00007ff6e0182800 nmethod 13804 0x00007ff6d8c2fad0 code [0x00007ff6d8c2fc40, 0x00007ff6d8c2fde8]
+Event: 11,777 Thread 0x00007ff6e0182800 13805       2       xsbt.api.Discovery$::findAnnotations (29 bytes)
+
+GC Heap History (10 events):
+Event: 3,915 GC heap before
+{Heap before GC invocations=8 (full 4):
+ PSYoungGen      total 305664K, used 64K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 0% used [0x00000000eab00000,0x00000000eab00000,0x00000000fab00000)
+  from space 43520K, 0% used [0x00000000fd580000,0x00000000fd590000,0x0000000100000000)
+  to   space 43520K, 0% used [0x00000000fab00000,0x00000000fab00000,0x00000000fd580000)
+ ParOldGen       total 699392K, used 22760K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 3% used [0x00000000c0000000,0x00000000c163a0a8,0x00000000eab00000)
+ Metaspace       used 44462K, capacity 44898K, committed 45096K, reserved 1085440K
+  class space    used 8282K, capacity 8394K, committed 8496K, reserved 1048576K
+Event: 3,967 GC heap after
+Heap after GC invocations=8 (full 4):
+ PSYoungGen      total 305664K, used 0K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 0% used [0x00000000eab00000,0x00000000eab00000,0x00000000fab00000)
+  from space 43520K, 0% used [0x00000000fd580000,0x00000000fd580000,0x0000000100000000)
+  to   space 43520K, 0% used [0x00000000fab00000,0x00000000fab00000,0x00000000fd580000)
+ ParOldGen       total 699392K, used 16173K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 2% used [0x00000000c0000000,0x00000000c0fcb510,0x00000000eab00000)
+ Metaspace       used 44462K, capacity 44898K, committed 45096K, reserved 1085440K
+  class space    used 8282K, capacity 8394K, committed 8496K, reserved 1048576K
+}
+Event: 4,937 GC heap before
+{Heap before GC invocations=9 (full 4):
+ PSYoungGen      total 305664K, used 262144K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 100% used [0x00000000eab00000,0x00000000fab00000,0x00000000fab00000)
+  from space 43520K, 0% used [0x00000000fd580000,0x00000000fd580000,0x0000000100000000)
+  to   space 43520K, 0% used [0x00000000fab00000,0x00000000fab00000,0x00000000fd580000)
+ ParOldGen       total 699392K, used 16173K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 2% used [0x00000000c0000000,0x00000000c0fcb510,0x00000000eab00000)
+ Metaspace       used 49174K, capacity 49746K, committed 49960K, reserved 1089536K
+  class space    used 9508K, capacity 9689K, committed 9776K, reserved 1048576K
+Event: 4,951 GC heap after
+Heap after GC invocations=9 (full 4):
+ PSYoungGen      total 305664K, used 10829K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 0% used [0x00000000eab00000,0x00000000eab00000,0x00000000fab00000)
+  from space 43520K, 24% used [0x00000000fab00000,0x00000000fb593408,0x00000000fd580000)
+  to   space 43520K, 0% used [0x00000000fd580000,0x00000000fd580000,0x0000000100000000)
+ ParOldGen       total 699392K, used 16181K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 2% used [0x00000000c0000000,0x00000000c0fcd510,0x00000000eab00000)
+ Metaspace       used 49174K, capacity 49746K, committed 49960K, reserved 1089536K
+  class space    used 9508K, capacity 9689K, committed 9776K, reserved 1048576K
+}
+Event: 5,853 GC heap before
+{Heap before GC invocations=10 (full 4):
+ PSYoungGen      total 305664K, used 272973K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 100% used [0x00000000eab00000,0x00000000fab00000,0x00000000fab00000)
+  from space 43520K, 24% used [0x00000000fab00000,0x00000000fb593408,0x00000000fd580000)
+  to   space 43520K, 0% used [0x00000000fd580000,0x00000000fd580000,0x0000000100000000)
+ ParOldGen       total 699392K, used 16181K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 2% used [0x00000000c0000000,0x00000000c0fcd510,0x00000000eab00000)
+ Metaspace       used 54627K, capacity 55192K, committed 55336K, reserved 1093632K
+  class space    used 10511K, capacity 10710K, committed 10800K, reserved 1048576K
+Event: 5,909 GC heap after
+Heap after GC invocations=10 (full 4):
+ PSYoungGen      total 305664K, used 38023K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 0% used [0x00000000eab00000,0x00000000eab00000,0x00000000fab00000)
+  from space 43520K, 87% used [0x00000000fd580000,0x00000000ffaa1f18,0x0000000100000000)
+  to   space 43520K, 0% used [0x00000000fab00000,0x00000000fab00000,0x00000000fd580000)
+ ParOldGen       total 699392K, used 16181K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 2% used [0x00000000c0000000,0x00000000c0fcd510,0x00000000eab00000)
+ Metaspace       used 54627K, capacity 55192K, committed 55336K, reserved 1093632K
+  class space    used 10511K, capacity 10710K, committed 10800K, reserved 1048576K
+}
+Event: 7,349 GC heap before
+{Heap before GC invocations=11 (full 4):
+ PSYoungGen      total 305664K, used 233011K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 74% used [0x00000000eab00000,0x00000000f696adf8,0x00000000fab00000)
+  from space 43520K, 87% used [0x00000000fd580000,0x00000000ffaa1f18,0x0000000100000000)
+  to   space 43520K, 0% used [0x00000000fab00000,0x00000000fab00000,0x00000000fd580000)
+ ParOldGen       total 699392K, used 16181K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 2% used [0x00000000c0000000,0x00000000c0fcd510,0x00000000eab00000)
+ Metaspace       used 74378K, capacity 75023K, committed 75160K, reserved 1110016K
+  class space    used 13647K, capacity 13860K, committed 13872K, reserved 1048576K
+Event: 7,432 GC heap after
+Heap after GC invocations=11 (full 4):
+ PSYoungGen      total 305664K, used 43506K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 0% used [0x00000000eab00000,0x00000000eab00000,0x00000000fab00000)
+  from space 43520K, 99% used [0x00000000fab00000,0x00000000fd57cb10,0x00000000fd580000)
+  to   space 43520K, 0% used [0x00000000fd580000,0x00000000fd580000,0x0000000100000000)
+ ParOldGen       total 699392K, used 76672K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 10% used [0x00000000c0000000,0x00000000c4ae03a8,0x00000000eab00000)
+ Metaspace       used 74378K, capacity 75023K, committed 75160K, reserved 1110016K
+  class space    used 13647K, capacity 13860K, committed 13872K, reserved 1048576K
+}
+Event: 7,432 GC heap before
+{Heap before GC invocations=12 (full 5):
+ PSYoungGen      total 305664K, used 43506K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 0% used [0x00000000eab00000,0x00000000eab00000,0x00000000fab00000)
+  from space 43520K, 99% used [0x00000000fab00000,0x00000000fd57cb10,0x00000000fd580000)
+  to   space 43520K, 0% used [0x00000000fd580000,0x00000000fd580000,0x0000000100000000)
+ ParOldGen       total 699392K, used 76672K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 10% used [0x00000000c0000000,0x00000000c4ae03a8,0x00000000eab00000)
+ Metaspace       used 74378K, capacity 75023K, committed 75160K, reserved 1110016K
+  class space    used 13647K, capacity 13860K, committed 13872K, reserved 1048576K
+Event: 7,665 GC heap after
+Heap after GC invocations=12 (full 5):
+ PSYoungGen      total 305664K, used 0K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 0% used [0x00000000eab00000,0x00000000eab00000,0x00000000fab00000)
+  from space 43520K, 0% used [0x00000000fab00000,0x00000000fab00000,0x00000000fd580000)
+  to   space 43520K, 0% used [0x00000000fd580000,0x00000000fd580000,0x0000000100000000)
+ ParOldGen       total 699392K, used 116289K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 16% used [0x00000000c0000000,0x00000000c71906c8,0x00000000eab00000)
+ Metaspace       used 74365K, capacity 75007K, committed 75160K, reserved 1110016K
+  class space    used 13643K, capacity 13856K, committed 13872K, reserved 1048576K
+}
+
+Deoptimization events (10 events):
+Event: 11,164 Thread 0x00007ff6e05f2800 Uncommon trap: reason=class_check action=maybe_recompile pc=0x00007ff6d9614458 method=scala.reflect.internal.SymbolTable.isValid(I)Z @ 42
+Event: 11,176 Thread 0x00007ff6e05f2800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff6d8a61508 method=scala.collection.mutable.ListBuffer.$plus$eq(Ljava/lang/Object;)Lscala/collection/mutable/ListBuffer; @ 4
+Event: 11,211 Thread 0x00007ff6e05f2800 Uncommon trap: reason=class_check action=maybe_recompile pc=0x00007ff6d968ade0 method=scala.reflect.internal.SymbolTable.isValid(I)Z @ 42
+Event: 11,365 Thread 0x00007ff6e05f2800 Uncommon trap: reason=predicate action=maybe_recompile pc=0x00007ff6d8a04840 method=java.lang.String.regionMatches(ZILjava/lang/String;II)Z @ 63
+Event: 11,394 Thread 0x00007ff6e05f2800 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007ff6d8b647f8 method=scala.collection.generic.Growable$class.loop$1(Lscala/collection/generic/Growable;Lscala/collection/LinearSeq;)V @ 1
+Event: 11,401 Thread 0x00007ff6e05f2800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff6d904cfb8 method=scala.runtime.ScalaRunTime$.array_update(Ljava/lang/Object;ILjava/lang/Object;)V @ 4
+Event: 11,407 Thread 0x00007ff6e05f2800 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007ff6d8b647f8 method=scala.collection.generic.Growable$class.loop$1(Lscala/collection/generic/Growable;Lscala/collection/LinearSeq;)V @ 1
+Event: 11,408 Thread 0x00007ff6e05f2800 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007ff6d8b647f8 method=scala.collection.generic.Growable$class.loop$1(Lscala/collection/generic/Growable;Lscala/collection/LinearSeq;)V @ 1
+Event: 11,409 Thread 0x00007ff6e05f2800 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007ff6d8b647f8 method=scala.collection.generic.Growable$class.loop$1(Lscala/collection/generic/Growable;Lscala/collection/LinearSeq;)V @ 1
+Event: 11,591 Thread 0x00007ff6e05f2800 Uncommon trap: reason=null_check action=make_not_entrant pc=0x00007ff6d8003ecc method=java.lang.reflect.Array.newInstance(Ljava/lang/Class;I)Ljava/lang/Object; @ 2
+
+Internal exceptions (10 events):
+Event: 11,692 Thread 0x00007ff6e05f5800 Exception <a 'java/lang/NoSuchMethodError': <clinit>> (0x00000000f5ff8fb0) thrown at [/HUDSON3/workspace/8-2-build-linux-amd64/jdk8u102/7268/hotspot/src/share/vm/prims/jni.cpp, line 1613]
+Event: 11,692 Thread 0x00007ff6e05f5800 Exception <a 'java/lang/NoSuchMethodError': <clinit>> (0x00000000f5ffab10) thrown at [/HUDSON3/workspace/8-2-build-linux-amd64/jdk8u102/7268/hotspot/src/share/vm/prims/jni.cpp, line 1613]
+Event: 11,692 Thread 0x00007ff6e05f5800 Exception <a 'java/lang/NoSuchMethodError': <clinit>> (0x00000000f5ffb7e0) thrown at [/HUDSON3/workspace/8-2-build-linux-amd64/jdk8u102/7268/hotspot/src/share/vm/prims/jni.cpp, line 1613]
+Event: 11,692 Thread 0x00007ff6e05f5800 Exception <a 'java/lang/NoSuchMethodError': <clinit>> (0x00000000f5ffc378) thrown at [/HUDSON3/workspace/8-2-build-linux-amd64/jdk8u102/7268/hotspot/src/share/vm/prims/jni.cpp, line 1613]
+Event: 11,693 Thread 0x00007ff6e05f5800 Exception <a 'java/lang/NoSuchMethodError': <clinit>> (0x00000000f5ffd5e8) thrown at [/HUDSON3/workspace/8-2-build-linux-amd64/jdk8u102/7268/hotspot/src/share/vm/prims/jni.cpp, line 1613]
+Event: 11,693 Thread 0x00007ff6e05f5800 Exception <a 'java/lang/NoSuchMethodError': <clinit>> (0x00000000f5ffe640) thrown at [/HUDSON3/workspace/8-2-build-linux-amd64/jdk8u102/7268/hotspot/src/share/vm/prims/jni.cpp, line 1613]
+Event: 11,693 Thread 0x00007ff6e05f5800 Exception <a 'java/lang/NoSuchMethodError': <clinit>> (0x00000000f60022e8) thrown at [/HUDSON3/workspace/8-2-build-linux-amd64/jdk8u102/7268/hotspot/src/share/vm/prims/jni.cpp, line 1613]
+Event: 11,693 Thread 0x00007ff6e05f5800 Exception <a 'java/lang/NoSuchMethodError': <clinit>> (0x00000000f60030f8) thrown at [/HUDSON3/workspace/8-2-build-linux-amd64/jdk8u102/7268/hotspot/src/share/vm/prims/jni.cpp, line 1613]
+Event: 11,694 Thread 0x00007ff6e05f5800 Exception <a 'java/lang/NoSuchMethodError': <clinit>> (0x00000000f6003da8) thrown at [/HUDSON3/workspace/8-2-build-linux-amd64/jdk8u102/7268/hotspot/src/share/vm/prims/jni.cpp, line 1613]
+Event: 11,706 Thread 0x00007ff6e05f5800 Exception <a 'java/lang/NoSuchMethodError': <clinit>> (0x00000000f6068a10) thrown at [/HUDSON3/workspace/8-2-build-linux-amd64/jdk8u102/7268/hotspot/src/share/vm/prims/jni.cpp, line 1613]
+
+Events (10 events):
+Event: 11,764 loading class sbt/inc/TextAnalysisFormat$$anonfun$write$6 done
+Event: 11,767 loading class xsbt/api/Discovered
+Event: 11,767 loading class xsbt/api/Discovered done
+Event: 11,767 loading class xsbt/api/Discovery$$anonfun$bases$1
+Event: 11,767 loading class xsbt/api/Discovery$$anonfun$bases$1 done
+Event: 11,768 loading class xsbt/api/Discovery$$anonfun$hasMainMethod$1
+Event: 11,768 loading class xsbt/api/Discovery$$anonfun$hasMainMethod$1 done
+Event: 11,769 loading class xsbt/api/Discovered$
+Event: 11,769 loading class xsbt/api/Discovered$ done
+Event: 11,781 Executing VM operation: RevokeBias
+
+
+Dynamic libraries:
+00400000-00401000 r-xp 00000000 08:06 2642941                            /usr/lib/jvm/java-8-jdk/jre/bin/java
+00600000-00601000 rw-p 00000000 08:06 2642941                            /usr/lib/jvm/java-8-jdk/jre/bin/java
+009c4000-009e5000 rw-p 00000000 00:00 0                                  [heap]
+c0000000-100f6c000 rw-p 00000000 00:00 0 
+100f6c000-140000000 ---p 00000000 00:00 0 
+7ff66c000000-7ff66c16e000 rw-p 00000000 00:00 0 
+7ff66c16e000-7ff670000000 ---p 00000000 00:00 0 
+7ff670000000-7ff670021000 rw-p 00000000 00:00 0 
+7ff670021000-7ff674000000 ---p 00000000 00:00 0 
+7ff674000000-7ff674021000 rw-p 00000000 00:00 0 
+7ff674021000-7ff678000000 ---p 00000000 00:00 0 
+7ff678b2c000-7ff678c2c000 rw-p 00000000 00:00 0 
+7ff678c2c000-7ff678d2c000 ---p 00000000 00:00 0 
+7ff678d2c000-7ff678f2c000 rw-p 00000000 00:00 0 
+7ff678f2c000-7ff67912c000 rw-p 00000000 00:00 0 
+7ff67912c000-7ff67932c000 rw-p 00000000 00:00 0 
+7ff67932c000-7ff67952c000 rw-p 00000000 00:00 0 
+7ff67952c000-7ff67972c000 rw-p 00000000 00:00 0 
+7ff67972c000-7ff67992c000 rw-p 00000000 00:00 0 
+7ff67992c000-7ff679b2c000 rw-p 00000000 00:00 0 
+7ff679b2c000-7ff679d2c000 rw-p 00000000 00:00 0 
+7ff679d2c000-7ff679d2e000 r--s 00059000 08:06 6947659                    /home/camilosampedro/.ivy2/cache/org.webjars/ionicons/jars/ionicons-2.0.1.jar
+7ff679d2e000-7ff679d2f000 r--s 00027000 08:06 6947655                    /home/camilosampedro/.ivy2/cache/org.webjars/jquery/jars/jquery-2.2.1.jar
+7ff679d2f000-7ff679d36000 r--s 0009b000 08:06 6947653                    /home/camilosampedro/.ivy2/cache/org.webjars/bootstrap/jars/bootstrap-3.3.6.jar
+7ff679d36000-7ff679d54000 r--s 00110000 08:06 7209086                    /home/camilosampedro/.ivy2/cache/org.mockito/mockito-all/jars/mockito-all-1.10.19.jar
+7ff679d54000-7ff679d55000 r--s 00004000 08:06 6947651                    /home/camilosampedro/.ivy2/cache/org.mindrot/jbcrypt/jars/jbcrypt-0.3m.jar
+7ff679d55000-7ff679d5a000 r--s 00040000 08:06 6820192                    /home/camilosampedro/.ivy2/cache/com.jcraft/jsch/jars/jsch-0.1.53.jar
+7ff679d5a000-7ff679d60000 r--s 0004f000 08:06 6947649                    /home/camilosampedro/.ivy2/cache/fr.janalyse/janalyse-ssh_2.11/jars/janalyse-ssh_2.11-0.9.19.jar
+7ff679d60000-7ff679d65000 r--s 00027000 08:06 6947777                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-jdbc-evolutions_2.11/jars/play-jdbc-evolutions_2.11-2.5.0.jar
+7ff679d65000-7ff679d67000 r--s 00003000 08:06 6947645                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-slick-evolutions_2.11/jars/play-slick-evolutions_2.11-2.0.2.jar
+7ff679d67000-7ff679d69000 r--s 00006000 08:06 6820191                    /home/camilosampedro/.ivy2/cache/org.webjars/webjars-locator-core/jars/webjars-locator-core-0.30.jar
+7ff679d69000-7ff679d6b000 r--s 00002000 08:06 6820190                    /home/camilosampedro/.ivy2/cache/org.webjars/webjars-locator/jars/webjars-locator-0.30.jar
+7ff679d6b000-7ff679d6c000 r--s 00007000 08:06 6947657                    /home/camilosampedro/.ivy2/cache/org.webjars/requirejs/jars/requirejs-2.2.0.jar
+7ff679d6c000-7ff679d6d000 r--s 00001000 08:06 6947643                    /home/camilosampedro/.ivy2/cache/org.webjars/webjars-play_2.11/jars/webjars-play_2.11-2.5.0.jar
+7ff679d6d000-7ff679d6e000 r--s 00001000 08:06 6947773                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-jdbc-api_2.11/jars/play-jdbc-api_2.11-2.5.0.jar
+7ff679d6e000-7ff679d71000 r--s 00016000 08:06 6947775                    /home/camilosampedro/.ivy2/cache/com.zaxxer/HikariCP-java6/bundles/HikariCP-java6-2.3.7.jar
+7ff679d71000-7ff679d73000 r--s 00005000 08:06 6947771                    /home/camilosampedro/.ivy2/cache/com.typesafe.slick/slick-hikaricp_2.11/bundles/slick-hikaricp_2.11-3.1.0.jar
+7ff679d73000-7ff679dbf000 r--s 0041f000 08:06 6947769                    /home/camilosampedro/.ivy2/cache/com.typesafe.slick/slick_2.11/bundles/slick_2.11-3.1.0.jar
+7ff679dbf000-7ff679dc1000 r--s 0000a000 08:06 6947641                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-slick_2.11/jars/play-slick_2.11-2.0.2.jar
+7ff679dc1000-7ff679dca000 r--s 000e2000 08:06 6947639                    /home/camilosampedro/.ivy2/cache/mysql/mysql-connector-java/jars/mysql-connector-java-5.1.34.jar
+7ff679dca000-7ff679dcb000 r--s 00001000 08:06 6947750                    /home/camilosampedro/.ivy2/cache/oauth.signpost/signpost-commonshttp4/jars/signpost-commonshttp4-1.2.1.2.jar
+7ff679dcb000-7ff679dce000 r--s 00009000 08:06 6947748                    /home/camilosampedro/.ivy2/cache/oauth.signpost/signpost-core/jars/signpost-core-1.2.1.2.jar
+7ff679dce000-7ff679dd8000 r--s 000ae000 08:06 6947755                    /home/camilosampedro/.ivy2/cache/org.javassist/javassist/bundles/javassist-3.20.0-GA.jar
+7ff679dd8000-7ff679dd9000 r--s 0000b000 08:06 6947761                    /home/camilosampedro/.ivy2/cache/org.asynchttpclient/netty-codec-dns/jars/netty-codec-dns-2.0.2.jar
+7ff679dd9000-7ff679ddb000 r--s 00009000 08:06 6820189                    /home/camilosampedro/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.21.jar
+7ff679ddb000-7ff679ddc000 r--s 00005000 08:06 6947759                    /home/camilosampedro/.ivy2/cache/org.asynchttpclient/netty-resolver/jars/netty-resolver-2.0.2.jar
+7ff679ddc000-7ff679dde000 r--s 0000d000 08:06 6947753                    /home/camilosampedro/.ivy2/cache/org.asynchttpclient/netty-resolver-dns/jars/netty-resolver-dns-2.0.2.jar
+7ff679dde000-7ff679de3000 r--s 0003e000 08:06 6947757                    /home/camilosampedro/.ivy2/cache/io.netty/netty-handler/jars/netty-handler-4.0.36.Final.jar
+7ff679de3000-7ff679de7000 r--s 00020000 08:06 6947756                    /home/camilosampedro/.ivy2/cache/io.netty/netty-codec/jars/netty-codec-4.0.36.Final.jar
+7ff679de7000-7ff679df0000 r--s 00066000 08:06 6947751                    /home/camilosampedro/.ivy2/cache/io.netty/netty-codec-http/jars/netty-codec-http-4.0.36.Final.jar
+7ff679df0000-7ff679df9000 r--s 00062000 08:06 6947746                    /home/camilosampedro/.ivy2/cache/org.asynchttpclient/async-http-client/jars/async-http-client-2.0.2.jar
+7ff679df9000-7ff679e05000 r--s 00096000 08:06 6947637                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-ws_2.11/jars/play-ws_2.11-2.5.3.jar
+7ff679e05000-7ff679e07000 r--s 00005000 08:06 6947881                    /home/camilosampedro/.ivy2/cache/org.objenesis/objenesis/jars/objenesis-1.0.jar
+7ff679e07000-7ff679e26000 r--s 00150000 08:06 6947879                    /home/camilosampedro/.ivy2/cache/org.mockito/mockito-core/jars/mockito-core-1.9.5.jar
+7ff679e26000-7ff679e2c000 r--s 0003a000 08:06 6947860                    /home/camilosampedro/.ivy2/cache/org.specs2/specs2-mock_2.11/jars/specs2-mock_2.11-3.6.6.jar
+7ff679e2c000-7ff679e30000 r--s 00028000 08:06 6947858                    /home/camilosampedro/.ivy2/cache/org.specs2/specs2-junit_2.11/jars/specs2-junit_2.11-3.6.6.jar
+7ff679e30000-7ff679f36000 r--s 00d84000 08:06 6820195                    /home/camilosampedro/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.7.jar
+7ff679f36000-7ff679f37000 r--s 00006000 08:06 6947874                    /home/camilosampedro/.ivy2/cache/org.spire-math/kind-projector_2.11/jars/kind-projector_2.11-0.7.1.jar
+7ff679f37000-7ff679f3c000 r--s 00049000 08:06 6947877                    /home/camilosampedro/.ivy2/cache/org.scodec/scodec-bits_2.11/bundles/scodec-bits_2.11-1.0.9.jar
+7ff679f3c000-7ff679f5e000 r--s 00155000 08:06 6947872                    /home/camilosampedro/.ivy2/cache/org.scalaz.stream/scalaz-stream_2.11/bundles/scalaz-stream_2.11-0.8.jar
+7ff679f5e000-7ff679f67000 r--s 00058000 08:06 6947870                    /home/camilosampedro/.ivy2/cache/org.scalaz/scalaz-concurrent_2.11/bundles/scalaz-concurrent_2.11-7.1.4.jar
+7ff679f67000-7ff679f72000 r--s 00068000 08:06 6947868                    /home/camilosampedro/.ivy2/cache/org.scalaz/scalaz-effect_2.11/bundles/scalaz-effect_2.11-7.1.4.jar
+7ff679f72000-7ff67a036000 r--s 0097a000 08:06 6947866                    /home/camilosampedro/.ivy2/cache/org.scalaz/scalaz-core_2.11/bundles/scalaz-core_2.11-7.1.4.jar
+7ff67a036000-7ff67a066000 r--s 00213000 08:06 6947864                    /home/camilosampedro/.ivy2/cache/org.specs2/specs2-common_2.11/jars/specs2-common_2.11-3.6.6.jar
+7ff67a066000-7ff67a0ab000 r--s 00295000 08:06 6947862                    /home/camilosampedro/.ivy2/cache/org.specs2/specs2-matcher_2.11/jars/specs2-matcher_2.11-3.6.6.jar
+7ff67a0ab000-7ff67a0d7000 r--s 001cd000 08:06 6947856                    /home/camilosampedro/.ivy2/cache/org.specs2/specs2-core_2.11/jars/specs2-core_2.11-3.6.6.jar
+7ff67a0d7000-7ff67a0dd000 r--s 0005c000 08:06 6947842                    /home/camilosampedro/.ivy2/cache/org.seleniumhq.selenium/selenium-leg-rc/jars/selenium-leg-rc-2.48.2.jar
+7ff67a0dd000-7ff67a0f2000 r--s 000fd000 08:06 6820194                    /home/camilosampedro/.ivy2/cache/io.netty/netty/bundles/netty-3.5.2.Final.jar
+7ff67a0f2000-7ff67a0f7000 r--s 00024000 08:06 6947840                    /home/camilosampedro/.ivy2/cache/org.webbitserver/webbit/jars/webbit-0.4.14.jar
+7ff67a0f7000-7ff67a0f8000 r--s 00014000 08:06 6947836                    /home/camilosampedro/.ivy2/cache/org.seleniumhq.selenium/selenium-safari-driver/jars/selenium-safari-driver-2.48.2.jar
+7ff67a0f8000-7ff67a0f9000 r--s 00002000 08:06 6947834                    /home/camilosampedro/.ivy2/cache/org.seleniumhq.selenium/selenium-ie-driver/jars/selenium-ie-driver-2.48.2.jar
+7ff67a0f9000-7ff67a0fb000 r--s 000c5000 08:06 6947832                    /home/camilosampedro/.ivy2/cache/org.seleniumhq.selenium/selenium-firefox-driver/jars/selenium-firefox-driver-2.48.2.jar
+7ff67a0fb000-7ff67a100000 r--s 0001f000 08:06 6947838                    /home/camilosampedro/.ivy2/cache/org.seleniumhq.selenium/selenium-support/jars/selenium-support-2.48.2.jar
+7ff67a100000-7ff67a102000 r--s 0000e000 08:06 6947830                    /home/camilosampedro/.ivy2/cache/org.seleniumhq.selenium/selenium-htmlunit-driver/jars/selenium-htmlunit-driver-2.48.2.jar
+7ff67a102000-7ff67a103000 r--s 00001000 08:06 6947828                    /home/camilosampedro/.ivy2/cache/org.seleniumhq.selenium/selenium-edge-driver/jars/selenium-edge-driver-2.48.2.jar
+7ff67a103000-7ff67a114000 r--s 00155000 08:06 6947854                    /home/camilosampedro/.ivy2/cache/net.java.dev.jna/jna-platform/jars/jna-platform-4.1.0.jar
+7ff67a114000-7ff67a116000 r--s 0000c000 08:06 6947852                    /home/camilosampedro/.ivy2/cache/org.apache.commons/commons-exec/jars/commons-exec-1.3.jar
+7ff67a116000-7ff67a11b000 r--s 0001e000 08:06 6947850                    /home/camilosampedro/.ivy2/cache/org.seleniumhq.selenium/selenium-api/jars/selenium-api-2.48.2.jar
+7ff67a11b000-7ff67a120000 r--s 0002f000 08:06 6947848                    /home/camilosampedro/.ivy2/cache/com.google.code.gson/gson/jars/gson-2.3.1.jar
+7ff67a120000-7ff67a127000 r--s 00049000 08:06 6947846                    /home/camilosampedro/.ivy2/cache/cglib/cglib-nodep/jars/cglib-nodep-2.1_3.jar
+7ff67a127000-7ff67a12c000 r--s 00034000 08:06 6947844                    /home/camilosampedro/.ivy2/cache/org.seleniumhq.selenium/selenium-remote-driver/jars/selenium-remote-driver-2.48.2.jar
+7ff67a12c000-7ff67a12d000 r--s 00002000 08:06 6947826                    /home/camilosampedro/.ivy2/cache/org.seleniumhq.selenium/selenium-chrome-driver/jars/selenium-chrome-driver-2.48.2.jar
+7ff67a12d000-7ff67a12e000 r--s 00000000 08:06 6947824                    /home/camilosampedro/.ivy2/cache/org.seleniumhq.selenium/selenium-java/jars/selenium-java-2.48.2.jar
+7ff67a12e000-7ff67a131000 r--s 00014000 08:06 6947793                    /home/camilosampedro/.ivy2/cache/org.fluentlenium/fluentlenium-core/jars/fluentlenium-core-0.10.9.jar
+7ff67a131000-7ff67a133000 r--s 00009000 08:06 6947822                    /home/camilosampedro/.ivy2/cache/org.eclipse.jetty.websocket/websocket-api/jars/websocket-api-9.2.15.v20160210.jar
+7ff67a133000-7ff67a138000 r--s 00028000 08:06 6947820                    /home/camilosampedro/.ivy2/cache/org.eclipse.jetty.websocket/websocket-common/jars/websocket-common-9.2.15.v20160210.jar
+7ff67a138000-7ff67a13b000 r--s 00018000 08:06 6947818                    /home/camilosampedro/.ivy2/cache/org.eclipse.jetty/jetty-io/jars/jetty-io-9.2.15.v20160210.jar
+7ff67a13b000-7ff67a141000 r--s 00054000 08:06 6947816                    /home/camilosampedro/.ivy2/cache/org.eclipse.jetty/jetty-util/jars/jetty-util-9.2.15.v20160210.jar
+7ff67a141000-7ff67a142000 r--s 00008000 08:06 6947809                    /home/camilosampedro/.ivy2/cache/org.eclipse.jetty.websocket/websocket-client/jars/websocket-client-9.2.15.v20160210.jar
+7ff67a142000-7ff67a143000 r--s 00003000 08:06 6947814                    /home/camilosampedro/.ivy2/cache/org.w3c.css/sac/jars/sac-1.3.jar
+7ff67a143000-7ff67a147000 r--s 00058000 08:06 6947806                    /home/camilosampedro/.ivy2/cache/net.sourceforge.cssparser/cssparser/jars/cssparser-0.9.18.jar
+7ff67a147000-7ff67a149000 r--s 0001d000 08:06 6947804                    /home/camilosampedro/.ivy2/cache/net.sourceforge.nekohtml/nekohtml/jars/nekohtml-1.9.22.jar
+7ff67a149000-7ff67a157000 r--s 000fc000 08:06 6947802                    /home/camilosampedro/.ivy2/cache/net.sourceforge.htmlunit/htmlunit-core-js/jars/htmlunit-core-js-2.17.jar
+7ff67a157000-7ff67a159000 r--s 00009000 08:06 6947800                    /home/camilosampedro/.ivy2/cache/org.apache.httpcomponents/httpmime/jars/httpmime-4.5.2.jar
+7ff67a159000-7ff67a15b000 r--s 0000e000 08:06 6947807                    /home/camilosampedro/.ivy2/cache/commons-logging/commons-logging/jars/commons-logging-1.2.jar
+7ff67a15b000-7ff67a162000 r--s 00049000 08:06 6947812                    /home/camilosampedro/.ivy2/cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.4.4.jar
+7ff67a162000-7ff67a16f000 r--s 000a7000 08:06 6947798                    /home/camilosampedro/.ivy2/cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.5.2.jar
+7ff67a16f000-7ff67a173000 r--s 00040000 08:06 6947811                    /home/camilosampedro/.ivy2/cache/xalan/serializer/jars/serializer-2.7.2.jar
+7ff67a173000-7ff67a198000 r--s 002de000 08:06 6947797                    /home/camilosampedro/.ivy2/cache/xalan/xalan/jars/xalan-2.7.2.jar
+7ff67a198000-7ff67a1be000 r--s 0019d000 08:06 6947791                    /home/camilosampedro/.ivy2/cache/net.sourceforge.htmlunit/htmlunit/jars/htmlunit-2.20.jar
+7ff67a1be000-7ff67a1c0000 r--s 00003000 08:06 6820193                    /home/camilosampedro/.ivy2/cache/com.google.code.findbugs/jsr305/jars/jsr305-3.0.1.jar
+7ff67a1c0000-7ff67a1ec000 r--s 00208000 08:06 6947744                    /home/camilosampedro/.ivy2/cache/com.google.guava/guava/bundles/guava-19.0.jar
+7ff67a1ec000-7ff67a1ee000 r--s 00002000 08:06 6818974                    /home/camilosampedro/.ivy2/cache/org.scala-sbt/test-interface/jars/test-interface-1.0.jar
+7ff67a1ee000-7ff67a1f0000 r--s 00006000 08:06 6947789                    /home/camilosampedro/.ivy2/cache/com.novocode/junit-interface/jars/junit-interface-0.11.jar
+7ff67a1f0000-7ff67a1f2000 r--s 00009000 08:06 6947795                    /home/camilosampedro/.ivy2/cache/org.hamcrest/hamcrest-core/jars/hamcrest-core-1.3.jar
+7ff67a1f2000-7ff67a1fa000 r--s 00045000 08:06 6947787                    /home/camilosampedro/.ivy2/cache/junit/junit/jars/junit-4.12.jar
+7ff67a1fa000-7ff67a1fd000 r--s 0001f000 08:06 6947779                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-test_2.11/jars/play-test_2.11-2.5.3.jar
+7ff67a1fd000-7ff67a1fe000 r--s 00004000 08:06 6947783                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-specs2_2.11/jars/play-specs2_2.11-2.5.3.jar
+7ff67a1fe000-7ff67a219000 r--s 0012e000 08:06 6947743                    /home/camilosampedro/.ivy2/cache/net.sf.ehcache/ehcache-core/jars/ehcache-core-2.6.11.jar
+7ff67a219000-7ff67a21b000 r--s 00012000 08:06 6947635                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-cache_2.11/jars/play-cache_2.11-2.5.3.jar
+7ff67a21b000-7ff67a21c000 r--s 00004000 08:06 6947741                    /home/camilosampedro/.ivy2/cache/jp.t2v/stackable-controller_2.11/jars/stackable-controller_2.11-0.5.1.jar
+7ff67a21c000-7ff67a220000 r--s 0001f000 08:06 6947633                    /home/camilosampedro/.ivy2/cache/jp.t2v/play2-auth_2.11/jars/play2-auth_2.11-0.14.2.jar
+7ff67a220000-7ff67a226000 r--s 0003f000 08:06 6947739                    /home/camilosampedro/.ivy2/cache/ch.qos.logback/logback-classic/jars/logback-classic-1.1.4.jar
+7ff67a226000-7ff67a231000 r--s 00065000 08:06 6947737                    /home/camilosampedro/.ivy2/cache/ch.qos.logback/logback-core/jars/logback-core-1.1.4.jar
+7ff67a231000-7ff67a233000 r--s 00004000 08:06 6947631                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-logback_2.11/jars/play-logback_2.11-2.5.3.jar
+7ff67a233000-7ff67a23b000 r--s 00051000 08:06 6947735                    /home/camilosampedro/.ivy2/cache/io.netty/netty-transport/jars/netty-transport-4.0.36.Final.jar
+7ff67a23b000-7ff67a23f000 r--s 00031000 08:06 6947733                    /home/camilosampedro/.ivy2/cache/io.netty/netty-buffer/jars/netty-buffer-4.0.36.Final.jar
+7ff67a23f000-7ff67a248000 r--s 00069000 08:06 6947731                    /home/camilosampedro/.ivy2/cache/io.netty/netty-common/jars/netty-common-4.0.36.Final.jar
+7ff67a248000-7ff67a24b000 r--s 00020000 08:06 6947721                    /home/camilosampedro/.ivy2/cache/io.netty/netty-transport-native-epoll/jars/netty-transport-native-epoll-4.0.36.Final-linux-x86_64.jar
+7ff67a24b000-7ff67a24d000 r--s 00004000 08:06 6947723                    /home/camilosampedro/.ivy2/cache/com.typesafe.netty/netty-reactive-streams/jars/netty-reactive-streams-1.0.5.jar
+7ff67a24d000-7ff67a24e000 r--s 00007000 08:06 6947719                    /home/camilosampedro/.ivy2/cache/com.typesafe.netty/netty-reactive-streams-http/jars/netty-reactive-streams-http-1.0.5.jar
+7ff67a24e000-7ff67a252000 r--s 00029000 08:06 6947629                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-netty-server_2.11/jars/play-netty-server_2.11-2.5.3.jar
+7ff67a252000-7ff67a254000 r--s 00009000 08:06 6947697                    /home/camilosampedro/.ivy2/cache/com.google.inject.extensions/guice-assistedinject/jars/guice-assistedinject-4.0.jar
+7ff67a254000-7ff67a256000 r--s 00000000 08:06 6820188                    /home/camilosampedro/.ivy2/cache/aopalliance/aopalliance/jars/aopalliance-1.0.jar
+7ff67a256000-7ff67a264000 r--s 00096000 08:06 6947695                    /home/camilosampedro/.ivy2/cache/com.google.inject/guice/jars/guice-4.0.jar
+7ff67a264000-7ff67a265000 r--s 00003000 08:06 6947693                    /home/camilosampedro/.ivy2/cache/javax.transaction/jta/jars/jta-1.1.jar
+7ff67a265000-7ff67a26e000 r--s 0002d000 08:06 6947715                    /home/camilosampedro/.ivy2/cache/xml-apis/xml-apis/jars/xml-apis-1.4.01.jar
+7ff67a26e000-7ff67a287000 r--s 00135000 08:06 6947691                    /home/camilosampedro/.ivy2/cache/xerces/xercesImpl/jars/xercesImpl-2.11.0.jar
+7ff67a287000-7ff67a28e000 r--s 0003f000 08:06 6947687                    /home/camilosampedro/.ivy2/cache/commons-codec/commons-codec/jars/commons-codec-1.10.jar
+7ff67a28e000-7ff67a28f000 r--s 00004000 08:06 6947678                    /home/camilosampedro/.ivy2/cache/com.typesafe.akka/akka-slf4j_2.11/jars/akka-slf4j_2.11-2.4.4.jar
+7ff67a28f000-7ff67a297000 r--s 00052000 08:06 6947713                    /home/camilosampedro/.ivy2/cache/com.typesafe/ssl-config-core_2.11/bundles/ssl-config-core_2.11-0.2.1.jar
+7ff67a297000-7ff67a299000 r--s 00005000 08:06 6947711                    /home/camilosampedro/.ivy2/cache/com.typesafe/ssl-config-akka_2.11/bundles/ssl-config-akka_2.11-0.2.1.jar
+7ff67a299000-7ff67a2a7000 r--s 00081000 08:06 6947699                    /home/camilosampedro/.ivy2/cache/org.scala-lang.modules/scala-java8-compat_2.11/bundles/scala-java8-compat_2.11-0.7.0.jar
+7ff67a2a7000-7ff67a2d5000 r--s 002e8000 08:06 6947647                    /home/camilosampedro/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/jars/akka-actor_2.11-2.4.5.jar
+7ff67a2d5000-7ff67a31c000 r--s 003a9000 08:06 6947709                    /home/camilosampedro/.ivy2/cache/com.typesafe.akka/akka-stream_2.11/jars/akka-stream_2.11-2.4.4.jar
+7ff67a31c000-7ff67a31d000 r--s 00000000 08:06 6947707                    /home/camilosampedro/.ivy2/cache/org.reactivestreams/reactive-streams/jars/reactive-streams-1.0.0.jar
+7ff67a31d000-7ff67a324000 r--s 00043000 08:06 6947671                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-streams_2.11/jars/play-streams_2.11-2.5.3.jar
+7ff67a324000-7ff67a326000 r--s 00003000 08:06 6947675                    /home/camilosampedro/.ivy2/cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.7.16.jar
+7ff67a326000-7ff67a328000 r--s 00000000 08:06 6947673                    /home/camilosampedro/.ivy2/cache/org.slf4j/jul-to-slf4j/jars/jul-to-slf4j-1.7.16.jar
+7ff67a328000-7ff67a329000 r--s 00004000 08:06 6947669                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-netty-utils/jars/play-netty-utils-2.5.3.jar
+7ff67a329000-7ff67a32c000 r--s 00012000 08:06 6947683                    /home/camilosampedro/.ivy2/cache/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/bundles/jackson-datatype-jsr310-2.7.1.jar
+7ff67a32c000-7ff67a33d000 r--s 00114000 08:06 6947681                    /home/camilosampedro/.ivy2/cache/com.fasterxml.jackson.core/jackson-databind/bundles/jackson-databind-2.7.1.jar
+7ff67a33d000-7ff67a340000 r--s 0000a000 08:06 6947680                    /home/camilosampedro/.ivy2/cache/com.fasterxml.jackson.core/jackson-annotations/bundles/jackson-annotations-2.7.1.jar
+7ff67a340000-7ff67a38c000 r--s 00412000 08:06 6820186                    /home/camilosampedro/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.7.jar
+7ff67a38c000-7ff67a3de000 r--s 00390000 08:06 6947663                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play_2.11/jars/play_2.11-2.5.3.jar
+7ff67a3de000-7ff67a474000 r--s 01103000 08:06 2761854                    /usr/lib/jvm/java-8-jdk/jre/lib/ext/jfxrt.jar
+7ff67a474000-7ff67a674000 rw-p 00000000 00:00 0 
+7ff67a674000-7ff67a874000 rw-p 00000000 00:00 0 
+7ff67a874000-7ff67aa74000 rw-p 00000000 00:00 0 
+7ff67aa74000-7ff67aa76000 r--s 00005000 08:06 6947682                    /home/camilosampedro/.ivy2/cache/com.fasterxml.jackson.datatype/jackson-datatype-jdk8/bundles/jackson-datatype-jdk8-2.7.1.jar
+7ff67aa76000-7ff67aa79000 r--s 0003b000 08:06 6947679                    /home/camilosampedro/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/bundles/jackson-core-2.7.1.jar
+7ff67aa79000-7ff67aa7d000 r--s 00018000 08:06 6947689                    /home/camilosampedro/.ivy2/cache/org.joda/joda-convert/jars/joda-convert-1.8.1.jar
+7ff67aa7d000-7ff67aa8d000 r--s 00089000 08:06 6947688                    /home/camilosampedro/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.9.2.jar
+7ff67aa8d000-7ff67aa8e000 r--s 00001000 08:06 6947705                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-datacommons_2.11/jars/play-datacommons_2.11-2.5.3.jar
+7ff67aa8e000-7ff67aa97000 r--s 0005c000 08:06 6947703                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-functional_2.11/jars/play-functional_2.11-2.5.3.jar
+7ff67aa97000-7ff67aaa3000 r--s 00091000 08:06 6947667                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-json_2.11/jars/play-json_2.11-2.5.3.jar
+7ff67aaa3000-7ff67aaac000 r--s 00091000 08:06 6947685                    /home/camilosampedro/.ivy2/cache/org.scala-stm/scala-stm_2.11/jars/scala-stm_2.11-0.7.jar
+7ff67aaac000-7ff67aabf000 r--s 000ad000 08:06 6947665                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-iteratees_2.11/jars/play-iteratees_2.11-2.5.3.jar
+7ff67aabf000-7ff67aac6000 r--s 0003d000 08:06 6947627                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-server_2.11/jars/play-server_2.11-2.5.3.jar
+7ff67aac6000-7ff67aac8000 r--s 0000d000 08:06 6947625                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/twirl-api_2.11/jars/twirl-api_2.11-1.1.1.jar
+7ff67aac8000-7ff67aacc000 r--s 0003a000 08:06 2761855                    /usr/lib/jvm/java-8-jdk/jre/lib/ext/sunpkcs11.jar
+7ff67aacc000-7ff67aace000 r--s 00001000 08:06 2761856                    /usr/lib/jvm/java-8-jdk/jre/lib/ext/dnsns.jar
+7ff67aace000-7ff67aae9000 r--s 001d2000 08:06 2761851                    /usr/lib/jvm/java-8-jdk/jre/lib/ext/nashorn.jar
+7ff67aae9000-7ff67aaef000 r--s 0003f000 08:06 2761852                    /usr/lib/jvm/java-8-jdk/jre/lib/ext/sunjce_provider.jar
+7ff67aaef000-7ff67aaf0000 r--s 0000a000 08:06 2761848                    /usr/lib/jvm/java-8-jdk/jre/lib/ext/jaccess.jar
+7ff67aaf0000-7ff67aaf1000 r--s 00009000 08:06 2761853                    /usr/lib/jvm/java-8-jdk/jre/lib/ext/sunec.jar
+7ff67aaf1000-7ff67aaf2000 r--s 00010000 08:06 2761846                    /usr/lib/jvm/java-8-jdk/jre/lib/ext/zipfs.jar
+7ff67aaf2000-7ff67aaf7000 r--s 00084000 08:06 2642895                    /usr/lib/jvm/java-8-jdk/jre/lib/jfr.jar
+7ff67aaf7000-7ff67aafc000 r--s 002f9000 08:06 2642902                    /usr/lib/jvm/java-8-jdk/jre/lib/charsets.jar
+7ff67aafc000-7ff67aaff000 r--s 0001a000 08:06 2642883                    /usr/lib/jvm/java-8-jdk/jre/lib/jce.jar
+7ff67aaff000-7ff67acff000 rw-p 00000000 00:00 0 
+7ff67acff000-7ff67aeff000 rw-p 00000000 00:00 0 
+7ff67aeff000-7ff67af05000 r--s 00038000 08:06 4720732                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/org.scala-sbt-compiler-interface-0.13.11-bin_2.11.8__52.0/org.scala-sbt-compiler-interface-0.13.11-bin_2.11.8__52.0.jar
+7ff67af05000-7ff67af09000 r--s 00031000 08:06 6820202                    /home/camilosampedro/.ivy2/cache/jline/jline/jars/jline-2.12.1.jar
+7ff67af09000-7ff67af14000 r--s 0005d000 08:06 6947701                    /home/camilosampedro/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/bundles/scala-parser-combinators_2.11-1.0.4.jar
+7ff67af14000-7ff67af1f000 r--s 00094000 08:06 6947875                    /home/camilosampedro/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.4.jar
+7ff67af1f000-7ff67af6b000 r--s 00411000 08:06 6820201                    /home/camilosampedro/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.8.jar
+7ff67af6b000-7ff67b077000 r--s 00dba000 08:06 6820200                    /home/camilosampedro/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.8.jar
+7ff67b077000-7ff67b0d0000 r--s 00522000 08:06 6429012                    /home/camilosampedro/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.8.jar
+7ff67b0d0000-7ff67b0d3000 ---p 00000000 00:00 0 
+7ff67b0d3000-7ff67b1d1000 rw-p 00000000 00:00 0 
+7ff67b1d1000-7ff67b1d4000 ---p 00000000 00:00 0 
+7ff67b1d4000-7ff67b2d2000 rw-p 00000000 00:00 0 
+7ff67b2d2000-7ff67b2d5000 ---p 00000000 00:00 0 
+7ff67b2d5000-7ff67b5d3000 rw-p 00000000 00:00 0 
+7ff67b5d3000-7ff67b7d3000 rw-p 00000000 00:00 0 
+7ff67b7d3000-7ff67b7d4000 r--p 00000000 00:00 0 
+7ff67b7d4000-7ff67b9d4000 rw-p 00000000 00:00 0 
+7ff67b9d4000-7ff67b9d6000 r--s 0000b000 08:06 6946872                    /home/camilosampedro/.ivy2/cache/org.codehaus.plexus/plexus-classworlds/bundles/plexus-classworlds-2.5.2.jar
+7ff67b9d6000-7ff67b9dd000 r--s 00055000 08:06 6946870                    /home/camilosampedro/.ivy2/cache/org.eclipse.sisu/org.eclipse.sisu.inject/eclipse-plugins/org.eclipse.sisu.inject-0.3.0.jar
+7ff67b9dd000-7ff67b9e3000 r--s 0002d000 08:06 6946866                    /home/camilosampedro/.ivy2/cache/org.eclipse.sisu/org.eclipse.sisu.plexus/eclipse-plugins/org.eclipse.sisu.plexus-0.3.0.jar
+7ff67b9e3000-7ff67b9e5000 r--s 0000c000 08:06 6946864                    /home/camilosampedro/.ivy2/cache/org.apache.maven/maven-artifact/jars/maven-artifact-3.3.3.jar
+7ff67b9e5000-7ff67b9e9000 r--s 00038000 08:06 6946868                    /home/camilosampedro/.ivy2/cache/org.codehaus.plexus/plexus-utils/jars/plexus-utils-3.0.20.jar
+7ff67b9e9000-7ff67b9ec000 r--s 00025000 08:06 6946862                    /home/camilosampedro/.ivy2/cache/org.apache.maven/maven-model/jars/maven-model-3.3.3.jar
+7ff67b9ec000-7ff67b9ee000 r--s 0000a000 08:06 6946856                    /home/camilosampedro/.ivy2/cache/org.apache.maven/maven-plugin-api/jars/maven-plugin-api-3.3.3.jar
+7ff67b9ee000-7ff67b9f0000 r--s 00006000 08:06 6946860                    /home/camilosampedro/.ivy2/cache/org.ow2.asm/asm-tree/jars/asm-tree-5.0.4.jar
+7ff67b9f0000-7ff67b9f2000 r--s 00009000 08:06 6946854                    /home/camilosampedro/.ivy2/cache/org.ow2.asm/asm-commons/jars/asm-commons-5.0.4.jar
+7ff67b9f2000-7ff67b9f4000 r--s 0000c000 08:06 6946852                    /home/camilosampedro/.ivy2/cache/org.ow2.asm/asm/jars/asm-5.0.4.jar
+7ff67b9f4000-7ff67b9f5000 r--s 00004000 08:06 6946858                    /home/camilosampedro/.ivy2/cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.9.6.jar
+7ff67b9f5000-7ff67ba14000 r--s 001d1000 08:06 6946850                    /home/camilosampedro/.ivy2/cache/org.apache.ant/ant/jars/ant-1.9.6.jar
+7ff67ba14000-7ff67ba17000 r--s 00010000 08:06 6946848                    /home/camilosampedro/.ivy2/cache/org.pantsbuild/jarjar/jars/jarjar-1.6.0.jar
+7ff67ba17000-7ff67ba1d000 r--s 00059000 08:06 6946846                    /home/camilosampedro/.ivy2/cache/org.scalactic/scalactic_2.10/bundles/scalactic_2.10-2.2.1.jar
+7ff67ba1d000-7ff67ba22000 r--s 0002f000 08:06 6819860                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.eed3si9n/sbt-assembly/jars/sbt-assembly-0.14.3.jar
+7ff67ba22000-7ff67ba26000 r--s 000dc000 08:06 6946844                    /home/camilosampedro/.ivy2/cache/net.java.dev.jna/jna/jars/jna-4.1.0.jar
+7ff67ba26000-7ff67ba2a000 r--s 0001d000 08:06 6946842                    /home/camilosampedro/.ivy2/cache/com.nativelibs4java/ochafik-util/jars/ochafik-util-0.12.jar
+7ff67ba2a000-7ff67ba2c000 r--s 00009000 08:06 6946818                    /home/camilosampedro/.ivy2/cache/com.nativelibs4java/jnaerator-runtime/jars/jnaerator-runtime-0.12.jar
+7ff67ba2c000-7ff67ba2f000 r--s 0000c000 08:06 6946838                    /home/camilosampedro/.ivy2/cache/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/bundles/jackson-datatype-jsr310-2.5.4.jar
+7ff67ba2f000-7ff67ba31000 r--s 00003000 08:06 6946836                    /home/camilosampedro/.ivy2/cache/com.fasterxml.jackson.datatype/jackson-datatype-jdk8/bundles/jackson-datatype-jdk8-2.5.4.jar
+7ff67ba31000-7ff67ba43000 r--s 00106000 08:06 6946834                    /home/camilosampedro/.ivy2/cache/com.fasterxml.jackson.core/jackson-databind/bundles/jackson-databind-2.5.4.jar
+7ff67ba43000-7ff67ba45000 r--s 00008000 08:06 6946832                    /home/camilosampedro/.ivy2/cache/com.fasterxml.jackson.core/jackson-annotations/bundles/jackson-annotations-2.5.4.jar
+7ff67ba45000-7ff67ba49000 r--s 00035000 08:06 6946830                    /home/camilosampedro/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/bundles/jackson-core-2.5.4.jar
+7ff67ba49000-7ff67ba4d000 r--s 00016000 08:06 6946828                    /home/camilosampedro/.ivy2/cache/org.joda/joda-convert/jars/joda-convert-1.7.jar
+7ff67ba4d000-7ff67ba5d000 r--s 00088000 08:06 6946826                    /home/camilosampedro/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.8.1.jar
+7ff67ba5d000-7ff67ba5e000 r--s 00001000 08:06 6946824                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-datacommons_2.10/jars/play-datacommons_2.10-2.4.4.jar
+7ff67ba5e000-7ff67ba67000 r--s 0005a000 08:06 6946822                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-functional_2.10/jars/play-functional_2.10-2.4.4.jar
+7ff67ba67000-7ff67ba70000 r--s 00096000 08:06 6946840                    /home/camilosampedro/.ivy2/cache/org.scala-stm/scala-stm_2.10/jars/scala-stm_2.10-0.7.jar
+7ff67ba70000-7ff67ba82000 r--s 000ad000 08:06 6946820                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-iteratees_2.10/jars/play-iteratees_2.10-2.4.4.jar
+7ff67ba82000-7ff67ba8e000 r--s 0008c000 08:06 6820026                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-json_2.10/jars/play-json_2.10-2.4.4.jar
+7ff67ba8e000-7ff67ba91000 r--s 003e5000 08:06 6819858                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/org.irundaia.sbt/sbt-sassify/jars/sbt-sassify-1.4.2.jar
+7ff67ba91000-7ff67ba92000 r--s 00001000 08:06 6820024                    /home/camilosampedro/.ivy2/cache/org.webjars/diff/jars/diff-1.0.7.jar
+7ff67ba92000-7ff67ba94000 r--s 00000000 08:06 6820022                    /home/camilosampedro/.ivy2/cache/org.webjars/debug/jars/debug-0.7.4.jar
+7ff67ba94000-7ff67ba97000 r--s 0000c000 08:06 6820020                    /home/camilosampedro/.ivy2/cache/org.webjars/mocha/jars/mocha-1.17.1.jar
+7ff67ba97000-7ff67ba9c000 r--s 00026000 08:06 6819856                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-mocha/jars/sbt-mocha-1.1.0.jar
+7ff67ba9c000-7ff67ba9f000 r--s 00011000 08:06 6819854                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-digest/jars/sbt-digest-1.1.0.jar
+7ff67ba9f000-7ff67baa1000 r--s 00035000 08:06 6820018                    /home/camilosampedro/.ivy2/cache/org.webjars/rjs/jars/rjs-2.1.15.jar
+7ff67baa1000-7ff67baa4000 r--s 0000f000 08:06 6819852                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-rjs/jars/sbt-rjs-1.0.7.jar
+7ff67baa4000-7ff67baa6000 r--s 00000000 08:06 6820012                    /home/camilosampedro/.ivy2/cache/org.webjars/strip-json-comments/jars/strip-json-comments-1.0.2-1.jar
+7ff67baa6000-7ff67baa8000 r--s 00000000 08:06 6820016                    /home/camilosampedro/.ivy2/cache/org.webjars/console-browserify/jars/console-browserify-0.1.6-1.jar
+7ff67baa8000-7ff67baaa000 r--s 00006000 08:06 6820014                    /home/camilosampedro/.ivy2/cache/org.webjars/underscorejs/jars/underscorejs-1.5.2-2.jar
+7ff67baaa000-7ff67baac000 r--s 00028000 08:06 6820010                    /home/camilosampedro/.ivy2/cache/org.webjars/jshint-node/jars/jshint-node-2.4.3.jar
+7ff67baac000-7ff67baad000 r--s 00004000 08:06 6819850                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-jshint/jars/sbt-jshint-1.0.3.jar
+7ff67baad000-7ff67baaf000 r--s 00005000 08:06 6820006                    /home/camilosampedro/.ivy2/cache/org.webjars/es6-promise-node/jars/es6-promise-node-2.1.1.jar
+7ff67baaf000-7ff67bab2000 r--s 00009000 08:06 6820004                    /home/camilosampedro/.ivy2/cache/org.webjars/clean-css/jars/clean-css-2.2.7.jar
+7ff67bab2000-7ff67bab4000 r--s 00000000 08:06 6820002                    /home/camilosampedro/.ivy2/cache/org.webjars/mkdirp/jars/mkdirp-0.5.0.jar
+7ff67bab4000-7ff67bab5000 r--s 00001000 08:06 6820008                    /home/camilosampedro/.ivy2/cache/org.webjars/amdefine/jars/amdefine-0.1.0-2.jar
+7ff67bab5000-7ff67bab7000 r--s 00005000 08:06 6820000                    /home/camilosampedro/.ivy2/cache/org.webjars/source-map/jars/source-map-0.1.40-1.jar
+7ff67bab7000-7ff67babb000 r--s 00020000 08:06 6819998                    /home/camilosampedro/.ivy2/cache/org.webjars/less-node/jars/less-node-2.5.0.jar
+7ff67babb000-7ff67babd000 r--s 00008000 08:06 6819848                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-less/jars/sbt-less-1.1.0.jar
+7ff67babd000-7ff67babf000 r--s 00013000 08:06 6819996                    /home/camilosampedro/.ivy2/cache/org.webjars/coffee-script-node/jars/coffee-script-node-1.7.1.jar
+7ff67babf000-7ff67bac1000 r--s 00003000 08:06 6819846                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-coffeescript/jars/sbt-coffeescript-1.0.0.jar
+7ff67bac1000-7ff67bb11000 r--s 0028c000 08:06 6819994                    /home/camilosampedro/.ivy2/cache/org.webjars/npm/jars/npm-2.11.2.jar
+7ff67bb11000-7ff67bb12000 r--s 00001000 08:06 6819942                    /home/camilosampedro/.ivy2/cache/com.typesafe/npm_2.10/jars/npm_2.10-1.1.1.jar
+7ff67bb12000-7ff67bb13000 r--s 00007000 08:06 6819992                    /home/camilosampedro/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.12.jar
+7ff67bb13000-7ff67bb14000 r--s 00002000 08:06 6819954                    /home/camilosampedro/.ivy2/cache/org.slf4j/slf4j-simple/jars/slf4j-simple-1.7.12.jar
+7ff67bb14000-7ff67bb18000 r--s 00043000 08:06 6819952                    /home/camilosampedro/.ivy2/cache/io.spray/spray-json_2.10/bundles/spray-json_2.10-1.3.2.jar
+7ff67bb18000-7ff67bb1c000 r--s 000ac000 08:06 6819950                    /home/camilosampedro/.ivy2/cache/io.apigee.trireme/trireme-node10src/jars/trireme-node10src-0.8.5.jar
+7ff67bb1c000-7ff67bb29000 r--s 0010f000 08:06 6819990                    /home/camilosampedro/.ivy2/cache/io.apigee/rhino/jars/rhino-1.7R5pre4.jar
+7ff67bb29000-7ff67bb31000 r--s 00060000 08:06 6819948                    /home/camilosampedro/.ivy2/cache/io.apigee.trireme/trireme-core/jars/trireme-core-0.8.5.jar
+7ff67bb31000-7ff67bb32000 r--s 0001e000 08:06 6819986                    /home/camilosampedro/.ivy2/cache/org.fusesource.leveldbjni/leveldbjni-win64/jars/leveldbjni-win64-1.5.jar
+7ff67bb32000-7ff67bb33000 r--s 0001b000 08:06 6819984                    /home/camilosampedro/.ivy2/cache/org.fusesource.leveldbjni/leveldbjni-win32/jars/leveldbjni-win32-1.5.jar
+7ff67bb33000-7ff67bb34000 r--s 00044000 08:06 6819982                    /home/camilosampedro/.ivy2/cache/org.fusesource.leveldbjni/leveldbjni-linux64/jars/leveldbjni-linux64-1.5.jar
+7ff67bb34000-7ff67bb35000 r--s 00044000 08:06 6819980                    /home/camilosampedro/.ivy2/cache/org.fusesource.leveldbjni/leveldbjni-linux32/jars/leveldbjni-linux32-1.5.jar
+7ff67bb35000-7ff67bb36000 r--s 00028000 08:06 6819978                    /home/camilosampedro/.ivy2/cache/org.fusesource.leveldbjni/leveldbjni-osx/jars/leveldbjni-osx-1.5.jar
+7ff67bb36000-7ff67bb37000 r--s 00004000 08:06 6819988                    /home/camilosampedro/.ivy2/cache/org.fusesource.hawtjni/hawtjni-runtime/jars/hawtjni-runtime-1.8.jar
+7ff67bb37000-7ff67bb39000 r--s 0000c000 08:06 6819976                    /home/camilosampedro/.ivy2/cache/org.fusesource.leveldbjni/leveldbjni/jars/leveldbjni-1.7.jar
+7ff67bb39000-7ff67bb3c000 r--s 000fa000 08:06 6819970                    /home/camilosampedro/.ivy2/cache/org.fusesource.leveldbjni/leveldbjni-all/bundles/leveldbjni-all-1.7.jar
+7ff67bb3c000-7ff67bb5e000 r--s 00195000 08:06 6819974                    /home/camilosampedro/.ivy2/cache/com.google.guava/guava/jars/guava-12.0.jar
+7ff67bb5e000-7ff67bb60000 r--s 00001000 08:06 6819972                    /home/camilosampedro/.ivy2/cache/org.iq80.leveldb/leveldb-api/jars/leveldb-api-0.5.jar
+7ff67bb60000-7ff67bb64000 r--s 00034000 08:06 6819968                    /home/camilosampedro/.ivy2/cache/org.iq80.leveldb/leveldb/jars/leveldb-0.5.jar
+7ff67bb64000-7ff67bb72000 r--s 000bf000 08:06 6819960                    /home/camilosampedro/.ivy2/cache/com.typesafe.akka/akka-persistence-experimental_2.10/jars/akka-persistence-experimental_2.10-2.3.11.jar
+7ff67bb72000-7ff67bb82000 r--s 000f7000 08:06 6819958                    /home/camilosampedro/.ivy2/cache/com.typesafe.akka/akka-cluster_2.10/jars/akka-cluster_2.10-2.3.11.jar
+7ff67bb82000-7ff67bb84000 r--s 0000a000 08:06 6819966                    /home/camilosampedro/.ivy2/cache/org.uncommons.maths/uncommons-maths/jars/uncommons-maths-1.2.2a.jar
+7ff67bb84000-7ff67bb8c000 r--s 0007b000 08:06 6819964                    /home/camilosampedro/.ivy2/cache/com.google.protobuf/protobuf-java/bundles/protobuf-java-2.5.0.jar
+7ff67bb8c000-7ff67bba4000 r--s 00115000 08:06 6819962                    /home/camilosampedro/.ivy2/cache/io.netty/netty/bundles/netty-3.8.0.Final.jar
+7ff67bba4000-7ff67bbba000 r--s 00135000 08:06 6819956                    /home/camilosampedro/.ivy2/cache/com.typesafe.akka/akka-remote_2.10/jars/akka-remote_2.10-2.3.11.jar
+7ff67bbba000-7ff67bbc9000 r--s 000bf000 08:06 6819946                    /home/camilosampedro/.ivy2/cache/com.typesafe.akka/akka-contrib_2.10/jars/akka-contrib_2.10-2.3.11.jar
+7ff67bbc9000-7ff67bbef000 r--s 00263000 08:06 6819944                    /home/camilosampedro/.ivy2/cache/com.typesafe.akka/akka-actor_2.10/jars/akka-actor_2.10-2.3.11.jar
+7ff67bbef000-7ff67bbf3000 r--s 00022000 08:06 6819940                    /home/camilosampedro/.ivy2/cache/com.typesafe/jse_2.10/jars/jse_2.10-1.1.2.jar
+7ff67bbf3000-7ff67bdf3000 rw-p 00000000 00:00 0 
+7ff67bdf3000-7ff67bdf7000 r--s 00020000 08:06 6819876                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-js-engine/jars/sbt-js-engine-1.1.3.jar
+7ff67bdf7000-7ff67bdfe000 r--s 00056000 08:06 6819938                    /home/camilosampedro/.ivy2/cache/org.apache.commons/commons-compress/jars/commons-compress-1.9.jar
+7ff67bdfe000-7ff67be00000 r--s 00002000 08:06 6819934                    /home/camilosampedro/.ivy2/cache/org.webjars/webjars-locator/jars/webjars-locator-0.26.jar
+7ff67be00000-7ff67c000000 rw-p 00000000 00:00 0 
+7ff67c000000-7ff67c0a0000 rw-p 00000000 00:00 0 
+7ff67c0a0000-7ff680000000 ---p 00000000 00:00 0 
+7ff680000000-7ff680021000 rw-p 00000000 00:00 0 
+7ff680021000-7ff684000000 ---p 00000000 00:00 0 
+7ff684000000-7ff684039000 rw-p 00000000 00:00 0 
+7ff684039000-7ff688000000 ---p 00000000 00:00 0 
+7ff688000000-7ff688027000 rw-p 00000000 00:00 0 
+7ff688027000-7ff68c000000 ---p 00000000 00:00 0 
+7ff68c000000-7ff68c04b000 rw-p 00000000 00:00 0 
+7ff68c04b000-7ff690000000 ---p 00000000 00:00 0 
+7ff690000000-7ff69002b000 rw-p 00000000 00:00 0 
+7ff69002b000-7ff694000000 ---p 00000000 00:00 0 
+7ff694000000-7ff694021000 rw-p 00000000 00:00 0 
+7ff694021000-7ff698000000 ---p 00000000 00:00 0 
+7ff698000000-7ff698b49000 rw-p 00000000 00:00 0 
+7ff698b49000-7ff69c000000 ---p 00000000 00:00 0 
+7ff69c000000-7ff69c021000 rw-p 00000000 00:00 0 
+7ff69c021000-7ff6a0000000 ---p 00000000 00:00 0 
+7ff6a0000000-7ff6a0021000 rw-p 00000000 00:00 0 
+7ff6a0021000-7ff6a4000000 ---p 00000000 00:00 0 
+7ff6a4000000-7ff6a59d3000 rw-p 00000000 00:00 0 
+7ff6a59d3000-7ff6a8000000 ---p 00000000 00:00 0 
+7ff6a8000000-7ff6a8f8f000 rw-p 00000000 00:00 0 
+7ff6a8f8f000-7ff6ac000000 ---p 00000000 00:00 0 
+7ff6ac000000-7ff6ac021000 rw-p 00000000 00:00 0 
+7ff6ac021000-7ff6b0000000 ---p 00000000 00:00 0 
+7ff6b0000000-7ff6b1c43000 rw-p 00000000 00:00 0 
+7ff6b1c43000-7ff6b4000000 ---p 00000000 00:00 0 
+7ff6b4000000-7ff6b4021000 rw-p 00000000 00:00 0 
+7ff6b4021000-7ff6b8000000 ---p 00000000 00:00 0 
+7ff6b8000000-7ff6b8021000 rw-p 00000000 00:00 0 
+7ff6b8021000-7ff6bc000000 ---p 00000000 00:00 0 
+7ff6bc000000-7ff6bc064000 rw-p 00000000 00:00 0 
+7ff6bc064000-7ff6c0000000 ---p 00000000 00:00 0 
+7ff6c0000000-7ff6c0021000 rw-p 00000000 00:00 0 
+7ff6c0021000-7ff6c4000000 ---p 00000000 00:00 0 
+7ff6c4000000-7ff6c4001000 r--s 00006000 08:06 6819936                    /home/camilosampedro/.ivy2/cache/org.webjars/webjars-locator-core/jars/webjars-locator-core-0.26.jar
+7ff6c4001000-7ff6c4009000 r--s 00040000 08:06 6819874                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-web/jars/sbt-web-1.3.0.jar
+7ff6c4009000-7ff6c4049000 r--s 00277000 08:06 6819932                    /home/camilosampedro/.ivy2/cache/org.bouncycastle/bcprov-jdk15on/jars/bcprov-jdk15on-1.51.jar
+7ff6c4049000-7ff6c4050000 r--s 00038000 08:06 6819896                    /home/camilosampedro/.ivy2/cache/org.bouncycastle/bcpg-jdk15on/jars/bcpg-jdk15on-1.51.jar
+7ff6c4050000-7ff6c4054000 r--s 00020000 08:06 6819908                    /home/camilosampedro/.ivy2/cache/org.eclipse.aether/aether-impl/jars/aether-impl-0.9.0.M2.jar
+7ff6c4054000-7ff6c4058000 r--s 0001d000 08:06 6819912                    /home/camilosampedro/.ivy2/cache/org.eclipse.aether/aether-util/jars/aether-util-0.9.0.M2.jar
+7ff6c4058000-7ff6c405a000 r--s 00003000 08:06 6819930                    /home/camilosampedro/.ivy2/cache/org.eclipse.aether/aether-spi/jars/aether-spi-0.9.0.M2.jar
+7ff6c405a000-7ff6c405e000 r--s 0001d000 08:06 6819910                    /home/camilosampedro/.ivy2/cache/org.eclipse.aether/aether-api/jars/aether-api-0.9.0.M2.jar
+7ff6c405e000-7ff6c4060000 r--s 0000e000 08:06 6819906                    /home/camilosampedro/.ivy2/cache/org.apache.maven/maven-aether-provider/jars/maven-aether-provider-3.2.2.jar
+7ff6c4060000-7ff6c4065000 r--s 00025000 08:06 6819904                    /home/camilosampedro/.ivy2/cache/org.apache.maven/maven-model-builder/jars/maven-model-builder-3.2.2.jar
+7ff6c4065000-7ff6c4068000 r--s 00006000 08:06 6819928                    /home/camilosampedro/.ivy2/cache/com.google.code.findbugs/jsr305/jars/jsr305-1.3.9.jar
+7ff6c4068000-7ff6c4069000 r--s 00000000 08:06 6819926                    /home/camilosampedro/.ivy2/cache/javax.inject/javax.inject/jars/javax.inject-1.jar
+7ff6c4069000-7ff6c406a000 r--s 00001000 08:06 6819924                    /home/camilosampedro/.ivy2/cache/javax.annotation/jsr250-api/jars/jsr250-api-1.0.jar
+7ff6c406a000-7ff6c406d000 r--s 00008000 08:06 6819922                    /home/camilosampedro/.ivy2/cache/javax.enterprise/cdi-api/jars/cdi-api-1.0.jar
+7ff6c406d000-7ff6c406f000 r--s 00005000 08:06 6819902                    /home/camilosampedro/.ivy2/cache/org.apache.maven/maven-repository-metadata/jars/maven-repository-metadata-3.2.2.jar
+7ff6c406f000-7ff6c4071000 r--s 00002000 08:06 6819920                    /home/camilosampedro/.ivy2/cache/org.sonatype.plexus/plexus-cipher/jars/plexus-cipher-1.4.jar
+7ff6c4071000-7ff6c4072000 r--s 00006000 08:06 6819918                    /home/camilosampedro/.ivy2/cache/org.sonatype.plexus/plexus-sec-dispatcher/jars/plexus-sec-dispatcher-1.3.jar
+7ff6c4072000-7ff6c4075000 r--s 0000d000 08:06 6819914                    /home/camilosampedro/.ivy2/cache/org.codehaus.plexus/plexus-interpolation/jars/plexus-interpolation-1.19.jar
+7ff6c4075000-7ff6c4081000 r--s 00081000 08:06 6819894                    /home/camilosampedro/.ivy2/cache/org.apache.maven/maven-core/jars/maven-core-3.2.2.jar
+7ff6c4081000-7ff6c4084000 ---p 00000000 00:00 0 
+7ff6c4084000-7ff6c4182000 rw-p 00000000 00:00 0 
+7ff6c4182000-7ff6c4185000 ---p 00000000 00:00 0 
+7ff6c4185000-7ff6c4283000 rw-p 00000000 00:00 0 
+7ff6c4283000-7ff6c4286000 ---p 00000000 00:00 0 
+7ff6c4286000-7ff6c4384000 rw-p 00000000 00:00 0 
+7ff6c4384000-7ff6c4387000 ---p 00000000 00:00 0 
+7ff6c4387000-7ff6c4485000 rw-p 00000000 00:00 0 
+7ff6c4485000-7ff6c4488000 ---p 00000000 00:00 0 
+7ff6c4488000-7ff6c4586000 rw-p 00000000 00:00 0 
+7ff6c4586000-7ff6c4588000 r--s 00000000 08:06 6819916                    /home/camilosampedro/.ivy2/cache/org.codehaus.plexus/plexus-component-annotations/jars/plexus-component-annotations-1.5.5.jar
+7ff6c4588000-7ff6c458a000 r--s 00009000 08:06 6819900                    /home/camilosampedro/.ivy2/cache/org.apache.maven/maven-settings-builder/jars/maven-settings-builder-3.2.2.jar
+7ff6c458a000-7ff6c458c000 r--s 00009000 08:06 6819898                    /home/camilosampedro/.ivy2/cache/org.apache.maven/maven-settings/jars/maven-settings-3.2.2.jar
+7ff6c458c000-7ff6c45a2000 r--s 0010a000 08:06 6819892                    /home/camilosampedro/.ivy2/cache/org.vafer/jdeb/jars/jdeb-1.3.jar
+7ff6c45a2000-7ff6c45bd000 r--s 000f0000 08:06 6819872                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-native-packager/jars/sbt-native-packager-1.0.3.jar
+7ff6c45bd000-7ff6c45c5000 r--s 00041000 08:06 6819890                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/twirl-parser_2.10/jars/twirl-parser_2.10-1.1.1.jar
+7ff6c45c5000-7ff6c45c8000 r--s 00019000 08:06 6819888                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/twirl-compiler_2.10/jars/twirl-compiler_2.10-1.1.1.jar
+7ff6c45c8000-7ff6c45cb000 r--s 00011000 08:06 6819870                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-twirl/jars/sbt-twirl-1.1.1.jar
+7ff6c45cb000-7ff6c45cd000 r--s 000a0000 08:06 6819868                    /home/camilosampedro/.ivy2/cache/net.contentobjects.jnotify/jnotify/jars/jnotify-0.94-play-1.jar
+7ff6c45cd000-7ff6c45d2000 r--s 0003f000 08:06 6819866                    /home/camilosampedro/.ivy2/cache/com.typesafe/config/bundles/config-1.3.0.jar
+7ff6c45d2000-7ff6c45d4000 r--s 00000000 08:06 6819886                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/play-exceptions/jars/play-exceptions-2.5.3.jar
+7ff6c45d4000-7ff6c45d5000 r--s 00000000 08:06 6819884                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/build-link/jars/build-link-2.5.3.jar
+7ff6c45d5000-7ff6c45d9000 r--s 00022000 08:06 6819864                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/sbt-run-support_2.10/jars/sbt-run-support_2.10-2.5.3.jar
+7ff6c45d9000-7ff6c45dd000 r--s 0002a000 08:06 6819880                    /home/camilosampedro/.ivy2/cache/commons-io/commons-io/jars/commons-io-2.4.jar
+7ff6c45dd000-7ff6c45e0000 ---p 00000000 00:00 0 
+7ff6c45e0000-7ff6c46de000 rw-p 00000000 00:00 0 
+7ff6c46de000-7ff6c46e1000 ---p 00000000 00:00 0 
+7ff6c46e1000-7ff6c49df000 rw-p 00000000 00:00 0 
+7ff6c49df000-7ff6c49e6000 r--s 00064000 08:06 6819882                    /home/camilosampedro/.ivy2/cache/org.apache.commons/commons-lang3/jars/commons-lang3-3.4.jar
+7ff6c49e6000-7ff6c49e8000 r--s 0000d000 08:06 6819878                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/twirl-api_2.10/jars/twirl-api_2.10-1.1.1.jar
+7ff6c49e8000-7ff6c49f8000 r--s 00086000 08:06 6819862                    /home/camilosampedro/.ivy2/cache/com.typesafe.play/sbt-routes-compiler_2.10/jars/sbt-routes-compiler_2.10-2.5.3.jar
+7ff6c49f8000-7ff6c4a01000 r--s 00054000 08:06 6819844                    /home/camilosampedro/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.play/sbt-plugin/jars/sbt-plugin-2.5.3.jar
+7ff6c4a01000-7ff6c4c01000 rw-p 00000000 00:00 0 
+7ff6c4c01000-7ff6c4e01000 rw-p 00000000 00:00 0 
+7ff6c4e01000-7ff6c4fff000 rw-p 00000000 00:00 0 
+7ff6c4fff000-7ff6c5001000 ---p 00000000 00:00 0 
+7ff6c5001000-7ff6c5201000 rw-p 00000000 00:00 0 
+7ff6c5201000-7ff6c5214000 r--s 00345000 08:06 2642888                    /usr/lib/jvm/java-8-jdk/jre/lib/resources.jar
+7ff6c5214000-7ff6c5414000 rw-p 00000000 00:00 0 
+7ff6c5414000-7ff6c5614000 rw-p 00000000 00:00 0 
+7ff6c5614000-7ff6c5814000 rw-p 00000000 00:00 0 
+7ff6c5814000-7ff6c5a14000 rw-p 00000000 00:00 0 
+7ff6c5a14000-7ff6c5a8d000 r--s 010e5000 08:06 2642958                    /usr/lib/jvm/java-8-jdk/lib/tools.jar
+7ff6c5a8d000-7ff6c5c8d000 rw-p 00000000 00:00 0 
+7ff6c5c8d000-7ff6c5c91000 r--s 00097000 08:06 2642903                    /usr/lib/jvm/java-8-jdk/jre/lib/jsse.jar
+7ff6c5c91000-7ff6c5c94000 ---p 00000000 00:00 0 
+7ff6c5c94000-7ff6c5eca000 rw-p 00000000 00:00 0 
+7ff6c5eca000-7ff6c5ed4000 r--s 00116000 08:06 2761850                    /usr/lib/jvm/java-8-jdk/jre/lib/ext/localedata.jar
+7ff6c5ed4000-7ff6c5ef0000 r--s 00393000 08:06 2761847                    /usr/lib/jvm/java-8-jdk/jre/lib/ext/cldrdata.jar
+7ff6c5ef0000-7ff6c5f16000 r--p 00000000 08:06 2884224                    /usr/share/locale/es/LC_MESSAGES/libc.mo
+7ff6c5f16000-7ff6c5f18000 r--s 0000b000 08:06 4851899                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/xsbti/interface-0.13.11.jar
+7ff6c5f18000-7ff6c6118000 rw-p 00000000 00:00 0 
+7ff6c6118000-7ff6c611b000 r--s 00018000 08:06 4720419                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/logging-0.13.11.jar
+7ff6c611b000-7ff6c611f000 r--s 00022000 08:06 4720389                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/sbinary_2.10-0.4.2.jar
+7ff6c611f000-7ff6c6121000 r--s 00007000 08:06 4720432                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/compiler-ivy-integration-0.13.11.jar
+7ff6c6121000-7ff6c6129000 r--s 00060000 08:06 4720399                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/collections-0.13.11.jar
+7ff6c6129000-7ff6c612b000 r--s 00015000 08:06 4720410                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/classfile-0.13.11.jar
+7ff6c612b000-7ff6c612f000 r--s 0001c000 08:06 4720385                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/compiler-integration-0.13.11.jar
+7ff6c612f000-7ff6c6135000 r--s 00040000 08:06 4720386                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/api-0.13.11.jar
+7ff6c6135000-7ff6c6136000 r--s 00001000 08:06 4720394                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/json4s-support_2.10-0.6.0.jar
+7ff6c6136000-7ff6c613b000 r--s 00037000 08:06 4720421                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/command-0.13.11.jar
+7ff6c613b000-7ff6c6143000 r--s 00057000 08:06 4720401                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/completion-0.13.11.jar
+7ff6c6143000-7ff6c6151000 r--s 000bc000 08:06 4720397                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/scala-pickling_2.10-0.10.1.jar
+7ff6c6151000-7ff6c615c000 r--s 00097000 08:06 4720426                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/main-settings-0.13.11.jar
+7ff6c615c000-7ff6c615e000 r--s 00017000 08:06 4720422                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/testing-0.13.11.jar
+7ff6c615e000-7ff6c6168000 r--s 00085000 08:06 4720423                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/json4s-core_2.10-3.2.10.jar
+7ff6c6168000-7ff6c616a000 r--s 00007000 08:06 4720416                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/paranamer-2.6.jar
+7ff6c616a000-7ff6c616e000 r--s 00039000 08:06 4720431                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/jline-2.13.jar
+7ff6c616e000-7ff6c6172000 r--s 00034000 08:06 4720420                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/jsch-0.1.46.jar
+7ff6c6172000-7ff6c6175000 r--s 0001a000 08:06 4720387                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/cache-0.13.11.jar
+7ff6c6175000-7ff6c6176000 r--s 00005000 08:06 4720424                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/sbt-0.13.11.jar
+7ff6c6176000-7ff6c617f000 r--s 0006f000 08:06 4720409                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/actions-0.13.11.jar
+7ff6c617f000-7ff6c6189000 r--s 0006e000 08:06 4720429                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/incremental-compiler-0.13.11.jar
+7ff6c6189000-7ff6c618d000 r--s 0001d000 08:06 4720417                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/tasks-0.13.11.jar
+7ff6c618d000-7ff6c61af000 r--s 001bc000 08:06 4720415                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/ivy-0.13.11.jar
+7ff6c61af000-7ff6c61b6000 r--s 0003f000 08:06 4720396                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/io-0.13.11.jar
+7ff6c61b6000-7ff6c61b7000 r--s 00005000 08:06 4720430                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/test-agent-0.13.11.jar
+7ff6c61b7000-7ff6c61be000 r--s 0004b000 08:06 4720390                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/serialization_2.10-0.1.2.jar
+7ff6c61be000-7ff6c61f3000 r--s 002da000 08:06 4720402                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/scala-reflect-2.10.6.jar
+7ff6c61f3000-7ff6c61f6000 r--s 00013000 08:06 4720428                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/classpath-0.13.11.jar
+7ff6c61f6000-7ff6c61fa000 r--s 0001b000 08:06 4720388                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/process-0.13.11.jar
+7ff6c61fa000-7ff6c61fd000 r--s 0001e000 08:06 4720414                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/run-0.13.11.jar
+7ff6c61fd000-7ff6c61ff000 r--s 00001000 08:06 4720406                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/cross-0.13.11.jar
+7ff6c61ff000-7ff6c6200000 r--s 00002000 08:06 4720407                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/launcher-interface-1.0.0-M1.jar
+7ff6c6200000-7ff6c622d000 r--s 00242000 08:06 4720403                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/main-0.13.11.jar
+7ff6c622d000-7ff6c6233000 r--s 00038000 08:06 4720398                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/compiler-interface-0.13.11.jar
+7ff6c6233000-7ff6c6235000 r--s 0000b000 08:06 4720408                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/tracking-0.13.11.jar
+7ff6c6235000-7ff6c6237000 r--s 0001a000 08:06 4720392                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/jansi-1.11.jar
+7ff6c6237000-7ff6c6239000 r--s 0000e000 08:06 4720427                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/logic-0.13.11.jar
+7ff6c6239000-7ff6c623b000 r--s 00006000 08:06 4720405                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/relation-0.13.11.jar
+7ff6c623b000-7ff6c623d000 r--s 00014000 08:06 4720391                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/apply-macro-0.13.11.jar
+7ff6c623d000-7ff6c623f000 r--s 00013000 08:06 4720425                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/json4s-ast_2.10-3.2.10.jar
+7ff6c623f000-7ff6c6254000 r--s 00101000 08:06 4720412                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/ivy-2.3.0-sbt-2cc8d2761242b072cedb0a04cb39435c4fa24f9a.jar
+7ff6c6254000-7ff6c6256000 r--s 00002000 08:06 4720418                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/test-interface-1.0.jar
+7ff6c6256000-7ff6c6262000 r--s 000a4000 08:06 4720404                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/quasiquotes_2.10-2.0.1.jar
+7ff6c6262000-7ff6c6267000 r--s 00024000 08:06 4720411                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/persist-0.13.11.jar
+7ff6c6267000-7ff6c6269000 r--s 00002000 08:06 4720400                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/control-0.13.11.jar
+7ff6c6269000-7ff6c626c000 r--s 0001d000 08:06 4720395                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/task-system-0.13.11.jar
+7ff6c626c000-7ff6c626e000 r--s 00012000 08:06 4720413                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/jawn-parser_2.10-0.6.0.jar
+7ff6c626e000-7ff6c6274000 r--s 00038000 08:06 4720393                    /home/camilosampedro/.sbt/boot/scala-2.10.6/org.scala-sbt/sbt/0.13.11/compile-0.13.11.jar
+7ff6c6274000-7ff6c6474000 rw-p 00000000 00:00 0 
+7ff6c6474000-7ff6c64e7000 r--s 0065b000 08:06 4982463                    /home/camilosampedro/.sbt/boot/scala-2.10.6/lib/scala-library.jar
+7ff6c64e7000-7ff6c64ea000 r--s 00018000 08:06 4982464                    /home/camilosampedro/.sbt/boot/scala-2.10.6/lib/jansi.jar
+7ff6c64ea000-7ff6c64ee000 r--s 00025000 08:06 4982466                    /home/camilosampedro/.sbt/boot/scala-2.10.6/lib/jline.jar
+7ff6c64ee000-7ff6c65ec000 r--s 00cd0000 08:06 4982465                    /home/camilosampedro/.sbt/boot/scala-2.10.6/lib/scala-compiler.jar
+7ff6c65ec000-7ff6c6621000 r--s 002da000 08:06 4982467                    /home/camilosampedro/.sbt/boot/scala-2.10.6/lib/scala-reflect.jar
+7ff6c6621000-7ff6c6622000 r--s 00004000 08:06 5641302                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/activator-ui-common-1.3.10.jar
+7ff6c6622000-7ff6c6626000 r--s 00039000 08:06 5641326                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/jline-2.13.jar
+7ff6c6626000-7ff6c662d000 r--s 00042000 08:06 5641305                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/activator-templates-cache-1.0-a0afb008ea619bf9d87dc010156cddffa8a6f880.jar
+7ff6c662d000-7ff6c6634000 r--s 00062000 08:06 5641309                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/collections_2.11-0.13.11.jar
+7ff6c6634000-7ff6c663c000 r--s 0004e000 08:06 5641303                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/httpclient-4.1.jar
+7ff6c663c000-7ff6c663f000 r--s 0001d000 08:06 5641299                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/activator-launcher-1.3.10.jar
+7ff6c663f000-7ff6c6648000 r--s 00056000 08:06 5641327                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/lucene-queryparser-4.3.0.jar
+7ff6c6648000-7ff6c666d000 r--s 001f7000 08:06 5641310                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/lucene-core-4.3.0.jar
+7ff6c666d000-7ff6c6671000 r--s 00014000 08:06 5641312                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/xz-1.0.jar
+7ff6c6671000-7ff6c6677000 r--s 0002c000 08:06 5641300                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/lucene-queries-4.3.0.jar
+7ff6c6677000-7ff6c6687000 r--s 0016e000 08:06 5641316                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/lucene-analyzers-common-4.3.0.jar
+7ff6c6687000-7ff6c668b000 r--s 00032000 08:06 5641323                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/config-1.2.1.jar
+7ff6c668b000-7ff6c6698000 r--s 00097000 08:06 5641320                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/jackson-mapper-asl-1.8.9.jar
+7ff6c6698000-7ff6c66bd000 r--s 0024f000 08:06 5641313                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/akka-actor_2.11-2.3.9.jar
+7ff6c66bd000-7ff6c677d000 r--s 0072c000 08:06 5641301                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/aws-java-sdk-1.3.29.jar
+7ff6c677d000-7ff6c67d6000 r--s 00522000 08:06 7080699                    /home/camilosampedro/.sbt/boot/scala-2.11.8/lib/scala-library.jar
+7ff6c67d6000-7ff6c68e2000 r--s 00dba000 08:06 7080701                    /home/camilosampedro/.sbt/boot/scala-2.11.8/lib/scala-compiler.jar
+7ff6c68e2000-7ff6c692e000 r--s 00411000 08:06 7080697                    /home/camilosampedro/.sbt/boot/scala-2.11.8/lib/scala-reflect.jar
+7ff6c692e000-7ff6c693f000 r-xp 00000000 08:06 2761811                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libnio.so
+7ff6c693f000-7ff6c6b3e000 ---p 00011000 08:06 2761811                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libnio.so
+7ff6c6b3e000-7ff6c6b3f000 rw-p 00010000 08:06 2761811                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libnio.so
+7ff6c6b3f000-7ff6c6b55000 r-xp 00000000 08:06 2761835                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libnet.so
+7ff6c6b55000-7ff6c6d55000 ---p 00016000 08:06 2761835                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libnet.so
+7ff6c6d55000-7ff6c6d56000 rw-p 00016000 08:06 2761835                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libnet.so
+7ff6c6d56000-7ff6c6d57000 ---p 00000000 00:00 0 
+7ff6c6d57000-7ff6c6e57000 rw-p 00000000 00:00 0 
+7ff6c6e57000-7ff6c6e5a000 ---p 00000000 00:00 0 
+7ff6c6e5a000-7ff6c6f58000 rw-p 00000000 00:00 0 
+7ff6c6f58000-7ff6c6f5b000 ---p 00000000 00:00 0 
+7ff6c6f5b000-7ff6c7059000 rw-p 00000000 00:00 0 
+7ff6c7059000-7ff6c705c000 ---p 00000000 00:00 0 
+7ff6c705c000-7ff6c715a000 rw-p 00000000 00:00 0 
+7ff6c715a000-7ff6c715d000 ---p 00000000 00:00 0 
+7ff6c715d000-7ff6c725b000 rw-p 00000000 00:00 0 
+7ff6c725b000-7ff6c725e000 ---p 00000000 00:00 0 
+7ff6c725e000-7ff6c735c000 rw-p 00000000 00:00 0 
+7ff6c735c000-7ff6c74f5000 r--p 00000000 08:06 2374244                    /usr/lib/locale/locale-archive
+7ff6c74f5000-7ff6c74f8000 ---p 00000000 00:00 0 
+7ff6c74f8000-7ff6c75f6000 rw-p 00000000 00:00 0 
+7ff6c75f6000-7ff6c75f9000 ---p 00000000 00:00 0 
+7ff6c75f9000-7ff6c76f7000 rw-p 00000000 00:00 0 
+7ff6c76f7000-7ff6c76f8000 ---p 00000000 00:00 0 
+7ff6c76f8000-7ff6c8000000 rw-p 00000000 00:00 0 
+7ff6c8000000-7ff6c8021000 rw-p 00000000 00:00 0 
+7ff6c8021000-7ff6cc000000 ---p 00000000 00:00 0 
+7ff6cc000000-7ff6cc021000 rw-p 00000000 00:00 0 
+7ff6cc021000-7ff6d0000000 ---p 00000000 00:00 0 
+7ff6d0000000-7ff6d0021000 rw-p 00000000 00:00 0 
+7ff6d0021000-7ff6d4000000 ---p 00000000 00:00 0 
+7ff6d4000000-7ff6d4001000 r--s 00001000 08:06 5641308                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/activator-props-1.3.10.jar
+7ff6d4001000-7ff6d4005000 r--s 00034000 08:06 5641322                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/jackson-core-asl-1.8.9.jar
+7ff6d4005000-7ff6d4006000 r--s 00002000 08:06 5641329                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/launcher-interface-1.0.0-M1.jar
+7ff6d4006000-7ff6d400d000 r--s 00059000 08:06 5641319                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/completion_2.11-0.13.11.jar
+7ff6d400d000-7ff6d4014000 r--s 00040000 08:06 5641306                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/io_2.11-0.13.11.jar
+7ff6d4014000-7ff6d4019000 r--s 00036000 08:06 5641311                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/commons-compress-1.4.1.jar
+7ff6d4019000-7ff6d4024000 r--s 00096000 08:06 5641321                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/scala-xml_2.11-1.0.1.jar
+7ff6d4024000-7ff6d472b000 rw-p 00000000 00:00 0 
+7ff6d472b000-7ff6d4903000 r--s 03d29000 08:06 2642900                    /usr/lib/jvm/java-8-jdk/jre/lib/rt.jar
+7ff6d4903000-7ff6d7379000 rw-p 00000000 00:00 0 
+7ff6d7379000-7ff6d737a000 ---p 00000000 00:00 0 
+7ff6d737a000-7ff6d747a000 rw-p 00000000 00:00 0 
+7ff6d747a000-7ff6d747b000 ---p 00000000 00:00 0 
+7ff6d747b000-7ff6d757b000 rw-p 00000000 00:00 0 
+7ff6d757b000-7ff6d757c000 ---p 00000000 00:00 0 
+7ff6d757c000-7ff6d7a51000 rw-p 00000000 00:00 0 
+7ff6d7a51000-7ff6d7bd3000 ---p 00000000 00:00 0 
+7ff6d7bd3000-7ff6d9b43000 rwxp 00000000 00:00 0 
+7ff6d9b43000-7ff6dfbd3000 ---p 00000000 00:00 0 
+7ff6dfbd3000-7ff6dfbed000 r-xp 00000000 08:06 2761813                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libzip.so
+7ff6dfbed000-7ff6dfded000 ---p 0001a000 08:06 2761813                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libzip.so
+7ff6dfded000-7ff6dfdee000 rw-p 0001a000 08:06 2761813                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libzip.so
+7ff6dfdee000-7ff6dfdf8000 r-xp 00000000 08:06 2364763                    /usr/lib/libnss_files-2.24.so
+7ff6dfdf8000-7ff6dfff8000 ---p 0000a000 08:06 2364763                    /usr/lib/libnss_files-2.24.so
+7ff6dfff8000-7ff6dfff9000 r--p 0000a000 08:06 2364763                    /usr/lib/libnss_files-2.24.so
+7ff6dfff9000-7ff6dfffa000 rw-p 0000b000 08:06 2364763                    /usr/lib/libnss_files-2.24.so
+7ff6dfffa000-7ff6e0000000 rw-p 00000000 00:00 0 
+7ff6e0000000-7ff6e2cef000 rw-p 00000000 00:00 0 
+7ff6e2cef000-7ff6e4000000 ---p 00000000 00:00 0 
+7ff6e4000000-7ff6e400b000 r--s 0005c000 08:06 5641325                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/scala-parser-combinators_2.11-1.0.1.jar
+7ff6e400b000-7ff6e4016000 r--s 0005d000 08:06 7080700                    /home/camilosampedro/.sbt/boot/scala-2.11.8/lib/scala-parser-combinators_2.11.jar
+7ff6e4016000-7ff6e4017000 ---p 00000000 00:00 0 
+7ff6e4017000-7ff6e4117000 rw-p 00000000 00:00 0 
+7ff6e4117000-7ff6e4141000 r-xp 00000000 08:06 2761788                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libjava.so
+7ff6e4141000-7ff6e4341000 ---p 0002a000 08:06 2761788                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libjava.so
+7ff6e4341000-7ff6e4343000 rw-p 0002a000 08:06 2761788                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libjava.so
+7ff6e4343000-7ff6e4350000 r-xp 00000000 08:06 2761834                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libverify.so
+7ff6e4350000-7ff6e4550000 ---p 0000d000 08:06 2761834                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libverify.so
+7ff6e4550000-7ff6e4552000 rw-p 0000d000 08:06 2761834                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/libverify.so
+7ff6e4552000-7ff6e4559000 r-xp 00000000 08:06 2364815                    /usr/lib/librt-2.24.so
+7ff6e4559000-7ff6e4758000 ---p 00007000 08:06 2364815                    /usr/lib/librt-2.24.so
+7ff6e4758000-7ff6e4759000 r--p 00006000 08:06 2364815                    /usr/lib/librt-2.24.so
+7ff6e4759000-7ff6e475a000 rw-p 00007000 08:06 2364815                    /usr/lib/librt-2.24.so
+7ff6e475a000-7ff6e485d000 r-xp 00000000 08:06 2364717                    /usr/lib/libm-2.24.so
+7ff6e485d000-7ff6e4a5c000 ---p 00103000 08:06 2364717                    /usr/lib/libm-2.24.so
+7ff6e4a5c000-7ff6e4a5d000 r--p 00102000 08:06 2364717                    /usr/lib/libm-2.24.so
+7ff6e4a5d000-7ff6e4a5e000 rw-p 00103000 08:06 2364717                    /usr/lib/libm-2.24.so
+7ff6e4a5e000-7ff6e572a000 r-xp 00000000 08:06 3024630                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/server/libjvm.so
+7ff6e572a000-7ff6e592a000 ---p 00ccc000 08:06 3024630                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/server/libjvm.so
+7ff6e592a000-7ff6e5a03000 rw-p 00ccc000 08:06 3024630                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/server/libjvm.so
+7ff6e5a03000-7ff6e5a4e000 rw-p 00000000 00:00 0 
+7ff6e5a4e000-7ff6e5be3000 r-xp 00000000 08:06 2364589                    /usr/lib/libc-2.24.so
+7ff6e5be3000-7ff6e5de2000 ---p 00195000 08:06 2364589                    /usr/lib/libc-2.24.so
+7ff6e5de2000-7ff6e5de6000 r--p 00194000 08:06 2364589                    /usr/lib/libc-2.24.so
+7ff6e5de6000-7ff6e5de8000 rw-p 00198000 08:06 2364589                    /usr/lib/libc-2.24.so
+7ff6e5de8000-7ff6e5dec000 rw-p 00000000 00:00 0 
+7ff6e5dec000-7ff6e5dee000 r-xp 00000000 08:06 2364617                    /usr/lib/libdl-2.24.so
+7ff6e5dee000-7ff6e5fee000 ---p 00002000 08:06 2364617                    /usr/lib/libdl-2.24.so
+7ff6e5fee000-7ff6e5fef000 r--p 00002000 08:06 2364617                    /usr/lib/libdl-2.24.so
+7ff6e5fef000-7ff6e5ff0000 rw-p 00003000 08:06 2364617                    /usr/lib/libdl-2.24.so
+7ff6e5ff0000-7ff6e6005000 r-xp 00000000 08:06 3024628                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/jli/libjli.so
+7ff6e6005000-7ff6e6205000 ---p 00015000 08:06 3024628                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/jli/libjli.so
+7ff6e6205000-7ff6e6206000 rw-p 00015000 08:06 3024628                    /usr/lib/jvm/java-8-jdk/jre/lib/amd64/jli/libjli.so
+7ff6e6206000-7ff6e621e000 r-xp 00000000 08:06 2364800                    /usr/lib/libpthread-2.24.so
+7ff6e621e000-7ff6e641d000 ---p 00018000 08:06 2364800                    /usr/lib/libpthread-2.24.so
+7ff6e641d000-7ff6e641e000 r--p 00017000 08:06 2364800                    /usr/lib/libpthread-2.24.so
+7ff6e641e000-7ff6e641f000 rw-p 00018000 08:06 2364800                    /usr/lib/libpthread-2.24.so
+7ff6e641f000-7ff6e6423000 rw-p 00000000 00:00 0 
+7ff6e6423000-7ff6e6446000 r-xp 00000000 08:06 2364554                    /usr/lib/ld-2.24.so
+7ff6e6446000-7ff6e6448000 r--s 0001a000 08:06 5641307                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/jansi-1.11.jar
+7ff6e6448000-7ff6e644a000 r--s 0000d000 08:06 5641315                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/commons-logging-1.1.1.jar
+7ff6e644a000-7ff6e6466000 r--s 0010b000 08:06 3808979                    /usr/share/typesafe-activator/libexec/activator-launch-1.3.10.jar
+7ff6e6466000-7ff6e6510000 rw-p 00000000 00:00 0 
+7ff6e6510000-7ff6e6513000 ---p 00000000 00:00 0 
+7ff6e6513000-7ff6e6613000 rw-p 00000000 00:00 0 
+7ff6e6613000-7ff6e6614000 r--s 00006000 08:06 5641314                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/jakarta-regexp-1.4.jar
+7ff6e6614000-7ff6e6616000 r--s 0000a000 08:06 5641328                    /home/camilosampedro/.sbt/boot/scala-2.11.8/com.typesafe.activator/activator-launcher/1.3.10/lucene-sandbox-4.3.0.jar
+7ff6e6616000-7ff6e661a000 r--s 00031000 08:06 7080698                    /home/camilosampedro/.sbt/boot/scala-2.11.8/lib/jline.jar
+7ff6e661a000-7ff6e6625000 r--s 00094000 08:06 7080702                    /home/camilosampedro/.sbt/boot/scala-2.11.8/lib/scala-xml_2.11.jar
+7ff6e6625000-7ff6e6639000 rw-p 00000000 00:00 0 
+7ff6e6639000-7ff6e6641000 rw-s 00000000 00:24 59                         /tmp/hsperfdata_camilosampedro/24916
+7ff6e6641000-7ff6e6642000 rw-p 00000000 00:00 0 
+7ff6e6642000-7ff6e6643000 ---p 00000000 00:00 0 
+7ff6e6643000-7ff6e6645000 rw-p 00000000 00:00 0 
+7ff6e6645000-7ff6e6646000 r--p 00022000 08:06 2364554                    /usr/lib/ld-2.24.so
+7ff6e6646000-7ff6e6647000 rw-p 00023000 08:06 2364554                    /usr/lib/ld-2.24.so
+7ff6e6647000-7ff6e6648000 rw-p 00000000 00:00 0 
+7ffd602c6000-7ffd602e7000 rw-p 00000000 00:00 0                          [stack]
+7ffd60377000-7ffd60379000 r--p 00000000 00:00 0                          [vvar]
+7ffd60379000-7ffd6037b000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+VM Arguments:
+jvm_args: -Dactivator.home=/usr/share/typesafe-activator -Xms1024m -Xmx1024m -XX:ReservedCodeCacheSize=128m -XX:MaxMetaspaceSize=256m 
+java_command: /usr/share/typesafe-activator/libexec/activator-launch-1.3.10.jar compile test
+java_class_path (initial): /usr/share/typesafe-activator/libexec/activator-launch-1.3.10.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl
+SHELL=/bin/bash
+DISPLAY=:0
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0xac5b30], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xac5b30], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0x91f470], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0x91f470], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0x91f470], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0x91f470], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGUSR2: [libjvm.so+0x920aa0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: [libjvm.so+0x921ea0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGINT: [libjvm.so+0x921ea0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGTERM: [libjvm.so+0x921ea0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0x921ea0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+---------------  S Y S T E M  ---------------
+
+OS:DISTRIB_ID=ManjaroLinux
+DISTRIB_RELEASE=16.08
+DISTRIB_CODENAME=Ellada
+DISTRIB_DESCRIPTION="Manjaro Linux"
+
+uname:Linux 4.4.24-1-MANJARO #1 SMP PREEMPT Sat Oct 8 07:49:12 UTC 2016 x86_64
+libc:glibc 2.24 NPTL 2.24 
+rlimit: STACK 8192k, CORE infinity, NPROC 31677, NOFILE 4096, AS infinity
+load average:2,97 1,86 1,59
+
+/proc/meminfo:
+MemTotal:        8117716 kB
+MemFree:          523512 kB
+MemAvailable:    2664288 kB
+Buffers:          687556 kB
+Cached:          1683116 kB
+SwapCached:            4 kB
+Active:          5059928 kB
+Inactive:        2268720 kB
+Active(anon):    3938068 kB
+Inactive(anon):  1124252 kB
+Active(file):    1121860 kB
+Inactive(file):  1144468 kB
+Unevictable:          32 kB
+Mlocked:              32 kB
+SwapTotal:       4194300 kB
+SwapFree:        4194288 kB
+Dirty:             37724 kB
+Writeback:             0 kB
+AnonPages:       4958164 kB
+Mapped:           249104 kB
+Shmem:            104284 kB
+Slab:             117772 kB
+SReclaimable:      86784 kB
+SUnreclaim:        30988 kB
+KernelStack:        6944 kB
+PageTables:        30420 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     8253156 kB
+Committed_AS:    8150132 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:   3065856 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:     2147100 kB
+DirectMap2M:     6178816 kB
+DirectMap1G:     1048576 kB
+
+
+CPU:total 4 (4 cores per cpu, 1 threads per core) family 6 model 60 stepping 3, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, lzcnt, tsc, tscinvbit, bmi1, bmi2
+
+/proc/cpuinfo:
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i5-4430 CPU @ 3.00GHz
+stepping	: 3
+microcode	: 0x20
+cpu MHz		: 3099.726
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 4
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm ida arat epb pln pts dtherm tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt
+bugs		:
+bogomips	: 5988.88
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i5-4430 CPU @ 3.00GHz
+stepping	: 3
+microcode	: 0x20
+cpu MHz		: 3042.304
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 4
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm ida arat epb pln pts dtherm tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt
+bugs		:
+bogomips	: 5988.88
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i5-4430 CPU @ 3.00GHz
+stepping	: 3
+microcode	: 0x20
+cpu MHz		: 3064.921
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 4
+core id		: 2
+cpu cores	: 4
+apicid		: 4
+initial apicid	: 4
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm ida arat epb pln pts dtherm tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt
+bugs		:
+bogomips	: 5988.88
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i5-4430 CPU @ 3.00GHz
+stepping	: 3
+microcode	: 0x20
+cpu MHz		: 3014.882
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 4
+core id		: 3
+cpu cores	: 4
+apicid		: 6
+initial apicid	: 6
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm ida arat epb pln pts dtherm tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt
+bugs		:
+bogomips	: 5988.88
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+
+
+Memory: 4k page, physical 8117716k(523512k free), swap 4194300k(4194288k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.102-b14) for linux-amd64 JRE (1.8.0_102-b14), built on Jun 22 2016 18:43:17 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
+
+time: Sun Oct 16 17:55:47 2016
+elapsed time: 11 seconds (0d 0h 0m 11s)
+

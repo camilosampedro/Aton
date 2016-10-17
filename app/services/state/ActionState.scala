@@ -10,5 +10,5 @@ case class ActionCompletedWithId(id: Long) extends ActionState
 object Failed extends ActionState
 object NotFound extends ActionState
 object Empty extends ActionState
-object NotChecked extends ActionState
+object NotCheckedYet extends ActionState
 case class OrderCompleted(result: String, exitCode: Int) extends ActionState
