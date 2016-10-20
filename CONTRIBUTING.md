@@ -1,14 +1,17 @@
 # Contributing to Aton
-If you want to contribute to Aton development, you can do it in a number of ways.
+Aton is an opensource, if you want to contribute to Aton development you can do it in a number of ways.
 
 ## Spread the word
 You can always help Aton to grow by sharing it to people who could use it.
+
+## Suggesting functionalities
+Have you thought about sending images? Sharing your screen to the users? You can help sharing us functionalities that would make Aton greater! Just create a issue.
 
 ## Translating Aton
 To translate Aton to your native language, you can visit [Aton Transifex project](https://www.transifex.com/universidad-de-antioquia/aton-computer-laboratory-administrator) and translate application Strings.
 
 ## Programming
-To help programming in Aton, you can help designing `HTML` + `Javascript` frontend or programming `Scala` backend. You can look for __[bitesize](https://github.com/camilosampedro/Aton/labels/bitesize)__ issues to get a good start point.
+To help programming in Aton, you can help designing and proramming `HTML` + `CSS` + `Javascript`|`Angular2`|`Typescript` frontend or programming `Scala` backend. You can look for __[bitesize](https://github.com/camilosampedro/Aton/labels/bitesize)__ issues to get a good start point. You can find more information on the [__Aton Wiki__](https://github.com/camilosampedro/Aton/wiki).
 
 ### Commit and Pull Request formats
 When creating a pull request, please follow this simple format to keep the project mantainable and clean.
