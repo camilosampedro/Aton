@@ -1,0 +1,64 @@
+# Application
+app.name=Aton Web
+app.information=Aton, administrador de salas de computadoras web. Desarrollado por Camilo A. Sampedro.
+# Computer
+computer.ip=Adresse IP / Nom d'hôte
+computer.SSHUser=Utilisateur SSH
+computer.SSHPassword=Mot de passe SSH
+computer.send_command=Envoyer la commande
+computer.add=Ajouter un ordinateur
+# Header texts
+header.editUser=Modifier l'utilisateur
+# Menu texts
+menu.suggestions=Suggestions
+menu.administration=Administration
+menu.laboratories=Laboratoires
+menu.sshorders=Commandes SSH
+menu.about=A propos
+# Room panel
+room.name=Nom
+room.audiovisualResources=Ressources multimédias
+room.basicTools=Outils de base
+room.laboratoryID=Laboratoire
+room.delete=Supprimer
+computer.list.empty.title=Il n'y a pas d'ordinateurs
+computer.list.empty.body=Il ne semble pas y avoir d'ordinateurs.
+room.edit=Editer
+room.notFound=Salle non trouvée avec l'identifiant spécifié
+room.add_room=Ajouter une salle
+# Suggestion
+suggestion.notImplemented=Le module de suggestions n'est pas encore implémenté...
+# General
+edit=Editer
+delete=Supprimer
+empty=Vide
+notImplemented=Non implémenté
+contactAdmin=Merci de nous aider en reportant ce problème.
+submit=Envoyer
+about=A propos
+# Laboratory
+laboratory=Laboratoire
+laboratory.list.title=Liste des laboratoires
+laboratory.add_laboratory=Ajouter un laboratoire
+room.add_room=Ajouter chambre
+room.list.empty.title=Il n'y a pas de salles
+room.list.empty.body=Il ne semble pas y avoir de salles.
+laboratory.location=Location :
+laboratory.administration=Administration :
+laboratory.name=Nom :
+laboratory.help.head=Saisie d'un nouveau laboratoire
+laboratory.help.body=Ici vous pouvez entrer un nouveau système de laboratoire.
+# User
+user.username=Nom d'utilisateur
+user.password=Mot de passe
+user.not_logged_in=Vous n'êtes pas connecté
+user.login=Connexion
+user.loginAction=Se connecter
+user.loginFormTitle=Se connecter au service
+user.goToHome=Aller à la page d'accueil
+# SSH Order
+sshorders=Commandes SSH
+sshorder.command=Commande
+sshorder.sentdatetime=Date d'envoie
+sshorder.superuser=En tant que superutilisateur
+sshorder.webuser=Utilisateur
