@@ -26,6 +26,12 @@ computer.list.empty.body=Parece que no se han encontrado computadores.
 room.edit=Editar
 room.notFound=Sala no encontrada con el id especificado
 room.add_room=Agregar sala
+
+room.blockUser.title=Block User
+room.blockUser.userPlaceholder=User to block
+room.blockUser.cancel=Cancel
+room.blockUser.confirm=Submit
+
 # Suggestion
 suggestion.notImplemented=El módulo de sugerencias no está implementado... aún
 # General
