@@ -15,6 +15,7 @@ import scala.concurrent.Future
 trait UserService {
   def checkAndGet(form: LoginFormData): Future[Option[User]] = checkAndGet(form.username, form.password)
   def add(user: User): Future[ActionState]
+  def listAll: Future[Seq[User]]
   def get(username: String): Future[Option[User]]
   def checkAndGet(username: String, password: String): Future[Option[User]]
 }

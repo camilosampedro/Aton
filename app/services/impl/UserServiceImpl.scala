@@ -18,4 +18,6 @@ class UserServiceImpl @Inject()(userDAO: UserDAO)(implicit executionContext: Exe
   override def get(username: String): Future[Option[User]] = userDAO.get(username)
 
   override def checkAndGet(username: String, password: String): Future[Option[User]] = userDAO.checkAndGet(username,password)
+
+  override def listAll: Future[Seq[User]] = userDAO.listAll
 }

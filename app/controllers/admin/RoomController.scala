@@ -5,8 +5,8 @@ import controllers.{routes => normalroutes}
 import dao.{LaboratoryDAO, RoomDAO, UserDAO}
 import model.Role._
 import model.Room
-import model.form.RoomForm
-import model.form.data.RoomFormData
+import model.form.{BlockUserForm, RoomForm}
+import model.form.data.{BlockUserFormData, RoomFormData}
 import play.Logger
 import play.api.Environment
 import play.api.i18n.MessagesApi
@@ -67,6 +67,23 @@ class RoomController @Inject()(roomService: RoomService, laboratoryService: Labo
     }
   }
 
+  def blockUserForm(roomId: Long) = AuthRequiredAction { implicit request =>
+    val results = for {
+      roomResult <- roomService.get(roomId)
+      usersResult <- userService.listAll
+    } yield (roomResult, usersResult)
+    results.map { res =>
+      res._1 match {
+        case Some(room) =>
+          val blockUserFormData = BlockUserFormData("")
+          val users = res._2.map(x => (x.username, x.name map {y => y} getOrElse x.username))
+          Ok(views.html.blockUser(BlockUserForm.form.fill(blockUserFormData), room.id, users))
+        case _ =>
+          NotImplemented(messagesApi("room.notFound"))
+      }
+    }
+  }
+
   def edit(roomId: Long) = StackAction(AuthorityKey -> Administrator) { implicit request =>
     NotImplemented
   }
@@ -76,6 +93,19 @@ class RoomController @Inject()(roomService: RoomService, laboratoryService: Labo
       case state.ActionCompleted => Redirect(normalroutes.HomeController.home())
       case state.NotFound => NotFound
       case _ => BadRequest
+    }
+  }
+
+  def blockUser(roomId: Long) = AuthRequiredAction { implicit request =>
+    // TODO: Processing Not Yet Implemented
+    val results = for {
+      roomResult <- roomService.get(roomId)
+    } yield roomResult
+    results.map { result: Option[Room] =>
+      if (result.isDefined)
+        Redirect(normalroutes.LaboratoryController.get(result.get.laboratoryID))
+      else
+        NotFound
     }
   }
 }
