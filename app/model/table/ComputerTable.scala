@@ -16,7 +16,7 @@ class ComputerTable(tag: Tag) extends Table[Computer](tag, "computer") {
   def name = column[Option[String]]("name")
 
   // Room foreign key
-  def room: ForeignKeyQuery[RoomTable, Room] = foreignKey("room_id", roomId, TableQuery[RoomTable])(_.id, onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+  def room: ForeignKeyQuery[RoomTable, Room] = foreignKey("room_id", roomId, TableQuery[RoomTable])(_.id?, onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
 
   // All tables need the * method with the type that it was created the table.
   override def * : ProvenShape[Computer] =
