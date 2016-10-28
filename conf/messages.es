@@ -87,6 +87,11 @@ room.register.title=Registrar sala
 room.help.head=Ingresar una nueva sala
 room.help.body=Aquí podrás ingresar una nueva sala al sistema. Las salas son conjuntos de computadoras.
 
+room.blockUser.title=Bloquear usuario
+room.blockUser.userPlaceholder=usuario para bloquear
+room.blockUser.cancel=Cancelar
+room.blockUser.confirm=Agregar
+
 # Suggestion
 suggestion.notImplemented=El módulo de sugerencias no está implementado... aún
 
