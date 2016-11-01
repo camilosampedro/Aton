@@ -1,15 +1,38 @@
 # Application
 app.name=Aton Web
-app.information=Aton, administrador de salas de computadoras web. Desarrollado por Camilo A. Sampedro.
+app.information=Administrateur web des salles informatiques. Propulsé par Camilo A. Sampedro.
 # Computer
 computer.ip=Adresse IP / Nom d'hôte
 computer.SSHUser=Utilisateur SSH
 computer.SSHPassword=Mot de passe SSH
 computer.send_command=Envoyer la commande
 computer.add=Ajouter un ordinateur
+computer.shutdown=Éteindre
+computer.unfreeze=Dégeler
+computer.upgrade=Mettre à jour
+computer.upgrade.succeeded.title=Mise à jour terminée
+computer.upgrade.succeeded.body=Mise à jour terminée avec succès!
+computer.execute_command.title=Commande d'exécution
+computer.execute_command.body=Exécuter une commande SSH au sein de l'équipe
+computer.state=État
+computer.available=Disponible
+computer.error=Erreur
+computer.occupied=Occupé
+computer.not_connected=Pas connecté
+computer.message.placeholder=Message
+computer.message.send_message=Envoyer un message
+computer.block_page.placeholder=Page d'URL
+computer.block_page.block=Page de blocage
+computer.list.empty.title=Il n'y a pas d'ordinateurs
+computer.list.empty.body=Il ne semble pas y avoir d'ordinateurs
+computer.register.title=Enregistrer ordinateur
+computer.update.title=Ajouter ordinateur
+computer.help.head=Signer des ordinateurs
+computer.help.body=Ici vous pouvez entrer des ordinateurs dans une pièce.\n Chaque ordinateur a besoin d'une adresse IP (ou nom d'hôte), un nom d'utilisateur SSH et un mot de passe SSH. Ces champs sont obligatoires car Aton SSH communique à chaque ordinateur distant pour exécuter des ordres et vérifier leur statut.\n\n Vous pouvez insérer chacune des équipes, séparées par des virgules, leurs adresses IP et leurs noms.
 # Header texts
 header.editUser=Modifier l'utilisateur
 # Menu texts
+menu.home=Début
 menu.suggestions=Suggestions
 menu.administration=Administration
 menu.laboratories=Laboratoires
@@ -21,11 +44,18 @@ room.audiovisualResources=Ressources multimédias
 room.basicTools=Outils de base
 room.laboratoryID=Laboratoire
 room.delete=Supprimer
-computer.list.empty.title=Il n'y a pas d'ordinateurs
-computer.list.empty.body=Il ne semble pas y avoir d'ordinateurs.
 room.edit=Editer
 room.notFound=Salle non trouvée avec l'identifiant spécifié
 room.add_room=Ajouter une salle
+room.list.empty.title=Ici, il n'y a pas de chambres
+room.list.empty.body=Il semble chambres qu'il n'a pas trouvé
+room.register.title=Enregistrer la chambre
+room.help.head=Entrez une nouvelle salle
+room.help.body=Ici vous pouvez entrer un nouveau système de chambre. Les chambres sont des ensembles d'ordinateurs.
+room.blockUser.title=Bloquer un utilisateur
+room.blockUser.userPlaceholder=Utilisateur à bloquer
+room.blockUser.cancel=Annuler
+room.blockUser.confirm=Ajouter
 # Suggestion
 suggestion.notImplemented=Le module de suggestions n'est pas encore implémenté...
 # General
