@@ -1,7 +1,8 @@
 package model.json
 
 import model._
-import play.api.libs.json.{Json, Writes}
+import play.api.libs.json._
+
 
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
