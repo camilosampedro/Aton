@@ -29,22 +29,10 @@ import services.state.ActionState
 import test.ControllerTest
 
 /**
- * @author P3trur0, http://flatmap.it
- */
-class LaboratoryControllerSpec extends ControllerTest {
-
-  // Define the fake application to execute for the tests
-  def application = new WithApplication
-
-  // Before all the tests, start the fake Play application
-  override def beforeAll() {
-    application.startPlay()
-  }
-
-  // After the tests execution, shut down the fake application
-  override def afterAll() {
-    application.stopPlay()
-  }
+  * @author P3trur0 < http://flatmap.it >
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
+  */
+trait LaboratoryControllerSpec extends ControllerTest {
 
   // Mocked LaboratoryController dependencies
   lazy val roomService = mock[RoomService]
@@ -57,17 +45,22 @@ class LaboratoryControllerSpec extends ControllerTest {
   //Mock laboratory service
   def mockLaboratoryService(actionState: ActionState): LaboratoryService = {
     lazy val laboratoryService = mock[LaboratoryService]
-    
-     val alternativeState = if(actionState!=state.ActionCompleted){
+    val returnedLaboratory = if (actionState == state.ActionCompleted){
+      Some(laboratory)
+    } else {
+      None
+    }
+    val alternativeState = if (actionState != state.ActionCompleted) {
       state.Failed
     } else {
       actionState
     }
-    
     when(laboratoryService.add(any[Laboratory])) thenReturn Future.successful(alternativeState)
+    when(laboratoryService.delete(any[Long])) thenReturn Future.successful(actionState)
+    when(laboratoryService.getSingle(any[Long])) thenReturn Future.successful(returnedLaboratory)
     laboratoryService
   }
-  
+
   // Mock user authentication
   when(userService.checkAndGet(any[String], any[String])) thenReturn Future.successful(Some(User("", "", None, Role.Administrator)))
 
@@ -77,53 +70,12 @@ class LaboratoryControllerSpec extends ControllerTest {
   // Logged in user to pass
   val loggedInUser = LoginFormData("", "")
   // Laboratory with data to be tested
-  val laboratory = Laboratory(id=1l, name = "P3trur0 lab", location=Some("Italy"), administration=Some("user"))
+  val laboratory = Laboratory(id = 1l, name = "P3trur0 lab", location = Some("Italy"), administration = Some("user"))
   val command = s"""echo "Ciao""""
 
-  def createTestForResult(whatShouldBeReturned: String, actionState: ActionState, stateCode: Int) = {
-    val labService = mockLaboratoryService(actionState)
-    // Controller to be tested, with the dependencies
-    lazy val controller = new LaboratoryController(labService, messagesApi)(userService, executionContext, environment)
 
-    s"return $whatShouldBeReturned status on receiving an edited laboratory" in {
-      import laboratory._
-      val laboratoryData = LaboratoryFormData(name, location, administration)
-      val laboratoryForm = LaboratoryForm.form.fill(laboratoryData)
-      val result = controller.edit(laboratory.id).apply {
-        FakeRequest()
-          .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(laboratoryForm.data.toSeq: _*)
-      }
-      assertFutureResultStatus(result, stateCode)
-    }
 
-    s"return $whatShouldBeReturned status on deleting a laboratory" in {
-      val result = controller.delete(laboratory.id).apply {
-        FakeRequest()
-          .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
-      }
-      assertFutureResultStatus(result, stateCode)
-    }
-
-    controller
-  }
-
-  "Laboratory Controller on successful operations" should {
-    val controller = createTestForResult("Ok", state.ActionCompleted, 200)
-    "return Ok status on adding a new laboratory" in {
-      import laboratory._
-      val laboratoryData = LaboratoryFormData(name, location, administration)
-      val laboratoryForm = LaboratoryForm.form.fill(laboratoryData)
-      val result = controller.add.apply {
-        FakeRequest()
-          .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(laboratoryForm.data.toSeq: _*)
-      }
-      assertFutureResultStatus(result, 200)
-    }
-  }
-
-  "Laboratory Controller on not founding operations" should {
+  /*"Laboratory Controller on not founding operations" should {
     val controller = createTestForResult("NotFound", state.NotFound, 404)
     "return BadRequest status on adding a new laboratory" in {
       import laboratory._
@@ -151,5 +103,5 @@ class LaboratoryControllerSpec extends ControllerTest {
       }
       assertFutureResultStatus(result, 400)
     }
-  }
+  }*/
 }

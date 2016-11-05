@@ -31,7 +31,7 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
     laboratoryService.getSingle(id).map {
       case Some(laboratory) =>
         val data = LaboratoryFormData(laboratory.name, laboratory.location, laboratory.administration)
-        Ok(index(messagesApi("laboratory.edit"), registerLaboratory(LaboratoryForm.form.fill(data))))
+        Ok//(index(messagesApi("laboratory.edit"), registerLaboratory(LaboratoryForm.form.fill(data))))
       case e => NotFound("Laboratory not found")
     }
   }
@@ -48,7 +48,7 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
       data => {
         val newLaboratory = Laboratory(0, data.name, data.location, data.administration)
         laboratoryService.add(newLaboratory).map(res =>
-          Redirect(normalroutes.HomeController.home())
+          Ok //Redirect(normalroutes.HomeController.home())
         )
       }
     )
@@ -63,7 +63,7 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
 
   def delete(id: Long) = AuthRequiredAction { implicit request =>
     laboratoryService.delete(id) map {
-      case state.ActionCompleted => Redirect(normalroutes.HomeController.home())
+      case state.ActionCompleted => Ok//Redirect(normalroutes.HomeController.home())
       case _ => BadRequest
     }
   }
