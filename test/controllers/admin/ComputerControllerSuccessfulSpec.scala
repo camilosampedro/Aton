@@ -10,6 +10,7 @@ import org.scalatest.BeforeAndAfterAll
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import jp.t2v.lab.play2.auth.test.Helpers.AuthFakeRequest
+
 import model.Computer
 import model.Role
 import model.User
@@ -52,7 +53,17 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    "return response message JSON on receiving an edited computer" in pending
+    "return \"Computer edited successfully\" response message JSON on receiving an edited computer" in {
+      import computer._
+      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
+      val computerForm = ComputerForm.form.fill(computerData)
+      val result = controller.edit.apply {
+        FakeRequest()
+          .withLoggedIn(controller)(loggedInUser)
+          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
+      }
+      assertBodyJsonMessage(result, "Computer edited successfully")
+    }
 
     "return Ok <200> status on deleting a computer" in {
       val result = controller.delete(computer.ip).apply {
@@ -62,7 +73,13 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    "return response message JSON on deleting a computer" in pending
+    "return \"Computer deleted successfully\" response message JSON on deleting a computer" in {
+      val result = controller.delete(computer.ip).apply {
+        FakeRequest()
+          .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
+      }
+      assertBodyJsonMessage(result, "Computer deleted successfully")
+    }
 
     "return Ok <200> status on blocking a page on a single computer" in {
       val result = controller.blockPage(computer.ip).apply {
@@ -73,7 +90,14 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    "return response message JSON on blocking a page on a single computer" in pending
+    "return \"Page blocked successfully on the computer\" response message JSON on blocking a page on a single computer" in {
+      val result = controller.blockPage(computer.ip).apply {
+        FakeRequest()
+          .withLoggedIn(controller)(loggedInUser)
+          .withFormUrlEncodedBody(BlockPageForm.form.fill(BlockPageFormData("www.example.com")).data.toSeq: _*)
+      }
+      assertBodyJsonMessage(result, "Page blocked successfully on the computer")
+    }
 
     "return Ok <200> status on shutting down a computer" in {
       val result = controller.shutdown(computer.ip).apply {
@@ -83,7 +107,13 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    "return response message JSON on shutting down a computer" in pending
+    "return \"Computer shutdown successfully\" response message JSON on shutting down a computer" in {
+      val result = controller.shutdown(computer.ip).apply {
+        FakeRequest()
+          .withLoggedIn(controller)(loggedInUser)
+      }
+      assertBodyJsonMessage(result, "Computer shutdown successfully")
+    }
 
     "return Ok <200> status on shutting down several computer" in {
       val computersData = SelectComputersFormData(Seq(computer.ip).toList)
@@ -96,7 +126,16 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    "return response message JSON on shutting down several computers" in pending
+    "return \"Computers shutdown successfully\" response message JSON on shutting down several computers" in {
+      val computersData = SelectComputersFormData(Seq(computer.ip).toList)
+      val computersForm = SelectComputersForm.form.fill(computersData)
+      val result = controller.shutdownSeveral().apply {
+        FakeRequest()
+          .withLoggedIn(controller)(loggedInUser)
+          .withFormUrlEncodedBody(computersForm.data.toSeq: _*)
+      }
+      assertBodyJsonMessage(result, "Computers shutdown successfully")
+    }
 
     "return Ok <200> status on upgrading a computer" in {
       val result = controller.upgrade(computer.ip).apply {
@@ -106,7 +145,13 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    "return response message JSON on upgrading a computer" in pending
+    "return \"Computer upgraded successfully\" response message JSON on upgrading a computer" in {
+      val result = controller.upgrade(computer.ip).apply {
+        FakeRequest()
+          .withLoggedIn(controller)(loggedInUser)
+      }
+      assertBodyJsonMessage(result, "Computer upgraded successfully")
+    }
 
     "return Ok <200> status on unfreezing a computer" in {
       val result = controller.unfreeze(computer.ip).apply {
@@ -116,7 +161,13 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    "return response message JSON on unfreezing a computer" in pending
+    "return \"Computer unfreezed successfully\" response message JSON on unfreezing a computer" in {
+      val result = controller.unfreeze(computer.ip).apply {
+        FakeRequest()
+          .withLoggedIn(controller)(loggedInUser)
+      }
+      assertBodyJsonMessage(result, "Computer unfreezed successfully")
+    }
 
     "return Ok <200> status on sending a command to a computer" in {
       val sshOrderData = SSHOrderFormData(superUser = false, command)
@@ -129,7 +180,16 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    "return response message JSON on sending a command to a computer" in pending
+    "return \"Order sent successfully\" response message JSON on sending a command to a computer" in {
+      val sshOrderData = SSHOrderFormData(superUser = false, command)
+      val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
+      val result = controller.sendCommand(computer.ip).apply {
+        FakeRequest()
+          .withLoggedIn(controller)(loggedInUser)
+          .withFormUrlEncodedBody(sshOrderForm.data.toSeq: _*)
+      }
+      assertBodyJsonMessage(result,"Order sent successfully")
+    }
 
     "return Ok <200> status on adding a new computer" in {
       import computer._
@@ -143,7 +203,17 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    "return response message JSON on adding a new computer" in pending
+    "return \"Computer added successfully\" response message JSON on adding a new computer" in {
+      import computer._
+      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
+      val computerForm = ComputerForm.form.fill(computerData)
+      val result = controller.add.apply {
+        FakeRequest()
+          .withLoggedIn(controller)(loggedInUser)
+          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
+      }
+      assertBodyJsonMessage(result, "Computer added successfully")
+    }
   }
 
 

@@ -36,6 +36,12 @@ object Writes {
     )
   }
 
+  implicit val resultMessageWrites = new Writes[ResultMessage] {
+    def writes(resultMessage: ResultMessage) = Json.obj (
+      "result" -> resultMessage.result
+    )
+  }
+
   implicit val connectedUserWrites = new Writes[ConnectedUser] {
     def writes(connectedUser: ConnectedUser) = Json.obj (
       "id" -> connectedUser.id,

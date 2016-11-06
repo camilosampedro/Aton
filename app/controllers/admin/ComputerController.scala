@@ -2,11 +2,13 @@ package controllers.admin
 
 import com.google.inject.Inject
 import controllers.{routes => normalroutes}
-import model.Computer
+import model.{Computer, ResultMessage}
+import model.json.Writes.resultMessageWrites
 import model.form._
 import model.form.data.ComputerFormData
 import play.api.Environment
 import play.api.i18n.MessagesApi
+import play.api.libs.json.Json
 import services._
 import views.html._
 
@@ -25,7 +27,7 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
       errorForm => Future.successful(Ok(errorForm.toString)),
       data => {
         computerService.add(data.ip,data.name, data.SSHUser, data.SSHPassword,data.description,data.roomID).map{
-          case state.ActionCompleted => Ok
+          case state.ActionCompleted => Ok(Json.toJson(ResultMessage("Computer added successfully")))
           case state.NotFound => NotFound
           case _ => BadRequest
         }
@@ -65,7 +67,7 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
       data => {
         val newComputer = Computer(data.ip, data.name, data.SSHUser, data.SSHPassword, data.description, data.roomID)
         computerService.edit(newComputer).map {
-          case state.ActionCompleted => Ok
+          case state.ActionCompleted => Ok(Json.toJson(ResultMessage("Computer edited successfully")))
           case state.NotFound => NotFound
           case _ => BadRequest
         }
@@ -95,7 +97,7 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
   def delete(ip: String) = AuthRequiredAction {
     implicit request =>
       computerService.delete(ip) map {
-        case state.ActionCompleted => Ok
+        case state.ActionCompleted => Ok(Json.toJson(ResultMessage("Computer deleted successfully")))
         case state.NotFound => NotFound
         case _ => BadRequest
       }
@@ -106,7 +108,7 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       computerService.shutdown(ip).map {
-        case state.ActionCompleted => Ok
+        case state.ActionCompleted => Ok(Json.toJson(ResultMessage("Computer shutdown successfully")))
         case state.NotFound => NotFound
         case _ => BadRequest//(index(messagesApi("computer.notFound"), notImplemented(messagesApi("computer.notFoundMessage"))))
       }
@@ -120,7 +122,7 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
         errorForm => Future.successful(BadRequest),
         data => {
           computerService.shutdown(data.selectedComputers).map {
-            case state.ActionCompleted => Ok
+            case state.ActionCompleted => Ok(Json.toJson(ResultMessage("Computers shutdown successfully")))
             case state.NotFound => NotFound
             case _ => BadRequest
           }
@@ -132,7 +134,7 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       computerService.upgrade(ip).map {
-        case state.ActionCompleted => Ok
+        case state.ActionCompleted => Ok(Json.toJson(ResultMessage("Computer upgraded successfully")))
         case state.NotFound => NotFound
         case _ => BadRequest
       }
@@ -143,7 +145,7 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       computerService.unfreeze(ip).map {
-        case state.ActionCompleted => Ok
+        case state.ActionCompleted => Ok(Json.toJson(ResultMessage("Computer unfreezed successfully")))
         case state.NotFound => NotFound
         case _ => BadRequest
       }
@@ -161,7 +163,7 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
         },
         data => {
           computerService.sendCommand(ip, data.superUser, data.command).map {
-            case state.ActionCompleted => Ok//(index(messagesApi("sshorder.executed"), notImplemented(messagesApi("sshorder.resulttext"))))
+            case state.ActionCompleted => Ok(Json.toJson(ResultMessage("Order sent successfully")))//(index(messagesApi("sshorder.executed"), notImplemented(messagesApi("sshorder.resulttext"))))
             case state.Failed => BadRequest
             case _ => NotFound
           }
@@ -180,7 +182,7 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
         },
         data => {
           computerService.blockPage(ip, data.page).map {
-            case state.ActionCompleted => Ok //(index(messagesApi("page.done"), notImplemented(messagesApi("page.resulttext"))))
+            case state.ActionCompleted => Ok(Json.toJson(ResultMessage("Page blocked successfully on the computer"))) //(index(messagesApi("page.done"), notImplemented(messagesApi("page.resulttext"))))
             case state.NotFound => NotFound
             case _ => BadRequest
           }
@@ -199,7 +201,7 @@ class ComputerController @Inject() (computerService: ComputerService, roomServic
         },
         data => {
           computerService.sendMessage(ip, data.message).map {
-            case state.OrderCompleted(result, exitCode) => Ok
+            case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Message sent successfully")))
             case state.NotFound => NotFound
             case state.NotCheckedYet => InternalServerError
             case _ => BadRequest
