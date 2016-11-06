@@ -154,7 +154,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     if (exitCode == 0) {
       state.ActionCompleted
     } else {
-      state.Failed
+      state.OrderFailed(result, exitCode)
     }
   }
 

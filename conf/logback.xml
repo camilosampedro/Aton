@@ -25,6 +25,8 @@
     </appender>
 
     <logger name="play" level="DEBUG"/>
+    <!-- Disable for some test thrown exceptions -->
+    <logger name="akka.actor.OneForOneStrategy" level="OFF"/>
     <logger name="application" level="DEBUG"/>
     <logger name="HomeController" level="DEBUG"/>
 

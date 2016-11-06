@@ -4,12 +4,14 @@ import com.google.inject.Inject
 import controllers.{routes => normalroutes}
 import dao.{LaboratoryDAO, UserDAO}
 import model.Role._
+import model.json.ModelWrites.resultMessageWrites
 import model.form.LaboratoryForm
 import model.form.data.LaboratoryFormData
-import model.{Laboratory, Role}
+import model.{Laboratory, ResultMessage, Role}
 import play.Logger
 import play.api.Environment
 import play.api.i18n.MessagesApi
+import play.api.libs.json.Json
 import services.{LaboratoryService, UserService, state}
 import views.html._
 
@@ -48,8 +50,8 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
       data => {
         val newLaboratory = Laboratory(0, data.name, data.location, data.administration)
         laboratoryService.add(newLaboratory).map {
-          case state.ActionCompleted => Ok //Redirect(normalroutes.HomeController.home())
-          case _ => BadRequest
+          case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Could not add that laboratory"))) //Redirect(normalroutes.HomeController.home())
+          case _ => BadRequest(Json.toJson(new ResultMessage("Could not add that laboratory")))
 
         }
       }

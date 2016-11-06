@@ -15,7 +15,6 @@ class LaboratoryControllerFailedSpec extends LaboratoryControllerSpec {
   lazy val controller = new LaboratoryController(labService, messagesApi)(userService, executionContext, environment)
 
   "Laboratory Controller on failing operations" should {
-
     "return Failed <400> status on adding a new laboratory" in {
       import laboratory._
       val laboratoryData = LaboratoryFormData(name, location, administration)
@@ -26,6 +25,18 @@ class LaboratoryControllerFailedSpec extends LaboratoryControllerSpec {
           .withFormUrlEncodedBody(laboratoryForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 400)
+    }
+
+    "return \"Could not add that laboratory\" response message JSON on adding a new laboratory" in {
+      import laboratory._
+      val laboratoryData = LaboratoryFormData(name, location, administration)
+      val laboratoryForm = LaboratoryForm.form.fill(laboratoryData)
+      val result = controller.add.apply {
+        FakeRequest()
+          .withLoggedIn(controller)(loggedInUser)
+          .withFormUrlEncodedBody(laboratoryForm.data.toSeq: _*)
+      }
+      assertBodyJsonMessage(result, "Could not add that laboratory")
     }
   }
 }

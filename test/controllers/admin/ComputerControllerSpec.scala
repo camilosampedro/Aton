@@ -60,6 +60,8 @@ trait ComputerControllerSpec extends ControllerTest {
     * Sample command
     */
   val command = "echo \"Hola\""
+  val errorStatus = 1
+  val errorOutput = "Some errors for tests"
 
   /**
     * Mocked computer service methods for testing only the controller
@@ -82,13 +84,24 @@ trait ComputerControllerSpec extends ControllerTest {
       any[Option[Long]])) thenReturn Future.successful(alternativeState)
     // delete will do have more than those two states
     when(computerService.delete(any[String])) thenReturn Future.successful(actionState)
-    when(computerService.blockPage(any[String], any[String])(any[String])) thenReturn Future.successful(actionState)
     when(computerService.edit(any[Computer])) thenReturn Future.successful(actionState)
     when(computerService.shutdown(any[String])(any[String])) thenReturn Future.successful(actionState)
     when(computerService.shutdown(any[List[String]])(any[String])) thenReturn Future.successful(actionState)
-    when(computerService.upgrade(any[String])(any[String])) thenReturn Future.successful(actionState)
-    when(computerService.unfreeze(any[String])(any[String])) thenReturn Future.successful(actionState)
-    when(computerService.sendCommand(any[String], any[Boolean], any[String])(any[String])) thenReturn Future.successful(actionState)
+    if(actionState == state.Failed){
+      val orderFailedStatus = state.OrderFailed(errorOutput,errorStatus)
+      when(computerService.blockPage(any[String], any[String])(any[String])) thenReturn Future.successful(orderFailedStatus)
+      when(computerService.upgrade(any[String])(any[String])) thenReturn Future.successful(orderFailedStatus)
+      when(computerService.unfreeze(any[String])(any[String])) thenReturn Future.successful(orderFailedStatus)
+      when(computerService.sendCommand(any[String], any[Boolean], any[String])(any[String])) thenReturn Future.successful(orderFailedStatus)
+    } else {
+      when(computerService.blockPage(any[String], any[String])(any[String])) thenReturn Future.successful(actionState)
+      when(computerService.upgrade(any[String])(any[String])) thenReturn Future.successful(actionState)
+      when(computerService.unfreeze(any[String])(any[String])) thenReturn Future.successful(actionState)
+      when(computerService.sendCommand(any[String], any[Boolean], any[String])(any[String])) thenReturn Future.successful(actionState)
+    }
+
+
+
     computerService
   }
 }

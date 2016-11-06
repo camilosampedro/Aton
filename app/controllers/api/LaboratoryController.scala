@@ -5,7 +5,7 @@ import com.google.inject.Inject
 import dao.{LaboratoryDAO, UserDAO}
 import jp.t2v.lab.play2.auth.OptionalAuthElement
 import model._
-import model.json.Writes._
+import model.json.ModelWrites._
 import model.form.data.LoginFormData
 import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}

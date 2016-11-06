@@ -7,7 +7,7 @@ import play.api.libs.json._
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-object Writes {
+object ModelWrites {
   implicit val computerWrites = new Writes[Computer] {
     def writes(computer: Computer) = Json.obj (
       "name" -> computer.name,
@@ -38,7 +38,8 @@ object Writes {
 
   implicit val resultMessageWrites = new Writes[ResultMessage] {
     def writes(resultMessage: ResultMessage) = Json.obj (
-      "result" -> resultMessage.result
+      "result" -> resultMessage.result,
+      "errors" -> resultMessage.extra
     )
   }
 
