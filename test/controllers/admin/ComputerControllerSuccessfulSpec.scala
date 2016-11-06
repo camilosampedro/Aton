@@ -52,6 +52,8 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
+    "return response message JSON on receiving an edited computer" in pending
+
     "return Ok <200> status on deleting a computer" in {
       val result = controller.delete(computer.ip).apply {
         FakeRequest()
@@ -59,6 +61,8 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       }
       assertFutureResultStatus(result, 200)
     }
+
+    "return response message JSON on deleting a computer" in pending
 
     "return Ok <200> status on blocking a page on a single computer" in {
       val result = controller.blockPage(computer.ip).apply {
@@ -69,6 +73,8 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
+    "return response message JSON on blocking a page on a single computer" in pending
+
     "return Ok <200> status on shutting down a computer" in {
       val result = controller.shutdown(computer.ip).apply {
         FakeRequest()
@@ -76,6 +82,8 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       }
       assertFutureResultStatus(result, 200)
     }
+
+    "return response message JSON on shutting down a computer" in pending
 
     "return Ok <200> status on shutting down several computer" in {
       val computersData = SelectComputersFormData(Seq(computer.ip).toList)
@@ -88,6 +96,8 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
+    "return response message JSON on shutting down several computers" in pending
+
     "return Ok <200> status on upgrading a computer" in {
       val result = controller.upgrade(computer.ip).apply {
         FakeRequest()
@@ -96,6 +106,8 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
+    "return response message JSON on upgrading a computer" in pending
+
     "return Ok <200> status on unfreezing a computer" in {
       val result = controller.unfreeze(computer.ip).apply {
         FakeRequest()
@@ -103,6 +115,8 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       }
       assertFutureResultStatus(result, 200)
     }
+
+    "return response message JSON on unfreezing a computer" in pending
 
     "return Ok <200> status on sending a command to a computer" in {
       val sshOrderData = SSHOrderFormData(superUser = false, command)
@@ -115,6 +129,8 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
+    "return response message JSON on sending a command to a computer" in pending
+
     "return Ok <200> status on adding a new computer" in {
       import computer._
       val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
@@ -126,6 +142,8 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       }
       assertFutureResultStatus(result, 200)
     }
+
+    "return response message JSON on adding a new computer" in pending
   }
 
 

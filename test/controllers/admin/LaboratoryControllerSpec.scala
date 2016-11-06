@@ -71,7 +71,7 @@ trait LaboratoryControllerSpec extends ControllerTest {
   val loggedInUser = LoginFormData("", "")
   // Laboratory with data to be tested
   val laboratory = Laboratory(id = 1l, name = "P3trur0 lab", location = Some("Italy"), administration = Some("user"))
-  val command = s"""echo "Ciao""""
+  val command = """echo "Ciao""""
 
 
 

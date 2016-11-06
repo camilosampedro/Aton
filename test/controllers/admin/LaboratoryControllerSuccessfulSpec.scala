@@ -37,7 +37,7 @@ class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
   lazy val controller = new LaboratoryController(labService, messagesApi)(userService, executionContext, environment)
 
   "Laboratory Controller on successful operations" should {
-    s"return Ok status on receiving an edited laboratory" in {
+    "return Ok <200> status on receiving an edited laboratory" in {
       import laboratory._
       val laboratoryData = LaboratoryFormData(name, location, administration)
       val laboratoryForm = LaboratoryForm.form.fill(laboratoryData)
@@ -49,7 +49,7 @@ class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    s"return Ok status on deleting a laboratory" in {
+    "return Ok <200> status on deleting a laboratory" in {
       val result = controller.delete(laboratory.id).apply {
         FakeRequest()
           .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
@@ -57,7 +57,7 @@ class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    "return Ok status on adding a new laboratory" in {
+    "return Ok <200> status on adding a new laboratory" in {
       import laboratory._
       val laboratoryData = LaboratoryFormData(name, location, administration)
       val laboratoryForm = LaboratoryForm.form.fill(laboratoryData)
@@ -68,5 +68,8 @@ class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
       }
       assertFutureResultStatus(result, 200)
     }
+
+    "return Ok <200> status when listing all laboratories" in pending
+    "return laboratory list json when listing all laboratories" in pending
   }
 }

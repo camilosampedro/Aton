@@ -38,6 +38,30 @@ trait ComputerControllerSpec extends ControllerTest {
   implicit lazy val environment = mock[Environment]
 
   /**
+    * Execution context is a particular exception to the mocked dependencies
+    */
+  implicit lazy val executionContext: ExecutionContext = ExecutionContext.global
+
+  /**
+    * Mock user authentication
+    */
+  when(userService.checkAndGet(any[String], any[String])) thenReturn Future.successful(Some(User("", "", None, Role.Administrator)))
+
+  /**
+    * Logged in user to pass
+    */
+  val loggedInUser = LoginFormData("", "")
+  /**
+    * Computer with data to be tested
+    */
+  val computer = Computer(ip = "127.0.0.1", name = Some("Localhost"), SSHUser = "user", SSHPassword = "password",
+    description = Some(""), roomID = Some(1))
+  /**
+    * Sample command
+    */
+  val command = "echo \"Hola\""
+
+  /**
     * Mocked computer service methods for testing only the controller
     * @param actionState Action state to be returned when methods being executed
     * @return Mocked computer service
@@ -67,58 +91,4 @@ trait ComputerControllerSpec extends ControllerTest {
     when(computerService.sendCommand(any[String], any[Boolean], any[String])(any[String])) thenReturn Future.successful(actionState)
     computerService
   }
-
-  /**
-    * Mock user authentication
-    */
-  when(userService.checkAndGet(any[String], any[String])) thenReturn Future.successful(Some(User("", "", None, Role.Administrator)))
-
-  /**
-    * Execution context is a particular exception to the mocked dependencies
-    */
-  implicit lazy val executionContext: ExecutionContext = ExecutionContext.global
-
-  /**
-    * Logged in user to pass
-    */
-  val loggedInUser = LoginFormData("", "")
-  /**
-    * Computer with data to be tested
-    */
-  val computer = Computer(ip = "127.0.0.1", name = Some("Localhost"), SSHUser = "user", SSHPassword = "password",
-    description = Some(""), roomID = Some(1))
-  /**
-    * Sample command
-    */
-  val command = "echo \"Hola\""
-
-  /*"Computer Controller on not founding operations" should {
-    val controller = createTestForResult("NotFound", state.NotFound, 404)
-    "return BadRequest status on adding a new computer" in {
-      import computer._
-      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
-      val computerForm = ComputerForm.form.fill(computerData)
-      val result = controller.add.apply {
-        FakeRequest()
-          .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
-      }
-      assertFutureResultStatus(result, 400)
-    }
-  }
-
-  "Computer Controller on failing operations" should {
-    val controller = createTestForResult("BadRequest", state.Failed, 400)
-    "return BadRequest status on adding a new computer" in {
-      import computer._
-      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
-      val computerForm = ComputerForm.form.fill(computerData)
-      val result = controller.add.apply {
-        FakeRequest()
-          .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
-      }
-      assertFutureResultStatus(result, 400)
-    }
-  }*/
 }
