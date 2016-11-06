@@ -322,7 +322,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     val actionStates = users.map{user=>
       try {
         val (result,exitCode) = execute(computer, new SSHOrder(now,superUser = false, interrupt= false, notificationOrder(user.username,message),username))
-        new state.OrderCompleted(result,exitCode)
+        state.OrderCompleted(result, exitCode)
       } catch {
         case e: JSchException => play.Logger.error(s"There was a SSH error sending messages to the $computer",e)
           state.Failed
@@ -331,7 +331,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
       }
 
     }
-    if (actionStates.exists(_!=state.ActionCompleted)){
+    if (actionStates.exists(_!=state.OrderCompleted)){
       state.Failed
     } else {
       state.ActionCompleted
