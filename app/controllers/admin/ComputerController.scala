@@ -56,9 +56,9 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
         },
         data => {
           computerService.blockPage(ip, data.page).map {
-            case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Page blocked successfully on the computer"))) //(index(messagesApi("page.done"), notImplemented(messagesApi("page.resulttext"))))
+            case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Page blocked successfully on the computer", Seq(exitCode.toString, result))))
             case state.NotFound => NotFound
-            case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not block that page", result.split("\n"))))
+            case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not block that page", Seq(result))))
             case _ => BadRequest(Json.toJson(new ResultMessage("Could not block that page")))
           }
         })
@@ -157,10 +157,10 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       computerService.upgrade(ip).map {
-        case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer upgraded successfully")))
+        case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Computer upgraded successfully", Seq(result))))
         case state.NotFound => NotFound
         case state.OrderFailed(result, exitCode) =>
-          BadRequest(Json.toJson(ResultMessage("Could not upgrade that computer", result.split("\n"))))
+          BadRequest(Json.toJson(ResultMessage("Could not upgrade that computer", Seq(result))))
         case _ => BadRequest
       }
   }
@@ -170,9 +170,9 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       computerService.unfreeze(ip).map {
-        case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer unfreezed successfully")))
+        case state.OrderCompleted(result,exitCode) => Ok(Json.toJson(ResultMessage("Computer unfreezed successfully", Seq(result))))
         case state.NotFound => NotFound
-        case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not unfreeze that computer", result.split("\n"))))
+        case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not unfreeze that computer", Seq(result))))
         case _ => BadRequest
       }
   }
@@ -189,9 +189,9 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
         },
         data => {
           computerService.sendCommand(ip, data.superUser, data.command).map {
-            case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Order sent successfully"))) //(index(messagesApi("sshorder.executed"), notImplemented(messagesApi("sshorder.resulttext"))))
+            case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Order sent successfully", Seq(result))))
             case state.NotFound => NotFound
-            case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not send that command to that computer", result.split("\n"))))
+            case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not send that command to that computer", Seq(result))))
             case _ => BadRequest
           }
         })
@@ -209,7 +209,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
         },
         data => {
           computerService.sendMessage(ip, data.message).map {
-            case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(new ResultMessage("Message sent successfully")))
+            case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Message sent successfully", Seq(result))))
             case state.NotFound => NotFound
             case state.NotCheckedYet => InternalServerError
             case _ => BadRequest
