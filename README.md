@@ -6,8 +6,8 @@
 [![Issue Count](https://codeclimate.com/github/camilosampedro/Aton/badges/issue_count.svg)](https://codeclimate.com/github/camilosampedro/Aton)
 [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 [![Open Source Love](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
-[![forthebadge](http://forthebadge.com/images/badges/powered-by-responsibility.svg)](http://forthebadge.com)
 [![Join the chat at https://gitter.im/Aton-admin/Lobby](https://badges.gitter.im/Aton-admin/Lobby.svg)](https://gitter.im/Aton-admin/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 Web computer laboratory administrator.
 
