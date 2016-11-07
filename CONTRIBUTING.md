@@ -13,6 +13,8 @@ To translate Aton to your native language, you can visit [Aton Transifex project
 ## Programming
 To help programming in Aton, you can help designing and proramming `HTML` + `CSS` + `Javascript`|`Angular2`|`Typescript` frontend or programming `Scala` backend. You can look for __[bitesize](https://github.com/camilosampedro/Aton/labels/bitesize)__ issues to get a good start point. You can find more information on the [__Aton Wiki__](https://github.com/camilosampedro/Aton/wiki).
 
+You can also use [Vagrant](https://github.com/camilosampedro/Aton/wiki/Using-Vagrant-for-running-Aton-(Development)) for running the application.
+
 ### Commit and Pull Request formats
 When creating a pull request, please follow this simple format to keep the project mantainable and clean.
 

@@ -6,4 +6,7 @@ target
 /.sbtserver
 /.project
 /.settings
+/.vagrant
+*.vdi
+*.log
 /RUNNING_PID
