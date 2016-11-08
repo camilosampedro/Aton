@@ -55,30 +55,23 @@ Vagrant.configure("2") do |config|
 
     # Disk size
     # Validate this should be run it once
-    if ARGV[0] == "up" && ! File.exist?("./disk1.vdi")
-      vb.customize [
-        'createhd',
-        '--filename', "./disk1.vdi",
-        '--format', 'VDI',
-        # 100GB
-        '--size', 100 * 1024
-      ]
-
-      vb.customize [
-        'storageattach', :id,
-        '--storagectl', 'SATA Controller',
-        '--port', 1, '--device', 0,
-        '--type', 'hdd', '--medium',
-        './disk1.vdi'
-      ]
-    end
-
-    if ARGV[0] == "up" && ! File.exist?("./disk1.vdi")
-      # Run script to map new disk
-      config.vm.provision "shell", path: "vagrant_setup.sh"
-      # Run script to increase swap memory
-      # config.vm.provision "bash", path: "increase_swap.sh"
-    end
+    # if ARGV[0] == "up" && ! File.exist?("./.vagrant/disk1.vdi")
+    #  vb.customize [
+    #    'createhd',
+    #    '--filename', "./.vagrant/disk1.vdi",
+    #    '--format', 'VDI',
+    #    # 100GB
+    #    '--size', 25 * 1024
+    #  ]
+#
+#      vb.customize [
+#        'storageattach', :id,
+#        '--storagectl', 'SCSI',
+#        '--port', 1, '--device', 0,
+#        '--type', 'hdd', '--medium',
+#        './.vagrant/disk1.vdi'
+#      ]
+    #end
   end
   #
   # View the documentation for the provider you are using for more
@@ -98,4 +91,5 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
+  config.vm.provision "shell", path: "vagrant_setup.sh"
 end

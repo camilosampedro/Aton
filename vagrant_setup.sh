@@ -31,6 +31,8 @@ echo " ==> Adding execution permissions to activator"
 sudo chmod +x /opt/activator/bin/activator
 echo " ==> Adding activator's bin to PATH"
 echo "export PATH=\$PATH:/opt/activator/bin" >> /home/ubuntu/.bashrc
+echo " ==> Adding ivy2 patch"
+echo "alias=activator -Dsbt.ivy.home=/vagrant/.ivy2/ -Divy.home=/vagrant/.ivy2/" >> /home/ubuntu/.bashrc
 
 # Install MySQL
 echo " => Installing MySQL"
