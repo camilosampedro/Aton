@@ -37,7 +37,7 @@ class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
   lazy val controller = new LaboratoryController(labService, messagesApi)(userService, executionContext, environment)
 
   "Laboratory Controller on successful operations" should {
-    "return Ok <200> status on receiving an edited laboratory" in {
+    "return Accepted <202> status on receiving an edited laboratory" in {
       import laboratory._
       val laboratoryData = LaboratoryFormData(name, location, administration)
       val laboratoryForm = LaboratoryForm.form.fill(laboratoryData)
@@ -46,7 +46,7 @@ class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(laboratoryForm.data.toSeq: _*)
       }
-      assertFutureResultStatus(result, 200)
+      assertFutureResultStatus(result, 202)
     }
 
     "return Ok <200> status on deleting a laboratory" in {
@@ -57,7 +57,7 @@ class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
       assertFutureResultStatus(result, 200)
     }
 
-    "return Ok <200> status on adding a new laboratory" in {
+    "return Created <201> status on adding a new laboratory" in {
       import laboratory._
       val laboratoryData = LaboratoryFormData(name, location, administration)
       val laboratoryForm = LaboratoryForm.form.fill(laboratoryData)
@@ -66,7 +66,7 @@ class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(laboratoryForm.data.toSeq: _*)
       }
-      assertFutureResultStatus(result, 200)
+      assertFutureResultStatus(result, 201)
     }
 
     "return Ok <200> status when listing all laboratories" in pending

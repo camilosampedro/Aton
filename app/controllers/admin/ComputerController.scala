@@ -27,7 +27,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       errorForm => Future.successful(Ok(errorForm.toString)),
       data => {
         computerService.add(data.ip, data.name, data.SSHUser, data.SSHPassword, data.description, data.roomID).map {
-          case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer added successfully")))
+          case state.ActionCompleted => Created(Json.toJson(new ResultMessage("Computer added successfully")))
           case state.NotFound => NotFound
           case _ => BadRequest(Json.toJson(new ResultMessage("Could not add that computer")))
         }
@@ -98,7 +98,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       data => {
         val newComputer = Computer(data.ip, data.name, data.SSHUser, data.SSHPassword, data.description, data.roomID)
         computerService.edit(newComputer).map {
-          case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer edited successfully")))
+          case state.ActionCompleted => Accepted(Json.toJson(new ResultMessage("Computer edited successfully")))
           case state.NotFound => NotFound
           case _ => BadRequest(Json.toJson(new ResultMessage("Could not edit that computer")))
         }

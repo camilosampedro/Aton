@@ -41,7 +41,7 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
   lazy val controller = new ComputerController(computerService, roomService, messagesApi)(userService, executionContext, environment)
 
   "Computer Controller on successful operations" should {
-    "return Ok <200> status on receiving an edited computer" in {
+    "return Accepted <202> status on receiving an edited computer" in {
       import computer._
       val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
       val computerForm = ComputerForm.form.fill(computerData)
@@ -50,7 +50,7 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
-      assertFutureResultStatus(result, 200)
+      assertFutureResultStatus(result, 202)
     }
 
     "return \"Computer edited successfully\" response message JSON on receiving an edited computer" in {
@@ -191,7 +191,7 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       assertBodyJsonMessage(result,"Order sent successfully")
     }
 
-    "return Ok <200> status on adding a new computer" in {
+    "return Created <201> status on adding a new computer" in {
       import computer._
       val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
       val computerForm = ComputerForm.form.fill(computerData)
@@ -200,7 +200,7 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
-      assertFutureResultStatus(result, 200)
+      assertFutureResultStatus(result, 201)
     }
 
     "return \"Computer added successfully\" response message JSON on adding a new computer" in {

@@ -1,7 +1,6 @@
-package controllers.admin
+package test
 
-import org.scalatest.Matchers
-import org.scalatest.FlatSpec
+import org.scalatest.{FlatSpec, Matchers}
 
 class AtonTestSpec extends FlatSpec with Matchers {
   

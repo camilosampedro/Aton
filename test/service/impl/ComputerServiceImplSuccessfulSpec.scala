@@ -7,6 +7,9 @@ import services.state
 import org.scalatest._
 import Matchers._
 
+import scala.concurrent.Await
+import scala.concurrent.duration._
+
 /**
   * Created by camilosampedro on 6/11/16.
   */
@@ -107,6 +110,26 @@ class ComputerServiceImplSuccessfulSpec extends ComputerServiceImplSpec {
 
     "return ActionCompleted on shutting down several computers" in {
       val result = computerService.shutdown(List(computer1ip,computer2ip))
+      assertState(result, state.ActionCompleted)
+    }
+
+    "return OrderCompleted with stdout and exit code of the execution when installing a package in a computer" in {
+      val result = computerService.installAPackage(computer1ip,"mysql")
+      assertStateWithResult(result,state.OrderCompleted("installed", 0),"installed", 0)
+    }
+
+    "return OrderCompleted with stdout and exit code of the execution when upgrading a computer" in {
+      val result = computerService.upgrade(computer1ip)
+      assertStateWithResult(result,state.OrderCompleted("upgraded", 0),"upgraded", 0)
+    }
+
+    "return OrderCompleted with stdout and exit code of the execution when unfreezing a computer" in {
+      val result = computerService.unfreeze(computer1ip)
+      assertStateWithResult(result,state.OrderCompleted("unfreezed", 0),"unfreezed", 0)
+    }
+
+    "return ActionCompleted when blocking a page on a computer" in {
+      val result = computerService.blockPage(computer1ip, urlForTesting)
       assertState(result, state.ActionCompleted)
     }
   }

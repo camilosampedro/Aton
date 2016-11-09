@@ -33,7 +33,7 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
     laboratoryService.getSingle(id).map {
       case Some(laboratory) =>
         val data = LaboratoryFormData(laboratory.name, laboratory.location, laboratory.administration)
-        Ok//(index(messagesApi("laboratory.edit"), registerLaboratory(LaboratoryForm.form.fill(data))))
+        Accepted//(index(messagesApi("laboratory.edit"), registerLaboratory(LaboratoryForm.form.fill(data))))
       case e => NotFound("Laboratory not found")
     }
   }
@@ -45,12 +45,12 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
     LaboratoryForm.form.bindFromRequest.fold(
       errorForm => {
         Logger.error("There was an error with the input" + errorForm)
-        Future.successful(Ok(index(messagesApi("laboratory.add"),registerLaboratory(errorForm))))
+        Future.successful(BadRequest(index(messagesApi("laboratory.add"),registerLaboratory(errorForm))))
       },
       data => {
         val newLaboratory = Laboratory(0, data.name, data.location, data.administration)
         laboratoryService.add(newLaboratory).map {
-          case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Could not add that laboratory"))) //Redirect(normalroutes.HomeController.home())
+          case state.ActionCompleted => Created(Json.toJson(new ResultMessage("Could not add that laboratory"))) //Redirect(normalroutes.HomeController.home())
           case _ => BadRequest(Json.toJson(new ResultMessage("Could not add that laboratory")))
 
         }

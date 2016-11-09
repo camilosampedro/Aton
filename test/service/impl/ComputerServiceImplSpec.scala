@@ -2,13 +2,11 @@ package service.impl
 
 import java.sql.Timestamp
 
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
 import dao.ComputerDAO
 import model.{Computer, ComputerState, ConnectedUser}
-import services.SSHOrderService
-import services.impl.ComputerServiceImpl
-import services.state
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
+import services.{SSHOrderService, state}
 import services.state.ActionState
 import test.ServiceTest
 
@@ -22,6 +20,7 @@ trait ComputerServiceImplSpec extends ServiceTest {
   val executionContext = ExecutionContext.global
 
   implicit val username = "executor user"
+  val urlForTesting = "www.example.com"
 
   // Computers
   val computer1ip = "10.10.10.10"
@@ -82,7 +81,7 @@ trait ComputerServiceImplSpec extends ServiceTest {
     when(computerDAO.getWithStatus(any[String])) thenReturn Future.successful(computersWithStatus.take(4))
     when(computerDAO.get(any[String])) thenReturn Future.successful(Some(computer1))
     when(computerDAO.delete(any[String])) thenReturn Future.successful(actionState)
-    when(computerDAO.get(any[List[String]])) thenReturn Future.successful(List(computer1,computer2))
+    when(computerDAO.get(any[List[String]])) thenReturn Future.successful(List(computer1, computer2))
     computerDAO
   }
 
@@ -90,7 +89,10 @@ trait ComputerServiceImplSpec extends ServiceTest {
     lazy val sshOrderService = mock[SSHOrderService]
     when(sshOrderService.sendMessage(any[Computer], any[String], any[Seq[ConnectedUser]])(any[String])) thenReturn actionState
     when(sshOrderService.shutdown(any[Computer])(any[String])) thenReturn state.ActionCompleted
-    //when(sshOrderService.shutdown()(any[String])) thenReturn state.ActionCompleted
+    when(sshOrderService.installAPackage(any[Computer], any[List[String]])) thenReturn state.OrderCompleted("installed", 0)
+    when(sshOrderService.upgrade(any[Computer], any[ComputerState])(any[String])) thenReturn state.OrderCompleted("upgraded", 0)
+    when(sshOrderService.unfreeze(any[Computer])(any[String])) thenReturn state.OrderCompleted("unfreezed", 0)
+    when(sshOrderService.blockPage(any[Computer], any[String])(any[String])) thenReturn state.ActionCompleted
     sshOrderService
   }
 }
