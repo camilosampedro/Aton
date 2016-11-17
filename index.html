@@ -1,46 +1,43 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <title>Aton by camilosampedro</title>
+    <meta name="description" content="Aton : Computer room administration made easy">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Aton</title>
   </head>
 
   <body>
-    <div id="container">
-      <div class="inner">
 
-        <header>
-          <h1>Aton</h1>
-          <h2>Computer room administration made easy</h2>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/camilosampedro/Aton">View on GitHub</a>
+
+          <h1 id="project_title">Aton</h1>
+          <h2 id="project_tagline">Computer room administration made easy</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/camilosampedro/Aton/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/camilosampedro/Aton/tarball/master">Download this project as a tar.gz file</a>
+            </section>
         </header>
+    </div>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/camilosampedro/Aton/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/camilosampedro/Aton/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/camilosampedro/Aton" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
-        <hr>
-
-        <section id="main_content">
-          <p><a href="https://travis-ci.org/camilosampedro/Aton"><img src="https://travis-ci.org/camilosampedro/Aton.svg?branch=master" alt="Build Status"></a>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><a href="https://travis-ci.org/camilosampedro/Aton"><img src="https://travis-ci.org/camilosampedro/Aton.svg?branch=master" alt="Build Status"></a>
 <a href="https://badge.fury.io/gh/camilosampedro%2FAton"><img src="https://badge.fury.io/gh/camilosampedro%2FAton.svg" alt="GitHub version"></a>
 <a href="https://codeclimate.com/github/camilosampedro/Aton"><img src="https://codeclimate.com/github/camilosampedro/Aton/badges/gpa.svg" alt="Code Climate"></a>
 <a href="https://codeclimate.com/github/camilosampedro/Aton"><img src="https://codeclimate.com/github/camilosampedro/Aton/badges/issue_count.svg" alt="Issue Count"></a>
 <a href="https://github.com/ellerbrock/open-source-badge/"><img src="https://badges.frapsoft.com/os/v2/open-source.svg?v=102" alt="Open Source Love"></a>
 <a href="https://github.com/ellerbrock/open-source-badge/"><img src="https://badges.frapsoft.com/os/gpl/gpl.svg?v=102" alt="Open Source Love"></a>
-<a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/powered-by-responsibility.svg" alt="forthebadge"></a></p>
-
-<h1>
-<a id="aton" class="anchor" href="#aton" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ATON</h1>
+<a href="https://gitter.im/Aton-admin/Lobby?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Aton-admin/Lobby.svg" alt="Join the chat at https://gitter.im/Aton-admin/Lobby"></a></p>
 
 <p>Web computer laboratory administrator.</p>
 
@@ -67,7 +64,11 @@
 <h3>
 <a id="install-from-release-file" class="anchor" href="#install-from-release-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install from release file</h3>
 
-<p>Go to <a href="https://github.com/ProjectAton/AtonLab/releases">releases page</a> and download the ones who fits you most.</p>
+<ul>
+<li>For more detailed instructions, please go to the <a href="https://github.com/camilosampedro/Aton/wiki/How-to-install-Aton">Installation wiki page</a>. </li>
+</ul>
+
+<p>Go to <a href="https://github.com/camilosampedro/Aton/releases">releases page</a> and download the ones who fits you most.</p>
 
 <h4>
 <a id="debian--ubuntu--linux-mint-deb" class="anchor" href="#debian--ubuntu--linux-mint-deb" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Debian / Ubuntu / Linux Mint <code>.deb</code>
@@ -101,7 +102,7 @@ mysql -p <span class="pl-k">&lt;</span> /usr/share/aton/conf/default/create.sql<
 <h4>
 <a id="clone-github-repository" class="anchor" href="#clone-github-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Clone GitHub repository</h4>
 
-<div class="highlight highlight-source-shell"><pre>git clone https://github.com/ProjectAton/AtonLab.git</pre></div>
+<div class="highlight highlight-source-shell"><pre>git clone https://github.com/camilosampedro/Aton.git</pre></div>
 
 <h4>
 <a id="try-it-in-non-production-mode" class="anchor" href="#try-it-in-non-production-mode" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Try it in non-production mode</h4>
@@ -164,15 +165,51 @@ end script</pre></div>
 script
   <span class="pl-c1">exec</span> sudo -u aton bin/aton -Dhttp.port=8080
 end script</pre></div>
-        </section>
 
-        <footer>
-          Aton is maintained by <a href="https://github.com/camilosampedro">camilosampedro</a><br>
-          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
+<h1>
+<a id="testing" class="anchor" href="#testing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Testing</h1>
 
-        
-      </div>
+<p>Thanks to <a href="lis.udea.edu.co">LIS</a>, Aton could be tested on a real 80 computers environment. The system specifications was:</p>
+
+<h2>
+<a id="aton-server" class="anchor" href="#aton-server" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Aton server</h2>
+
+<ul>
+<li>
+<strong>Operating system:</strong> <code>Ubuntu 14.04.5 LTS</code>
+</li>
+<li>
+<strong>RAM:</strong> 512 mb</li>
+<li>
+<strong>Cores:</strong> 1 core @ 1.60GHz</li>
+</ul>
+
+<h2>
+<a id="managed-computers" class="anchor" href="#managed-computers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Managed computers</h2>
+
+<ul>
+<li>
+<strong>Operatings system:</strong> <code>Linux Mint Debian Edition 2</code>
+</li>
+<li>
+<strong>RAM:</strong> ~4 gb (Some have 2gb, others have 8gb)</li>
+<li>
+<strong>Processors:</strong> Intel core 2 Duo and Intel core i7</li>
+<li>A room full of software engineering students! Most of them use IDEs, test commands, navigate through SSH.</li>
+<li>LDAP user management.</li>
+</ul>
+      </section>
     </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Aton maintained by <a href="https://github.com/camilosampedro">camilosampedro</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
   </body>
 </html>
