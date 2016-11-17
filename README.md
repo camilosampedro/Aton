@@ -1,4 +1,4 @@
-# ATON
+#![Aton](https://github.com/camilosampedro/Aton/raw/gh-pages/images/AtonLogoMedium.png) 
 
 [![Build Status](https://travis-ci.org/camilosampedro/Aton.svg?branch=master)](https://travis-ci.org/camilosampedro/Aton)
 [![GitHub version](https://badge.fury.io/gh/camilosampedro%2FAton.svg)](https://badge.fury.io/gh/camilosampedro%2FAton)
