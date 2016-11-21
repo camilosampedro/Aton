@@ -1,12 +1,13 @@
 package model.json
 
 import model._
-import play.api.libs.json.{Json, Writes}
+import play.api.libs.json._
+
 
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-object Writes {
+object ModelWrites {
   implicit val computerWrites = new Writes[Computer] {
     def writes(computer: Computer) = Json.obj (
       "name" -> computer.name,
@@ -32,6 +33,13 @@ object Writes {
       "audiovisualResources" -> room.audiovisualResources,
       "basicTools" -> room.basicTools,
       "laboratoryId" -> room.laboratoryID
+    )
+  }
+
+  implicit val resultMessageWrites = new Writes[ResultMessage] {
+    def writes(resultMessage: ResultMessage) = Json.obj (
+      "result" -> resultMessage.result,
+      "errors" -> resultMessage.extra
     )
   }
 

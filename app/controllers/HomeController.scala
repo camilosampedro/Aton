@@ -20,8 +20,9 @@ import scala.concurrent.duration._
 class HomeController @Inject()(laboratoryService: LaboratoryService, @Named("computerChecker") computerChecker: ActorRef, actorSystem: ActorSystem, val messagesApi: MessagesApi)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithNoAuthRequired {
   val logger = Logger("HomeController")
 
-  play.Logger.debug("Computer Checker configured.")
+  play.Logger.debug("Configuring Computer Checker...")
   actorSystem.scheduler.schedule(0.microseconds,5.minutes, computerChecker,"Execute")
+  play.Logger.debug("Computer Checker configured.")
 
   def home = AsyncStack { implicit request =>
     play.Logger.debug("Logged user: " + loggedIn)

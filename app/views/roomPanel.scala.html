@@ -5,7 +5,9 @@
     <div class="col-md-12 room-panel">
         <div class="panel panel-primary">
             <div class="panel-heading icon ion-easel"> @room.name @if(isAdmin) {
-                <a href="@adminroutes.RoomController.edit(room.id)" class="btn btn-warning icon ion-edit pull-right" role="button" title="@messages("room.edit")"></a> <a href="@adminroutes.RoomController.delete(room.id)" title="@messages("room.delete")" class="btn btn-danger icon ion-minus pull-right" role="button"></a>
+                <a href="@adminroutes.RoomController.edit(room.id)"><div class="btn btn-warning icon ion-edit pull-right" role="button" title="@messages("room.edit")"></div></a>
+                <a href="@adminroutes.RoomController.delete(room.id)" title="@messages("room.delete")"><div class="btn btn-danger icon ion-minus pull-right" role="button"></div></a>
+                <div data-href="@adminroutes.RoomController.blockUserForm(room.id)" title="@messages("room.blockUser")" class="btn btn-danger icon ion-android-hand pull-right ajax-modal" role="button"></div>
             }</div>
             <div class="panel-body">
             @if(computers.nonEmpty) {

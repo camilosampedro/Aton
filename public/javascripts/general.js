@@ -20,5 +20,20 @@ $(document).ready(function () {
         commandBox.find(".modal-body #blockpageform").attr("action", "/computer/blockpage/" + event.target.id);
         commandBox.find(".modal-body #sendmessageform").attr("action", "/computer/sendmessage/" + event.target.id);
         commandBox.modal('show');
-    })
+    });
+    $(".ajax-modal").click(function (event) {
+        console.log("Clicked " + event.target.id);
+        var target = $(event.target);
+        if(target.data('toggled')) {
+            // prevent double-click during request
+            return;
+        }
+        target.data('toggled', true);
+        var href = target.attr('data-href');
+        var modalContainer = $('body > .modal');
+        modalContainer.load(href, function () {
+            target.data('toggled', false);
+            modalContainer.modal('show');
+        });
+    });
 });

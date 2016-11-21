@@ -1,13 +1,14 @@
+#![Aton](https://github.com/camilosampedro/Aton/raw/gh-pages/images/AtonLogoMedium.png) 
+
 [![Build Status](https://travis-ci.org/camilosampedro/Aton.svg?branch=master)](https://travis-ci.org/camilosampedro/Aton)
 [![GitHub version](https://badge.fury.io/gh/camilosampedro%2FAton.svg)](https://badge.fury.io/gh/camilosampedro%2FAton)
 [![Code Climate](https://codeclimate.com/github/camilosampedro/Aton/badges/gpa.svg)](https://codeclimate.com/github/camilosampedro/Aton)
 [![Issue Count](https://codeclimate.com/github/camilosampedro/Aton/badges/issue_count.svg)](https://codeclimate.com/github/camilosampedro/Aton)
 [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 [![Open Source Love](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
-[![forthebadge](http://forthebadge.com/images/badges/powered-by-responsibility.svg)](http://forthebadge.com)
+[![Join the chat at https://gitter.im/Aton-admin/Lobby](https://badges.gitter.im/Aton-admin/Lobby.svg)](https://gitter.im/Aton-admin/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
-# ATON
 Web computer laboratory administrator.
 
 ![Screenshot](https://github.com/camilosampedro/Aton/raw/gh-pages/images/Aton_screenshot.png)

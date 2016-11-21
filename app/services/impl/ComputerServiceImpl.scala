@@ -21,6 +21,7 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
 
   /**
     * Edit a computer on the database. Updates its fields.
+    *
     * @param computer Computer new data. Computer with the same ip address will be updated
     * @return State
     */
@@ -31,27 +32,34 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
 
   /**
     * List all computers on the database
+    *
     * @return Sequence of found computer
     */
   override def listAll: Future[Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]] = {
 
-    computerDAO.listAll.map(computers =>
-
-      computers
+    computerDAO.listAll.map { computers =>
+      val groupedComputers = computers
         // Grouping by the computer
         .groupBy(_._1)
 
-        .map { groupedComputer =>
-          (groupedComputer._1, groupedComputer._2.map { computerStateWithUsers =>
-            (computerStateWithUsers._2, computerStateWithUsers._3)
-          }.groupBy(_._1).map { groupedState =>
-            (groupedState._1, groupedState._2.flatMap(_._2))
-          }.flatMap {
-            case (Some(computerState), users) => Some((computerState, users))
-            case _ => None
-          }.toSeq.sortBy(_._1.registeredDate.getTime).headOption)
-        }.toSeq.sortBy(_._1.ip)
-    )
+      groupedComputers.map { groupedComputer =>
+        val computer = groupedComputer._1
+        val groupedComputerAndStatus = groupedComputer._2
+        val cleanedStatus = groupedComputerAndStatus.map{ computerStateWithUsers =>
+          (computerStateWithUsers._2, computerStateWithUsers._3)
+        }
+        val groupedStatusWithUsers = cleanedStatus.groupBy(_._1)
+        val cleanedStatusAndUsers = groupedStatusWithUsers.map{ groupedState =>
+          (groupedState._1, groupedState._2.flatMap(_._2))
+        }
+        val definedStatusAndUsers = cleanedStatusAndUsers.flatMap{
+          case (Some(computerState), users) => Some((computerState, users))
+          case _ => None
+        }.toSeq
+        val sortedStatusAndUsers = definedStatusAndUsers.sortBy(_._1.registeredDate.getTime).reverse
+        (computer, sortedStatusAndUsers.headOption)
+      }.toSeq.sortBy(_._1.ip)
+    }
   }
 
   /**
@@ -145,9 +153,9 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
   }
 
   override def shutdown(ips: List[String])(implicit username: String): Future[ActionState] = {
-    getSeveral(ips).map{computers=>
-      val actionStates = computers.map(sSHOrderService.shutdown(_))
-      if(actionStates.exists(_!=ActionCompleted)){
+    getSeveral(ips).map { computers =>
+      val actionStates = computers.map(sSHOrderService.shutdown)
+      if (actionStates.exists(_ != ActionCompleted)) {
         Failed
       } else {
         ActionCompleted
@@ -156,31 +164,36 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
   }
 
   override def upgrade(ip: String)(implicit username: String): Future[ActionState] = {
-    get(ip).map{
-      case Some((computer, Some((computerState,_)))) => sSHOrderService.upgrade(computer, computerState)
+    get(ip).map {
+      case Some((computer, Some((computerState, _)))) => sSHOrderService.upgrade(computer, computerState)
       case Some((computer, None)) => NotCheckedYet
       case _ => NotFound
     }
   }
 
   override def unfreeze(ip: String)(implicit username: String): Future[ActionState] = {
-    getSingle(ip).map{
+    getSingle(ip).map {
       case Some(computer) => sSHOrderService.unfreeze(computer)
       case _ => NotFound
     }
   }
 
   override def sendCommand(ip: String, superUser: Boolean, command: String)(implicit username: String): Future[ActionState] = {
-    getSingle(ip).map{
-      case Some(computer) if sSHOrderService.execute(computer,superUser,command)._2 == 0 => ActionCompleted
-      case Some(computer) => Failed
+    getSingle(ip).map {
+      case Some(computer) =>
+        val (result, exitCode) = sSHOrderService.execute(computer, superUser, command)
+        if (exitCode == 0) {
+          ActionCompleted
+        } else {
+          OrderFailed(result, exitCode)
+        }
       case _ => NotFound
     }
   }
 
   override def blockPage(ip: String, page: String)(implicit username: String): Future[ActionState] = {
-    getSingle(ip).map{
-      case Some(computer) => sSHOrderService.blockPage(computer,page)
+    getSingle(ip).map {
+      case Some(computer) => sSHOrderService.blockPage(computer, page)
       case _ => NotFound
     }
   }
@@ -193,8 +206,8 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
       play.Logger.debug("Adding a new computer: " + newComputer)
       add(newComputer)
     }.toSeq
-    Future.sequence(futures).map{states =>
-      if(states.exists(_!=ActionCompleted)){
+    Future.sequence(futures).map { states =>
+      if (states.exists(_ != ActionCompleted)) {
         ActionCompleted
       } else {
         Failed
