@@ -14,6 +14,10 @@ echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | su
 echo " ==> Installing Java 8 from repositories (This might take a few minutes)"
 sudo apt-get install -y oracle-java8-installer 1>/dev/null || echo "Failed to install Java 8"
 
+# Install nodejs for faster deployments
+echo " => Installing nodejs"
+sudo apt-get install -y node
+
 # Install activator
 echo " => Installing Activator"
 echo " ==> Installing zip to uncompress activator"
@@ -32,7 +36,9 @@ sudo chmod +x /opt/activator/bin/activator
 echo " ==> Adding activator's bin to PATH"
 echo "export PATH=\$PATH:/opt/activator/bin" >> /home/ubuntu/.bashrc
 echo " ==> Adding ivy2 patch"
-echo "alias=activator -Dsbt.ivy.home=/vagrant/.ivy2/ -Divy.home=/vagrant/.ivy2/" >> /home/ubuntu/.bashrc
+echo "export PATH=$PATH:/opt/activator/bin" >> /home/ubuntu/.bashrc
+echo "export SBT_OPTS=\"${SBT_OPTS} -Dsbt.jse.engineType=Node -Dsbt.jse.command=$(which nodejs)\"" >> /home/ubuntu/.bashrc
+echo "alias activator=\"activator -Dsbt.ivy.home=/vagrant/.ivy2/ -Divy.home=/vagrant/.ivy2/ -DtsCompileMode=stage\"" >> /home/ubuntu/.bashrc
 
 # Install MySQL
 echo " => Installing MySQL"
