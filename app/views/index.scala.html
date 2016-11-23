@@ -35,15 +35,16 @@
         <script type='text/javascript' src='@routes.Assets.versioned("lib/zone.js/dist/zone.js")'></script>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/reflect-metadata/Reflect.js")'></script>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/systemjs/dist/system.src.js")'></script>
+        <script type='text/javascript' src='@routes.Assets.versioned("lib/traceur/dist/commonjs/traceur.js")'></script>
 
         @* if we provide the jvm option -DtsCompileMode=stage to our sbt task our
         typescript app is compiled to one JS file including the ES6 libraries that our app depends on *@
         <script>    @* our app is downloaded as individual javascript files by SystemJs
                      after compilation by sbt-typescript*@
         var map = {
-            'app': 'assets/app',
-            '@@angular':'assets/lib/@@angular',
-            'rxjs':'assets/lib/rxjs',
+            'app': 'assets',
+            '@@angular': 'assets/lib/@@angular',
+            'rxjs': 'assets/lib/rxjs',
             'symbol-observable': 'assets/lib/symbol-observable'
         };
         var packages = {
@@ -63,37 +64,29 @@
             'router'
         ];
         function packIndex(pkgName) {
-            packages['@@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
+            packages['@@angular/' + pkgName] = {main: 'index.js', defaultExtension: 'js'};
         }
         function packUmd(pkgName) {
-            packages['@@angular/'+pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
+            packages['@@angular/' + pkgName] = {main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js'};
         }
         // Most environments should use UMD; some (Karma) need the individual index files
         function addAngularModulesToMap(pkgName) {
-            map['@@angular/'+pkgName] = 'assets/lib/angular__' + pkgName;
+            map['@@angular/' + pkgName] = 'assets/lib/angular__' + pkgName;
         }
         // Add package entries for angular packages
         var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
         ngPackageNames.forEach(setPackageConfig)
         // Add map entries for angular packages
-        ngPackageNames.forEach(function(pkgName){
+        ngPackageNames.forEach(function (pkgName) {
             addAngularModulesToMap(pkgName)
         });
         System.config({
-            map : map,
-            packages: packages,
+            map: map,
+            packages: packages
         });
         @* SystemJs works out which other modules our app module depends on and will download and load them*@
         System.import('app')
                 .catch(console.error.bind(console));
-        </script>
-
-        <script>
-
-            @* systemjs will load the module and all it depends on from the main.js file.
-                System.import('app/bootstrap')
-                        .catch(console.error.bind(console));
-            *@
         </script>
 
         <meta name="viewport"
@@ -104,12 +97,13 @@
     <body>
         <div class="wrapper">
             @header()
-            <todo-app>Loading...</todo-app>
+            <app-root>Loading...</app-root>
             <div id="container">
                 @menu()
                 <div class="content">@content</div>
             </div>
         </div>
         <div class="modal fade" tabindex="-1" role="dialog"></div>
+
     </body>
 </html>
