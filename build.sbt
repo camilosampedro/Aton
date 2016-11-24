@@ -62,6 +62,7 @@ libraryDependencies ++= {
   val ngVersion="2.3.0-beta.1"
   Seq(
     // Angular 2 dependencies
+    "org.webjars.npm" % "angular2" % "2.0.0-beta.17",
     "org.webjars.npm" % "angular__common" % ngVersion,
     "org.webjars.npm" % "angular__compiler" % ngVersion,
     "org.webjars.npm" % "angular__core" % ngVersion,
