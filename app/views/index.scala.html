@@ -89,7 +89,7 @@
             packages: packages
         });
         @* SystemJs works out which other modules our app module depends on and will download and load them*@
-        System.import('app')
+        System.import('assets/app')
                 .catch(console.error.bind(console));
 
         </script>

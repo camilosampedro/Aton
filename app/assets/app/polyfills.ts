@@ -9,12 +9,15 @@ import 'core-js/es6/parse-float';
 import 'core-js/es6/number';
 import 'core-js/es6/math';
 import 'core-js/es6/string';
-import 'core-js/es6/regexp';
 import 'core-js/es6/date';
 import 'core-js/es6/array';
+import 'core-js/modules/es6.regexp.flags';
+import 'core-js/modules/es6.regexp.to-string';
+import 'core-js/es6/regexp';
 import 'core-js/es6/map';
 import 'core-js/es6/set';
 import 'core-js/es6/reflect';
+
 
 import 'core-js/es7/reflect';
 import 'zone.js/dist/zone';
