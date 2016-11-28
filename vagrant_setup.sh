@@ -16,7 +16,7 @@ sudo apt-get install -y oracle-java8-installer 1>/dev/null || echo "Failed to in
 
 # Install nodejs for faster deployments
 echo " => Installing nodejs"
-sudo apt-get install -y node
+sudo apt-get install -y nodejs
 
 # Install activator
 echo " => Installing Activator"
@@ -36,9 +36,9 @@ sudo chmod +x /opt/activator/bin/activator
 echo " ==> Adding activator's bin to PATH"
 echo "export PATH=\$PATH:/opt/activator/bin" >> /home/ubuntu/.bashrc
 echo " ==> Adding ivy2 patch"
-echo "export PATH=$PATH:/opt/activator/bin" >> /home/ubuntu/.bashrc
-echo "export SBT_OPTS=\"${SBT_OPTS} -Dsbt.jse.engineType=Node -Dsbt.jse.command=$(which nodejs)\"" >> /home/ubuntu/.bashrc
-echo "alias activator=\"activator -Dsbt.ivy.home=/vagrant/.ivy2/ -Divy.home=/vagrant/.ivy2/ -DtsCompileMode=stage\"" >> /home/ubuntu/.bashrc
+echo "export SBT_OPTS=\"\${SBT_OPTS} -Dsbt.jse.engineType=Node -Dsbt.jse.command=\$(which nodejs)\"" >> /home/ubuntu/.bashrc
+echo "alias activator=\"activator -Dsbt.ivy.home=/vagrant/.ivy2/ -Divy.home=/vagrant/.ivy2/\"" >> /home/ubuntu/.bashrc
+# echo "alias activator=\"activator -Dsbt.ivy.home=/vagrant/.ivy2/ -Divy.home=/vagrant/.ivy2/ -DtsCompileMode=stage\"" >> /home/ubuntu/.bashrc
 
 # Install MySQL
 echo " => Installing MySQL"
