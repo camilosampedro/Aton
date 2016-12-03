@@ -60,8 +60,7 @@
             'router',
             'http',
             'platform-browser',
-            'platform-browser-dynamic',
-            'router'
+            'platform-browser-dynamic'
         ];
 
         function packIndex(pkgName) {
@@ -89,7 +88,7 @@
             packages: packages
         });
         @* SystemJs works out which other modules our app module depends on and will download and load them*@
-        System.import('assets/app')
+        System.import('app')
                 .catch(console.error.bind(console));
 
         </script>
