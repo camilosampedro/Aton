@@ -59,7 +59,7 @@ libraryDependencies ++= Seq(
 
 // Web dependencies
 libraryDependencies ++= {
-  val ngVersion="2.2.0"
+  val ngVersion="2.3.0-beta.1"
   Seq(
     // Angular 2 dependencies
     "org.webjars.npm" % "angular2" % "2.0.0-beta.17",

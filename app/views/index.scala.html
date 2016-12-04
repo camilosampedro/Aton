@@ -50,7 +50,9 @@
             'app': {main: 'main.js', defaultExtension: 'js'},
             'rxjs': {defaultExtension: 'js'},
             'assets/lib': {defaultExtension: 'js'},
-            'symbol-observable': {defaultExtension: 'js', main: 'index.js'}
+            'symbol-observable': {defaultExtension: 'js', main: 'index.js'},
+            'core-js': {defaultExtension: 'js', main: 'index.js'},
+            'zone.js': {defaultExtension: 'js', main: 'zone.js'}
         };
         var ngPackageNames = [
             'common',
@@ -101,7 +103,7 @@
     <body>
         <div class="wrapper">
             @header()
-            <app-root>Loading...</app-root>
+            <my-app>Loading...</my-app>
             <div id="container">
                 @menu()
                 <div class="content">@content</div>
