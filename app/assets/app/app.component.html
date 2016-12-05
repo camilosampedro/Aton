@@ -1,0 +1,54 @@
+<div class="wrapper">
+    <header>
+        <div class="logo">
+            <a href="/">Aton <span>Web</span></a>
+        </div>
+        <div class="usuario">
+            <button *ngIf="username != null" type="button" class="btn btn-default icon ion-android-person dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{username}}<span class="caret"></span>
+            </button>
+            <ul *ngIf="username != null" class="dropdown-menu dropdown-menu-right">
+                <li><a href="/admin/editar-userName-@userName"
+                       class="icon ion-edit"> "header.editUser"</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="@routes.LoginController.logout"
+                       class="icon ion-power">"user.logout"</a></li>
+            </ul>
+            <button *ngIf="username == null" type="button" class="btn btn-default dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                "user.not_logged_in" <span class="caret"></span>
+            </button>
+            <ul *ngIf="username == null" class="dropdown-menu dropdown-menu-right">
+                <li><a href="@routes.LoginController.login"
+                       class="icon ion-log-in"> "user.login"</a></li>
+            </ul>
+        </div>
+    </header>
+    <a class="mobile" href="#">MENU</a>
+    <div id="container">
+        <aside class="sidebar">
+            <ul id="nav">
+                <li><a href="@routes.HomeController.home()" class="selected icon ion-home">"menu.home"</a></li>
+                <li><a href="@routes.SuggestionController.home()" class="icon ion-pull-request">"menu.suggestions"</a></li>
+                <li *ngIf="isAdmin">
+                    <a class="icon ion-planet" href="@adminroutes.AdministrationController.administrationPanel()"> "menu.administration"</a>
+                    <ul>
+                        <li><a class="icon ion-planet" href="@adminroutes.LaboratoryController.administrateLaboratories()"> "menu.laboratories"</a></li>
+                        <li><a class="icon ion-planet" href="@adminroutes.SSHOrderController.listAll()"> "menu.sshorders"</a></li>
+                    </ul>
+                </li>
+                <li *ngIf="!isAdmin"><a class="icon ion-planet" href="@adminroutes.AdministrationController.administrationPanel"> "menu.administration"</a></li>
+                <li><a class="icon ion-information-circled" href="@routes.HomeController.about"> "menu.about"</a></li>
+            </ul>
+        </aside>
+        <div class="content">CONTENT HERE</div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog"></div>
+<h1>{{title}}</h1>
+<nav>
+    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
+</nav>
+<router-outlet></router-outlet>
