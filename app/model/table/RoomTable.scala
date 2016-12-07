@@ -1,7 +1,7 @@
 package model.table
 
 import model.Room
-import slick.driver.MySQLDriver.api._
+import slick.driver.H2Driver.api._
 
 /**
   * Room table map with Slick

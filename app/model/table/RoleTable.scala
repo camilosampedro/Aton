@@ -1,7 +1,7 @@
 package model.table
 
 import model.Role
-import slick.driver.MySQLDriver.api._
+import slick.driver.H2Driver.api._
 
 /**
   * Role table map with Slick

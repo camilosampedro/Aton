@@ -1,7 +1,7 @@
 package model.table
 
 import model.User
-import slick.driver.MySQLDriver.api._
+import slick.driver.H2Driver.api._
 
 /**
   * User table map with Slick

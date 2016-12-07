@@ -38,7 +38,8 @@ libraryDependencies ++= Seq(
   specs2,
   ws,
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test,
-  "mysql" % "mysql-connector-java" % "5.1.34",
+  // https://mvnrepository.com/artifact/com.h2database/h2
+  "com.h2database" % "h2" % "1.4.193",
   "com.typesafe.play" %% "play-slick" % "2.0.2",
   "org.webjars" %% "webjars-play" % "2.5.0",
   "com.typesafe.play" %% "play-slick-evolutions" % "2.0.2",

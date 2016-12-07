@@ -1,7 +1,7 @@
 package model.table
 
 import model.{Computer, Room}
-import slick.driver.MySQLDriver.api._
+import slick.driver.H2Driver.api._
 import slick.lifted.{ForeignKeyQuery, ProvenShape}
 
 /**

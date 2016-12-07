@@ -3,7 +3,7 @@ package model.table
 import java.sql.Timestamp
 
 import model.{ComputerState, State}
-import slick.driver.MySQLDriver.api._
+import slick.driver.H2Driver.api._
 
 /**
   * ComputerState table map with Slick

@@ -3,7 +3,7 @@ package model.table
 import java.sql.Timestamp
 
 import model.SSHOrderToComputer
-import slick.driver.MySQLDriver.api._
+import slick.driver.H2Driver.api._
 import slick.profile.SqlProfile.ColumnOption.SqlType
 
 /**
