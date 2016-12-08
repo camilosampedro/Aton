@@ -38,7 +38,6 @@ echo "export PATH=\$PATH:/opt/activator/bin" >> /home/ubuntu/.bashrc
 echo " ==> Adding ivy2 patch"
 echo "export SBT_OPTS=\"\${SBT_OPTS} -Dsbt.jse.engineType=Node -Dsbt.jse.command=\$(which nodejs)\"" >> /home/ubuntu/.bashrc
 echo "alias activator=\"activator -Dsbt.ivy.home=/vagrant/.ivy2/ -Divy.home=/vagrant/.ivy2/\"" >> /home/ubuntu/.bashrc
-# echo "alias activator=\"activator -Dsbt.ivy.home=/vagrant/.ivy2/ -Divy.home=/vagrant/.ivy2/ -DtsCompileMode=stage\"" >> /home/ubuntu/.bashrc
 
 # Install MySQL
 echo " => Installing MySQL"

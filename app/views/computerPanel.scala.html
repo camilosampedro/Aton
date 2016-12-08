@@ -9,11 +9,11 @@
             computerState.get._1.state match {
                 case 1 if computerState.get._2.nonEmpty => "info"
                 case 1 if computerState.get._2.isEmpty => "success"
-                case 2 => "default"
+                case 2 => "db"
                 case _ => "danger"
             }
         } else {
-            "default"
+            "db"
         }
     }">
         <div class="panel-heading icon ion-monitor"> @(if(computer.name.getOrElse("") != "") {

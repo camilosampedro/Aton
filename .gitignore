@@ -10,3 +10,4 @@ target
 *.vdi
 *.log
 /RUNNING_PID
+data

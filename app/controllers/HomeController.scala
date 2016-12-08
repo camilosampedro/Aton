@@ -3,26 +3,31 @@ package controllers
 import akka.actor.{ActorRef, ActorSystem}
 import com.google.inject.name.Named
 import com.google.inject.{Inject, Singleton}
-import dao.{LaboratoryDAO, UserDAO}
+import dao.{DatabaseInitializer, LaboratoryDAO, UserDAO}
 import model.{Role, User}
 import play.api.{Environment, Logger}
 import play.api.i18n.MessagesApi
 import services.{LaboratoryService, UserService}
 import views.html._
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{Await, ExecutionContext}
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @Singleton
-class HomeController @Inject()(laboratoryService: LaboratoryService, @Named("computerChecker") computerChecker: ActorRef, actorSystem: ActorSystem, val messagesApi: MessagesApi)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithNoAuthRequired {
+class HomeController @Inject()(databaseInitializer: DatabaseInitializer, laboratoryService : LaboratoryService, @Named("computerChecker") computerChecker: ActorRef, actorSystem: ActorSystem, val messagesApi: MessagesApi)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithNoAuthRequired {
   val logger = Logger("HomeController")
 
   play.Logger.debug("Configuring Computer Checker...")
   actorSystem.scheduler.schedule(0.microseconds,5.minutes, computerChecker,"Execute")
   play.Logger.debug("Computer Checker configured.")
+
+  logger.debug("Initializing database")
+  Await.result(databaseInitializer.initialize(), 2.seconds)
+  logger.debug("Database initialized")
 
   def home = AsyncStack { implicit request =>
     play.Logger.debug("Logged user: " + loggedIn)
