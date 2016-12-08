@@ -1,7 +1,8 @@
 package model.table
 
-import model.Room
-import slick.driver.MySQLDriver.api._
+import model.{Laboratory, Room}
+import slick.driver.H2Driver.api._
+import slick.lifted.{ForeignKeyQuery, ProvenShape}
 
 /**
   * Room table map with Slick
@@ -9,23 +10,25 @@ import slick.driver.MySQLDriver.api._
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   * @param tag Table tag
   */
-class RoomTable(tag: Tag) extends Table[Room](tag, "room") {
+class RoomTable(tag: Tag) extends Table[Room](tag, "ROOM") {
 
   // Laboratory foreign key
-  def laboratory = foreignKey("laboratory_id", laboratoryId, TableQuery[LaboratoryTable])(_.id, onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+  def laboratory: ForeignKeyQuery[LaboratoryTable, Laboratory] = foreignKey("LABORATORY_ID", laboratoryId,
+    TableQuery[LaboratoryTable])(_.id, onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
 
   // All tables need the * method with the type that it was created the table with.
-  override def * = (id, name, audiovisualResources, basicTools, laboratoryId) <>(Room.tupled, Room.unapply)
+  override def * : ProvenShape[Room] =
+    (id, name, audiovisualResources, basicTools, laboratoryId) <>(Room.tupled, Room.unapply)
 
   // Primary key
-  def id = column[Long]("id", O.PrimaryKey)
+  def id: Rep[Long] = column[Long]("ID", O.PrimaryKey)
 
   // Other columns/attributes
-  def name = column[String]("name")
+  def name: Rep[String] = column[String]("NAME")
 
-  def audiovisualResources = column[Option[String]]("audiovisual_resources")
+  def audiovisualResources: Rep[Option[String]] = column[Option[String]]("AUDIOVISUAL_RESOURCES")
 
-  def basicTools = column[Option[String]]("basic_tools")
+  def basicTools: Rep[Option[String]] = column[Option[String]]("BASIC_TOOLS")
 
-  def laboratoryId = column[Long]("laboratory_id")
+  def laboratoryId: Rep[Long] = column[Long]("LABORATORY_ID")
 }
