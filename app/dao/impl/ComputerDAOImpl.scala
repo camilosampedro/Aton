@@ -25,7 +25,6 @@ import scala.concurrent.Future
 @Singleton
 class ComputerDAOImpl @Inject()
 (protected val dbConfigProvider: DatabaseConfigProvider) extends ComputerDAO with HasDatabaseConfigProvider[JdbcProfile] {
-
   import driver.api._
 
   /**
@@ -34,6 +33,8 @@ class ComputerDAOImpl @Inject()
   implicit val computers = TableQuery[ComputerTable]
   implicit val computerStates = TableQuery[ComputerStateTable]
   implicit val connectedUsers = TableQuery[ConnectedUserTable]
+
+
 
   /**
     * Adds a new computer

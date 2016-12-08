@@ -2,8 +2,9 @@ package model.table
 
 import java.sql.Timestamp
 
-import model.ConnectedUser
+import model.{ComputerState, ConnectedUser}
 import slick.driver.H2Driver.api._
+import slick.lifted.{ForeignKeyQuery, ProvenShape}
 
 /**
   * ComputerSession table map with Slick
@@ -11,23 +12,26 @@ import slick.driver.H2Driver.api._
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   * @param tag Table tag
   */
-class ConnectedUserTable(tag: Tag) extends Table[ConnectedUser](tag, "connected_user") {
+class ConnectedUserTable(tag: Tag) extends Table[ConnectedUser](tag, "CONNECTED_USER") {
   // Primary key
-  def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+  def id: Rep[Int] = column[Int]("ID", O.PrimaryKey, O.AutoInc)
 
   // Date maps to java.sql.TimeStamp.
   // Ver: http://stackoverflow.com/questions/31351361/storing-date-and-time-into-mysql-using-slick-scala
-  def computerStateRegisteredDate = column[Timestamp]("computer_state_registered_date") //(DateMapper.utilDateToSQLTimeStamp)
+  def computerStateRegisteredDate: Rep[Timestamp] = column[Timestamp]("COMPUTER_STATE_REGISTERED_DATE")
 
   // Other columns/attributes
-  def computerStateComputerIp = column[String]("computer_state_computer_ip")
+  def computerStateComputerIp: Rep[String] = column[String]("COMPUTER_STATE_COMPUTER_IP")
 
   // Foreign key to Computer
-  def computer = foreignKey("connected_user_computer_state", (computerStateComputerIp, computerStateRegisteredDate), TableQuery[ComputerStateTable])(x => (x.computerIp, x.registeredDate), onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+  def computer: ForeignKeyQuery[ComputerStateTable, ComputerState] =
+    foreignKey("CONNECTEC_USER_COMPUTER_STATE", (computerStateComputerIp, computerStateRegisteredDate),
+      TableQuery[ComputerStateTable])(x => (x.computerIp, x.registeredDate), onUpdate = ForeignKeyAction.Restrict,
+      onDelete = ForeignKeyAction.Cascade)
 
   // All tables need the * method with the type that it was created the table with.
-  override def * =
-  (id, username, computerStateComputerIp, computerStateRegisteredDate) <> (ConnectedUser.tupled, ConnectedUser.unapply)
+  override def * : ProvenShape[ConnectedUser] =
+    (id, username, computerStateComputerIp, computerStateRegisteredDate) <> (ConnectedUser.tupled, ConnectedUser.unapply)
 
-  def username = column[String]("username")
+  def username: Rep[String] = column[String]("USERNAME")
 }

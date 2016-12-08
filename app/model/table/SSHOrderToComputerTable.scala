@@ -2,8 +2,9 @@ package model.table
 
 import java.sql.Timestamp
 
-import model.SSHOrderToComputer
+import model.{Computer, SSHOrder, SSHOrderToComputer}
 import slick.driver.H2Driver.api._
+import slick.lifted.{ForeignKeyQuery, PrimaryKey, ProvenShape}
 import slick.profile.SqlProfile.ColumnOption.SqlType
 
 /**
@@ -12,25 +13,30 @@ import slick.profile.SqlProfile.ColumnOption.SqlType
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   * @param tag Table tag
   */
-class SSHOrderToComputerTable(tag: Tag) extends Table[SSHOrderToComputer](tag, "ssh_order_to_computer") {
+class SSHOrderToComputerTable(tag: Tag) extends Table[SSHOrderToComputer](tag, "SSH_ORDER_TO_COMPUTER") {
 
   // All tables need the * method with the type that it was created the table with.
-  override def * = (computerIp, sshOrderId, sentDateTime, result, exitCode) <>(SSHOrderToComputer.tupled, SSHOrderToComputer.unapply)
+  override def * : ProvenShape[SSHOrderToComputer] = (computerIp, sshOrderId, sentDateTime, result, exitCode) <>(SSHOrderToComputer.tupled, SSHOrderToComputer.unapply)
 
   // Primary key
-  def pk = primaryKey("ssh_order_to_computer_pk", (computerIp, sshOrderId))
+  def pk: PrimaryKey = primaryKey("SSH_ORDER_TO_COMPUTER_PK", (computerIp, sshOrderId))
 
-  def sentDateTime = column[Timestamp]("sent_datetime")
+  def sentDateTime: Rep[Timestamp] = column[Timestamp]("SENT_DATETIME")
 
-  def sshOrderId = column[Long]("ssh_order_id")
+  def sshOrderId: Rep[Long] = column[Long]("SSH_ORDER_ID")
 
-  def sshOrder = foreignKey("ssh_order_to_computer_ssh_order", sshOrderId, TableQuery[SSHOrderTable])(_.id, onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
-  def computer = foreignKey("computer", computerIp, TableQuery[ComputerTable])(_.ip, onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+  def sshOrder: ForeignKeyQuery[SSHOrderTable, SSHOrder] =
+    foreignKey("SSH_ORDER_TO_COMPUTER_SSH_ORDER", sshOrderId, TableQuery[SSHOrderTable])(_.id,
+      onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+
+  def computer: ForeignKeyQuery[ComputerTable, Computer] =
+    foreignKey("COMPUTER", computerIp, TableQuery[ComputerTable])(_.ip,
+      onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
 
   // Other columns/attributes
-  def computerIp = column[String]("computer_ip")
+  def computerIp: Rep[String] = column[String]("COMPUTER_IP")
 
-  def result = column[Option[String]]("result")
+  def result: Rep[Option[String]] = column[Option[String]]("RESULT")
 
-  def exitCode = column[Option[Int]]("exit_code")
+  def exitCode: Rep[Option[Int]] = column[Option[Int]]("EXIT_CODE")
 }

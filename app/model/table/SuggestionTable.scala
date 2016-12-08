@@ -2,9 +2,9 @@ package model.table
 
 import java.sql.Timestamp
 
-import model.Suggestion
+import model.{Suggestion, User}
 import slick.driver.H2Driver.api._
-import slick.lifted.ProvenShape
+import slick.lifted.{ForeignKeyQuery, ProvenShape}
 
 /**
   * Suggestion table map with Slick
@@ -13,21 +13,21 @@ import slick.lifted.ProvenShape
   * @param tag Table tag
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class SuggestionTable(tag: Tag) extends Table[Suggestion](tag, "suggestion") {
+class SuggestionTable(tag: Tag) extends Table[Suggestion](tag, "SUGGESTION") {
 
   // All tables need the * method with the type that it was created the table with.
   override def * : ProvenShape[Suggestion] =
   (id, suggestionText, registeredDate, username) <> (Suggestion.tupled, Suggestion.unapply)
 
   // Primary key
-  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+  def id: Rep[Long] = column[Long]("ID", O.PrimaryKey, O.AutoInc)
 
   // Other columns/attributes
-  def suggestionText = column[String]("suggestion_text")
+  def suggestionText: Rep[String] = column[String]("SUGGESTION_TEXT")
 
-  def registeredDate = column[Timestamp]("registered_date") //(DateMapper.utilDateToSQLTimeStamp)
+  def registeredDate: Rep[Timestamp] = column[Timestamp]("REGISTERED_DATE") //(DateMapper.utilDateToSQLTimeStamp)
 
-  def username = column[Option[String]]("username")
+  def username: Rep[Option[String]] = column[Option[String]]("USERNAME")
 
-  def username_fk = foreignKey("suggestion_user_fk", username, TableQuery[UserTable])(_.username.?)
+  def username_fk: ForeignKeyQuery[UserTable, User] = foreignKey("SUGGESTION_USER_FK", username, TableQuery[UserTable])(_.username.?)
 }
