@@ -56,7 +56,9 @@ libraryDependencies ++= Seq(
   specs2,
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test,
   "org.scalatest" %% "scalatest" % "3.0.0" % "test",
-  "org.mockito" % "mockito-all" % "1.10.19"
+  "org.mockito" % "mockito-all" % "1.10.19",
+  // Password salting
+  "org.mindrot" % "jbcrypt" % "0.3m"
 )
 
 // Web dependencies

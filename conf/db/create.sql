@@ -165,11 +165,11 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` SELECT *
                   FROM (
-                         SELECT
-                           'admin', 'adminaton', 1, ''
+                         SELECT      --adminaton
+                           'admin', '$2a$10$2XNAJPmrk1/bVWsYhuX4Veped4hGpI7/Zc6VsXA83Mds6Sn73WwAq', 1, ''
                          UNION
                          SELECT
-                           'Scheduled Checker', '@JZhY4ut)3)Lp}9', 1, ''
+                           'Scheduled Checker', '$2a$10$2XNAJPmrk1/bVWsYhuX4Ve1H6T6Ku/tWBa3kH2lImzeZMqTQrf3jC', 1, ''
                        ) x
                   WHERE NOT EXISTS(SELECT *
                                    FROM `user`);

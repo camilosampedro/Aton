@@ -59,11 +59,6 @@ class UserDAOImpl @Inject()
     db.run(search(username).result.headOption)
   }
 
-  override def checkAndGet(username: String, password: String): Future[Option[User]] = {
-    play.Logger.debug("Looking for user: " + username)
-    db.run(users.filter(row => row.username === username && row.password === password).result.headOption)
-  }
-
   private def search(username: String) = users.filter(_.username === username)
 
   /**
