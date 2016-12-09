@@ -47,7 +47,9 @@ libraryDependencies ++= Seq(
   "fr.janalyse" %% "janalyse-ssh" % "0.9.19" % "compile",
   "org.mindrot"  % "jbcrypt"   % "0.3m",
   "org.scalatest" %% "scalatest" % "3.0.0" % "test",
-  "org.mockito" % "mockito-all" % "1.10.19"
+  "org.mockito" % "mockito-all" % "1.10.19",
+  // Password salting
+  "org.mindrot" % "jbcrypt" % "0.3m"
 )
 
 // Web dependencies

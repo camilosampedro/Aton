@@ -32,8 +32,6 @@ trait UserDAO {
     */
   def get(username: String): Future[Option[User]]
 
-  def checkAndGet(username: String, password: String): Future[Option[User]]
-
   /**
     * Elimina un UserText de la base de datos
     *
