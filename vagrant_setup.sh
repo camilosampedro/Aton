@@ -1,7 +1,6 @@
 #!/bin/bash
 # Variables
 activator_version="1.3.12"
-mysql_password="atonmysqldb"
 
 # Install java
 echo " => Installing Java 8"
@@ -38,18 +37,3 @@ echo "export PATH=\$PATH:/opt/activator/bin" >> /home/ubuntu/.bashrc
 echo " ==> Adding ivy2 patch"
 echo "export SBT_OPTS=\"\${SBT_OPTS} -Dsbt.jse.engineType=Node -Dsbt.jse.command=\$(which nodejs)\"" >> /home/ubuntu/.bashrc
 echo "alias activator=\"activator -Dsbt.ivy.home=/vagrant/.ivy2/ -Divy.home=/vagrant/.ivy2/\"" >> /home/ubuntu/.bashrc
-
-# Install MySQL
-echo " => Installing MySQL"
-echo " ==> Adding MySQL passwords to MySQL installer: $mysql_password"
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password $mysql_password"
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $mysql_password"
-echo " ==> Installing MySQL"
-sudo apt-get install -y mysql-server mysql-client
-
-# Execute mysql script
-echo " => Executing Aton's MySQL script"
-echo " ==> Going to /vagrant/conf/default"
-cd /vagrant/conf/default || exit
-echo " ==> Executing script"
-mysql --user="root" --password="$mysql_password" < create.sql
