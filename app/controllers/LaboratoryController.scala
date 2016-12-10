@@ -22,8 +22,8 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
       case _ => (None, false)
     }
     laboratoryService.get(id).map {
-      case Some((laboratoryObject, roomsWithComputers)) => Ok(index(messagesApi("laboratory.title",laboratoryObject.name),laboratory(laboratoryObject, roomsWithComputers)))
-      case _ => NotImplemented(index(messagesApi("laboratory.notFound"),notImplemented(messagesApi("laboratory.notFound"))))
+      case Some((laboratoryObject, roomsWithComputers)) => Ok//(index(messagesApi("laboratory.title",laboratoryObject.name),laboratory(laboratoryObject, roomsWithComputers)))
+      case _ => NotImplemented//index(messagesApi("laboratory.notFound"),notImplemented(messagesApi("laboratory.notFound"))))
     }
   }
 

@@ -17,12 +17,12 @@ import scala.concurrent.{ExecutionContext, Future}
 class LoginController @Inject()(userService: UserService, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, override val cookieSecureOptionPlay: Environment) extends Controller with I18nSupport with LoginLogout with AuthConfigImpl {
 
   def loginForm = Action {
-    Ok(views.html.login(LoginForm.form))
+    Ok//(views.html.login(LoginForm.form))
   }
 
   def login = Action.async { implicit request =>
     LoginForm.form.bindFromRequest().fold(
-      errorForm => Future.successful(BadRequest(views.html.login(errorForm))),
+      errorForm => Future.successful(BadRequest),//(views.html.login(errorForm))),
       data => {
         val results = for {
           searchUser <- resolveUser(data)

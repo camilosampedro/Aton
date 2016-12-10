@@ -1,32 +1,14 @@
 @*Plantilla de todas las páginas.*@
-@(title: String, content: Html)(implicit messages: Messages, userName: Option[String], isAdmin: Boolean)
+@(title: String)(implicit messages: Messages, userName: Option[String], isAdmin: Boolean)
 <html data-framework="angular2">
     <head>
         <title>@title - @messages("app.name")</title>
         @* Librerías webjar *@
         <script type="text/javascript" src="@routes.Assets.versioned("lib/requirejs/require.js")"></script>
         @*<script type="text/javascript" src="@routes.Assets.versioned("lib/bootstrap/webjars-requirejs.js")"></script>*@
-            <!-- jQuery -->
-        @*data-main="@routes.Assets.versioned("javascripts/main.js")"*@
-        <script type="text/javascript" src="@routes.Assets.versioned("lib/jquery/jquery.js")"></script>
-
-            <!-- Bootstrap -->
-        <script type="text/javascript" src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.js")"></script>
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.css")"/>
-
-
-            <!-- Ionicons -->
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/ionicons/css/ionicons.min.css")"/>
-
-
-            <!-- Estilos generales -->
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/global.css")"/>
-
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/Semantic-UI/semantic.css")">
         <link rel="shortcut icon" href="@routes.Assets.versioned("images/favicon.ico")"/>
-
-            <!-- Flaticon
-        <link rel="stylesheet" type="text/css" href=" @routes.Assets.versioned("stylesheets/flaticon.css")
-            "/>-->
+        <script type='text/javascript' src='@routes.Assets.versioned("lib/Semantic-UI/semantic.js")'></script>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/systemjs/dist/system-polyfills.js")'></script>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/core-js/client/shim.min.js")'></script>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/zone.js/dist/zone.js")'></script>
@@ -101,15 +83,6 @@
 
 
     <body>
-        <div class="wrapper">
-            @header()
-            <my-app>Loading...</my-app>
-            <div id="container">
-                @menu()
-                <div class="content">@content</div>
-            </div>
-        </div>
-        <div class="modal fade" tabindex="-1" role="dialog"></div>
-
+        <my-app>Loading...</my-app>
     </body>
 </html>

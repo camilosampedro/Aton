@@ -18,14 +18,14 @@ class SSHOrderController @Inject()(sSHOrderService: SSHOrderService, val message
   def listAll = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     sSHOrderService.listAll.map {res=>
-      Ok(index(messagesApi("sshorders"),sshOrders(res.take(20))))
+      Ok//(index(messagesApi("sshorders"),sshOrders(res.take(20))))
     }
   }
 
   def get(id: Long) = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     sSHOrderService.get(id).map {res=>
-      Ok(index(messagesApi("sshorder"),sshOrder(res)))
+      Ok//(index(messagesApi("sshorder"),sshOrder(res)))
     }
   }
 

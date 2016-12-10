@@ -102,7 +102,8 @@ libraryDependencies ++= {
     // Bootstrap
     "org.webjars" % "bootstrap" % "3.3.6",
     // Semantic UI with Angular2
-    "org.webjars.npm" % "ng-semantic" % "1.0.36",
+    "org.webjars" % "Semantic-UI" % "2.2.2",
+    //"org.webjars.npm" % "ng-semantic" % "1.0.36",
     // JQuery
     "org.webjars" % "jquery" % "2.2.1",
     // RequireJS

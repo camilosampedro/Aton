@@ -39,7 +39,7 @@ class HomeController @Inject()(databaseInitializer: DatabaseInitializer, laborat
     logger.debug("Petición de listar todos los laboratorios con el siguiente request recibida " + request)
     logger.debug("User: " + username + ", is admin: " + isAdmin)
     laboratoryService.listAll.map { labs =>
-      Ok(index(messagesApi("laboratory.list.title"),laboratories(labs)))
+      Ok(index(messagesApi("laboratory.list.title")))
     }
   }
 
@@ -50,6 +50,6 @@ class HomeController @Inject()(databaseInitializer: DatabaseInitializer, laborat
       case _ => (None, false)
     }
 
-    Ok(index(messagesApi("about"),views.html.about()))
+    Ok//(index(messagesApi("about"),views.html.about()))
   }
 }

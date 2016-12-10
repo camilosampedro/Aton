@@ -28,7 +28,7 @@ class RoomController @Inject()(roomService: RoomService, laboratoryService: Labo
         Logger.error("There was an error with the input" + errorForm)
         laboratoryService.listAll.map { laboratories =>
           val pairs = laboratories.map(x => (x.id.toString, x.name))
-          Ok(index(messagesApi("room.add_room"),registerRoom(errorForm, pairs)))
+          Ok//(index(messagesApi("room.add_room"),registerRoom(errorForm, pairs)))
         }
       },
       data => {
@@ -45,7 +45,7 @@ class RoomController @Inject()(roomService: RoomService, laboratoryService: Labo
     implicit val username = Some(loggedIn.username)
     laboratoryService.listAll.map { laboratories =>
       val pairs = laboratories.map(x => (x.id.toString, x.name))
-      Ok(index(messagesApi("room.add_room"),registerRoom(RoomForm.form, pairs)))
+      Ok//(index(messagesApi("room.add_room"),registerRoom(RoomForm.form, pairs)))
     }
   }
 
@@ -60,7 +60,7 @@ class RoomController @Inject()(roomService: RoomService, laboratoryService: Labo
         case Some(room) =>
           val roomFormData = RoomFormData(room.name, room.audiovisualResources, room.basicTools, room.laboratoryID)
           val pairs = res._2.map(x => (x.id.toString, x.name))
-          Ok(index(messagesApi("room.edit"),registerRoom(RoomForm.form.fill(roomFormData), pairs)))
+          Ok//(index(messagesApi("room.edit"),registerRoom(RoomForm.form.fill(roomFormData), pairs)))
         case _ =>
           NotImplemented(messagesApi("room.notFound"))
       }
@@ -77,7 +77,7 @@ class RoomController @Inject()(roomService: RoomService, laboratoryService: Labo
         case Some(room) =>
           val blockUserFormData = BlockUserFormData("")
           val users = res._2.map(x => (x.username, x.name map {y => y} getOrElse x.username))
-          Ok(views.html.blockUser(BlockUserForm.form.fill(blockUserFormData), room.id, users))
+          Ok//(views.html.blockUser(BlockUserForm.form.fill(blockUserFormData), room.id, users))
         case _ =>
           NotImplemented(messagesApi("room.notFound"))
       }

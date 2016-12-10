@@ -24,10 +24,10 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
     implicit val username = Some(loggedIn.username)
     play.Logger.debug("Add computer request received:" + request)
     ComputerForm.form.bindFromRequest.fold(
-      errorForm => Future.successful(Ok(errorForm.toString)),
+      errorForm => Future.successful(Ok),//(errorForm.toString)),
       data => {
         computerService.add(data.ip, data.name, data.SSHUser, data.SSHPassword, data.description, data.roomID).map {
-          case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer added successfully")))
+          case state.ActionCompleted => Ok//(Json.toJson(new ResultMessage("Computer added successfully")))
           case state.NotFound => NotFound
           case _ => BadRequest(Json.toJson(new ResultMessage("Could not add that computer")))
         }
@@ -40,7 +40,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       roomService.listAll.map {
         rooms =>
           val pairs = rooms.map(x => (x.id.toString, x.name))
-          Ok(index(messagesApi("computer.add"), registerComputer(ComputerForm.form, pairs)))
+          Ok//(index(messagesApi("computer.add"), registerComputer(ComputerForm.form, pairs)))
       }
   }
 
@@ -87,7 +87,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
               case Some(room) =>
                 val rooms = Await.result(roomService.getByLaboratory(room.laboratoryID), 5 seconds)
                 val pairs = rooms.map(singleRoom => (singleRoom.id.toString, singleRoom.name))
-                Ok(index(messagesApi("computer.edit"), editComputer(errorForm, pairs)))
+                Ok//(index(messagesApi("computer.edit"), editComputer(errorForm, pairs)))
               case _ => NotFound(Json.toJson(ResultMessage("Could not edit that computer, computer has not an associated" +
                 " room and there are form errors", errorForm.errors.map(_.toString))))
             }
@@ -118,7 +118,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
           case Some(Computer(`ip`, name, sSHUser, sSHPassword, description, room)) =>
             val computerForm = ComputerFormData(ip, name, sSHUser, sSHPassword, description, room)
             val pairs = res._2.map(x => (x.id.toString, x.name))
-            Ok(index(messagesApi("computer.edit"), editComputer(ComputerForm.form.fill(computerForm), pairs)))
+            Ok//(index(messagesApi("computer.edit"), editComputer(ComputerForm.form.fill(computerForm), pairs)))
           case _ =>
             play.Logger.debug("The computer was not found")
             NotFound("Computer not found")
@@ -185,7 +185,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
         errorForm => {
           play.Logger.error(errorForm.toString)
           play.Logger.error(errorForm.errors.toString)
-          Future.successful(BadRequest(index(messagesApi("sshorder.formerror"), notImplemented(messagesApi("sshorder.notimplemented")))))
+          Future.successful(BadRequest)//(index(messagesApi("sshorder.formerror"), notImplemented(messagesApi("sshorder.notimplemented")))))
         },
         data => {
           computerService.sendCommand(ip, data.superUser, data.command).map {
@@ -205,7 +205,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
         errorForm => {
           /*play.Logger.error(errorForm.toString)*/
           /*play.Logger.error(errorForm.errors.toString)*/
-          Future.successful(BadRequest(index(messagesApi("message.formerror"), notImplemented(messagesApi("page.notimplemented")))))
+          Future.successful(BadRequest)//(index(messagesApi("message.formerror"), notImplemented(messagesApi("page.notimplemented")))))
         },
         data => {
           computerService.sendMessage(ip, data.message).map {

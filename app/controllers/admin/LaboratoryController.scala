@@ -45,7 +45,7 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
     LaboratoryForm.form.bindFromRequest.fold(
       errorForm => {
         Logger.error("There was an error with the input" + errorForm)
-        Future.successful(Ok(index(messagesApi("laboratory.add"),registerLaboratory(errorForm))))
+        Future.successful(Ok)//(index(messagesApi("laboratory.add"),registerLaboratory(errorForm))))
       },
       data => {
         val newLaboratory = Laboratory(0, data.name, data.location, data.administration)
@@ -62,7 +62,7 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
     play.Logger.debug("Logged user: " + loggedIn)
     implicit val username = Some(loggedIn.username)
     implicit val isAdmin = loggedIn.role == Role.Administrator
-    Ok(index("Add laboratory",registerLaboratory(LaboratoryForm.form)))
+    Ok//(index("Add laboratory",registerLaboratory(LaboratoryForm.form)))
   }
 
   def delete(id: Long) = AuthRequiredAction { implicit request =>
