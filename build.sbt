@@ -1,6 +1,6 @@
 name := """aton"""
 
-version := "0.1.3"
+version := "0.2.1"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, DebianPlugin, RpmPlugin, LinuxPlugin, UniversalPlugin, WindowsPlugin,JDKPackagerPlugin, JavaServerAppPackaging)
 
@@ -12,7 +12,7 @@ maintainer in Linux := "Camilo Sampedro <camilo.sampedro@udea.edu.co>"
 
 packageSummary in Linux := "Aton, Laboratory Administrator"
 
-rpmRelease := "0.1"
+rpmRelease := "0.2.1"
 
 rpmVendor := "co.edu.udea"
 
