@@ -1,6 +1,6 @@
 
 name := """aton"""
-version := "0.1.3"
+version := "0.2.1"
 scalaVersion := "2.11.8"
 
 // Angular2 - Typescript options
@@ -21,13 +21,12 @@ maintainer in Linux := "Camilo Sampedro <camilo.sampedro@udea.edu.co>"
 packageSummary in Linux := "Aton, Laboratory Administrator"
 
 // - RHEL
-rpmRelease := "0.1"
+rpmRelease := "0.2.1"
+
 rpmVendor := "co.edu.udea"
 rpmUrl := Some("http://projectaton.github.io/AtonLab")
 rpmLicense := Some("GPL 3.0")
 packageDescription := "Computer laboratory administrator with useful tools. Built on top of SSH."
-
-
 
 // Repositories
 resolvers ++= Seq(
