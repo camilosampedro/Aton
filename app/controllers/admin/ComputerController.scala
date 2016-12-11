@@ -7,9 +7,10 @@ import model.{Computer, ResultMessage}
 import model.json.ModelWrites.resultMessageWrites
 import model.form._
 import model.form.data.ComputerFormData
+import model.json.ComputerJson
 import play.api.Environment
 import play.api.i18n.MessagesApi
-import play.api.libs.json.Json
+import play.api.libs.json.{JsError, JsSuccess, Json}
 import play.api.mvc.{Action, AnyContent, Result}
 import services._
 import services.state.ActionState
@@ -27,7 +28,6 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
 
   def ipAction(action: (List[String], String) => Future[ActionState])(mapping: ActionState => Result) =
     AuthRequiredAction { implicit request =>
-      implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       request.body.asJson match {
         case Some(json) =>
@@ -38,39 +38,37 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
     }
 
   def add = AuthRequiredAction { implicit request =>
-    implicit val username = Some(loggedIn.username)
-    play.Logger.debug("Add computer request received:" + request)
-    ComputerForm.form.bindFromRequest.fold(
-      errorForm => Future.successful(Ok), //(errorForm.toString)),
-      data => {
-        computerService.add(data.ip, data.name, data.SSHUser, data.SSHPassword, data.description, data.roomID).map {
-          case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer added successfully")))
-          case state.NotFound => NotFound
-          case _ => BadRequest(Json.toJson(new ResultMessage("Could not add that computer")))
+    request.body.asJson match {
+      case Some(json) =>
+        json.validate[ComputerJson] match {
+          case JsSuccess(computer, path) =>
+            computerService.add(computer.ip, computer.name, computer.SSHUser, computer.SSHPassword,
+              computer.description, computer.roomID).map {
+              case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer added successfully")))
+              case _ => BadRequest(Json.toJson(new ResultMessage("Could not add that computer")))
+            }
+          case JsError(errors) =>
+            Future.successful(BadRequest(Json.toJson(ResultMessage("Could not add that computer", errors.map(_.toString)))))
         }
-      })
+      case _ => Future.successful(BadRequest(Json.toJson(new ResultMessage("Non json not expected"))))
+    }
   }
 
   def blockPage = AuthRequiredAction {
     implicit request =>
-      implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
-      val ip = ""
-      BlockPageForm.form.bindFromRequest.fold(
-        errorForm => {
-          play.Logger.error(errorForm.toString)
-          play.Logger.error(errorForm.errors.toString)
-          Future.successful(BadRequest)
-        },
-        data => {
-          //TODO: Get ips from json instead
-          computerService.blockPage(List(ip), data.page).map {
+      request.body.asJson match {
+        case Some(json) =>
+          val ips = (json \ "ips").as[List[String]]
+          val page = (json \ "page").as[String]
+          computerService.blockPage(ips, page).map {
             case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Page blocked successfully on the computer", Seq(exitCode.toString, result))))
-            case state.NotFound => NotFound
+            case state.NotFound => NotFound(Json.toJson(new ResultMessage("Computer not found")))
             case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not block that page", Seq(result))))
             case _ => BadRequest(Json.toJson(new ResultMessage("Could not block that page")))
           }
-        })
+        case _ => Future.successful(BadRequest(Json.toJson(new ResultMessage("Non json not expected"))))
+      }
   }
 
   def delete(ip: String) = AuthRequiredAction {
@@ -120,19 +118,19 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
     case _ => BadRequest(Json.toJson(new ResultMessage("Could not shutdown that computer")))
   }
 
-  def upgrade: Action[AnyContent] = ipAction(computerService.upgrade(_)(_)){
+  def upgrade: Action[AnyContent] = ipAction(computerService.upgrade(_)(_)) {
     case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer upgraded successfully")))
     case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(new ResultMessage("Computer upgraded successfully")))
     case state.NotFound => NotFound(Json.toJson(new ResultMessage("Could not find that computer")))
     case _ => BadRequest(Json.toJson(new ResultMessage("Could not upgrade that computer")))
   }
 
-  def unfreeze: Action[AnyContent] = ipAction(computerService.unfreeze(_)(_)){
-        case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Computer unfreezed successfully", Seq(result))))
-        case state.NotFound => NotFound
-        case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not unfreeze that computer", Seq(result))))
-        case _ => BadRequest(Json.toJson(new ResultMessage("Could not unfreeze that computer")))
-      }
+  def unfreeze: Action[AnyContent] = ipAction(computerService.unfreeze(_)(_)) {
+    case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Computer unfreezed successfully", Seq(result))))
+    case state.NotFound => NotFound
+    case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not unfreeze that computer", Seq(result))))
+    case _ => BadRequest(Json.toJson(new ResultMessage("Could not unfreeze that computer")))
+  }
 
   def sendCommand = AuthRequiredAction {
     implicit request =>

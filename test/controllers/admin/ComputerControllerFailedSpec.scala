@@ -68,9 +68,8 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
     "return Failed <400> status on blocking a page on a single computer" in {
       val result = controller.blockPage.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(blockPageJson)
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(BlockPageForm.form.fill(BlockPageFormData("www.example.com")).data.toSeq: _*)
       }
       assertFutureResultStatus(result, 400)
     }
@@ -78,9 +77,8 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
     "return \"Could not block that page\" on blocking a page on a single computer" in {
       val result = controller.blockPage.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(blockPageJson)
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(BlockPageForm.form.fill(BlockPageFormData("www.example.com")).data.toSeq: _*)
       }
       assertBodyJsonMessage(result, "Could not block that page", emptyExtras = false)
     }

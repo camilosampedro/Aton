@@ -46,9 +46,8 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
     s"return Not Found <404> status on blocking a page on a single computer" in {
       val result = controller.blockPage.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(blockPageJson)
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(BlockPageForm.form.fill(BlockPageFormData("www.example.com")).data.toSeq: _*)
       }
       assertFutureResultStatus(result, 404)
     }

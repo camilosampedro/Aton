@@ -10,22 +10,25 @@ import org.scalatest.BeforeAndAfterAll
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import jp.t2v.lab.play2.auth.test.Helpers.AuthFakeRequest
-
 import model.Computer
 import model.Role
 import model.User
-import model.form.{ BlockPageForm, ComputerForm, SSHOrderForm, SelectComputersForm }
+import model.form.{BlockPageForm, ComputerForm, SSHOrderForm, SelectComputersForm}
 import model.form.data._
+import model.json.ComputerJson
 import org.mockito.Mock
 import play.api.Environment
 import play.api.i18n.MessagesApi
+import play.api.libs.json.Json
 import play.api.mvc.Result
 import play.api.test.FakeRequest
 import play.inject.Injector
 import play.test.WithApplication
 import services.state.ActionState
-import services.{ ComputerService, RoomService, UserService, state }
+import services.{ComputerService, RoomService, UserService, state}
 import test.ControllerTest
+
+import scala.language.postfixOps
 
 /**
   * Computer specifications on successful operations
@@ -86,11 +89,11 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
     }
 
     "return Ok <200> status on blocking a page on a single computer" in {
+      println(s"json: $blockPageJson")
       val result = controller.blockPage.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(blockPageJson)
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(BlockPageForm.form.fill(BlockPageFormData("www.example.com")).data.toSeq: _*)
       }
       assertFutureResultStatus(result, 200)
     }
@@ -98,9 +101,9 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
     "return \"Page blocked successfully on the computer\" response message JSON on blocking a page on a single computer" in {
       val result = controller.blockPage.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(blockPageJson)
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(BlockPageForm.form.fill(BlockPageFormData("www.example.com")).data.toSeq: _*)
+
       }
       assertBodyJsonMessage(result, "Page blocked successfully on the computer")
     }
@@ -185,27 +188,27 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
 
     "return Ok <200> status on adding a new computer" in {
       import computer._
-      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
-      val computerForm = ComputerForm.form.fill(computerData)
+      val computerData = ComputerJson(ip, name, SSHUser, SSHPassword, description, roomID)
+      val json = Json.toJson(computerData)
       val result = controller.add.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(json)
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 200)
     }
 
     "return \"Computer added successfully\" response message JSON on adding a new computer" in {
       import computer._
-      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
-      val computerForm = ComputerForm.form.fill(computerData)
+      val computerData = ComputerJson(ip, name, SSHUser, SSHPassword, description, roomID)
+      val json = Json.toJson(computerData)
+      println(s"json: $json")
       val result = controller.add.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
+          .withJsonBody(json)
       }
+      println(s"Result: ${Await.result(result, 3 seconds).toString}")
       assertBodyJsonMessage(result, "Computer added successfully")
     }
   }

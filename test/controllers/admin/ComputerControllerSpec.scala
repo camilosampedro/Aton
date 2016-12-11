@@ -65,6 +65,15 @@ trait ComputerControllerSpec extends ControllerTest {
       |}
     """.stripMargin)
 
+  val blockPageJson: JsValue = Json.parse(
+    s"""
+       |{
+       |  "ips": ["${computer.ip}"],
+       |  "page": "example.com"
+       |}
+     """.stripMargin
+  )
+
   /**
     * Sample command
     */
@@ -117,15 +126,6 @@ trait ComputerControllerSpec extends ControllerTest {
         when(computerService.unfreeze(any[List[String]])(any[String])) thenReturn Future.successful(actionState)
         when(computerService.sendCommand(any[List[String]], any[Boolean], any[String])(any[String])) thenReturn Future.successful(actionState)
     }
-    if(actionState == state.Failed){
-
-    } else {
-
-
-    }
-
-
-
     computerService
   }
 }
