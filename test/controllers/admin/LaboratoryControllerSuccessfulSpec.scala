@@ -2,13 +2,10 @@ package controllers.admin
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
-
 import com.google.inject.ImplementedBy
 import com.google.inject.Inject
-
 import jp.t2v.lab.play2.auth.test.Helpers.AuthFakeRequest
 import model.Laboratory
 import model.Role
@@ -16,8 +13,10 @@ import model.User
 import model.form.LaboratoryForm
 import model.form.data.LaboratoryFormData
 import model.form.data.LoginFormData
+import model.json.LaboratoryJson
 import play.api.Environment
 import play.api.i18n.MessagesApi
+import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.test.WithApplication
 import services.LaboratoryService
@@ -32,7 +31,7 @@ import test.ControllerTest
   * Created by camilosampedro on 5/11/16.
   */
 class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
-  val labService = mockLaboratoryService(state.ActionCompleted)
+  val labService: LaboratoryService = mockLaboratoryService(state.ActionCompleted)
   // Controller to be tested, with the dependencies
   lazy val controller = new LaboratoryController(labService, messagesApi)(userService, executionContext, environment)
 
@@ -59,12 +58,11 @@ class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
 
     "return Ok <200> status on adding a new laboratory" in {
       import laboratory._
-      val laboratoryData = LaboratoryFormData(name, location, administration)
-      val laboratoryForm = LaboratoryForm.form.fill(laboratoryData)
+      val laboratoryData = LaboratoryJson(name, location, administration)
       val result = controller.add.apply {
         FakeRequest()
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(laboratoryForm.data.toSeq: _*)
+          .withJsonBody(Json.toJson(laboratoryData))
       }
       assertFutureResultStatus(result, 200)
     }

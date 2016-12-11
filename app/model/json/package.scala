@@ -8,4 +8,6 @@ import play.api.libs.json.{Json, Reads, Writes}
 package object json {
   implicit val computerJsonWrites: Writes[ComputerJson] = Json.writes[ComputerJson]
   implicit val computerJsonReads: Reads[ComputerJson] = Json.reads[ComputerJson]
+  implicit val laboratoryJsonWrites: Writes[LaboratoryJson] = Json.writes[LaboratoryJson]
+  implicit val laboratoryJsonReads: Reads[LaboratoryJson] = Json.reads[LaboratoryJson]
 }

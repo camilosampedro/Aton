@@ -7,11 +7,13 @@ import model.Role._
 import model.json.ModelWrites.resultMessageWrites
 import model.form.LaboratoryForm
 import model.form.data.LaboratoryFormData
+import model.json.LaboratoryJson
 import model.{Laboratory, ResultMessage, Role}
 import play.Logger
 import play.api.Environment
 import play.api.i18n.MessagesApi
-import play.api.libs.json.Json
+import play.api.libs.json.{JsError, JsSuccess, Json}
+import play.api.mvc.{Action, AnyContent}
 import services.{LaboratoryService, UserService, state}
 import views.html._
 
@@ -40,23 +42,22 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
     Logger.debug("Adding laboratory... ")
     implicit val username = Some(loggedIn.username)
     implicit val isAdmin = loggedIn.role == Role.Administrator
-    LaboratoryForm.form.bindFromRequest.fold(
-      errorForm => {
-        Logger.error("There was an error with the input" + errorForm)
-        Future.successful(Ok)//(index(messagesApi("laboratory.add"),registerLaboratory(errorForm))))
-      },
-      data => {
-        val newLaboratory = Laboratory(0, data.name, data.location, data.administration)
-        laboratoryService.add(newLaboratory).map {
-          case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Could not add that laboratory"))) //Redirect(normalroutes.HomeController.home())
-          case _ => BadRequest(Json.toJson(new ResultMessage("Could not add that laboratory")))
+    request.body.asJson match {
+      case Some(json) => json.validate[LaboratoryJson] match {
+        case JsSuccess(laboratory, path) =>
+          val newLaboratory = Laboratory(0, laboratory.name, laboratory.location, laboratory.administration)
+          laboratoryService.add(newLaboratory).map {
+            case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Could not add that laboratory"))) //Redirect(normalroutes.HomeController.home())
+            case _ => BadRequest(Json.toJson(new ResultMessage("Could not add that laboratory")))
 
-        }
+          }
+        case JsError(errors) =>Future.successful(BadRequest(Json.toJson(ResultMessage("Json format error", errors.map(_.toString)))))
       }
-    )
+      case _ => Future.successful(BadRequest(Json.toJson(new ResultMessage("Non json not expected"))))
+    }
   }
 
-  def addForm() = StackAction(AuthorityKey -> Administrator) { implicit request =>
+  def addForm(): Action[AnyContent] = StackAction(AuthorityKey -> Administrator) { implicit request =>
     play.Logger.debug("Logged user: " + loggedIn)
     implicit val username = Some(loggedIn.username)
     implicit val isAdmin = loggedIn.role == Role.Administrator

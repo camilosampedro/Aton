@@ -75,7 +75,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
     implicit request =>
       computerService.delete(ip) map {
         case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer deleted successfully")))
-        case state.NotFound => NotFound
+        case state.NotFound => NotFound(Json.toJson(new ResultMessage("Computer not found")))
         case _ => BadRequest(Json.toJson(new ResultMessage("Could not delete that computer")))
       }
   }

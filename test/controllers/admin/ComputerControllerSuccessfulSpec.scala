@@ -89,7 +89,6 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
     }
 
     "return Ok <200> status on blocking a page on a single computer" in {
-      println(s"json: $blockPageJson")
       val result = controller.blockPage.apply {
         FakeRequest()
           .withJsonBody(blockPageJson)
@@ -202,13 +201,11 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       import computer._
       val computerData = ComputerJson(ip, name, SSHUser, SSHPassword, description, roomID)
       val json = Json.toJson(computerData)
-      println(s"json: $json")
       val result = controller.add.apply {
         FakeRequest()
           .withLoggedIn(controller)(loggedInUser)
           .withJsonBody(json)
       }
-      println(s"Result: ${Await.result(result, 3 seconds).toString}")
       assertBodyJsonMessage(result, "Computer added successfully")
     }
   }
