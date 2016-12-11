@@ -84,7 +84,7 @@ class RoomController @Inject()(roomService: RoomService, laboratoryService: Labo
     }
   }
 
-  def edit(roomId: Long) = StackAction(AuthorityKey -> Administrator) { implicit request =>
+  def edit = StackAction(AuthorityKey -> Administrator) { implicit request =>
     NotImplemented
   }
 

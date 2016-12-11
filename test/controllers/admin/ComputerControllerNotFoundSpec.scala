@@ -27,6 +27,7 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
       val computerForm = ComputerForm.form.fill(computerData)
       val result = controller.edit.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
@@ -36,14 +37,16 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
     s"return Not Found <404> status on deleting a computer" in {
       val result = controller.delete(computer.ip).apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
       }
       assertFutureResultStatus(result, 404)
     }
 
     s"return Not Found <404> status on blocking a page on a single computer" in {
-      val result = controller.blockPage(computer.ip).apply {
+      val result = controller.blockPage.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(BlockPageForm.form.fill(BlockPageFormData("www.example.com")).data.toSeq: _*)
       }
@@ -51,35 +54,27 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
     }
 
     s"return Not Found <404> status on shutting down a computer" in {
-      val result = controller.shutdown(computer.ip).apply {
+      val result = controller.shutdown.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
-      }
-      assertFutureResultStatus(result, 404)
-    }
-
-    s"return Not Found <404> status on shutting down several computer" in {
-      val computersData = SelectComputersFormData(Seq(computer.ip).toList)
-      val computersForm = SelectComputersForm.form.fill(computersData)
-      val result = controller.shutdownSeveral().apply {
-        FakeRequest()
-          .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computersForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 404)
     }
 
     s"return Not Found <404> status on upgrading a computer" in {
-      val result = controller.upgrade(computer.ip).apply {
+      val result = controller.upgrade.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
       }
       assertFutureResultStatus(result, 404)
     }
 
     s"return Not Found <404> status on unfreezing a computer" in {
-      val result = controller.unfreeze(computer.ip).apply {
+      val result = controller.unfreeze.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
       }
       assertFutureResultStatus(result, 404)
@@ -88,8 +83,9 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
     s"return Not Found <404> status on sending a command to a computer" in {
       val sshOrderData = SSHOrderFormData(superUser = false, command)
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
-      val result = controller.sendCommand(computer.ip).apply {
+      val result = controller.sendCommand.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(sshOrderForm.data.toSeq: _*)
       }

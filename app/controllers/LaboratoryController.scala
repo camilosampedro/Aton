@@ -16,6 +16,8 @@ import scala.concurrent.{ExecutionContext, Future}
   */
 class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val messagesApi: MessagesApi)(implicit userService: UserService, environment: Environment, executionContext: ExecutionContext) extends ControllerWithNoAuthRequired {
 
+  def getAll = AsyncStack(implicit request=>Future.successful(Ok))
+
   def get(id: Long) = AsyncStack { implicit request =>
     implicit val (username: Option[String], isAdmin: Boolean) = loggedIn match {
       case Some(user) => (Some(user.username), user.role == Role.Administrator)

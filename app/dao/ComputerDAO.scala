@@ -35,6 +35,8 @@ trait ComputerDAO {
     */
   def get(ip: String): Future[Option[Computer]]
 
+  def getWithStatus(severalIps: List[String]): Future[Seq[(Computer, Option[ComputerState], Option[ConnectedUser])]]
+
   def getWithStatus(ip: String): Future[Seq[(Computer, Option[ComputerState], Option[ConnectedUser])]]
 
   /**

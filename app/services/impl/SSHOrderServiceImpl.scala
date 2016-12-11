@@ -162,7 +162,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   override def unfreeze(computer: Computer)(implicit username: String): ActionState = ???
 
   @throws[JSchException]
-  override def getOperatingSystem(computer: Computer)(implicit username: String) = {
+  override def getOperatingSystem(computer: Computer)(implicit username: String): Option[String] = {
     try {
       val (result, exitCode) = execute(computer, new SSHOrder(now, superUser = false, interrupt = true, command = operatingSystemCheck, username = username))
       if (exitCode == 0) Some(result) else None

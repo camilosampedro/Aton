@@ -2,6 +2,7 @@ package controllers.admin
 
 import com.google.inject.Inject
 import controllers.{routes => normalroutes}
+import jp.t2v.lab.play2.stackc.RequestWithAttributes
 import model.{Computer, ResultMessage}
 import model.json.ModelWrites.resultMessageWrites
 import model.form._
@@ -9,7 +10,9 @@ import model.form.data.ComputerFormData
 import play.api.Environment
 import play.api.i18n.MessagesApi
 import play.api.libs.json.Json
+import play.api.mvc.{Action, AnyContent, Result}
 import services._
+import services.state.ActionState
 import views.html._
 
 import scala.concurrent.duration._
@@ -18,36 +21,41 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class ComputerController @Inject()(computerService: ComputerService, roomService: RoomService, val messagesApi: MessagesApi)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
+class ComputerController @Inject()(computerService: ComputerService, roomService: RoomService, val messagesApi: MessagesApi)
+                                  (implicit userService: UserService, executionContext: ExecutionContext, environment: Environment)
+  extends ControllerWithAuthRequired {
+
+  def ipAction(action: (List[String], String) => Future[ActionState])(mapping: ActionState => Result) =
+    AuthRequiredAction { implicit request =>
+      implicit val username = Some(loggedIn.username)
+      implicit val user = loggedIn.username
+      request.body.asJson match {
+        case Some(json) =>
+          val ip = (json \\ "ip").map(_.as[String])
+          action(ip.toList, user).map(mapping)
+        case _ => Future.successful(BadRequest(Json.toJson(new ResultMessage("Non json not expected"))))
+      }
+    }
 
   def add = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     play.Logger.debug("Add computer request received:" + request)
     ComputerForm.form.bindFromRequest.fold(
-      errorForm => Future.successful(Ok),//(errorForm.toString)),
+      errorForm => Future.successful(Ok), //(errorForm.toString)),
       data => {
         computerService.add(data.ip, data.name, data.SSHUser, data.SSHPassword, data.description, data.roomID).map {
-          case state.ActionCompleted => Ok//(Json.toJson(new ResultMessage("Computer added successfully")))
+          case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer added successfully")))
           case state.NotFound => NotFound
           case _ => BadRequest(Json.toJson(new ResultMessage("Could not add that computer")))
         }
       })
   }
 
-  def addForm = AuthRequiredAction {
-    implicit request =>
-      implicit val username = Some(loggedIn.username)
-      roomService.listAll.map {
-        rooms =>
-          val pairs = rooms.map(x => (x.id.toString, x.name))
-          Ok//(index(messagesApi("computer.add"), registerComputer(ComputerForm.form, pairs)))
-      }
-  }
-
-  def blockPage(ip: String) = AuthRequiredAction {
+  def blockPage = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
+      val ip = ""
       BlockPageForm.form.bindFromRequest.fold(
         errorForm => {
           play.Logger.error(errorForm.toString)
@@ -55,7 +63,8 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
           Future.successful(BadRequest)
         },
         data => {
-          computerService.blockPage(ip, data.page).map {
+          //TODO: Get ips from json instead
+          computerService.blockPage(List(ip), data.page).map {
             case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Page blocked successfully on the computer", Seq(exitCode.toString, result))))
             case state.NotFound => NotFound
             case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not block that page", Seq(result))))
@@ -87,7 +96,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
               case Some(room) =>
                 val rooms = Await.result(roomService.getByLaboratory(room.laboratoryID), 5 seconds)
                 val pairs = rooms.map(singleRoom => (singleRoom.id.toString, singleRoom.name))
-                Ok//(index(messagesApi("computer.edit"), editComputer(errorForm, pairs)))
+                Ok //(index(messagesApi("computer.edit"), editComputer(errorForm, pairs)))
               case _ => NotFound(Json.toJson(ResultMessage("Could not edit that computer, computer has not an associated" +
                 " room and there are form errors", errorForm.errors.map(_.toString))))
             }
@@ -105,87 +114,36 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       })
   }
 
-  def editForm(ip: String) = AuthRequiredAction {
-    implicit request =>
-      implicit val username = Some(loggedIn.username)
-      play.Logger.debug("Looking for computer: " + ip)
-      val results = for {
-        computerSearch <- computerService.getSingle(ip)
-        roomsSearch <- roomService.listAll
-      } yield (computerSearch, roomsSearch)
-      results.map(res =>
-        res._1 match {
-          case Some(Computer(`ip`, name, sSHUser, sSHPassword, description, room)) =>
-            val computerForm = ComputerFormData(ip, name, sSHUser, sSHPassword, description, room)
-            val pairs = res._2.map(x => (x.id.toString, x.name))
-            Ok//(index(messagesApi("computer.edit"), editComputer(ComputerForm.form.fill(computerForm), pairs)))
-          case _ =>
-            play.Logger.debug("The computer was not found")
-            NotFound("Computer not found")
-        })
+  def shutdown: Action[AnyContent] = ipAction(computerService.shutdown(_)(_)) {
+    case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer shutdown successfully")))
+    case state.NotFound => NotFound(Json.toJson(new ResultMessage("Could not find that computer")))
+    case _ => BadRequest(Json.toJson(new ResultMessage("Could not shutdown that computer")))
   }
 
-
-  def shutdown(ip: String) = AuthRequiredAction {
-    implicit request =>
-      implicit val username = Some(loggedIn.username)
-      implicit val user = loggedIn.username
-      computerService.shutdown(ip).map {
-        case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer shutdown successfully")))
-        case state.NotFound => NotFound
-        case _ => BadRequest(Json.toJson(new ResultMessage("Could not shutdown that computer")))
-      }
+  def upgrade: Action[AnyContent] = ipAction(computerService.upgrade(_)(_)){
+    case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer upgraded successfully")))
+    case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(new ResultMessage("Computer upgraded successfully")))
+    case state.NotFound => NotFound(Json.toJson(new ResultMessage("Could not find that computer")))
+    case _ => BadRequest(Json.toJson(new ResultMessage("Could not upgrade that computer")))
   }
 
-  def shutdownSeveral() = AuthRequiredAction {
-    implicit request =>
-      implicit val username = Some(loggedIn.username)
-      implicit val user = loggedIn.username
-      SelectComputersForm.form.bindFromRequest().fold(
-        errorForm => Future.successful(BadRequest),
-        data => {
-          computerService.shutdown(data.selectedComputers).map {
-            case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computers shutdown successfully")))
-            case state.NotFound => NotFound
-            case _ => BadRequest(Json.toJson(new ResultMessage("Could not shutdown those computers")))
-          }
-        })
-  }
-
-  def upgrade(ip: String) = AuthRequiredAction {
-    implicit request =>
-      implicit val username = Some(loggedIn.username)
-      implicit val user = loggedIn.username
-      computerService.upgrade(ip).map {
-        case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Computer upgraded successfully", Seq(result))))
-        case state.NotFound => NotFound
-        case state.OrderFailed(result, exitCode) =>
-          BadRequest(Json.toJson(ResultMessage("Could not upgrade that computer", Seq(result))))
-        case _ => BadRequest
-      }
-  }
-
-  def unfreeze(ip: String) = AuthRequiredAction {
-    implicit request =>
-      implicit val username = Some(loggedIn.username)
-      implicit val user = loggedIn.username
-      computerService.unfreeze(ip).map {
-        case state.OrderCompleted(result,exitCode) => Ok(Json.toJson(ResultMessage("Computer unfreezed successfully", Seq(result))))
+  def unfreeze: Action[AnyContent] = ipAction(computerService.unfreeze(_)(_)){
+        case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Computer unfreezed successfully", Seq(result))))
         case state.NotFound => NotFound
         case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not unfreeze that computer", Seq(result))))
-        case _ => BadRequest
+        case _ => BadRequest(Json.toJson(new ResultMessage("Could not unfreeze that computer")))
       }
-  }
 
-  def sendCommand(ip: String) = AuthRequiredAction {
+  def sendCommand = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
+      val ip = List("")
       SSHOrderForm.form.bindFromRequest.fold(
         errorForm => {
           play.Logger.error(errorForm.toString)
           play.Logger.error(errorForm.errors.toString)
-          Future.successful(BadRequest)//(index(messagesApi("sshorder.formerror"), notImplemented(messagesApi("sshorder.notimplemented")))))
+          Future.successful(BadRequest) //(index(messagesApi("sshorder.formerror"), notImplemented(messagesApi("sshorder.notimplemented")))))
         },
         data => {
           computerService.sendCommand(ip, data.superUser, data.command).map {
@@ -197,15 +155,16 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
         })
   }
 
-  def sendMessage(ip: String) = AuthRequiredAction {
+  def sendMessage = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
+      val ip = List("")
       MessageForm.form.bindFromRequest.fold(
         errorForm => {
           /*play.Logger.error(errorForm.toString)*/
           /*play.Logger.error(errorForm.errors.toString)*/
-          Future.successful(BadRequest)//(index(messagesApi("message.formerror"), notImplemented(messagesApi("page.notimplemented")))))
+          Future.successful(BadRequest) //(index(messagesApi("message.formerror"), notImplemented(messagesApi("page.notimplemented")))))
         },
         data => {
           computerService.sendMessage(ip, data.message).map {
@@ -220,11 +179,12 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
   /**
     * Install a package on the remote computer
     *
-    * @param ip       IP of the remote computer
-    * @param programs Programs to be installed
     */
-  def installAPackage(ip: String, programs: String) = AuthRequiredAction {
+  def installAPackage = AuthRequiredAction {
     implicit request =>
+      // TODO: Receive programs and ip
+      val programs = ""
+      val ip = ""
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       computerService.installAPackage(ip, programs).map {

@@ -22,14 +22,12 @@ import scala.concurrent.{ExecutionContext, Future}
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val messagesApi: MessagesApi)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithAuthRequired {
-  def administrateLaboratories = AuthRequiredAction { implicit request =>
-    Logger.debug("Petición de listar los laboratorios administrativamente recibida.")
-    Future.successful(Redirect(normalroutes.HomeController.home()))
-  }
 
-  def edit(id: Long) = AuthRequiredAction { implicit request =>
+  def edit = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     implicit val isAdmin = loggedIn.role == Role.Administrator
+    // TODO: Get id from json
+    val id = 1
     laboratoryService.getSingle(id).map {
       case Some(laboratory) =>
         val data = LaboratoryFormData(laboratory.name, laboratory.location, laboratory.administration)

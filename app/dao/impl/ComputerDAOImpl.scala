@@ -9,10 +9,10 @@ import model.table.{ComputerStateTable, ComputerTable, ConnectedUserTable}
 import play.Logger
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._
-import services.state.{ActionState, ActionCompleted, Failed}
+import services.state.{ActionCompleted, ActionState, Failed}
 import slick.dbio.Effect.Read
 import slick.driver.JdbcProfile
-import slick.jdbc.{GetResult, SQLActionBuilder}
+import slick.jdbc.GetResult
 
 import scala.concurrent.Future
 
@@ -30,9 +30,19 @@ class ComputerDAOImpl @Inject()
   /**
     * Table with all the computers.
     */
-  implicit val computers = TableQuery[ComputerTable]
-  implicit val computerStates = TableQuery[ComputerStateTable]
-  implicit val connectedUsers = TableQuery[ConnectedUserTable]
+  implicit val computers: TableQuery[ComputerTable] = TableQuery[ComputerTable]
+  implicit val computerStates: TableQuery[ComputerStateTable] = TableQuery[ComputerStateTable]
+  implicit val connectedUsers: TableQuery[ConnectedUserTable] = TableQuery[ConnectedUserTable]
+  implicit val tripleJoin: Query[((ComputerTable, Rep[Option[ComputerStateTable]]),
+    Rep[Option[ConnectedUserTable]]), ((Computer, Option[ComputerState]), Option[ConnectedUser]), Seq] = {
+    computers
+    .joinLeft(computerStates)
+    .on(_.ip === _.computerIp)
+    .joinLeft(connectedUsers)
+    .on((computerWithState,connectedUser)=>
+      computerWithState._2.map(_.computerIp) === connectedUser.computerStateComputerIp
+        && computerWithState._2.map(_.registeredDate) === connectedUser.computerStateRegisteredDate)
+  }
 
 
 
@@ -95,7 +105,9 @@ class ComputerDAOImpl @Inject()
     * @return All computers found.
     */
   override def listAll: Future[Seq[(Computer, Option[ComputerState],Option[ConnectedUser])]] = db.run {
-    computers.joinLeft(computerStates).on(_.ip === _.computerIp).joinLeft(connectedUsers).on((x,y)=>x._2.map(_.computerIp) === y.computerStateComputerIp && x._2.map(_.registeredDate) === y.computerStateRegisteredDate).map(x=>(x._1._1,x._1._2,x._2)).result
+    tripleJoin
+      .map(x=>(x._1._1,x._1._2,x._2))
+      .result
   }
 
   override def listAllSimple: Future[Seq[Computer]] = db.run{
@@ -103,7 +115,11 @@ class ComputerDAOImpl @Inject()
   }
 
   override def getWithStatus(ip: String): Future[Seq[(Computer, Option[ComputerState], Option[ConnectedUser])]] = db.run{
-    computers.joinLeft(computerStates).on(_.ip === _.computerIp).joinLeft(connectedUsers).on((x,y)=>x._2.map(_.computerIp) === y.computerStateComputerIp && x._2.map(_.registeredDate) === y.computerStateRegisteredDate).map(x=>(x._1._1,x._1._2,x._2)).filter(_._1.ip === ip).result
+    tripleJoin
+      .map(x=>
+        (x._1._1,x._1._2,x._2)
+      ).filter(_._1.ip === ip)
+      .result
   }
 
   override def get(severalComputers: List[String]): Future[Seq[Computer]] = {
@@ -111,6 +127,13 @@ class ComputerDAOImpl @Inject()
     val ips = severalComputers.mkString(",")
     val sql = sql"""SELECT * FROM computer WHERE id IN (#$ips)""".as[Computer]
     db.run(sql)
+  }
+
+  override def getWithStatus(severalIps: List[String]): Future[Seq[(Computer, Option[ComputerState], Option[ConnectedUser])]] = db.run {
+    val binded: Traversable[String] = severalIps
+    tripleJoin.map(x=>
+      (x._1._1,x._1._2,x._2)
+    ).filter(_._1.ip inSet binded).result
   }
 }
 

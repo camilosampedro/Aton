@@ -27,6 +27,7 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
       val computerForm = ComputerForm.form.fill(computerData)
       val result = controller.edit.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
@@ -39,6 +40,7 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
       val computerForm = ComputerForm.form.fill(computerData)
       val result = controller.edit.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
@@ -48,6 +50,7 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
     "return Failed <400> status on deleting a computer" in {
       val result = controller.delete(computer.ip).apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
       }
       assertFutureResultStatus(result, 400)
@@ -56,14 +59,16 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
     "return \"Could not delete that computer\" on receiving an deleting computer" in {
       val result = controller.delete(computer.ip).apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
       }
       assertBodyJsonMessage(result, "Could not delete that computer")
     }
 
     "return Failed <400> status on blocking a page on a single computer" in {
-      val result = controller.blockPage(computer.ip).apply {
+      val result = controller.blockPage.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(BlockPageForm.form.fill(BlockPageFormData("www.example.com")).data.toSeq: _*)
       }
@@ -71,8 +76,9 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
     }
 
     "return \"Could not block that page\" on blocking a page on a single computer" in {
-      val result = controller.blockPage(computer.ip).apply {
+      val result = controller.blockPage.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(BlockPageForm.form.fill(BlockPageFormData("www.example.com")).data.toSeq: _*)
       }
@@ -80,80 +86,65 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
     }
 
     "return Failed <400> status on shutting down a computer" in {
-      val result = controller.shutdown(computer.ip).apply {
+      val result = controller.shutdown.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
       }
       assertFutureResultStatus(result, 400)
     }
 
     "return \"Could not shutdown that computer\" on shutting down a computer" in {
-      val result = controller.shutdown(computer.ip).apply {
+      val result = controller.shutdown.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
       }
       assertBodyJsonMessage(result, "Could not shutdown that computer")
     }
 
-    "return Failed <400> status on shutting down several computers" in {
-      val computersData = SelectComputersFormData(Seq(computer.ip).toList)
-      val computersForm = SelectComputersForm.form.fill(computersData)
-      val result = controller.shutdownSeveral().apply {
-        FakeRequest()
-          .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computersForm.data.toSeq: _*)
-      }
-      assertFutureResultStatus(result, 400)
-    }
-
-    "return \"Could not shutdown those computers\" on shutting down several computers" in {
-      val computersData = SelectComputersFormData(Seq(computer.ip).toList)
-      val computersForm = SelectComputersForm.form.fill(computersData)
-      val result = controller.shutdownSeveral().apply {
-        FakeRequest()
-          .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computersForm.data.toSeq: _*)
-      }
-      assertBodyJsonMessage(result, "Could not shutdown those computers")
-    }
-
     "return Failed <400> status on upgrading a computer" in {
-      val result = controller.upgrade(computer.ip).apply {
+      val result = controller.upgrade.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
       }
       assertFutureResultStatus(result, 400)
     }
 
     "return \"Could not upgrade that computer\" on upgrading a computer" in {
-      val result = controller.upgrade(computer.ip).apply {
+      val result = controller.upgrade.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
       }
-      assertBodyJsonMessage(result, "Could not upgrade that computer", emptyExtras = false)
+      assertBodyJsonMessage(result, "Could not upgrade that computer", emptyExtras = true)
     }
 
     "return Failed <400> status on unfreezing a computer" in {
-      val result = controller.unfreeze(computer.ip).apply {
+      val result = controller.unfreeze.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
       }
       assertFutureResultStatus(result, 400)
     }
 
     "return \"Could not unfreeze that computer\" on unfreezing a computer" in {
-      val result = controller.unfreeze(computer.ip).apply {
+      val result = controller.unfreeze.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
       }
-      assertBodyJsonMessage(result, "Could not unfreeze that computer", emptyExtras = false)
+      assertBodyJsonMessage(result, "Could not unfreeze that computer", emptyExtras = true)
     }
 
     "return Failed <400> status on sending a command to a computer" in {
       val sshOrderData = SSHOrderFormData(superUser = false, command)
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
-      val result = controller.sendCommand(computer.ip).apply {
+      val result = controller.sendCommand.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(sshOrderForm.data.toSeq: _*)
       }
@@ -163,7 +154,7 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
     "return \"Could not send that command to that computer\" on sending a command to a computer" in {
       val sshOrderData = SSHOrderFormData(superUser = false, command)
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
-      val result = controller.sendCommand(computer.ip).apply {
+      val result = controller.sendCommand.apply {
         FakeRequest()
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(sshOrderForm.data.toSeq: _*)
