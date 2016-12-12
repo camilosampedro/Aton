@@ -6,9 +6,9 @@
         @* Librerías webjar *@
         <script type="text/javascript" src="@routes.Assets.versioned("lib/requirejs/require.js")"></script>
         @*<script type="text/javascript" src="@routes.Assets.versioned("lib/bootstrap/webjars-requirejs.js")"></script>*@
-        <!--<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/Semantic-UI/semantic.css")">-->
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/Semantic-UI/semantic.css")">
         <link rel="shortcut icon" href="@routes.Assets.versioned("images/favicon.ico")"/>
-        <!--<script type='text/javascript' src='@routes.Assets.versioned("lib/Semantic-UI/semantic.js")'></script>-->
+        <script type='text/javascript' src='@routes.Assets.versioned("lib/Semantic-UI/semantic.js")'></script>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/systemjs/dist/system-polyfills.js")'></script>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/core-js/client/shim.min.js")'></script>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/zone.js/dist/zone.js")'></script>
@@ -83,6 +83,9 @@
 
 
     <body>
-        <my-app>Loading...</my-app>
+        <aton-root>
+            <div class="ui active dimmer">
+                <div class="ui massive undeterminate text loader">Loading Aton</div>
+            </div></aton-root>
     </body>
 </html>

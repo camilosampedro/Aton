@@ -57,13 +57,6 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
     }
   }
 
-  def addForm(): Action[AnyContent] = StackAction(AuthorityKey -> Administrator) { implicit request =>
-    play.Logger.debug("Logged user: " + loggedIn)
-    implicit val username = Some(loggedIn.username)
-    implicit val isAdmin = loggedIn.role == Role.Administrator
-    Ok//(index("Add laboratory",registerLaboratory(LaboratoryForm.form)))
-  }
-
   def delete(id: Long) = AuthRequiredAction { implicit request =>
     laboratoryService.delete(id) map {
       case state.ActionCompleted => Ok//Redirect(normalroutes.HomeController.home())

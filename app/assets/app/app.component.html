@@ -1,1 +1,32 @@
-<h1>Hello world</h1>
+<div class="ui container">
+    <div class="ui segments">
+        <div class="ui stackable menu">
+            <div class="item"><a href="/">Aton Web</a></div>
+            <div class="item"><a href="/about">About</a></div>
+            <div class="item right"><a href="/login">Login</a></div>
+        </div>
+        <div class="ui large test modal" [(ngModel)]="loginModal">
+            <div class="header">
+                Login
+            </div>
+            <div class="content">
+                <div class="ui slider checkbox">
+                    <input name="newsletter" type="checkbox">
+                    <label>Declinadas por riesgo</label>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui negative button">
+                    Cancel
+                </div>
+                <div class="ui positive right labeled icon button">
+                    Login
+                    <i class="checkmark icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="ui segment">
+            <h1>Hello world</h1>
+        </div>
+    </div>
+</div>
