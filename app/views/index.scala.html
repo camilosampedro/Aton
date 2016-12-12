@@ -6,6 +6,7 @@
         @* Librerías webjar *@
         <script type="text/javascript" src="@routes.Assets.versioned("lib/requirejs/require.js")"></script>
         @*<script type="text/javascript" src="@routes.Assets.versioned("lib/bootstrap/webjars-requirejs.js")"></script>*@
+        <script type='text/javascript' src='@routes.Assets.versioned("lib/jquery/jquery.js")'></script>
         <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/Semantic-UI/semantic.css")">
         <link rel="shortcut icon" href="@routes.Assets.versioned("images/favicon.ico")"/>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/Semantic-UI/semantic.js")'></script>
@@ -23,7 +24,8 @@
             'rxjs': 'assets/lib/rxjs',
             'symbol-observable': 'assets/lib/symbol-observable',
             'core-js': 'assets/lib/core-js',
-            'zone.js': 'assets/lib/zone.js'
+            'zone.js': 'assets/lib/zone.js',
+            'ng-semantic': 'assets/lib/ng-semantic'
 
         };
 
@@ -34,7 +36,8 @@
             'assets/lib': {defaultExtension: 'js'},
             'symbol-observable': {defaultExtension: 'js', main: 'index.js'},
             'core-js': {defaultExtension: 'js', main: 'index.js'},
-            'zone.js': {defaultExtension: 'js', main: 'zone.js'}
+            'zone.js': {defaultExtension: 'js', main: 'zone.js'},
+            'ng-semantic': {defaultExtension: 'js', main: 'ng-semantic.js'},
         };
         var ngPackageNames = [
             'common',
