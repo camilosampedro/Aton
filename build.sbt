@@ -104,7 +104,7 @@ libraryDependencies ++= {
     "org.webjars" % "Semantic-UI" % "2.2.2",
     "org.webjars.npm" % "ng-semantic" % "1.1.13",
     // JQuery
-    "org.webjars" % "jquery" % "2.2.1",
+    "org.webjars" % "jquery" % "3.1.0",
     // RequireJS
     "org.webjars" % "requirejs" % "2.2.0",
     // Ionicons

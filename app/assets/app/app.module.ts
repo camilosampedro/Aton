@@ -9,6 +9,7 @@ import { NgSemanticModule } from 'ng-semantic';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent }         from './app.component';
+import {LoginComponent} from './login/login.component';
 import {APP_BASE_HREF}          from '@angular/common';
 
 @NgModule({
@@ -20,7 +21,8 @@ import {APP_BASE_HREF}          from '@angular/common';
     NgSemanticModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent
   ],
   providers: [ {provide: APP_BASE_HREF, useValue: '/'} ],
   bootstrap: [ AppComponent ],
