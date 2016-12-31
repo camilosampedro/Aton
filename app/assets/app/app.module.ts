@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent }         from './app.component';
 import {LoginComponent} from './login/login.component';
 import {APP_BASE_HREF}          from '@angular/common';
+import {MenuComponent} from "./menu/menu.component";
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import {APP_BASE_HREF}          from '@angular/common';
   ],
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    MenuComponent
   ],
   providers: [ {provide: APP_BASE_HREF, useValue: '/'} ],
   bootstrap: [ AppComponent ],
