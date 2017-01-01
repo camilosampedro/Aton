@@ -4,7 +4,7 @@
 /**
  * Created by camilosampedro on 30/12/16.
  */
-import { Component, HostBinding }          from '@angular/core';
+import { Component, HostBinding, Input }          from '@angular/core';
 import {Room} from "./room.model";
 //import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
@@ -15,10 +15,14 @@ import {Room} from "./room.model";
     styleUrls: ['assets/app/room/room.component.css'],
 })
 export class RoomComponent{
-    room: Room = new Room(1,"Room 1");
+    @Input() room: Room;
 
     @HostBinding('class.ui') uiClass: boolean = true;
     @HostBinding('class.center') centerClass: boolean = true;
     @HostBinding('class.aligned') alignedClass: boolean = true;
     @HostBinding('class.segment') segmentClass: boolean = true;
+
+    static someMessagesClicked(event: Event) {
+        console.log(event);
+    }
 }

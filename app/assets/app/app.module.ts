@@ -14,6 +14,7 @@ import {APP_BASE_HREF}          from '@angular/common';
 import {MenuComponent} from "./menu/menu.component";
 import {ComputerComponent} from "./computer/computer.component";
 import {RoomComponent} from "./room/room.component";
+import {LaboratoryComponent} from "./laboratory/laboratory.component";
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import {RoomComponent} from "./room/room.component";
     LoginComponent,
     MenuComponent,
     ComputerComponent,
-    RoomComponent
+    RoomComponent,
+    LaboratoryComponent
   ],
   providers: [ {provide: APP_BASE_HREF, useValue: '/'} ],
   bootstrap: [ AppComponent ],
