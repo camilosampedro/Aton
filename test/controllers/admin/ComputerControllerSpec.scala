@@ -15,6 +15,7 @@ import model.Role
 import model.User
 import model.form.{BlockPageForm, ComputerForm, SSHOrderForm, SelectComputersForm}
 import model.form.data._
+import model.json.LoginJson
 import org.mockito.Mock
 import play.api.Environment
 import play.api.i18n.MessagesApi
@@ -51,7 +52,7 @@ trait ComputerControllerSpec extends ControllerTest {
   /**
     * Logged in user to pass
     */
-  val loggedInUser = LoginFormData("", "")
+  val loggedInUser = LoginJson("", "")
   /**
     * Computer with data to be tested
     */

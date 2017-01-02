@@ -3,11 +3,10 @@ package controllers.admin
 import com.google.inject.Inject
 import controllers.{routes => normalroutes}
 import jp.t2v.lab.play2.stackc.RequestWithAttributes
-import model.{Computer, ResultMessage}
-import model.json.ModelWrites.resultMessageWrites
+import model.Computer
 import model.form._
 import model.form.data.ComputerFormData
-import model.json.ComputerJson
+import model.json.{ComputerJson, ResultMessage}
 import play.api.Environment
 import play.api.i18n.MessagesApi
 import play.api.libs.json.{JsError, JsSuccess, Json}

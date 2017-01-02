@@ -3,6 +3,7 @@ package controllers.admin
 import jp.t2v.lab.play2.auth.test.Helpers.AuthFakeRequest
 import model.form.data._
 import model.form.{BlockPageForm, ComputerForm, SSHOrderForm, SelectComputersForm}
+import model.json.LoginJson
 import play.api.test.FakeRequest
 import services.state
 
@@ -38,7 +39,7 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
       val result = controller.delete(computer.ip).apply {
         FakeRequest()
           .withJsonBody(ipJson)
-          .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
+          .withLoggedIn(controller)(LoginJson("admin", "adminaton"))
       }
       assertFutureResultStatus(result, 404)
     }

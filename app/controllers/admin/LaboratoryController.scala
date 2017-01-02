@@ -4,11 +4,10 @@ import com.google.inject.Inject
 import controllers.{routes => normalroutes}
 import dao.{LaboratoryDAO, UserDAO}
 import model.Role._
-import model.json.ModelWrites.resultMessageWrites
 import model.form.LaboratoryForm
 import model.form.data.LaboratoryFormData
-import model.json.LaboratoryJson
-import model.{Laboratory, ResultMessage, Role}
+import model.json.{LaboratoryJson, ResultMessage}
+import model.{Laboratory, Role}
 import play.Logger
 import play.api.Environment
 import play.api.i18n.MessagesApi

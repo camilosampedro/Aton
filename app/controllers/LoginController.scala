@@ -4,9 +4,11 @@ import com.google.inject.Inject
 import dao.UserDAO
 import jp.t2v.lab.play2.auth.LoginLogout
 import model.form.LoginForm
+import model.json.{LoginJson, ResultMessage}
 import play.api.Environment
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, Controller}
+import play.api.libs.json.{JsError, JsSuccess, Json}
+import play.api.mvc.{Action, AnyContent, Controller}
 import services.UserService
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -20,23 +22,24 @@ class LoginController @Inject()(userService: UserService, val messagesApi: Messa
     Ok//(views.html.login(LoginForm.form))
   }
 
-  def login = Action.async { implicit request =>
-    LoginForm.form.bindFromRequest().fold(
-      errorForm => Future.successful(BadRequest),//(views.html.login(errorForm))),
-      data => {
-        val results = for {
-          searchUser <- resolveUser(data)
-          goto <- gotoLoginSucceeded(data)
-        } yield (searchUser, goto)
-        results.map { res =>
-          res._1 match {
-            case Some(user) => res._2
-            case _ => Forbidden("Login failed. Try again")
-          }
+  def login: Action[AnyContent] = Action.async { implicit request =>
+    request.body.asJson match {
+      case Some(json) =>
+        json.validate[LoginJson] match {
+          case JsSuccess(userForm, _ ) =>
+            val result = for {
+              foundUser <- resolveUser(userForm)
+              goto <- gotoLoginSucceeded(userForm)
+            } yield (foundUser, goto)
+            result.map{
+              case (Some(user),goto) => goto
+              case _ => Forbidden(Json.toJson(new ResultMessage("Wrong username or password")))
+            }
+          case JsError(errors) =>
+            Future.successful(BadRequest(Json.toJson(ResultMessage("Non json not expected", errors.map(_._2.toString)))))
         }
-
-      }
-    )
+      case _ => Future.successful(BadRequest(Json.toJson(new ResultMessage("Non json not expected"))))
+    }
   }
 
   /**

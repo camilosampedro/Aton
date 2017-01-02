@@ -7,7 +7,7 @@ import org.scalatestplus.play.PlaySpec
 import play.api.mvc.Result
 import play.api.test.Helpers._
 import play.test.WithApplication
-import model.json.ModelReads.resultMessageReads
+import .resultMessageReads
 
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._

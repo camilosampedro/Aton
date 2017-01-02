@@ -15,7 +15,7 @@ import model.Role
 import model.User
 import model.form.{BlockPageForm, ComputerForm, SSHOrderForm, SelectComputersForm}
 import model.form.data._
-import model.json.ComputerJson
+import model.json.{ComputerJson, LoginJson}
 import org.mockito.Mock
 import play.api.Environment
 import play.api.i18n.MessagesApi
@@ -74,7 +74,7 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       val result = controller.delete(computer.ip).apply {
         FakeRequest()
           .withJsonBody(ipJson)
-          .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
+          .withLoggedIn(controller)(LoginJson("admin", "adminaton"))
       }
       assertFutureResultStatus(result, 200)
     }
@@ -83,7 +83,7 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       val result = controller.delete(computer.ip).apply {
         FakeRequest()
           .withJsonBody(ipJson)
-          .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
+          .withLoggedIn(controller)(LoginJson("admin", "adminaton"))
       }
       assertBodyJsonMessage(result, "Computer deleted successfully")
     }

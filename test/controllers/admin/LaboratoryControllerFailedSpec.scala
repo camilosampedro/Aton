@@ -2,7 +2,7 @@ package controllers.admin
 
 import jp.t2v.lab.play2.auth.test.Helpers.AuthFakeRequest
 import model.form.LaboratoryForm
-import model.form.data.{LaboratoryFormData, LoginFormData}
+import model.form.data.LaboratoryFormData
 import model.json.LaboratoryJson
 import play.api.libs.json.Json
 import play.api.test.FakeRequest

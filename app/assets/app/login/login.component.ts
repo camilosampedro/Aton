@@ -2,7 +2,9 @@
  * Created by camilosampedro on 17/12/16.
  */
 
-import { Component }          from '@angular/core';
+import { Component, ViewChild, ElementRef }          from '@angular/core';
+import {LoginService} from "./login.service";
+import { Router } from '@angular/router';
 //import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
@@ -12,20 +14,24 @@ import { Component }          from '@angular/core';
     styleUrls: ['assets/app/login/login.component.css'],
 })
 export class LoginComponent{
-    awww:boolean = false;
-    formSubmitted: boolean = false;
+    @ViewChild('loginModal') loginModal: any;
     password: string = "";
     username: string = "";
 
-    constructor(){
-    }
-
-    a() {
-        console.log("clicked!");
-        this.awww=true;
-    }
+    constructor(private  loginService: LoginService, private router: Router){}
 
     submit(){
-        console.log(`username ${this.username}, password ${this.password}`);
+        let result = this.loginService.login(this.username, this.password).subscribe(response => {
+                localStorage.setItem('token', response.headers.get("PLAY2AUTH_SESS_ID"));
+                this.loginModal.hide();
+                this.router.navigate(['home']);
+            },
+            error => {
+                alert(error.text());
+                console.log(error.text());
+            });
+        if (result) {
+
+        }
     }
 }

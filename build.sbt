@@ -62,7 +62,7 @@ libraryDependencies ++= Seq(
 
 // Web dependencies
 libraryDependencies ++= {
-  val ngVersion="2.3.0-beta.1"
+  val ngVersion = "2.3.0-beta.1"
   Seq(
     // Angular 2 dependencies
     "org.webjars.npm" % "angular2" % "2.0.0-beta.17",
@@ -74,6 +74,7 @@ libraryDependencies ++= {
     "org.webjars.npm" % "angular__platform-browser" % ngVersion,
     "org.webjars.npm" % "angular__http" % ngVersion,
     "org.webjars.npm" % "angular__router" % "3.2.0",
+    "org.webjars.npm" % "angular2-cookie" % "1.2.6",
     //"org.webjars.npm" % "angular__router" % ngVersion,
     "org.webjars.npm" % "systemjs" % "0.19.39",
     "org.webjars.npm" % "rxjs" % "5.0.0-beta.12",

@@ -3,7 +3,7 @@ package controllers
 import com.google.inject.Inject
 import dao.UserDAO
 import model.Role
-import model.form.data.LoginFormData
+import model.json.LoginJson
 import play.api.Environment
 import play.api.i18n.MessagesApi
 import services.{LaboratoryService, UserService}

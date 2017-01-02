@@ -2,7 +2,6 @@ package controllers.api
 
 import com.google.inject.Inject
 import dao.{ComputerDAO, UserDAO}
-import model.json.ModelWrites._
 import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.Json

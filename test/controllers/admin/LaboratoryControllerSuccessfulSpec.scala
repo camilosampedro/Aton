@@ -12,8 +12,7 @@ import model.Role
 import model.User
 import model.form.LaboratoryForm
 import model.form.data.LaboratoryFormData
-import model.form.data.LoginFormData
-import model.json.LaboratoryJson
+import model.json.{LaboratoryJson, LoginJson}
 import play.api.Environment
 import play.api.i18n.MessagesApi
 import play.api.libs.json.Json
@@ -51,7 +50,7 @@ class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
     "return Ok <200> status on deleting a laboratory" in {
       val result = controller.delete(laboratory.id).apply {
         FakeRequest()
-          .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
+          .withLoggedIn(controller)(LoginJson("admin", "adminaton"))
       }
       assertFutureResultStatus(result, 200)
     }
