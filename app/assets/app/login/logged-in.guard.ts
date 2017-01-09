@@ -11,6 +11,6 @@ export class LoggedInGuard implements CanActivate {
     constructor(private _cookieService: CookieService) {}
 
     canActivate() {
-        return this._cookieService.getObject("");
+        return this._cookieService.getObject("PLAY2AUTH_SESS_ID") != "";
     }
 }

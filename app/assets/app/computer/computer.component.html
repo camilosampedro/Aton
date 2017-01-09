@@ -1,11 +1,11 @@
-<div class="ui green card computer">
+<div class="ui card computer" [ngClass]="{green: state.state==1, gray: state.state == 2, pink: state.state == 3, red: state.state == 4}">
     <div class="content">
         <div class="right floated mini ui icon"><i class="desktop icon"></i></div>
         <div class="green header">
             {{computer.name}}
         </div>
         <div class="meta">
-            <i class="signal icon"></i>{{computer.ip}} | <i class="linux icon"></i> Manjaro
+            <i class="signal icon"></i>{{computer.ip}} | <i class="linux icon"></i> {{state.operatingSystem || "Unknown"}}
         </div>
         <div class="description">
             {{computer.description}}
@@ -13,8 +13,8 @@
     </div>
     <div class="extra content">
         <div class="ui three buttons">
-            <button class="ui basic grey icon toggle button">
-                <i class="Checkmark icon"></i>
+            <button class="ui basic icon toggle button" [ngClass]="{grey: !isSelected, green: isSelected}" (click)="toggleSelection()">
+                <i [ngClass]="{checkmark: !isSelected, minus: isSelected}" class="icon"></i>
             </button>
             <div class="ui vertical animated basic brown button" (click)="sendMessageClick()"  tabindex="0">
                 <div class="hidden content">Message</div>

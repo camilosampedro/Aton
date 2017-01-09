@@ -9,17 +9,17 @@ import services.state.ActionState
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
- * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
- */
+  * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
+  */
 @Singleton
-class LaboratoryServiceImpl @Inject() (laboratoryDAO: LaboratoryDAO)(implicit executionContext: ExecutionContext) extends LaboratoryService {
+class LaboratoryServiceImpl @Inject()(laboratoryDAO: LaboratoryDAO)(implicit executionContext: ExecutionContext) extends LaboratoryService {
   /**
-   * Get a laboratory by its ID
-   *
-   * @param id Laboratory ID
-   * @return Laboratory with rooms and each room with computers
-   */
-  def get(id: Long): Future[Option[(Laboratory, Map[Option[Room], Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]])]] = {
+    * Get a laboratory by its ID
+    *
+    * @param id Laboratory ID
+    * @return Laboratory with rooms and each room with computers
+    */
+  def get(id: Long): Future[Option[(Laboratory, Map[Room, Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]])]] = {
     // Access to database using the laboratory's DAO
     laboratoryDAO.getWithChildren(id).map { res =>
       // res will have a sequence of (laboratory, room, computer, computerState, connectedUser)
@@ -51,7 +51,7 @@ class LaboratoryServiceImpl @Inject() (laboratoryDAO: LaboratoryDAO)(implicit ex
                     // If there is a computer state related to this computer, clean  and package them
                     case (_, Some(state), user) => Some((state, user))
                     // If there is not, save a None
-                    case _                      => None
+                    case _ => None
                   }))
                   // If it is not a computer here, save a None
                   case _ => None
@@ -77,9 +77,12 @@ class LaboratoryServiceImpl @Inject() (laboratoryDAO: LaboratoryDAO)(implicit ex
                 // Sort computers by their IP address
                 .sortBy(_._1.ip))
           }
-          
+
+          val roomWithComputersCleaned = roomsWithComputers.filterKeys(x=> x.isDefined).keysIterator.map(room=> room.get -> roomsWithComputers(room)).toMap
+
+
           // Return the laboratory with its packaged rooms and computers
-          Some(laboratory, roomsWithComputers)
+          Some(laboratory, roomWithComputersCleaned)
         case e =>
           // Laboratory not found!
           None

@@ -81,8 +81,6 @@ INSERT INTO role SELECT *
 CREATE TABLE IF NOT EXISTS room (
   id                    BIGINT       NOT NULL AUTO_INCREMENT,
   name                  VARCHAR(100) NOT NULL,
-  audiovisual_resources TEXT         NULL,
-  basic_tools           TEXT         NULL,
   laboratory_id         BIGINT       NOT NULL,
   CONSTRAINT sala_pk PRIMARY KEY (id)
 );

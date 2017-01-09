@@ -57,13 +57,13 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
       assertFutureResultStatus(result, 400)
     }
 
-    "return \"Could not delete that computer\" on receiving an deleting computer" in {
+    "return \"Could not deleteLaboratory that computer\" on receiving an deleting computer" in {
       val result = controller.delete(computer.ip).apply {
         FakeRequest()
           .withJsonBody(ipJson)
           .withLoggedIn(controller)(LoginJson("admin", "adminaton"))
       }
-      assertBodyJsonMessage(result, "Could not delete that computer")
+      assertBodyJsonMessage(result, "Could not deleteLaboratory that computer")
     }
 
     "return Failed <400> status on blocking a page on a single computer" in {

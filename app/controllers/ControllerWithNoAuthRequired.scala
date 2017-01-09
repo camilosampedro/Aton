@@ -14,7 +14,7 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-abstract class ControllerWithNoAuthRequired @Inject()(implicit override val cookieSecureOptionPlay: Environment, userService: UserService) extends Controller with I18nSupport with OptionalAuthElement with AuthConfigImpl {
+abstract class ControllerWithNoAuthRequired @Inject()(implicit override val cookieSecureOptionPlay: Environment, userService: UserService) extends Controller with OptionalAuthElement with AuthConfigImpl {
   override def resolveUser(receivedForm: LoginJson)(implicit context: ExecutionContext): Future[Option[User]] = {
     play.Logger.debug("Retrieving user: " + receivedForm)
     userService.checkAndGet(receivedForm.username,receivedForm.password)

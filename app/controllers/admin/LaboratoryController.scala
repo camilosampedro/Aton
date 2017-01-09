@@ -46,7 +46,7 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
         case JsSuccess(laboratory, path) =>
           val newLaboratory = Laboratory(0, laboratory.name, laboratory.location, laboratory.administration)
           laboratoryService.add(newLaboratory).map {
-            case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Could not add that laboratory"))) //Redirect(normalroutes.HomeController.home())
+            case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Laboratory added")))
             case _ => BadRequest(Json.toJson(new ResultMessage("Could not add that laboratory")))
 
           }
@@ -58,9 +58,9 @@ class LaboratoryController @Inject()(laboratoryService: LaboratoryService, val m
 
   def delete(id: Long) = AuthRequiredAction { implicit request =>
     laboratoryService.delete(id) map {
-      case state.ActionCompleted => Ok//Redirect(normalroutes.HomeController.home())
-      case state.NotFound => NotFound
-      case _ => BadRequest
+      case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Laboratory deleted successfully")))
+      case state.NotFound => NotFound(Json.toJson(new ResultMessage("Laboratory not found")))
+      case _ => BadRequest(Json.toJson(new ResultMessage("A server problem occurred while trying to delete the laboratory")))
     }
   }
 }

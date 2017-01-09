@@ -18,6 +18,12 @@ import {RoomComponent} from "./room/room.component";
 import {LaboratoryComponent} from "./laboratory/laboratory.component";
 import {LoginService} from "./login/login.service";
 import {HomeComponent} from "./home/home.component";
+import {LaboratoryService} from "./laboratory/laboratory.service";
+import {AddLaboratoryComponent} from "./laboratory/add/add-laboratory.component";
+import {RoomService} from "./room/room.service";
+import {AddRoomComponent} from "./room/add/add-room.component";
+import {AddComputerComponent} from "./computer/add/add-computer.component";
+import {ComputerService} from "./computer/computer.service";
 
 @NgModule({
     imports: [
@@ -34,16 +40,19 @@ import {HomeComponent} from "./home/home.component";
         ComputerComponent,
         RoomComponent,
         LaboratoryComponent,
-        HomeComponent
+        HomeComponent,
+        AddLaboratoryComponent,
+        AddRoomComponent,
+        AddComputerComponent
     ],
-    providers: [{provide: APP_BASE_HREF, useValue: '/'}, LoginService, CookieService],
+    providers: [{provide: APP_BASE_HREF, useValue: '/'},
+        LoginService,
+        CookieService,
+        LaboratoryService,
+        RoomService,
+        ComputerService
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {
 }
-
-/*
- Copyright 2016 Google Inc. All Rights Reserved.
- Use of this source code is governed by an MIT-style license that
- can be found in the LICENSE file at http://angular.io/license
- */

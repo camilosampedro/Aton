@@ -18,17 +18,13 @@ class RoomTable(tag: Tag) extends Table[Room](tag, "ROOM") {
 
   // All tables need the * method with the type that it was created the table with.
   override def * : ProvenShape[Room] =
-    (id, name, audiovisualResources, basicTools, laboratoryId) <>(Room.tupled, Room.unapply)
+    (id, name, laboratoryId) <>(Room.tupled, Room.unapply)
 
   // Primary key
   def id: Rep[Long] = column[Long]("ID", O.PrimaryKey)
 
   // Other columns/attributes
   def name: Rep[String] = column[String]("NAME")
-
-  def audiovisualResources: Rep[Option[String]] = column[Option[String]]("AUDIOVISUAL_RESOURCES")
-
-  def basicTools: Rep[Option[String]] = column[Option[String]]("BASIC_TOOLS")
 
   def laboratoryId: Rep[Long] = column[Long]("LABORATORY_ID")
 }

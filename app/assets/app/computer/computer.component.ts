@@ -1,11 +1,10 @@
 /**
  * Created by camilosampedro on 31/12/16.
  */
-/**
- * Created by camilosampedro on 30/12/16.
- */
-import { Component, HostBinding, OnInit, Output, EventEmitter }          from '@angular/core';
+import { Component, HostBinding, OnInit, Input, Output, EventEmitter }          from '@angular/core';
 import {Computer} from "./computer.model";
+import {ComputerState} from "../computerstate/computer-state.model";
+import {ConnectedUser} from "../computerstate/connected-user.model";
 //import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
@@ -15,18 +14,24 @@ import {Computer} from "./computer.model";
     styleUrls: ['assets/app/computer/computer.component.css'],
 })
 export class ComputerComponent extends OnInit {
-    computer: Computer;
+    @Input() computer: Computer;
+    @Input() state: ComputerState;
+    @Input() connectedUsers: ConnectedUser[];
+    isSelected: boolean = false;
+
     @Output() messageClicked = new EventEmitter();
     @HostBinding('class.column') column: boolean = true;
 
-    ngOnInit(){
-        this.computer = new Computer("10.10.0.1","Computer X", "", "", "",1);
-    }
+    ngOnInit(){}
 
     sendMessageClick() {
         console.log("Clicked");
         this.messageClicked.emit({
             value: this.computer
         })
+    }
+
+    toggleSelection() {
+        this.isSelected = !this.isSelected;
     }
 }

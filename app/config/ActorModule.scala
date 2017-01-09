@@ -8,7 +8,7 @@ import play.api.libs.concurrent.AkkaGuiceSupport
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 class ActorModule extends AbstractModule with AkkaGuiceSupport {
-  override def configure() = {
+  override def configure(): Unit = {
     bindActor[ComputerChecker]("computerChecker")
   }
 }

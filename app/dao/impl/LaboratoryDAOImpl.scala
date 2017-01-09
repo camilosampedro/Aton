@@ -68,7 +68,7 @@ class LaboratoryDAOImpl @Inject()
     */
   override def delete(id: Long): Future[ActionState] = {
     db.run(search(id).delete).map{
-      case 0 => state.ActionCompleted
+      case 1 => state.ActionCompleted
       case _ => state.Failed
     }
   }

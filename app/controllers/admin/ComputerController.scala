@@ -41,6 +41,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       case Some(json) =>
         json.validate[ComputerJson] match {
           case JsSuccess(computer, path) =>
+            play.Logger.debug(s"Adding $computer")
             computerService.add(computer.ip, computer.name, computer.SSHUser, computer.SSHPassword,
               computer.description, computer.roomID).map {
               case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer added successfully")))
@@ -75,7 +76,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       computerService.delete(ip) map {
         case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer deleted successfully")))
         case state.NotFound => NotFound(Json.toJson(new ResultMessage("Computer not found")))
-        case _ => BadRequest(Json.toJson(new ResultMessage("Could not delete that computer")))
+        case _ => BadRequest(Json.toJson(new ResultMessage("Could not deleteLaboratory that computer")))
       }
   }
 

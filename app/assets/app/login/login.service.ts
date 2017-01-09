@@ -22,7 +22,8 @@ export class LoginService {
                 '/api/login',
                 JSON.stringify({username, password}),
                 {headers}
-            )
+            ).map(res=>localStorage.setItem('token', res.headers.get("PLAY2AUTH_SESS_ID")))
+
     }
 
     logout() {

@@ -7,13 +7,15 @@ import model.Role._
 import model.Room
 import model.form.{BlockUserForm, RoomForm}
 import model.form.data.{BlockUserFormData, RoomFormData}
+import model.json.ResultMessage
 import play.Logger
 import play.api.Environment
 import play.api.i18n.MessagesApi
+import play.api.libs.json.{JsError, JsSuccess, Json}
 import services.{LaboratoryService, RoomService, UserService, state}
 import views.html._
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
@@ -23,22 +25,16 @@ class RoomController @Inject()(roomService: RoomService, laboratoryService: Labo
   def add = AuthRequiredAction { implicit request =>
     implicit val username = Some(loggedIn.username)
     Logger.debug("Adding roomPanel... ")
-    RoomForm.form.bindFromRequest().fold(
-      errorForm => {
-        Logger.error("There was an error with the input" + errorForm)
-        laboratoryService.listAll.map { laboratories =>
-          val pairs = laboratories.map(x => (x.id.toString, x.name))
-          Ok//(index(messagesApi("room.add_room"),registerRoom(errorForm, pairs)))
+    request.body.asJson match {
+      case Some(json) => json.validate[Room] match {
+        case JsSuccess(room, _) => roomService.add(room).map {
+          case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Room added")))
+          case _ => BadRequest(Json.toJson(new ResultMessage("Could not add that room")))
         }
-      },
-      data => {
-        val newRoom = Room(0, data.name, data.audiovisualResources, data.basicTools, data.laboratoryID)
-        roomService.add(newRoom).map {
-          case state.ActionCompleted => Redirect(normalroutes.HomeController.home())
-          case _ => BadRequest
-        }
+        case JsError(errors) => Future.successful(BadRequest(Json.toJson(ResultMessage("There was some errors in your input",errors.map(_.toString())))))
       }
-    )
+      case _ => Future.successful(BadRequest(Json.toJson(new ResultMessage("Non json not expected"))))
+    }
   }
 
   def addForm() = AuthRequiredAction { implicit request =>
@@ -58,7 +54,7 @@ class RoomController @Inject()(roomService: RoomService, laboratoryService: Labo
     results.map { res =>
       res._1 match {
         case Some(room) =>
-          val roomFormData = RoomFormData(room.name, room.audiovisualResources, room.basicTools, room.laboratoryID)
+          val roomFormData = RoomFormData(room.name, room.laboratoryID)
           val pairs = res._2.map(x => (x.id.toString, x.name))
           Ok//(index(messagesApi("room.edit"),registerRoom(RoomForm.form.fill(roomFormData), pairs)))
         case _ =>

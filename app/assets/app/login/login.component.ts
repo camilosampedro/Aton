@@ -2,7 +2,7 @@
  * Created by camilosampedro on 17/12/16.
  */
 
-import { Component, ViewChild, ElementRef }          from '@angular/core';
+import { Component, ViewChild }          from '@angular/core';
 import {LoginService} from "./login.service";
 import { Router } from '@angular/router';
 //import {Validators, FormBuilder, FormGroup} from '@angular/forms';
@@ -21,8 +21,7 @@ export class LoginComponent{
     constructor(private  loginService: LoginService, private router: Router){}
 
     submit(){
-        let result = this.loginService.login(this.username, this.password).subscribe(response => {
-                localStorage.setItem('token', response.headers.get("PLAY2AUTH_SESS_ID"));
+        this.loginService.login(this.username, this.password).subscribe(response => {
                 this.loginModal.hide();
                 this.router.navigate(['home']);
             },
@@ -30,8 +29,5 @@ export class LoginComponent{
                 alert(error.text());
                 console.log(error.text());
             });
-        if (result) {
-
-        }
     }
 }

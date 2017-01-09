@@ -4,9 +4,11 @@
 export class Room {
     id: number;
     name: string;
+    laboratoryID: number;
 
-    constructor(id: number, name: string){
+    constructor(id: number, name: string, laboratoryID: number){
         this.id = id;
         this.name = name;
+        this.laboratoryID = laboratoryID;
     }
 }

@@ -9,7 +9,7 @@ import model.json.LoginJson
 import play.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.{JsValue, Json, Writes}
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.{Action, AnyContent, Controller}
 import services.LaboratoryService
 import views.html._
 
@@ -25,11 +25,10 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryService: Labora
 
   //override def resolveUser(id: LoginFormData)(implicit context: ExecutionContext): Future[Option[User]] = userDAO.get(id)
 
-  def convertToJson(laboratoryObject: Laboratory, roomsWithComputers: Map[Option[Room], Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]]): JsValue = {
+  def convertToJson(laboratoryObject: Laboratory, roomsWithComputers: Map[Room, Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]]): JsValue = {
     val roomsConverted = roomsWithComputers.toSeq
     val grouped = roomsConverted.groupBy(_._1)
-    val hasRooms = grouped.filter(_._1.isDefined)
-    val resultRooms: Seq[(Room, Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])])] = hasRooms.map(filtered=>(filtered._1.get,filtered._2.map(_._2).head)).toSeq
+    val resultRooms = grouped.map(filtered=>(filtered._1,filtered._2.map(_._2).head)).toSeq
     Json.toJson((laboratoryObject,resultRooms))
   }
 
@@ -47,9 +46,5 @@ class LaboratoryController @Inject()(userDAO: UserDAO, laboratoryService: Labora
     }
   }
 
-  def listAll() = Action.async {implicit request=>
-    laboratoryService.listAll.map(result => {
-      Ok(Json.toJson(result))
-    })
-  }
+
 }

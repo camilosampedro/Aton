@@ -103,7 +103,7 @@ trait ComputerControllerSpec extends ControllerTest {
     // For example, add will not have more than ActionCompleted and Failed states.
     when(computerService.add(any[String], any[Option[String]], any[String], any[String], any[Option[String]],
       any[Option[Long]])) thenReturn Future.successful(alternativeState)
-    // delete will do have more than those two states
+    // deleteLaboratory will do have more than those two states
     when(computerService.delete(any[String])) thenReturn Future.successful(actionState)
     when(computerService.edit(any[Computer])) thenReturn Future.successful(actionState)
     when(computerService.shutdown(any[List[String]])(any[String])) thenReturn Future.successful(actionState)

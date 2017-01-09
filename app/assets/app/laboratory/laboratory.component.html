@@ -1,3 +1,12 @@
-<div class="ui segments one column grid container">
-    <aton-room *ngFor="let room of rooms" [room]="room"></aton-room>
+<h1 class="ui center aligned header">{{laboratory.name}}</h1>
+<div class="ui segments container">
+    <aton-room *ngFor="let room of rooms" [room]="room[0]" [computers]="room[1]" [laboratoryId]="laboratory.id"></aton-room>
+    <div *ngIf="rooms.length == 0" class="ui center aligned segment">
+        <h1 class="ui center aligned icon header">
+            <i class="circular cube icon"></i>
+            <div class="content">There are not rooms here!
+                <div class="sub header"><aton-add-room [laboratoryID]="laboratory.id"></aton-add-room></div>
+            </div>
+        </h1>
+    </div>
 </div>
