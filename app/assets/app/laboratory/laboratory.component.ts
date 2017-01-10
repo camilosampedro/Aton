@@ -2,7 +2,7 @@
  * Created by camilosampedro on 1/01/17.
  */
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit }          from '@angular/core';
+import { Component, OnInit ,ViewChild}          from '@angular/core';
 import {Room} from "../room/room.model";
 import {ActivatedRoute, Params} from '@angular/router';
 import {LaboratoryService} from "./laboratory.service";
@@ -21,6 +21,10 @@ import {ConnectedUser} from "../computerstate/connected-user.model";
 export class LaboratoryComponent implements OnInit{
     rooms: [Room, [Computer, ComputerState, ConnectedUser[]][]][] = [];
     laboratory: Laboratory = new Laboratory(0,"Loading...","","");
+    selectedComputers: Computer[] = [];
+
+    @ViewChild("messageModal") messageModal: any;
+
 
     constructor(
         private route: ActivatedRoute,
@@ -49,6 +53,26 @@ export class LaboratoryComponent implements OnInit{
                 }
                 console.log(this.rooms);
             });
+    }
+
+    selectComputer(event: [boolean, Computer]) {
+        console.log(event);
+        if (event[0]) {
+            this.selectedComputers.push(event[1]);
+        } else {
+            let index = this.selectedComputers.indexOf(event[1], 0);
+            if (index > -1) {
+                this.selectedComputers.splice(index, 1);
+            }
+        }
+    }
+
+    showMessageForSelected(){
+        this.messageModal.showForSelected(this.selectedComputers);
+    }
+
+    showMessageForComputer(computer: Computer){
+        this.messageModal.showForComputer(computer);
     }
 
 }

@@ -1,11 +1,11 @@
 <h2 class="ui header">{{room.name}} <span class="id">| {{room.id}}</span></h2>
 <div *ngIf="computers.length != 0" class="ui four column grid">
-    <aton-computer *ngFor="let computer of computers" [computer]="computer[0]" [state]="computer[1]" [connectedUsers]="computer[2]" (messageClicked)="someMessagesClicked($event)"></aton-computer>
+    <aton-computer *ngFor="let computer of computers" [computer]="computer[0]" [state]="computer[1]" [connectedUsers]="computer[2]" (messageClicked)="someMessagesClicked($event)" (computerSelected)="selectComputer($event)"></aton-computer>
 </div>
 <p *ngIf="computers.length != 0"></p>
 <div *ngIf="computers.length != 0" class="ui four buttons">
     <aton-add-computer [roomID]="room.id"></aton-add-computer>
-    <button class="ui basic grey button"><i class="talk icon"></i> Send a message</button>
+    <button class="ui basic grey button" (click)="sendOnSelected()"><i class="talk icon"></i> Send a message</button>
     <button class="ui basic orange button"><i class="rocket icon"></i> Send order</button>
     <button class="ui basic red button"><i class="power icon"></i> Shutdown</button>
 </div>

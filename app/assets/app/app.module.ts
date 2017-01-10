@@ -24,6 +24,8 @@ import {RoomService} from "./room/room.service";
 import {AddRoomComponent} from "./room/add/add-room.component";
 import {AddComputerComponent} from "./computer/add/add-computer.component";
 import {ComputerService} from "./computer/computer.service";
+import {MessageComponent} from "./message/message.component";
+import {MessageService} from "./message/message.service";
 
 @NgModule({
     imports: [
@@ -43,14 +45,16 @@ import {ComputerService} from "./computer/computer.service";
         HomeComponent,
         AddLaboratoryComponent,
         AddRoomComponent,
-        AddComputerComponent
+        AddComputerComponent,
+        MessageComponent
     ],
     providers: [{provide: APP_BASE_HREF, useValue: '/'},
         LoginService,
         CookieService,
         LaboratoryService,
         RoomService,
-        ComputerService
+        ComputerService,
+        MessageService
     ],
     bootstrap: [AppComponent],
 })

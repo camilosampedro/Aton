@@ -174,8 +174,6 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
 
 
   override def check(computer: Computer)(implicit username: String): (ComputerState, Seq[ConnectedUser]) = {
-    //play.Logger.debug(s"""Checking the $computer's state""")
-    //play.Logger.debug(s"""Checking if $computer's on""")
     try {
       val state = checkState(computer)
       play.Logger.debug(s"""$computer is  $state""")
@@ -208,6 +206,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
       case ex: JSchException =>
         ex.getMessage match {
           case "Auth fail" => AuthFailed()
+          case e if e.contains("Too many authentication failures") => AuthFailed()
           case "timeout: socket is not established" => NotConnected()
           case "Session.connect: java.net.SocketTimeoutException: Read timed out" => NotConnected()
           case "java.net.NoRouteToHostException: No route to host" => NotConnected()
@@ -331,7 +330,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
       }
 
     }
-    if (actionStates.exists(_!=state.OrderCompleted)){
+    if (actionStates.exists(!_.isInstanceOf[state.OrderCompleted])){
       state.Failed
     } else {
       state.ActionCompleted

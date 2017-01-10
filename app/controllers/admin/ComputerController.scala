@@ -158,20 +158,18 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
       val ip = List("")
-      MessageForm.form.bindFromRequest.fold(
-        errorForm => {
-          /*play.Logger.error(errorForm.toString)*/
-          /*play.Logger.error(errorForm.errors.toString)*/
-          Future.successful(BadRequest) //(index(messagesApi("message.formerror"), notImplemented(messagesApi("page.notimplemented")))))
-        },
-        data => {
-          computerService.sendMessage(ip, data.message).map {
+      request.body.asJson match {
+        case Some(json) => play.Logger.info(json.toString())
+          val text = (json \ "text").as[String]
+          val ips = (json \ "ips").as[List[String]]
+          computerService.sendMessage(ips, text).map {
             case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Message sent successfully", Seq(result))))
-            case state.NotFound => NotFound
-            case state.NotCheckedYet => InternalServerError
-            case _ => BadRequest
+            case state.NotFound => NotFound(Json.toJson(new ResultMessage("Computer not found")))
+            case state.NotCheckedYet => InternalServerError(Json.toJson(new ResultMessage("That computer was not checked yet")))
+            case _ => BadRequest(Json.toJson(new ResultMessage("There was an error sending the message")))
           }
-        })
+        case _ => Future.successful(BadRequest(Json.toJson(new ResultMessage("Non json not expected"))))
+      }
   }
 
   /**

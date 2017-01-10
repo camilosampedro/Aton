@@ -1,6 +1,6 @@
 <div class="ui card computer" [ngClass]="{green: state.state==1, gray: state.state == 2, pink: state.state == 3, red: state.state == 4}">
     <div class="content">
-        <div class="right floated mini ui icon"><i class="desktop icon"></i></div>
+        <div class="right floated mini ui icon" smDirTooltip="{{stateLabel()}}"><i class="desktop icon" [ngClass]="{green: state.state==1, gray: state.state == 2, pink: state.state == 3, red: state.state == 4}"></i></div>
         <div class="green header">
             {{computer.name}}
         </div>

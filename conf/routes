@@ -26,10 +26,10 @@ DELETE        /api/computer/:ip                    controllers.admin.ComputerCon
 GET           /api/computer/shutdown               controllers.admin.ComputerController.shutdown
 GET           /api/computer/upgrade                controllers.admin.ComputerController.upgrade
 GET           /api/computer/unfreeze               controllers.admin.ComputerController.unfreeze
-POST          /api/computer/sendcommand            controllers.admin.ComputerController.sendCommand
-POST          /api/computer/blockpage              controllers.admin.ComputerController.blockPage
-POST          /api/computer/sendmessage            controllers.admin.ComputerController.sendMessage
-POST          /api/computer/installprograms        controllers.admin.ComputerController.installAPackage
+POST          /api/computer/send-command            controllers.admin.ComputerController.sendCommand
+POST          /api/computer/block-page              controllers.admin.ComputerController.blockPage
+POST          /api/computer/send-message            controllers.admin.ComputerController.sendMessage
+POST          /api/computer/install-programs        controllers.admin.ComputerController.installAPackage
 
 
 # SSH Order

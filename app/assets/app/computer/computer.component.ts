@@ -19,19 +19,31 @@ export class ComputerComponent extends OnInit {
     @Input() connectedUsers: ConnectedUser[];
     isSelected: boolean = false;
 
-    @Output() messageClicked = new EventEmitter();
+    @Output() messageClicked: EventEmitter<Computer> = new EventEmitter();
+    @Output() computerSelected: EventEmitter<[boolean,Computer]> = new EventEmitter();
     @HostBinding('class.column') column: boolean = true;
 
     ngOnInit(){}
 
     sendMessageClick() {
-        console.log("Clicked");
-        this.messageClicked.emit({
-            value: this.computer
-        })
+        this.messageClicked.emit(this.computer)
     }
 
     toggleSelection() {
         this.isSelected = !this.isSelected;
+        this.computerSelected.emit([this.isSelected,this.computer]);
+    }
+
+    stateLabel() {
+        switch (this.state.state) {
+            case 1:
+                return "Connected";
+            case 2:
+                return "Not connected";
+            case 3:
+                return "Auth failed";
+            default:
+                return "Unknown error";
+        }
     }
 }

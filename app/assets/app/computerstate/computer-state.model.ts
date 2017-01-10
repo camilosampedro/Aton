@@ -16,15 +16,5 @@ export class ComputerState {
         this.mac = mac;
     }
 
-    static stateLabel(state: number) {
-        if (state == 1) {
-            return "Connected";
-        } else if (state == 2) {
-            return "Not connected"
-        } else if (state == 3) {
-            return "Auth failed"
-        } else {
-            return "Unknown error"
-        }
-    }
+
 }

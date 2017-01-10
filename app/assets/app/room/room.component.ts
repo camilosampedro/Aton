@@ -4,7 +4,7 @@
 /**
  * Created by camilosampedro on 30/12/16.
  */
-import { Component, HostBinding, Input }          from '@angular/core';
+import {Component, HostBinding, Input, Output, EventEmitter}          from '@angular/core';
 import {Room} from "./room.model";
 import {Computer} from "../computer/computer.model";
 import {ComputerState} from "../computerstate/computer-state.model";
@@ -17,10 +17,13 @@ import {ConnectedUser} from "../computerstate/connected-user.model";
     templateUrl: 'assets/app/room/room.component.html',
     styleUrls: ['assets/app/room/room.component.css'],
 })
-export class RoomComponent{
+export class RoomComponent {
     @Input() laboratoryId: number;
     @Input() room: Room;
     @Input() computers: [Computer, ComputerState, ConnectedUser[]][];
+
+    @Output() computerSelected: EventEmitter<[boolean,Computer]> = new EventEmitter();
+    @Output() sendOnSelectedEvent: EventEmitter<boolean> = new EventEmitter();
 
     @HostBinding('class.ui') uiClass: boolean = true;
     @HostBinding('class.center') centerClass: boolean = true;
@@ -28,7 +31,15 @@ export class RoomComponent{
     @HostBinding('class.segment') segmentClass: boolean = true;
 
     someMessagesClicked(event: Event) {
-
         console.log(event);
+    }
+
+    selectComputer(event: [boolean, Computer]) {
+        console.log(event);
+        this.computerSelected.emit(event);
+    }
+
+    sendOnSelected() {
+        this.sendOnSelectedEvent.emit(true);
     }
 }
