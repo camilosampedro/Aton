@@ -1,5 +1,5 @@
-<a class="right item login-button" (click)="loginModal.show({inverted: true})"><i class="user icon"></i>Login</a>
-<sm-modal title="Login" class="small" icon="user" #loginModal>
+<a *ngIf="!isLoggedIn()" class="right item login-button" (click)="loginModal.show({inverted: true})"><i class="user icon"></i>Login</a>
+<sm-modal *ngIf="!isLoggedIn()"  title="Login" class="small" icon="user" #loginModal>
     <modal-content>
         <form class="ui form" #loginForm="ngForm">
             <div class="field">
@@ -36,3 +36,4 @@
 
     </modal-actions>
 </sm-modal>
+<a *ngIf="isLoggedIn()" (click)="logout()" class="item"><i class="log out icon"></i>Log out</a>

@@ -15,6 +15,7 @@
     "sourceRoot": "/assets",
     "rootDirs": ["app/assets","test/assets"],
     "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "*": [
         "*",

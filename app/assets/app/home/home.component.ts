@@ -1,15 +1,13 @@
 /**
  * Created by camilosampedro on 11/12/16.
  */
-/**
- * Created by camilosampedro on 30/12/16.
- */
 import { Component, OnInit }          from '@angular/core';
 import {Router} from '@angular/router';
 import {Laboratory} from "../laboratory/laboratory.model";
 import {LaboratoryService} from "../laboratory/laboratory.service";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
+import {LoginService} from "../login/login.service";
 //import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
@@ -18,12 +16,12 @@ import 'rxjs/add/operator/toPromise';
     templateUrl: 'assets/app/home/home.component.html',
     styleUrls: ['assets/app/home/home.component.css'],
 })
-export class HomeComponent extends OnInit {
+export class HomeComponent implements OnInit {
     laboratories: Laboratory[] = [];
 
-    constructor(private router: Router, private laboratoryService: LaboratoryService) {
-        super()
-    }
+    constructor(private router: Router,
+                private laboratoryService: LaboratoryService,
+                private loginService: LoginService) {}
 
     ngOnInit(): void {
         this.laboratoryService.getAll().subscribe(laboratories=>{
@@ -33,7 +31,11 @@ export class HomeComponent extends OnInit {
         (err: any)=>{
             console.error("Error retrieving laboratories");
             console.log(err);
-        })
+        });
+
+        if(this.isLoggedIn()){
+            console.log("It is logged in")
+        }
     }
 
     deleteLaboratory(id: number){
@@ -42,7 +44,7 @@ export class HomeComponent extends OnInit {
         },err=>console.error(err));
     }
 
-    goToLaboratory(id: number){
-
+    isLoggedIn() {
+        return LoginService.isLoggedIn();
     }
 }

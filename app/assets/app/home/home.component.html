@@ -10,14 +10,14 @@
             </div>
         </div>
     </div>
-        <aton-add-laboratory></aton-add-laboratory>
+        <aton-add-laboratory *ngIf="isLoggedIn()"></aton-add-laboratory>
 </div>
 <div *ngIf="laboratories.length == 0" class="ui segments container">
     <div class="ui center aligned segment">
         <h1 class="ui center aligned icon header">
             <i class="circular cube icon"></i>
             <div class="content">There are not laboratories here!
-                <div class="sub header"><aton-add-laboratory></aton-add-laboratory></div>
+                <div class="sub header"><aton-add-laboratory *ngIf="isLoggedIn()"></aton-add-laboratory></div>
             </div>
         </h1>
     </div>

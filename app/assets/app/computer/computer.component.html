@@ -11,7 +11,7 @@
             {{computer.description}}
         </div>
     </div>
-    <div class="extra content">
+    <div *ngIf="isLoggedIn()" class="extra content">
         <div class="ui three buttons">
             <button class="ui basic icon toggle button" [ngClass]="{grey: !isSelected, green: isSelected}" (click)="toggleSelection()">
                 <i [ngClass]="{checkmark: !isSelected, minus: isSelected}" class="icon"></i>

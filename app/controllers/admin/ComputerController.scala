@@ -162,6 +162,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
         case Some(json) => play.Logger.info(json.toString())
           val text = (json \ "text").as[String]
           val ips = (json \ "ips").as[List[String]]
+          play.Logger.info(s"IPS: $ips | text: $text")
           computerService.sendMessage(ips, text).map {
             case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Message sent successfully", Seq(result))))
             case state.NotFound => NotFound(Json.toJson(new ResultMessage("Computer not found")))

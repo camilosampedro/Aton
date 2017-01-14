@@ -7,15 +7,19 @@ import {Router} from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import {Computer} from "./computer.model";
+import {LoginService} from "../login/login.service";
 
 @Injectable()
 export class ComputerService {
     constructor(private http: Http, private router: Router){}
 
-
-
     addNew(computer: Computer) {
-        return this.http.post('/api/computer',computer);
+        return this.http.post('/api/computer',computer).map(res=>{
+            if(res.status == 403){
+                LoginService.deleteToken()
+            }
+            res
+        });
     }
 
     deleteComputer(ip: number){

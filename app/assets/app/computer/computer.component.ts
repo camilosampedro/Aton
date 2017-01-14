@@ -5,6 +5,7 @@ import { Component, HostBinding, OnInit, Input, Output, EventEmitter }          
 import {Computer} from "./computer.model";
 import {ComputerState} from "../computerstate/computer-state.model";
 import {ConnectedUser} from "../computerstate/connected-user.model";
+import {LoginService} from "../login/login.service";
 //import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
@@ -45,5 +46,9 @@ export class ComputerComponent extends OnInit {
             default:
                 return "Unknown error";
         }
+    }
+
+    isLoggedIn() {
+        return LoginService.isLoggedIn();
     }
 }

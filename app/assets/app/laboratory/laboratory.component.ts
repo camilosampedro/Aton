@@ -10,6 +10,7 @@ import {Laboratory} from "./laboratory.model";
 import {Computer} from "../computer/computer.model";
 import {ComputerState} from "../computerstate/computer-state.model";
 import {ConnectedUser} from "../computerstate/connected-user.model";
+import {LoginService} from "../login/login.service";
 //import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
@@ -73,6 +74,12 @@ export class LaboratoryComponent implements OnInit{
 
     showMessageForComputer(computer: Computer){
         this.messageModal.showForComputer(computer);
+    }
+
+
+
+    isLoggedIn() {
+        return LoginService.isLoggedIn();
     }
 
 }

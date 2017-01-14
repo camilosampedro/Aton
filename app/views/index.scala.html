@@ -7,6 +7,7 @@
         <script type="text/javascript" src="@routes.Assets.versioned("lib/requirejs/require.js")"></script>
         @*<script type="text/javascript" src="@routes.Assets.versioned("lib/bootstrap/webjars-requirejs.js")"></script>*@
         <script type='text/javascript' src='@routes.Assets.versioned("lib/jquery/jquery.js")'></script>
+        <script type='text/javascript' src='@routes.Assets.versioned("lib/systemjs/dist/system.src.js")'></script>
         <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/Semantic-UI/semantic.css")">
         <link rel="shortcut icon" href="@routes.Assets.versioned("images/favicon.ico")"/>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/Semantic-UI/semantic.js")'></script>
@@ -14,10 +15,12 @@
         <script type='text/javascript' src='@routes.Assets.versioned("lib/core-js/client/shim.min.js")'></script>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/zone.js/dist/zone.js")'></script>
         <script type='text/javascript' src='@routes.Assets.versioned("lib/reflect-metadata/Reflect.js")'></script>
-        <script type='text/javascript' src='@routes.Assets.versioned("lib/systemjs/dist/system.src.js")'></script>
+
+
 
         <script>    @* our app is downloaded as individual javascript files by SystemJs
                      after compilation by sbt-typescript*@
+
         var map = {
             'app': 'assets/app',
             '@@angular': 'assets/lib/@@angular',
@@ -26,7 +29,7 @@
             'core-js': 'assets/lib/core-js',
             'zone.js': 'assets/lib/zone.js',
             'ng-semantic': 'assets/lib/ng-semantic',
-            'angular2-cookie': 'assets/lib/angular2-cookie'
+            'js-cookie': 'assets/lib/js-cookie'
         };
 
 
@@ -38,10 +41,7 @@
             'core-js': {defaultExtension: 'js', main: 'index.js'},
             'zone.js': {defaultExtension: 'js', main: 'zone.js'},
             'ng-semantic': {defaultExtension: 'js', main: 'ng-semantic.js'},
-            'angular2-cookie': {
-                main: './core.js',
-                defaultExtension: 'js'
-            }
+            'js-cookie': {defaultExtension: 'js', main: 'src/js.cookie.js'}
         };
         var ngPackageNames = [
             'common',

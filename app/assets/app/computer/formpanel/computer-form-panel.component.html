@@ -1,0 +1,73 @@
+<sm-modal title="Add a new computer" class="small cross" icon="lab" #computerFormModal>
+    <modal-content>
+        <form class="ui form" #computerForm="ngForm">
+            <div class="field">
+                <div class="ui labeled input">
+                    <div class="ui label">
+                        <i class="signal icon"></i>IP:
+                    </div>
+                    <input required placeholder="IP address of the computer" [(ngModel)]="ip" icon="signal" name="ip"
+                           #ipRef="ngModel" type="text">
+                    <div *ngIf="!(ipRef.valid || ipRef.pristine)" class="ui left pointing red basic label">
+                        <i class="edit icon"></i>Please enter a value
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui labeled input">
+                    <div class="ui label">
+                        <i class="info icon"></i>Name:
+                    </div>
+                    <input required placeholder="Name of the computer" [(ngModel)]="name" icon="info" name="name"
+                           #nameRef="ngModel" type="text">
+                    <div *ngIf="!(nameRef.valid || nameRef.pristine)" class="ui left pointing red basic label">
+                        <i class="edit icon"></i>Please enter a value
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui labeled input">
+                    <div class="ui label">
+                        <i class="user icon"></i>SSH username:
+                    </div>
+                    <input required placeholder="Username to login through SSH" [(ngModel)]="SSHUser" icon="user" name="SSHUser"
+                           #SSHUserRef="ngModel" type="text">
+                    <div *ngIf="!(SSHUserRef.valid || SSHUserRef.pristine)" class="ui left pointing red basic label">
+                        <i class="edit icon"></i>Please enter a value
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui labeled input">
+                    <div class="ui label">
+                        <i class="privacy icon"></i>SSH password:
+                    </div>
+                    <input required placeholder="Password to login through SSH" [(ngModel)]="SSHPassword" icon="privacy" name="SSHPassword"
+                           #SSHPasswordRef="ngModel" type="password">
+                    <div *ngIf="!(SSHPasswordRef.valid || SSHPasswordRef.pristine)" class="ui left pointing red basic label">
+                        <i class="edit icon"></i>Please enter a value
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui labeled input">
+                    <div class="ui label">
+                        <i class="info icon"></i>Description:
+                    </div>
+                    <input required placeholder="Description of the computer" [(ngModel)]="description" icon="info" name="description"
+                           #descriptionRef="ngModel" type="text">
+                    <div *ngIf="!(descriptionRef.valid || descriptionRef.pristine)" class="ui left pointing red basic label">
+                        <i class="edit icon"></i>Please enter a value
+                    </div>
+                </div>
+            </div>
+        </form>
+    </modal-content>
+    <modal-actions>
+        <sm-button icon="Remove" class="left orange" (click)="computerFormModal.hide()">Cancel</sm-button>
+        <sm-button (click)="computerForm.form.valid && submit()" [disabled]="!computerForm.form.valid" class="violet"><i
+                class="send icon"></i>Add
+        </sm-button>
+
+    </modal-actions>
+</sm-modal>

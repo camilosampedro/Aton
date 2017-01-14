@@ -6,9 +6,6 @@ import {FormsModule}   from '@angular/forms';
 import {HttpModule}    from '@angular/http';
 import {NgSemanticModule} from 'ng-semantic';
 import {AppRoutingModule} from './app-routing.module';
-
-import { CookieService } from 'angular2-cookie/services/cookies.service';
-
 import {AppComponent}         from './app.component';
 import {LoginComponent} from './login/login.component';
 import {APP_BASE_HREF}          from '@angular/common';
@@ -26,6 +23,8 @@ import {AddComputerComponent} from "./computer/add/add-computer.component";
 import {ComputerService} from "./computer/computer.service";
 import {MessageComponent} from "./message/message.component";
 import {MessageService} from "./message/message.service";
+import {ComputerFormPanelComponent} from "./computer/formpanel/computer-form-panel.component";
+
 
 @NgModule({
     imports: [
@@ -46,11 +45,11 @@ import {MessageService} from "./message/message.service";
         AddLaboratoryComponent,
         AddRoomComponent,
         AddComputerComponent,
-        MessageComponent
+        MessageComponent,
+        ComputerFormPanelComponent
     ],
     providers: [{provide: APP_BASE_HREF, useValue: '/'},
         LoginService,
-        CookieService,
         LaboratoryService,
         RoomService,
         ComputerService,

@@ -30,4 +30,12 @@ export class LoginComponent{
                 console.log(error.text());
             });
     }
+
+    isLoggedIn() {
+        return LoginService.isLoggedIn();
+    }
+
+    logout() {
+        this.loginService.logout().subscribe(response=> this.router.navigate(['home']))
+    }
 }

@@ -4,6 +4,9 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import {Router} from '@angular/router';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+import {Response} from '@angular/http';
 
 @Injectable()
 export class LoginService {
@@ -22,22 +25,29 @@ export class LoginService {
                 '/api/login',
                 JSON.stringify({username, password}),
                 {headers}
-            ).map(res=>localStorage.setItem('token', res.headers.get("PLAY2AUTH_SESS_ID")))
+            ).map(res=>{
+                if(res.status==200){
+                    localStorage.setItem('auth_token',"ok");
+                } else {
+                    localStorage.removeItem('auth_token')
+                }
+                res.json()
+            })
 
     }
 
     logout() {
-        this.http
+        LoginService.deleteToken();
+        return this.http
             .get('/api/logout')
             .map(res => res.json())
-            .map((res) => {
-                if (res.success) {
-                    localStorage.removeItem('auth_token')
-                }
-            });
     }
 
-    isLoggedIn() {
-        return this.loggedIn;
+    static isLoggedIn() {
+        return localStorage.getItem('auth_token') != null;
+    }
+
+    static deleteToken() {
+        localStorage.removeItem('auth_token');
     }
 }

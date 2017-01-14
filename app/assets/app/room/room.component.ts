@@ -9,6 +9,7 @@ import {Room} from "./room.model";
 import {Computer} from "../computer/computer.model";
 import {ComputerState} from "../computerstate/computer-state.model";
 import {ConnectedUser} from "../computerstate/connected-user.model";
+import {LoginService} from "../login/login.service";
 //import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
@@ -24,11 +25,12 @@ export class RoomComponent {
 
     @Output() computerSelected: EventEmitter<[boolean,Computer]> = new EventEmitter();
     @Output() sendOnSelectedEvent: EventEmitter<boolean> = new EventEmitter();
+    @Output() deleteSelectedEvent: EventEmitter<boolean> = new EventEmitter();
 
-    @HostBinding('class.ui') uiClass: boolean = true;
-    @HostBinding('class.center') centerClass: boolean = true;
-    @HostBinding('class.aligned') alignedClass: boolean = true;
-    @HostBinding('class.segment') segmentClass: boolean = true;
+    //@HostBinding('class.ui') uiClass: boolean = true;
+    //@HostBinding('class.center') centerClass: boolean = true;
+    //@HostBinding('class.aligned') alignedClass: boolean = true;
+    //@HostBinding('class.segment') segmentClass: boolean = true;
 
     someMessagesClicked(event: Event) {
         console.log(event);
@@ -42,4 +44,14 @@ export class RoomComponent {
     sendOnSelected() {
         this.sendOnSelectedEvent.emit(true);
     }
+
+    deleteSelected() {
+        this.deleteSelectedEvent.emit(true);
+    }
+
+    isLoggedIn() {
+        return LoginService.isLoggedIn();
+    }
+
+
 }

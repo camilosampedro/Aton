@@ -21,7 +21,7 @@ class RoomTable(tag: Tag) extends Table[Room](tag, "ROOM") {
     (id, name, laboratoryId) <>(Room.tupled, Room.unapply)
 
   // Primary key
-  def id: Rep[Long] = column[Long]("ID", O.PrimaryKey)
+  def id: Rep[Long] = column[Long]("ID", O.PrimaryKey, O.AutoInc)
 
   // Other columns/attributes
   def name: Rep[String] = column[String]("NAME")

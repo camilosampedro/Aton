@@ -11,4 +11,6 @@ import { Component }          from '@angular/core';
     styleUrls: ['assets/app/menu/menu.component.css'],
 })
 export class MenuComponent{
+
+
 }
