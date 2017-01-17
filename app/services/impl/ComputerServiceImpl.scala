@@ -14,7 +14,7 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDAO: ComputerDAO)(implicit executionContext: ExecutionContext) extends ComputerService {
 
-  private def executeSeveralWithStatus(ips: List[String])(fun: ((Computer,ComputerState, Seq[ConnectedUser]))=>ActionState) = {
+  private def executeSeveralWithStatus(ips: List[String])(fun: ((Computer, ComputerState, Seq[ConnectedUser])) => ActionState) = {
     getSeveral(ips).map { computers =>
       val filtered: Seq[(Computer, ComputerState, Seq[ConnectedUser])] = computers.flatMap(computer => computer._2 match {
         case Some(statusWithConnectedUser) => Some((computer._1, statusWithConnectedUser._1, statusWithConnectedUser._2))
@@ -29,7 +29,7 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
     }
   }
 
-  private def executeSeveralSimple(ips: List[String])(fun: Computer=>ActionState) = {
+  private def executeSeveralSimple(ips: List[String])(fun: Computer => ActionState) = {
     getSeveralSingle(ips).map { computers =>
       val actionStates = computers.map(fun)
       if (actionStates.exists(_ != ActionCompleted)) {
@@ -43,6 +43,25 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
   override def add(computer: Computer): Future[ActionState] = {
     play.Logger.debug("Adding computer")
     computerDAO.add(computer)
+  }
+
+  override def add(ip: String, name: Option[String], sSHUser: String, sSHPassword: String, description: Option[String], roomID: Option[Long]): Future[ActionState] = {
+    val ips = ip.split(",")
+    val names = name.getOrElse("").split(",")
+    val futures = ips.zip(names).map { pair =>
+      val newComputer = Computer(pair._1, Some(pair._2), sSHUser, sSHPassword, description, roomID)
+      play.Logger.debug("Adding a new computer: " + newComputer)
+      add(newComputer)
+    }.toSeq
+    Future.sequence(futures).map { states =>
+      play.Logger.debug(s"states: ${states.toString}")
+      if (states.exists(_ != ActionCompleted)) {
+        Failed
+      } else {
+        ActionCompleted
+      }
+    }
+
   }
 
   /**
@@ -177,7 +196,7 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
   }
 
   override def sendMessage(ip: List[String], message: String)(implicit username: String): Future[ActionState] = {
-    executeSeveralWithStatus(ip){computer =>
+    executeSeveralWithStatus(ip) { computer =>
       sSHOrderService.sendMessage(computer._1, message, computer._3)
     }
   }
@@ -199,40 +218,24 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
   }
 
   override def upgrade(ips: List[String])(implicit username: String): Future[ActionState] =
-    executeSeveralWithStatus(ips){computer =>
+    executeSeveralWithStatus(ips) { computer =>
       sSHOrderService.upgrade(computer._1, computer._2)
-  }
+    }
 
   override def unfreeze(ips: List[String])(implicit username: String): Future[ActionState] = {
     executeSeveralSimple(ips)(sSHOrderService.unfreeze)
   }
 
   override def sendCommand(ip: List[String], superUser: Boolean, command: String)(implicit username: String): Future[ActionState] = {
-    executeSeveralSimple(ip){computer=>
+    executeSeveralSimple(ip) { computer =>
       val (result, exitCode) = sSHOrderService.execute(computer, superUser, command)
-      if(exitCode == 0) ActionCompleted else OrderFailed(result,exitCode)
+      if (exitCode == 0) ActionCompleted else OrderFailed(result, exitCode)
     }
   }
 
   override def blockPage(ips: List[String], page: String)(implicit username: String): Future[ActionState] = {
-    executeSeveralSimple(ips)(sSHOrderService.blockPage(_,page))
+    executeSeveralSimple(ips)(sSHOrderService.blockPage(_, page))
   }
 
-  override def add(ip: String, name: Option[String], sSHUser: String, sSHPassword: String, description: Option[String], roomID: Option[Long]): Future[ActionState] = {
-    val ips = ip.split(",")
-    val names = name.getOrElse("").split(",")
-    val futures = ips.zip(names).map { pair =>
-      val newComputer = Computer(pair._1, Some(pair._2), sSHUser, sSHPassword, description, roomID)
-      play.Logger.debug("Adding a new computer: " + newComputer)
-      add(newComputer)
-    }.toSeq
-    Future.sequence(futures).map { states =>
-      if (states.exists(_ != ActionCompleted)) {
-        ActionCompleted
-      } else {
-        Failed
-      }
-    }
 
-  }
 }

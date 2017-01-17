@@ -22,6 +22,7 @@ export class ComputerComponent extends OnInit {
 
     @Output() messageClicked: EventEmitter<Computer> = new EventEmitter();
     @Output() computerSelected: EventEmitter<[boolean,Computer]> = new EventEmitter();
+    @Output() editComputerClicked: EventEmitter<Computer> = new EventEmitter();
     @HostBinding('class.column') column: boolean = true;
 
     ngOnInit(){}
@@ -50,5 +51,9 @@ export class ComputerComponent extends OnInit {
 
     isLoggedIn() {
         return LoginService.isLoggedIn();
+    }
+
+    editComputerClick(){
+        this.editComputerClicked.emit(this.computer)
     }
 }

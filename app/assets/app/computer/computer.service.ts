@@ -14,12 +14,7 @@ export class ComputerService {
     constructor(private http: Http, private router: Router){}
 
     addNew(computer: Computer) {
-        return this.http.post('/api/computer',computer).map(res=>{
-            if(res.status == 403){
-                LoginService.deleteToken()
-            }
-            res
-        });
+        return this.http.post('/api/computer',computer);
     }
 
     deleteComputer(ip: number){
@@ -28,5 +23,14 @@ export class ComputerService {
 
     getComputer(ip: number) {
         return this.http.get(`/api/computer/${ip}`).map(res=>res.json())
+    }
+
+    editComputer(computer: Computer){
+        return this.http.put('/api/computer', computer).map(res=>{
+            if(res.status == 403){
+                LoginService.deleteToken()
+            }
+            return res
+        })
     }
 }

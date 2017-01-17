@@ -2,20 +2,12 @@
  * Created by camilosampedro on 31/12/16.
  */
 export class Computer {
-    ip: string;
-    name: string;
-    SSHUser: string;
-    SSHPassword: string;
-    description: string;
-    roomID: number;
+    public ip: string;
+    public name: string;
+    public SSHUser: string;
+    public SSHPassword: string;
+    public description: string;
+    public roomID: number;
 
-
-    constructor(ip: string, name: string, SSHUser: string, SSHPassword: string, description: string, roomID: number) {
-        this.ip = ip;
-        this.name = name;
-        this.SSHUser = SSHUser;
-        this.SSHPassword = SSHPassword;
-        this.description = description;
-        this.roomID = roomID;
-    }
+    constructor() {}
 }

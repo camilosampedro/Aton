@@ -49,5 +49,6 @@ export class LoginService {
 
     static deleteToken() {
         localStorage.removeItem('auth_token');
+        console.log('token deleted');
     }
 }

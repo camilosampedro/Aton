@@ -24,8 +24,10 @@ export class RoomComponent {
     @Input() computers: [Computer, ComputerState, ConnectedUser[]][];
 
     @Output() computerSelected: EventEmitter<[boolean,Computer]> = new EventEmitter();
+    @Output() editComputerClicked: EventEmitter<Computer> = new EventEmitter();
     @Output() sendOnSelectedEvent: EventEmitter<boolean> = new EventEmitter();
     @Output() deleteSelectedEvent: EventEmitter<boolean> = new EventEmitter();
+    @Output() addANewComputerEvent: EventEmitter<number> = new EventEmitter();
 
     //@HostBinding('class.ui') uiClass: boolean = true;
     //@HostBinding('class.center') centerClass: boolean = true;
@@ -51,6 +53,14 @@ export class RoomComponent {
 
     isLoggedIn() {
         return LoginService.isLoggedIn();
+    }
+
+    addANewComputer() {
+        this.addANewComputerEvent.emit(this.room.id)
+    }
+
+    editComputer(computer: Computer){
+        this.editComputerClicked.emit(computer);
     }
 
 

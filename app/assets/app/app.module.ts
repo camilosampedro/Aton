@@ -19,11 +19,11 @@ import {LaboratoryService} from "./laboratory/laboratory.service";
 import {AddLaboratoryComponent} from "./laboratory/add/add-laboratory.component";
 import {RoomService} from "./room/room.service";
 import {AddRoomComponent} from "./room/add/add-room.component";
-import {AddComputerComponent} from "./computer/add/add-computer.component";
 import {ComputerService} from "./computer/computer.service";
 import {MessageComponent} from "./message/message.component";
 import {MessageService} from "./message/message.service";
 import {ComputerFormPanelComponent} from "./computer/formpanel/computer-form-panel.component";
+import {DialogComponent} from "./dialog/dialog.component";
 
 
 @NgModule({
@@ -44,9 +44,9 @@ import {ComputerFormPanelComponent} from "./computer/formpanel/computer-form-pan
         HomeComponent,
         AddLaboratoryComponent,
         AddRoomComponent,
-        AddComputerComponent,
         MessageComponent,
-        ComputerFormPanelComponent
+        ComputerFormPanelComponent,
+        DialogComponent
     ],
     providers: [{provide: APP_BASE_HREF, useValue: '/'},
         LoginService,

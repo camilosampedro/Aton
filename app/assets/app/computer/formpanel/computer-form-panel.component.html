@@ -64,9 +64,9 @@
         </form>
     </modal-content>
     <modal-actions>
-        <sm-button icon="Remove" class="left orange" (click)="computerFormModal.hide()">Cancel</sm-button>
+        <sm-button icon="Remove" class="left orange" (click)="hide()">Cancel</sm-button>
         <sm-button (click)="computerForm.form.valid && submit()" [disabled]="!computerForm.form.valid" class="violet"><i
-                class="send icon"></i>Add
+                class="send icon"></i>{{label}}
         </sm-button>
 
     </modal-actions>
