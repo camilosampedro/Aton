@@ -22,4 +22,6 @@ class RoomServiceImpl @Inject()(roomDAO: RoomDAO)(implicit executionContext: Exe
   override def add(room: Room): Future[ActionState] = roomDAO.add(room)
 
   override def delete(id: Long): Future[ActionState] = roomDAO.delete(id)
+
+  override def update(room: Room): Future[ActionState] = roomDAO.update(room)
 }

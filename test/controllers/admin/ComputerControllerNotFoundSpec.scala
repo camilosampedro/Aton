@@ -26,7 +26,7 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
       import computer._
       val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
       val computerForm = ComputerForm.form.fill(computerData)
-      val result = controller.edit.apply {
+      val result = controller.update.apply {
         FakeRequest()
           .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)

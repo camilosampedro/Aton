@@ -47,4 +47,6 @@ trait RoomDAO {
     * @return All the rooms
     */
   def listAll: Future[Seq[Room]]
+
+  def update(room: Room): Future[ActionState]
 }

@@ -97,4 +97,6 @@ class LaboratoryServiceImpl @Inject()(laboratoryDAO: LaboratoryDAO)(implicit exe
   override def add(laboratory: Laboratory): Future[ActionState] = laboratoryDAO.add(laboratory)
 
   override def delete(id: Long): Future[ActionState] = laboratoryDAO.delete(id)
+
+  override def update(laboratory: Laboratory): Future[ActionState] = laboratoryDAO.update(laboratory)
 }

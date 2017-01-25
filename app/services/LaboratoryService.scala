@@ -17,4 +17,5 @@ trait LaboratoryService {
   def listAll: Future[Seq[Laboratory]]
   def add(laboratory: Laboratory): Future[ActionState]
   def delete(id: Long): Future[ActionState]
+  def update(laboratory: Laboratory): Future[ActionState]
 }

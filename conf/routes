@@ -1,31 +1,30 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
-GET           /                                    controllers.HomeController.home
-POST          /api/login                           controllers.LoginController.login
-GET           /api/logout                          controllers.LoginController.logout
+GET           /                                     controllers.HomeController.home
+POST          /api/login                            controllers.LoginController.login
+GET           /api/logout                           controllers.LoginController.logout
 
 # Laboratory
-GET           /api/laboratories                    controllers.LaboratoryController.getAll
-GET           /api/laboratory/:id                  controllers.LaboratoryController.get(id:Long)
-PUT           /api/laboratory                      controllers.admin.LaboratoryController.edit
-POST          /api/laboratory                      controllers.admin.LaboratoryController.add
-DELETE        /api/laboratory/:id                  controllers.admin.LaboratoryController.delete(id:Long)
-
+GET           /api/laboratories                     controllers.LaboratoryController.getAll
+GET           /api/laboratory/:id                   controllers.LaboratoryController.get(id:Long)
+PUT           /api/laboratory                       controllers.admin.LaboratoryController.update
+POST          /api/laboratory                       controllers.admin.LaboratoryController.add
+DELETE        /api/laboratory/:id                   controllers.admin.LaboratoryController.delete(id:Long)
 
 # Room
-POST          /api/room                            controllers.admin.RoomController.add
-PUT           /api/room                            controllers.admin.RoomController.edit
-DELETE        /api/room/:roomId                    controllers.admin.RoomController.delete(roomId:Long)
-POST          /api/room/:roomId/blockuser          controllers.admin.RoomController.blockUser(roomId:Long)
+POST          /api/room                             controllers.admin.RoomController.add
+PUT           /api/room                             controllers.admin.RoomController.update
+DELETE        /api/room/:roomId                     controllers.admin.RoomController.delete(roomId:Long)
+POST          /api/room/:roomId/blockuser           controllers.admin.RoomController.blockUser(roomId:Long)
 
 # Computer
-POST          /api/computer                        controllers.admin.ComputerController.add
-PUT           /api/computer/                       controllers.admin.ComputerController.edit
-DELETE        /api/computer/:ip                    controllers.admin.ComputerController.delete(ip: String)
-GET           /api/computer/shutdown               controllers.admin.ComputerController.shutdown
-GET           /api/computer/upgrade                controllers.admin.ComputerController.upgrade
-GET           /api/computer/unfreeze               controllers.admin.ComputerController.unfreeze
+POST          /api/computer                         controllers.admin.ComputerController.add
+PUT           /api/computer/                        controllers.admin.ComputerController.update
+DELETE        /api/computer/:ip                     controllers.admin.ComputerController.delete(ip: String)
+GET           /api/computer/shutdown                controllers.admin.ComputerController.shutdown
+GET           /api/computer/upgrade                 controllers.admin.ComputerController.upgrade
+GET           /api/computer/unfreeze                controllers.admin.ComputerController.unfreeze
 POST          /api/computer/send-command            controllers.admin.ComputerController.sendCommand
 POST          /api/computer/block-page              controllers.admin.ComputerController.blockPage
 POST          /api/computer/send-message            controllers.admin.ComputerController.sendMessage
@@ -33,16 +32,16 @@ POST          /api/computer/install-programs        controllers.admin.ComputerCo
 
 
 # SSH Order
-GET           /api/sshorders                       controllers.admin.SSHOrderController.listAll
-GET           /api/sshorder/:id                    controllers.admin.SSHOrderController.get(id: Long)
-DELETE        /api/sshorder/:id                    controllers.admin.SSHOrderController.delete(id: Long)
+GET           /api/sshorders                        controllers.admin.SSHOrderController.listAll
+GET           /api/sshorder/:id                     controllers.admin.SSHOrderController.get(id: Long)
+DELETE        /api/sshorder/:id                     controllers.admin.SSHOrderController.delete(id: Long)
 
 # Suggestion
-GET           /suggestions                         controllers.SuggestionController.home
-POST          /suggestion/add                      controllers.SuggestionController.add
-GET           /suggestion/delete/:id               controllers.admin.SuggestionController.delete(id: Long)
+GET           /suggestions                          controllers.SuggestionController.home
+POST          /suggestion/add                       controllers.SuggestionController.add
+GET           /suggestion/delete/:id                controllers.admin.SuggestionController.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET           /assets/*file                        controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file                         controllers.Assets.versioned(path="/public", file: Asset)
 
 

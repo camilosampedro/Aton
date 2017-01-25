@@ -20,7 +20,7 @@ class LaboratoryControllerNotFoundSpec extends LaboratoryControllerSpec {
       import laboratory._
       val laboratoryData = LaboratoryFormData(name, location, administration)
       val laboratoryForm = LaboratoryForm.form.fill(laboratoryData)
-      val result = controller.edit.apply {
+      val result = controller.update.apply {
         FakeRequest()
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(laboratoryForm.data.toSeq: _*)

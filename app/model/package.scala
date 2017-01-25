@@ -5,6 +5,7 @@ import play.api.libs.json._
   */
 package object model {
   implicit val laboratoryWrites: Writes[Laboratory] = Json.writes[Laboratory]
+  implicit val laboratoryReads: Reads[Laboratory] = Json.reads[Laboratory]
   implicit val computerStateWrites: Writes[ComputerState] = Json.writes[ComputerState]
   implicit val connectedUserWrites: Writes[ConnectedUser] = Json.writes[ConnectedUser]
   implicit val computerWrites: Writes[Computer] = new Writes[Computer] {

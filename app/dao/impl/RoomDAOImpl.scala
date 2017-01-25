@@ -6,6 +6,7 @@ import com.google.inject.Singleton
 import dao.RoomDAO
 import model.Room
 import model.table.RoomTable
+import org.h2.jdbc.JdbcSQLException
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits._
 import services.state.ActionState
@@ -13,6 +14,7 @@ import services.state
 import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 /**
   * Se encarga de implementar las acciones sobre la base de datos
@@ -88,6 +90,24 @@ class RoomDAOImpl @Inject()
 
   override def getByLaboratory(id: Long): Future[Seq[Room]] = {
     db.run(rooms.filter(_.laboratoryId === id).result)
+  }
+
+  override def update(room: Room): Future[ActionState] = {
+    db.run {
+      val foundLaboratory = search(room.id)
+      foundLaboratory.update(room).asTry
+    }.map{
+      case Success(res) if res == 1 =>
+        play.Logger.info(s"updated with result: $res")
+        state.ActionCompleted
+      case Success(_) =>
+        play.Logger.info("Room not found")
+        state.NotFound
+      case Failure(e: JdbcSQLException) =>
+        play.Logger.error("There was an error looking for that room",e)
+        state.NotFound
+      case _ => state.Failed
+    }
   }
 }
 

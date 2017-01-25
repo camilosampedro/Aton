@@ -6,6 +6,7 @@ import com.google.inject.Singleton
 import dao.{LaboratoryDAO, RoomDAO}
 import model.table._
 import model._
+import org.h2.jdbc.JdbcSQLException
 import play.Logger
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits._
@@ -14,6 +15,7 @@ import services.state
 import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 /**
   * Implements DAO operations of Laboratories
@@ -42,7 +44,9 @@ class LaboratoryDAOImpl @Inject()
   implicit val computerStates = TableQuery[ComputerStateTable]
   implicit val connectedUsers = TableQuery[ConnectedUserTable]
   implicit val computersAndRoomsPentaJoin = {
-    laboratories joinLeft rooms on {_.id === _.laboratoryId } joinLeft computers  on {(x,y)=>x._2.map(_.id)===y.roomId} joinLeft computerStates on {(x,y)=>x._2.map(_.ip)===y.computerIp} joinLeft connectedUsers on {(x,y)=>x._2.map(_.computerIp)===y.computerStateComputerIp && x._2.map(_.registeredDate) === y.computerStateRegisteredDate}
+    laboratories joinLeft rooms on {
+      _.id === _.laboratoryId
+    } joinLeft computers on { (x, y) => x._2.map(_.id) === y.roomId } joinLeft computerStates on { (x, y) => x._2.map(_.ip) === y.computerIp } joinLeft connectedUsers on { (x, y) => x._2.map(_.computerIp) === y.computerStateComputerIp && x._2.map(_.registeredDate) === y.computerStateRegisteredDate }
   }
 
   /**
@@ -55,7 +59,7 @@ class LaboratoryDAOImpl @Inject()
     Logger.debug(s"""Adding to database: $laboratory""")
     db.run(laboratories += laboratory).map(res => state.ActionCompleted).recover {
       case ex: Exception =>
-        Logger.error("Ocurrió un error al adicionar en la base de datos", ex)
+        Logger.error(s"There was an exception adding the laboratory ${laboratory} to the database", ex)
         state.Failed
     }
   }
@@ -67,9 +71,12 @@ class LaboratoryDAOImpl @Inject()
     * @return Operation result.
     */
   override def delete(id: Long): Future[ActionState] = {
-    db.run(search(id).delete).map{
+    db.run(search(id).delete).map {
       case 1 => state.ActionCompleted
-      case _ => state.Failed
+      case 0 => state.NotFound
+      case error =>
+        play.Logger.error(s"Error code deleting that laboratory: $error")
+        state.Failed
     }
   }
 
@@ -90,11 +97,11 @@ class LaboratoryDAOImpl @Inject()
     * @param id Laboratory's ID.
     * @return Found laboratory with all its rooms and computers.
     */
-  override def getWithChildren(id: Long): Future[Seq[(Laboratory, Option[Room], (Option[Computer],Option[ComputerState],Option[ConnectedUser]))]] = {
+  override def getWithChildren(id: Long): Future[Seq[(Laboratory, Option[Room], (Option[Computer], Option[ComputerState], Option[ConnectedUser]))]] = {
     db.run {
       computersAndRoomsPentaJoin
         .filter(_._1._1._1._1.id === id)
-        .map(x => (x._1._1._1._1, x._1._1._1._2, (x._1._1._2,x._1._2,x._2)))
+        .map(x => (x._1._1._1._1, x._1._1._1._2, (x._1._1._2, x._1._2, x._2)))
         .result
     }
   }
@@ -108,5 +115,23 @@ class LaboratoryDAOImpl @Inject()
   override def get(id: Long): Future[Option[Laboratory]] = {
     // Select * from laboratory where id = $id
     db.run(search(id).result.headOption)
+  }
+
+  override def update(laboratory: Laboratory): Future[ActionState] = {
+    db.run {
+      val foundLaboratory = search(laboratory.id)
+      foundLaboratory.update(laboratory).asTry
+    }.map{
+      case Success(res) if res == 1 =>
+        play.Logger.info(s"updated with result: $res")
+        state.ActionCompleted
+      case Success(_) =>
+        play.Logger.info("Laboratory not found")
+        state.NotFound
+      case Failure(e: JdbcSQLException) =>
+        play.Logger.error("There was an error looking for that laboratory",e)
+        state.NotFound
+      case _ => state.Failed
+    }
   }
 }
