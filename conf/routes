@@ -20,7 +20,7 @@ POST          /api/room/:roomId/blockuser           controllers.admin.RoomContro
 
 # Computer
 POST          /api/computer                         controllers.admin.ComputerController.add
-PUT           /api/computer/                        controllers.admin.ComputerController.update
+PUT           /api/computer                         controllers.admin.ComputerController.edit
 DELETE        /api/computer/:ip                     controllers.admin.ComputerController.delete(ip: String)
 GET           /api/computer/shutdown                controllers.admin.ComputerController.shutdown
 GET           /api/computer/upgrade                 controllers.admin.ComputerController.upgrade

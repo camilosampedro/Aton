@@ -80,13 +80,12 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
       }
   }
 
-  def update = AuthRequiredAction { implicit request =>
+  def edit = AuthRequiredAction { implicit request =>
     request.body.asJson match {
       case Some(json) =>
-        json.validate[ComputerJson] match {
+        json.validate[Computer] match {
           case JsSuccess(computer, _) =>
-            computerService.add(computer.ip, computer.name, computer.SSHUser, computer.SSHPassword,
-              computer.description, computer.roomID).map {
+            computerService.edit(computer).map {
               case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer updated successfully")))
               case _ => BadRequest(Json.toJson(new ResultMessage("Could not update that computer")))
             }

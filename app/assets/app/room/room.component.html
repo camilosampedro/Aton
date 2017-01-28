@@ -3,7 +3,8 @@
     <div *ngIf="computers.length != 0" class="ui four column grid container">
         <aton-computer *ngFor="let computer of computers" [computer]="computer[0]" [state]="computer[1]"
                        [connectedUsers]="computer[2]" (messageClicked)="someMessagesClicked($event)"
-                       (computerSelected)="selectComputer($event)" (editComputerClicked)="editComputer($event)"></aton-computer>
+                       (computerSelected)="selectComputer($event)" (editComputerClicked)="editComputer($event)"
+                        (sendOrderClicked)="someSendOrderClicked($event)"></aton-computer>
     </div>
     <h1 *ngIf="computers.length == 0" class="ui center aligned icon header">
         <i class="circular cube icon"></i>

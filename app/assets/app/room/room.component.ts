@@ -25,6 +25,8 @@ export class RoomComponent {
 
     @Output() computerSelected: EventEmitter<[boolean,Computer]> = new EventEmitter();
     @Output() editComputerClicked: EventEmitter<Computer> = new EventEmitter();
+    @Output() singleSendMessageClicked: EventEmitter<Computer> = new EventEmitter();
+    @Output() singleSendOrderClicked: EventEmitter<Computer> = new EventEmitter();
     @Output() sendOnSelectedEvent: EventEmitter<boolean> = new EventEmitter();
     @Output() deleteSelectedEvent: EventEmitter<boolean> = new EventEmitter();
     @Output() addANewComputerEvent: EventEmitter<number> = new EventEmitter();
@@ -34,8 +36,12 @@ export class RoomComponent {
     //@HostBinding('class.aligned') alignedClass: boolean = true;
     //@HostBinding('class.segment') segmentClass: boolean = true;
 
-    someMessagesClicked(event: Event) {
-        console.log(event);
+    someMessagesClicked(computer: Computer) {
+        this.singleSendMessageClicked.emit(computer);
+    }
+
+    someSendOrderClicked(computer: Computer) {
+        this.singleSendOrderClicked.emit(computer);
     }
 
     selectComputer(event: [boolean, Computer]) {

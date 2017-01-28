@@ -6,15 +6,18 @@ import com.google.inject.Singleton
 import dao.ComputerDAO
 import model.{Computer, ComputerState, ConnectedUser}
 import model.table.{ComputerStateTable, ComputerTable, ConnectedUserTable}
+import org.h2.jdbc.JdbcSQLException
 import play.Logger
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._
+import services.state
 import services.state.{ActionCompleted, ActionState, Failed}
 import slick.dbio.Effect.Read
 import slick.driver.JdbcProfile
 import slick.jdbc.GetResult
 
 import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 /**
   * Performs all Computer database actions
@@ -92,11 +95,21 @@ class ComputerDAOImpl @Inject()
     * @param computer Computer to be updated, containing its ip
     * @return
     */
-  override def edit(computer: Computer): Future[ActionState] = db.run {
-    computers.filter(_.ip === computer.ip).update(computer)
-  }.map{
-    case 0 => ActionCompleted
-    case _ => Failed
+  override def edit(computer: Computer): Future[ActionState] = {
+    db.run {
+      val foundLaboratory = search(computer.ip)
+      foundLaboratory.update(computer).asTry
+    }.map {
+      case Success(res) if res == 1 =>
+        state.ActionCompleted
+      case Success(_) =>
+        play.Logger.info("Computer not found")
+        state.NotFound
+      case Failure(e: JdbcSQLException) =>
+        play.Logger.error("There was an error looking for that computer", e)
+        state.NotFound
+      case _ => state.Failed
+    }
   }
 
   /**

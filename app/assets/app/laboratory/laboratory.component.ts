@@ -79,6 +79,10 @@ export class LaboratoryComponent implements OnInit {
         this.messageModal.showForComputer(computer);
     }
 
+    showOrderPanelForComputer(computer: Computer){
+        console.log(computer);
+    }
+
     addANewComputer(roomID: number) {
         this.computerFormPanel.show(false, roomID)
     }

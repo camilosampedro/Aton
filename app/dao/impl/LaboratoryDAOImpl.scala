@@ -59,7 +59,7 @@ class LaboratoryDAOImpl @Inject()
     Logger.debug(s"""Adding to database: $laboratory""")
     db.run(laboratories += laboratory).map(res => state.ActionCompleted).recover {
       case ex: Exception =>
-        Logger.error(s"There was an exception adding the laboratory ${laboratory} to the database", ex)
+        Logger.error(s"There was an exception adding the laboratory $laboratory to the database", ex)
         state.Failed
     }
   }

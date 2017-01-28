@@ -2,12 +2,12 @@
  * Created by camilosampedro on 2/01/17.
  */
 import {Injectable} from '@angular/core';
-import {Http, Headers} from '@angular/http';
+import {Http, Headers, Response} from '@angular/http';
 import {Router} from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/catch';
 import {Computer} from "./computer.model";
-import {LoginService} from "../login/login.service";
 
 @Injectable()
 export class ComputerService {
@@ -26,11 +26,6 @@ export class ComputerService {
     }
 
     editComputer(computer: Computer){
-        return this.http.put('/api/computer', computer).map(res=>{
-            if(res.status == 403){
-                LoginService.deleteToken()
-            }
-            return res
-        })
+        return this.http.put('/api/computer', computer).map(res=>res.json())
     }
 }

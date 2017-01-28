@@ -62,11 +62,9 @@ export class ComputerFormPanelComponent implements OnInit{
                     this.computerFormModal.hide()
                 },
                 err => {
-                    if(err.status == 403){
-                        LoginService.deleteToken()
-                    }
+                    console.error("Error editing computer");
                     console.error(err);
-                    this.showError(err);
+                    this.showError(err.result);
                 }
             );
         } else {
@@ -76,11 +74,9 @@ export class ComputerFormPanelComponent implements OnInit{
                     this.computerFormModal.hide()
                 },
                 err => {
-                    if(err.status == 403){
-                        LoginService.deleteToken()
-                    }
-                    this.showError(err);
+                    console.error("Error adding computer");
                     console.error(err);
+                    this.showError(err);
                     alert(err)
                 }
             );
@@ -112,6 +108,6 @@ export class ComputerFormPanelComponent implements OnInit{
     }
 
     showError(err: any){
-        this.onAlert.emit(["Error", err.json()])
+        this.onAlert.emit(["Error", err])
     }
 }

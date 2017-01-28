@@ -8,10 +8,12 @@ package object model {
   implicit val laboratoryReads: Reads[Laboratory] = Json.reads[Laboratory]
   implicit val computerStateWrites: Writes[ComputerState] = Json.writes[ComputerState]
   implicit val connectedUserWrites: Writes[ConnectedUser] = Json.writes[ConnectedUser]
+  implicit val computerReads: Reads[Computer] = Json.reads[Computer]
   implicit val computerWrites: Writes[Computer] = new Writes[Computer] {
     override def writes(o: Computer): JsObject = Json.obj(
       "ip" -> o.ip,
       "description" -> o.description,
+      "SSHUser" -> o.SSHUser,
       "name" -> o.name,
       "roomID" -> o.roomID
     )

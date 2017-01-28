@@ -4,7 +4,8 @@
     <aton-room class="ui column card" *ngFor="let room of rooms" [room]="room[0]" [computers]="room[1]"
                [laboratoryId]="laboratory.id" (computerSelected)="selectComputer($event)"
                (sendOnSelectedEvent)="showMessageForSelected()" (addANewComputerEvent)="addANewComputer($event)"
-                (editComputerClicked)="editComputer($event)">
+               (editComputerClicked)="editComputer($event)" (singleSendMessageClicked)="showMessageForComputer($event)"
+               (singleSendOrderClicked)="showOrderPanelForComputer($event)">
     </aton-room>
     <div *ngIf="rooms.length == 0" class="ui center aligned segment">
         <h1 class="ui center aligned icon header">

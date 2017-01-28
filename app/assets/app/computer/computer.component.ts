@@ -21,6 +21,7 @@ export class ComputerComponent extends OnInit {
     isSelected: boolean = false;
 
     @Output() messageClicked: EventEmitter<Computer> = new EventEmitter();
+    @Output() sendOrderClicked: EventEmitter<Computer> = new EventEmitter();
     @Output() computerSelected: EventEmitter<[boolean,Computer]> = new EventEmitter();
     @Output() editComputerClicked: EventEmitter<Computer> = new EventEmitter();
     @HostBinding('class.column') column: boolean = true;
@@ -29,6 +30,10 @@ export class ComputerComponent extends OnInit {
 
     sendMessageClick() {
         this.messageClicked.emit(this.computer)
+    }
+
+    sendOrderClick() {
+        this.sendOrderClicked.emit(this.computer)
     }
 
     toggleSelection() {
