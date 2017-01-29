@@ -141,7 +141,7 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
     "return Failed <400> status on sending a command to a computer" in {
       val sshOrderData = SSHOrderFormData(superUser = false, command)
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
-      val result = controller.sendCommand.apply {
+      val result = controller.sendOrder.apply {
         FakeRequest()
           .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
@@ -153,7 +153,7 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
     "return \"Could not send that command to that computer\" on sending a command to a computer" in {
       val sshOrderData = SSHOrderFormData(superUser = false, command)
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
-      val result = controller.sendCommand.apply {
+      val result = controller.sendOrder.apply {
         FakeRequest()
           .withLoggedIn(controller)(loggedInUser)
           .withFormUrlEncodedBody(sshOrderForm.data.toSeq: _*)

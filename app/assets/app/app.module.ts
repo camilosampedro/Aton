@@ -24,6 +24,8 @@ import {MessageComponent} from "./message/message.component";
 import {MessageService} from "./message/message.service";
 import {ComputerFormPanelComponent} from "./computer/formpanel/computer-form-panel.component";
 import {DialogComponent} from "./dialog/dialog.component";
+import {SSHOrderService} from "./orderform/ssh-order.service";
+import {OrderFormComponent} from "./orderform/order-form.component";
 
 
 @NgModule({
@@ -46,14 +48,16 @@ import {DialogComponent} from "./dialog/dialog.component";
         AddRoomComponent,
         MessageComponent,
         ComputerFormPanelComponent,
-        DialogComponent
+        DialogComponent,
+        OrderFormComponent
     ],
     providers: [{provide: APP_BASE_HREF, useValue: '/'},
         LoginService,
         LaboratoryService,
         RoomService,
         ComputerService,
-        MessageService
+        MessageService,
+        SSHOrderService
     ],
     bootstrap: [AppComponent],
 })

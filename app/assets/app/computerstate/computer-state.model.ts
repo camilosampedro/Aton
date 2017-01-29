@@ -6,7 +6,7 @@ export class ComputerState {
     registeredDate: number;
     state: number;
     operatingSystem: string;
-    mac: string
+    mac: string;
 
     constructor(computerIp: string, registeredDate: number, state: number, operatingSystem: string, mac: string) {
         this.computerIp = computerIp;

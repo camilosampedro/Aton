@@ -1,4 +1,3 @@
-<aton-add-room class="right floated" *ngIf="isLoggedIn() && rooms.length != 0" [laboratoryID]="laboratory.id"></aton-add-room>
 <h1 class="ui center aligned header">{{laboratory.name}}</h1>
 <div class="ui one column grid cards container">
     <aton-room class="ui column card" *ngFor="let room of rooms" [room]="room[0]" [computers]="room[1]"
@@ -18,6 +17,8 @@
         </h1>
     </div>
 </div>
+<aton-add-room class="center aligned floated" *ngIf="isLoggedIn() && rooms.length != 0" [laboratoryID]="laboratory.id"></aton-add-room>
 <aton-message *ngIf="isLoggedIn()" #messageModal></aton-message>
 <aton-computer-form-panel #computerFormPanel (onAlert)="showAlert($event)"></aton-computer-form-panel>
+<aton-order-form-panel #orderFormPanel (onAlert)="showAlert($event)"></aton-order-form-panel>
 <aton-dialog #dialogModal></aton-dialog>

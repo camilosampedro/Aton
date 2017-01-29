@@ -196,11 +196,21 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     val sSHOrder = new SSHOrder(now, false, false, dummy, username)
     val settings = generateSSHSettings(computer, sSHOrder)
     try {
-      val isConnected = jassh.SSH.once(settings)(_.executeWithStatus(sSHOrder.command)._1 == "Ping from Aton")
-      if (isConnected) {
-        Connected()
-      } else {
-        NotConnected()
+      val result = jassh.SSH.shell(settings){ shell =>
+        if(shell.executeWithStatus(sSHOrder.command)._1 == "Ping from Aton"){
+          if (shell.sudoSuMinusWithCommandTest()){
+            0
+          } else {
+            1
+          }
+        } else {
+          2
+        }
+      }
+      result match {
+        case 0 => Connected()
+        case 1 => WithoutSudoRights()
+        case _ => NotConnected()
       }
     } catch {
       case ex: JSchException =>
@@ -304,8 +314,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
 
   }
 
-  override def execute(computer: Computer, superUser: Boolean, command: String)(implicit username: String): (String, Int) = {
-    execute(computer, new SSHOrder(now, superUser, false, command, username))
+  override def execute(computer: Computer, superUser: Boolean, interrupt: Boolean, command: String)(implicit username: String): (String, Int) = {
+    execute(computer, new SSHOrder(now, superUser, interrupt, command, username))
   }
 
   override def blockPage(computer: Computer, page: String)(implicit username: String): ActionState = {

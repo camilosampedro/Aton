@@ -164,7 +164,7 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
     "return Ok <200> status on sending a command to a computer" in {
       val sshOrderData = SSHOrderFormData(superUser = false, command)
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
-      val result = controller.sendCommand.apply {
+      val result = controller.sendOrder.apply {
         FakeRequest()
           .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
@@ -176,7 +176,7 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
     "return \"Order sent successfully\" response message JSON on sending a command to a computer" in {
       val sshOrderData = SSHOrderFormData(superUser = false, command)
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
-      val result = controller.sendCommand.apply {
+      val result = controller.sendOrder.apply {
         FakeRequest()
           .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)

@@ -1,7 +1,10 @@
 package services.impl
 
+import java.sql.Timestamp
+import java.util.Calendar
+
 import com.google.inject.{Inject, Singleton}
-import dao.ComputerDAO
+import dao.{ComputerDAO, ComputerStateDAO}
 import model.{Computer, ComputerState, ConnectedUser}
 import services.state._
 import services.{ComputerService, SSHOrderService}
@@ -12,7 +15,7 @@ import scala.concurrent.{ExecutionContext, Future}
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @Singleton
-class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDAO: ComputerDAO)(implicit executionContext: ExecutionContext) extends ComputerService {
+class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDAO: ComputerDAO, computerStateDAO: ComputerStateDAO)(implicit executionContext: ExecutionContext) extends ComputerService {
 
   private def executeSeveralWithStatus(ips: List[String])(fun: ((Computer, ComputerState, Seq[ConnectedUser])) => ActionState) = {
     getSeveral(ips).map { computers =>
@@ -42,7 +45,17 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
 
   override def add(computer: Computer): Future[ActionState] = {
     play.Logger.debug("Adding computer")
-    computerDAO.add(computer)
+    val futures = Seq(
+      computerStateDAO.add(ComputerState(computer.ip,new Timestamp(Calendar.getInstance().getTime.getTime),model.NotCheckedYet().id,None, None)),
+      computerDAO.add(computer)
+    )
+    Future.sequence(futures).map{states=>
+      if(states.exists(_!=ActionCompleted)){
+        Failed
+      } else {
+        ActionCompleted
+      }
+    }
   }
 
   override def add(ip: String, name: Option[String], sSHUser: String, sSHPassword: String, description: Option[String], roomID: Option[Long]): Future[ActionState] = {
@@ -226,9 +239,9 @@ class ComputerServiceImpl @Inject()(sSHOrderService: SSHOrderService, computerDA
     executeSeveralSimple(ips)(sSHOrderService.unfreeze)
   }
 
-  override def sendCommand(ip: List[String], superUser: Boolean, command: String)(implicit username: String): Future[ActionState] = {
+  override def sendCommand(ip: List[String], superUser: Boolean, interrupt: Boolean, command: String)(implicit username: String): Future[ActionState] = {
     executeSeveralSimple(ip) { computer =>
-      val (result, exitCode) = sSHOrderService.execute(computer, superUser, command)
+      val (result, exitCode) = sSHOrderService.execute(computer, superUser, interrupt, command)
       if (exitCode == 0) ActionCompleted else OrderFailed(result, exitCode)
     }
   }

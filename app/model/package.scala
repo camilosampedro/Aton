@@ -29,7 +29,7 @@ package object model {
             "state" -> Json.toJson(pair._1),
             "users" -> pair._2.map(Json.toJson(_))
           )
-        case _ => Json.parse("")
+        case _ => Json.parse("{}")
       }
     }
   }

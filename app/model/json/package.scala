@@ -28,5 +28,7 @@ package object json {
     )
   }
 
+  implicit  val sshOrderJsonReads: Reads[SSHOrderJson] = Json.reads[SSHOrderJson]
+
 
 }

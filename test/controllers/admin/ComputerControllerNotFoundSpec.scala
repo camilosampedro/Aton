@@ -83,7 +83,7 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
     s"return Not Found <404> status on sending a command to a computer" in {
       val sshOrderData = SSHOrderFormData(superUser = false, command)
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
-      val result = controller.sendCommand.apply {
+      val result = controller.sendOrder.apply {
         FakeRequest()
           .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)

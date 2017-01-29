@@ -6,7 +6,7 @@ import jp.t2v.lab.play2.stackc.RequestWithAttributes
 import model.Computer
 import model.form._
 import model.form.data.ComputerFormData
-import model.json.{ComputerJson, ResultMessage}
+import model.json.{ComputerJson, ResultMessage, SSHOrderJson}
 import play.api.Environment
 import play.api.i18n.MessagesApi
 import play.api.libs.json.{JsError, JsSuccess, Json}
@@ -116,25 +116,24 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
     case _ => BadRequest(Json.toJson(new ResultMessage("Could not unfreeze that computer")))
   }
 
-  def sendCommand = AuthRequiredAction {
+  def sendOrder = AuthRequiredAction {
     implicit request =>
       implicit val username = Some(loggedIn.username)
       implicit val user = loggedIn.username
-      val ip = List("")
-      SSHOrderForm.form.bindFromRequest.fold(
-        errorForm => {
-          play.Logger.error(errorForm.toString)
-          play.Logger.error(errorForm.errors.toString)
-          Future.successful(BadRequest) //(index(messagesApi("sshorder.formerror"), notImplemented(messagesApi("sshorder.notimplemented")))))
-        },
-        data => {
-          computerService.sendCommand(ip, data.superUser, data.command).map {
-            case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Order sent successfully", Seq(("result",result)))))
-            case state.NotFound => NotFound
-            case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not send that command to that computer", Seq(("result",result)))))
-            case _ => BadRequest
+      request.body.asJson match {
+        case Some(json) =>
+          val ip = (json \\ "ip").map(_.as[String]).toList
+          (json \ "ssh-order").validate[SSHOrderJson] match {
+            case JsSuccess(sshOrder, _) =>
+              computerService.sendCommand(ip,sshOrder.superUser, sshOrder.interrupt, sshOrder.command).map {
+                case state.OrderCompleted(result, exitCode) => Ok(Json.toJson(ResultMessage("Order sent successfully", Seq(("result",result)))))
+                case state.NotFound => NotFound
+                case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not send that command to that computer", Seq(("result",result)))))
+                case _ => BadRequest
+              }
           }
-        })
+        case _ => Future.successful(BadRequest(Json.toJson(ResultMessage.inputWasNotAJson)))
+      }
   }
 
   def sendMessage = AuthRequiredAction {

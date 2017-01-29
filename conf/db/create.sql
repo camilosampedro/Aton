@@ -123,21 +123,29 @@ CREATE TABLE IF NOT EXISTS state (
 );
 
 INSERT INTO state SELECT *
-                  FROM (
+                  FROM(
+                         SELECT
+                           0,
+                           'state.notcheckedyet'
+                         UNION
                          SELECT
                            1,
                            'state.connected'
                          UNION
                          SELECT
                            2,
-                           'state.notconnected'
+                           'state.withoutsudorights'
                          UNION
                          SELECT
                            3,
-                           'state.authfailed'
+                           'state.notconnected'
                          UNION
                          SELECT
                            4,
+                           'state.authfailed'
+                         UNION
+                         SELECT
+                           5,
                            'state.unknownerror'
                        ) x
                   WHERE NOT EXISTS(SELECT *

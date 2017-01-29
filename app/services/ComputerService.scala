@@ -15,7 +15,7 @@ import scala.concurrent.{ExecutionContext, Future}
 trait ComputerService {
   def blockPage(ip: List[String], page: String)(implicit username: String): Future[ActionState]
 
-  def sendCommand(ip: List[String], superUser: Boolean, command: String)(implicit username: String): Future[ActionState]
+  def sendCommand(ip: List[String], superUser: Boolean, interrupt: Boolean, command: String)(implicit username: String): Future[ActionState]
 
   def unfreeze(ip: List[String])(implicit username: String): Future[ActionState]
 

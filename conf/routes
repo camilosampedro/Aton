@@ -25,7 +25,7 @@ DELETE        /api/computer/:ip                     controllers.admin.ComputerCo
 GET           /api/computer/shutdown                controllers.admin.ComputerController.shutdown
 GET           /api/computer/upgrade                 controllers.admin.ComputerController.upgrade
 GET           /api/computer/unfreeze                controllers.admin.ComputerController.unfreeze
-POST          /api/computer/send-command            controllers.admin.ComputerController.sendCommand
+POST          /api/computer/send-order              controllers.admin.ComputerController.sendOrder
 POST          /api/computer/block-page              controllers.admin.ComputerController.blockPage
 POST          /api/computer/send-message            controllers.admin.ComputerController.sendMessage
 POST          /api/computer/install-programs        controllers.admin.ComputerController.installAPackage
