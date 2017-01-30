@@ -7,15 +7,6 @@ cache:
     - .ivy2
 before_install:
   - mkdir -p .ivy2
-  - docker pull mariadb
-  - docker pull 1science/sbt
-  - docker network create -d bridge --subnet 172.25.0.0/16 services
-  - docker run -tid --name aton-mariadb --network=services -e MYSQL_ROOT_PASSWORD=password mariadb
-  - export MARIADB_SERVER=$(docker network inspect services | jq -r '.[0].Containers[] | select(.Name = "aton-mariadb") | .IPv4Address | match("^[^\/]+").string')
-  - repeat=60; while (( repeat > 0 )) && ! timeout 1 bash -c "echo > /dev/tcp/$MARIADB_SERVER/3306" > /dev/null 2>&1 ; do sleep 1; repeat=$((( repeat - 1))); done; ((repeat > 0))
-  - cat conf/default/create.sql | mysql -h $MARIADB_SERVER -u root -ppassword
-script:
-  - docker run -ti --rm -v "$PWD:/src" -v "$PWD/.ivy2":/root/.ivy2 --network=services 1science/sbt /bin/sh -c "cd /src; sbt clean test compile"
 notifications:
   email:
     - camilo.sampedro@udea.edu.co
