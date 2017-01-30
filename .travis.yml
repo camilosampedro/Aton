@@ -1,5 +1,11 @@
 sudo: required
 language: scala
+scala:
+  - 2.11.8
+script:
+  - sbt test compile
+jdk:
+  - oraclejdk8
 cache:
   directories:
     - .ivy2
