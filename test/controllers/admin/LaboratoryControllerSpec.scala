@@ -55,6 +55,7 @@ trait LaboratoryControllerSpec extends ControllerTest {
     when(laboratoryService.add(any[Laboratory])) thenReturn Future.successful(alternativeState)
     when(laboratoryService.delete(any[Long])) thenReturn Future.successful(actionState)
     when(laboratoryService.getSingle(any[Long])) thenReturn Future.successful(returnedLaboratory)
+    when(laboratoryService.update(any[Laboratory])) thenReturn Future.successful(actionState)
     laboratoryService
   }
 

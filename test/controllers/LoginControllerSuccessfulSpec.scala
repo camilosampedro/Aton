@@ -1,5 +1,6 @@
 package controllers
 
+import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import services.state
 
@@ -15,8 +16,14 @@ class LoginControllerSuccessfulSpec extends LoginControllerSpec {
 
   "Login Controller on successful operations" should {
     "return Ok <200> status on requesting the Login Form" in {
-      val result = controller.loginForm.apply{
-        FakeRequest()
+      val result = controller.login.apply{
+        FakeRequest().withJsonBody(Json.parse(
+          s"""
+            |{
+            | "username": "${userToBeUsed.username}",
+            | "password": "${userToBeUsed.password}"
+            |}
+          """.stripMargin))
       }
       assertFutureResultStatus(result, 200)
     }

@@ -13,8 +13,9 @@ import Matchers._
 class ComputerServiceImplSuccessfulSpec extends ComputerServiceImplSpec {
   val sSHOrderService = mockSSHOrderService(state.ActionCompleted)
   val computerDAO = mockComputerDAO(state.ActionCompleted)
+  val computerStateDAO = mockComputerStateDAO(state.ActionCompleted)
 
-  val computerService = new ComputerServiceImpl(sSHOrderService, computerDAO)(executionContext)
+  val computerService = new ComputerServiceImpl(sSHOrderService, computerDAO, computerStateDAO)(executionContext)
 
   "Computer Service on successful operations" should {
     "return ActionCompleted on adding a new computer" in {

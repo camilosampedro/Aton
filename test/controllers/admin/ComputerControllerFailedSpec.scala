@@ -3,7 +3,8 @@ package controllers.admin
 import jp.t2v.lab.play2.auth.test.Helpers.AuthFakeRequest
 import model.form.data._
 import model.form.{BlockPageForm, ComputerForm, SSHOrderForm, SelectComputersForm}
-import model.json.LoginJson
+import model.json.{ComputerJson, LoginJson}
+import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import services.state
 
@@ -24,28 +25,33 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
   "Computer Controller on failed operations" should {
     "return Failed <400> status on receiving an edited computer" in {
       import computer._
-      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
-      val computerForm = ComputerForm.form.fill(computerData)
       val result = controller.edit.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(Json.parse(
+            s"""
+               |{
+               |  "ip":"$ip",
+               |  "description":"${description.getOrElse("")}",
+               |  "SSHUser":"$SSHUser",
+               |  "name":"${name.getOrElse("")}",
+               |  "SSHPassword":"$SSHPassword",
+               |  "roomID":${roomID.getOrElse(0)}
+               |}
+            """.stripMargin))
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 400)
     }
 
-    "return \"Could not add that computer\" on receiving an edited computer" in {
+    "return \"Could not add that computer\" on receiving a new computer" in {
       import computer._
-      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
-      val computerForm = ComputerForm.form.fill(computerData)
-      val result = controller.edit.apply {
+      val computerJson = ComputerJson(ip, name, SSHUser, SSHPassword, description, roomID)
+      val result = controller.add.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(Json.toJson(computerJson))
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
-      assertBodyJsonMessage(result, "Could not edit that computer")
+      assertBodyJsonMessage(result, "Could not add that computer")
     }
 
     "return Failed <400> status on deleting a computer" in {
@@ -155,8 +161,18 @@ class ComputerControllerFailedSpec extends ComputerControllerSpec {
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
       val result = controller.sendOrder.apply {
         FakeRequest()
+          .withJsonBody(Json.parse(
+            s"""
+              |{
+              |  "ip": "${computer.ip}",
+              |  "ssh-order": {
+              |    "superUser": false,
+              |    "interrupt": false,
+              |    "command": ${Json.toJson(command)}
+              |  }
+              |}
+            """.stripMargin))
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(sshOrderForm.data.toSeq: _*)
       }
       assertBodyJsonMessage(result, "Could not send that command to that computer", emptyExtras = false)
     }

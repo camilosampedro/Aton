@@ -8,7 +8,7 @@ import play.api.libs.json.JsPath
   */
 case class ResultMessage(
                           result: String,
-                          extras: Seq[(String,String)]
+                          extras: Seq[ResultMessageExtra]
                         ){
   def this(result: String) = this(result, Seq.empty)
 }
@@ -16,13 +16,13 @@ case class ResultMessage(
 object ResultMessage {
   val inputWasNotAJson: ResultMessage = new ResultMessage("Input was not a JSON")
   def wrongJsonFormat(errors: Seq[(JsPath, Seq[ValidationError])]): ResultMessage = {
-    val mapped = errors.map(x=>{
-      val error = x._2.map(y => y.message match {
+    val mapped = errors.map(singleError=>{
+      val error = singleError._2.map(y => y.message match {
         case "error.path.missing" => "Missing"
         case "error.expected.jsnumber" => "Number expected"
         case otherError => otherError
       }).mkString(", ")
-      (x._1.toString().drop(1),error)
+      ResultMessageExtra(singleError._1.toString().drop(1),error)
     })
     ResultMessage("Wrong json format", mapped)
   }

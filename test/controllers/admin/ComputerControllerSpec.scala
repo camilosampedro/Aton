@@ -114,18 +114,18 @@ trait ComputerControllerSpec extends ControllerTest {
         when(computerService.blockPage(any[List[String]], any[String])(any[String])) thenReturn Future.successful(orderCompletedStatus)
         when(computerService.upgrade(any[List[String]])(any[String])) thenReturn Future.successful(orderCompletedStatus)
         when(computerService.unfreeze(any[List[String]])(any[String])) thenReturn Future.successful(orderCompletedStatus)
-        when(computerService.sendCommand(any[List[String]], any[Boolean], any[String])(any[String])) thenReturn Future.successful(orderCompletedStatus)
+        when(computerService.sendCommand(any[List[String]], any[Boolean], any[Boolean], any[String])(any[String])) thenReturn Future.successful(orderCompletedStatus)
       case state.Failed =>
         val orderFailedStatus = state.OrderFailed(errorOutput,errorStatus)
         when(computerService.blockPage(any[List[String]], any[String])(any[String])) thenReturn Future.successful(orderFailedStatus)
         when(computerService.upgrade(any[List[String]])(any[String])) thenReturn Future.successful(orderFailedStatus)
         when(computerService.unfreeze(any[List[String]])(any[String])) thenReturn Future.successful(orderFailedStatus)
-        when(computerService.sendCommand(any[List[String]], any[Boolean], any[String])(any[String])) thenReturn Future.successful(orderFailedStatus)
+        when(computerService.sendCommand(any[List[String]], any[Boolean], any[Boolean], any[String])(any[String])) thenReturn Future.successful(orderFailedStatus)
       case _ =>
         when(computerService.blockPage(any[List[String]], any[String])(any[String])) thenReturn Future.successful(actionState)
         when(computerService.upgrade(any[List[String]])(any[String])) thenReturn Future.successful(actionState)
         when(computerService.unfreeze(any[List[String]])(any[String])) thenReturn Future.successful(actionState)
-        when(computerService.sendCommand(any[List[String]], any[Boolean], any[String])(any[String])) thenReturn Future.successful(actionState)
+        when(computerService.sendCommand(any[List[String]], any[Boolean], any[Boolean], any[String])(any[String])) thenReturn Future.successful(actionState)
     }
     computerService
   }

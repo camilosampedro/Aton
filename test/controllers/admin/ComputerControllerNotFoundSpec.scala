@@ -4,6 +4,7 @@ import jp.t2v.lab.play2.auth.test.Helpers.AuthFakeRequest
 import model.form.data._
 import model.form.{BlockPageForm, ComputerForm, SSHOrderForm, SelectComputersForm}
 import model.json.LoginJson
+import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import services.state
 
@@ -24,13 +25,21 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
   "Computer Controller on not found operations" should {
     s"return Not Found <404> status on receiving an edited computer" in {
       import computer._
-      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
-      val computerForm = ComputerForm.form.fill(computerData)
+      play.Logger.debug(Json.toJson(computer).toString())
       val result = controller.edit.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(Json.parse(
+            s"""
+              |{
+              |  "ip":"$ip",
+              |  "description":"${description.getOrElse("")}",
+              |  "SSHUser":"$SSHUser",
+              |  "name":"${name.getOrElse("")}",
+              |  "SSHPassword":"$SSHPassword",
+              |  "roomID":${roomID.getOrElse(0)}
+              |}
+            """.stripMargin))
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 404)
     }
@@ -85,9 +94,18 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
       val result = controller.sendOrder.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(Json.parse(
+            s"""
+              |{
+              |  "ip": "${computer.ip}",
+              |  "ssh-order": {
+              |    "command": ${Json.toJson(command)},
+              |    "superUser": false,
+              |    "interrupt": false
+              |  }
+              |}
+            """.stripMargin))
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(sshOrderForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 404)
     }

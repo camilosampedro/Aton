@@ -3,7 +3,8 @@ package controllers.admin
 import jp.t2v.lab.play2.auth.test.Helpers.AuthFakeRequest
 import model.form.LaboratoryForm
 import model.form.data.LaboratoryFormData
-import model.json.LoginJson
+import model.json.{LaboratoryJson, LoginJson}
+import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import services.state
 
@@ -17,13 +18,11 @@ class LaboratoryControllerNotFoundSpec extends LaboratoryControllerSpec {
 
   "Laboratory Controller on not founding operations" should {
     "return Not Found <404> status on receiving an edited laboratory" in {
-      import laboratory._
-      val laboratoryData = LaboratoryFormData(name, location, administration)
-      val laboratoryForm = LaboratoryForm.form.fill(laboratoryData)
+
       val result = controller.update.apply {
         FakeRequest()
+          .withJsonBody(Json.toJson(laboratory))
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(laboratoryForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 404)
     }

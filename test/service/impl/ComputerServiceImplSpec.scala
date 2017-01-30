@@ -4,7 +4,7 @@ import java.sql.Timestamp
 
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
-import dao.ComputerDAO
+import dao.{ComputerDAO, ComputerStateDAO}
 import model.{Computer, ComputerState, ConnectedUser}
 import services.SSHOrderService
 import services.impl.ComputerServiceImpl
@@ -86,6 +86,12 @@ trait ComputerServiceImplSpec extends ServiceTest {
     when(computerDAO.delete(any[String])) thenReturn Future.successful(actionState)
     when(computerDAO.get(any[List[String]])) thenReturn Future.successful(List(computer1,computer2))
     computerDAO
+  }
+
+  def mockComputerStateDAO(actionState: ActionState): ComputerStateDAO = {
+    lazy val computerStateDAO = mock[ComputerStateDAO]
+    when(computerStateDAO.add(any[ComputerState])) thenReturn Future.successful(actionState)
+    computerStateDAO
   }
 
   def mockSSHOrderService(actionState: ActionState): SSHOrderService = {

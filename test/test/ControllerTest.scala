@@ -1,13 +1,12 @@
 package test
 
-import com.sun.corba.se.impl.protocol.giopmsgheaders.RequestMessage
+import model.json.ResultMessage
 import org.scalatest.{Assertion, BeforeAndAfterAll}
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import play.api.mvc.Result
 import play.api.test.Helpers._
 import play.test.WithApplication
-import .resultMessageReads
 
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
@@ -40,6 +39,9 @@ trait ControllerTest extends PlaySpec with MockitoSugar with BeforeAndAfterAll {
 
   def assertFutureResultStatus(future: Future[Result], status: Int) = {
     val result: Result = Await.result(future, 20 seconds)
+    if(result.header.status != status){
+      play.Logger.error(contentAsString(future))
+    }
     assert(result.header.status == status)
   }
 
@@ -47,9 +49,14 @@ trait ControllerTest extends PlaySpec with MockitoSugar with BeforeAndAfterAll {
     //val result: Result = Await.result(future,20 seconds)
     val bodyJson = contentAsJson(future)
     play.Logger.debug(s"BodyJson: $bodyJson")
-    val jsResult = bodyJson.validate(resultMessageReads)
+    val jsResult = bodyJson.validate[ResultMessage]
     assert(jsResult.isSuccess)
-    if(!emptyExtras) assert(jsResult.get.extra.nonEmpty)
+    if(!emptyExtras) {
+      assert(jsResult.get.extras.nonEmpty)
+      if(jsResult.get.extras.isEmpty){
+        play.Logger.debug(jsResult.toString)
+      }
+    }
     assert(jsResult.get.result === message)
   }
 

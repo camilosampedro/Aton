@@ -87,6 +87,7 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
           case JsSuccess(computer, _) =>
             computerService.edit(computer).map {
               case state.ActionCompleted => Ok(Json.toJson(new ResultMessage("Computer updated successfully")))
+              case state.NotFound => NotFound(Json.toJson(new ResultMessage("Computer not found")))
               case _ => BadRequest(Json.toJson(new ResultMessage("Could not update that computer")))
             }
           case JsError(errors) =>

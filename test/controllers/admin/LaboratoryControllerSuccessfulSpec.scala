@@ -42,7 +42,7 @@ class LaboratoryControllerSuccessfulSpec extends LaboratoryControllerSpec {
       val result = controller.update.apply {
         FakeRequest()
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(laboratoryForm.data.toSeq: _*)
+          .withJsonBody(Json.toJson(laboratory))
       }
       assertFutureResultStatus(result, 200)
     }

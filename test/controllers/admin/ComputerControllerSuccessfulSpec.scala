@@ -46,28 +46,35 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
   "Computer Controller on successful operations" should {
     "return Ok <200> status on receiving an edited computer" in {
       import computer._
-      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
-      val computerForm = ComputerForm.form.fill(computerData)
+      val computerJson = ComputerJson(ip, name, SSHUser, SSHPassword, description, roomID)
       val result = controller.edit.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(Json.toJson(computerJson))
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 200)
     }
 
-    "return \"Computer edited successfully\" response message JSON on receiving an edited computer" in {
+    "return \"Computer updated successfully\" response message JSON on receiving an edited computer" in {
       import computer._
       val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
       val computerForm = ComputerForm.form.fill(computerData)
       val result = controller.edit.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
-          .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
+          .withLoggedIn(controller)(LoginJson("admin", "adminaton"))
+          .withJsonBody(Json.parse(
+              s"""
+                 |{
+                 |  "ip":"$ip",
+                 |  "description":"${description.getOrElse("")}",
+                 |  "SSHUser":"$SSHUser",
+                 |  "name":"${name.getOrElse("")}",
+                 |  "SSHPassword":"$SSHPassword",
+                 |  "roomID":${roomID.getOrElse(0)}
+                 |}
+            """.stripMargin))
       }
-      assertBodyJsonMessage(result, "Computer edited successfully")
+      assertBodyJsonMessage(result, "Computer updated successfully")
     }
 
     "return Ok <200> status on deleting a computer" in {
@@ -166,9 +173,18 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
       val result = controller.sendOrder.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(Json.parse(
+            s"""
+               |{
+               |  "ip": "${computer.ip}",
+               |  "ssh-order": {
+               |    "command": ${Json.toJson(command)},
+               |    "superUser": false,
+               |    "interrupt": false
+               |  }
+               |}
+            """.stripMargin))
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(sshOrderForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 200)
     }
@@ -178,9 +194,18 @@ class ComputerControllerSuccessfulSpec extends ComputerControllerSpec {
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
       val result = controller.sendOrder.apply {
         FakeRequest()
-          .withJsonBody(ipJson)
+          .withJsonBody(Json.parse(
+            s"""
+               |{
+               |  "ip": "${computer.ip}",
+               |  "ssh-order": {
+               |    "command": ${Json.toJson(command)},
+               |    "superUser": false,
+               |    "interrupt": false
+               |  }
+               |}
+            """.stripMargin))
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(sshOrderForm.data.toSeq: _*)
       }
       assertBodyJsonMessage(result,"Order sent successfully")
     }
