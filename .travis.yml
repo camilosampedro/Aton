@@ -1,7 +1,5 @@
 sudo: required
 language: scala
-services:
-  - docker
 cache:
   directories:
     - .ivy2

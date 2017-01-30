@@ -132,6 +132,8 @@ class ComputerController @Inject()(computerService: ComputerService, roomService
                 case state.OrderFailed(result, exitCode) => BadRequest(Json.toJson(ResultMessage("Could not send that command to that computer", Seq(("result",result)))))
                 case _ => BadRequest
               }
+            case JsError(errors) =>
+              Future.successful(BadRequest(Json.toJson(ResultMessage.wrongJsonFormat(errors))))
           }
         case _ => Future.successful(BadRequest(Json.toJson(ResultMessage.inputWasNotAJson)))
       }
