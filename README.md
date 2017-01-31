@@ -1,4 +1,4 @@
-#![Aton](https://github.com/camilosampedro/Aton/raw/gh-pages/images/AtonLogoMedium.png) 
+#![Aton](https://github.com/camilosampedro/Aton/raw/gh-pages/images/AtonLogoMedium.png)
 
 [![Build Status](https://travis-ci.org/camilosampedro/Aton.svg?branch=master)](https://travis-ci.org/camilosampedro/Aton)
 [![GitHub version](https://badge.fury.io/gh/camilosampedro%2FAton.svg)](https://badge.fury.io/gh/camilosampedro%2FAton)
@@ -20,12 +20,11 @@ This project is still in development stage. Use it under your own risk because i
 
 Before installing it is required:
  - `Java 8`
- - `MySQL 5.7`
 
 ## How to install
 ### Install from release file
 
-- For more detailed instructions, please go to the [Installation wiki page](https://github.com/camilosampedro/Aton/wiki/How-to-install-Aton). 
+- For more detailed instructions, please go to the [Installation wiki page](https://github.com/camilosampedro/Aton/wiki/How-to-install-Aton).
 
 Go to [releases page](https://github.com/camilosampedro/Aton/releases) and download the ones who fits you most.
 
@@ -101,11 +100,10 @@ Thanks to [LIS](lis.udea.edu.co), Aton could be tested on a real 80 computers en
  - __Operating system:__ `Ubuntu 14.04.5 LTS`
  - __RAM:__ 512 mb
  - __Cores:__ 1 core @ 1.60GHz
- 
+
 ## Managed computers
  - __Operatings system:__ `Linux Mint Debian Edition 2`
  - __RAM:__ ~4 gb (Some have 2gb, others have 8gb)
  - __Processors:__ Intel core 2 Duo and Intel core i7
  - A room full of software engineering students! Most of them use IDEs, test commands, navigate through SSH.
  - LDAP user management.
- 
