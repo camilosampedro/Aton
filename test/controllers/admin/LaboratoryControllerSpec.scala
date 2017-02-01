@@ -2,20 +2,17 @@ package controllers.admin
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
-
 import com.google.inject.ImplementedBy
 import com.google.inject.Inject
-
 import jp.t2v.lab.play2.auth.test.Helpers.AuthFakeRequest
 import model.Laboratory
 import model.Role
 import model.User
 import model.form.LaboratoryForm
 import model.form.data.LaboratoryFormData
-import model.form.data.LoginFormData
+import model.json.LoginJson
 import play.api.Environment
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
@@ -58,6 +55,7 @@ trait LaboratoryControllerSpec extends ControllerTest {
     when(laboratoryService.add(any[Laboratory])) thenReturn Future.successful(alternativeState)
     when(laboratoryService.delete(any[Long])) thenReturn Future.successful(actionState)
     when(laboratoryService.getSingle(any[Long])) thenReturn Future.successful(returnedLaboratory)
+    when(laboratoryService.update(any[Laboratory])) thenReturn Future.successful(actionState)
     laboratoryService
   }
 
@@ -68,7 +66,7 @@ trait LaboratoryControllerSpec extends ControllerTest {
   implicit lazy val executionContext: ExecutionContext = ExecutionContext.global
 
   // Logged in user to pass
-  val loggedInUser = LoginFormData("", "")
+  val loggedInUser = LoginJson("", "")
   // Laboratory with data to be tested
   val laboratory = Laboratory(id = 1l, name = "P3trur0 lab", location = Some("Italy"), administration = Some("user"))
   val command = """echo "Ciao""""

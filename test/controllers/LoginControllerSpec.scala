@@ -1,7 +1,7 @@
 package controllers
 
+import model.json.LoginJson
 import model.{Computer, Role, User}
-import model.form.data.LoginFormData
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.Environment
@@ -50,7 +50,7 @@ trait LoginControllerSpec extends ControllerTest {
       actionState
     }
 
-    when(userService.checkAndGet(any[LoginFormData])) thenReturn(Future.successful(user))
+    when(userService.checkAndGet(any[LoginJson])) thenReturn(Future.successful(user))
     when(userService.checkAndGet(any[String],any[String])) thenReturn(Future.successful(user))
     when(userService.add(any[User])) thenReturn(Future.successful(actionState))
     when(userService.get(any[String])) thenReturn(Future.successful(user))

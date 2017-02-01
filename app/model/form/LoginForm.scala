@@ -1,6 +1,6 @@
 package model.form
 
-import model.form.data.LoginFormData
+import model.json.LoginJson
 import play.api.data.Form
 import play.api.data.Forms._
 
@@ -12,6 +12,6 @@ object LoginForm {
     mapping(
       "username" -> nonEmptyText,
       "password" -> nonEmptyText
-    )(LoginFormData.apply)(LoginFormData.unapply)
+    )(LoginJson.apply)(LoginJson.unapply)
   )
 }

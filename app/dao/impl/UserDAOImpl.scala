@@ -5,7 +5,7 @@ import javax.inject.Inject
 import com.google.inject.Singleton
 import dao.UserDAO
 import model.User
-import model.form.data.LoginFormData
+import model.json.LoginJson
 import model.table.UserTable
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._

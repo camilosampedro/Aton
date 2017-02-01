@@ -81,8 +81,6 @@ INSERT INTO role SELECT *
 CREATE TABLE IF NOT EXISTS room (
   id                    BIGINT       NOT NULL AUTO_INCREMENT,
   name                  VARCHAR(100) NOT NULL,
-  audiovisual_resources TEXT         NULL,
-  basic_tools           TEXT         NULL,
   laboratory_id         BIGINT       NOT NULL,
   CONSTRAINT sala_pk PRIMARY KEY (id)
 );
@@ -125,21 +123,29 @@ CREATE TABLE IF NOT EXISTS state (
 );
 
 INSERT INTO state SELECT *
-                  FROM (
+                  FROM(
+                         SELECT
+                           0,
+                           'state.notcheckedyet'
+                         UNION
                          SELECT
                            1,
                            'state.connected'
                          UNION
                          SELECT
                            2,
-                           'state.notconnected'
+                           'state.withoutsudorights'
                          UNION
                          SELECT
                            3,
-                           'state.authfailed'
+                           'state.notconnected'
                          UNION
                          SELECT
                            4,
+                           'state.authfailed'
+                         UNION
+                         SELECT
+                           5,
                            'state.unknownerror'
                        ) x
                   WHERE NOT EXISTS(SELECT *

@@ -9,6 +9,7 @@ import model.ComputerState
 import model.table.ComputerStateTable
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.concurrent.Execution.Implicits._
+import services.state.{ActionCompleted, ActionState, Failed}
 import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
@@ -37,10 +38,10 @@ class ComputerStateDAOImpl @Inject()
     * @param computerState ComputerState to add
     * @return Result String
     */
-  override def add(computerState: ComputerState): Future[String] = {
-    db.run(computerStates += computerState).map(res => "ComputerState agregado correctamente").recover {
+  override def add(computerState: ComputerState): Future[ActionState] = {
+    db.run(computerStates += computerState).map(res => ActionCompleted).recover {
       case ex: Exception => play.Logger.error("Error saving: " + computerState,ex)
-        "Error"
+        Failed
     }
   }
 

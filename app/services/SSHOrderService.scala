@@ -25,7 +25,7 @@ trait SSHOrderService {
 
   def blockPage(computer: Computer, page: String)(implicit username: String): ActionState
 
-  def execute(computer: Computer, superUser: Boolean, command: String)(implicit username:String): (String,Int)
+  def execute(computer: Computer, superUser: Boolean, interrupt: Boolean, command: String)(implicit username:String): (String,Int)
 
   def whoAreUsing(computer: Computer)(implicit username: String): Seq[String]
 

@@ -18,7 +18,7 @@ import scala.concurrent.duration._
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
 @Singleton
-class HomeController @Inject()(databaseInitializer: DatabaseInitializer, laboratoryService : LaboratoryService, @Named("computerChecker") computerChecker: ActorRef, actorSystem: ActorSystem, val messagesApi: MessagesApi)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithNoAuthRequired {
+class HomeController @Inject()(databaseInitializer: DatabaseInitializer, laboratoryService : LaboratoryService, @Named("computerChecker") computerChecker: ActorRef, actorSystem: ActorSystem)(implicit userService: UserService, executionContext: ExecutionContext, environment: Environment) extends ControllerWithNoAuthRequired {
   val logger = Logger("HomeController")
 
   play.Logger.debug("Configuring Computer Checker...")
@@ -38,8 +38,8 @@ class HomeController @Inject()(databaseInitializer: DatabaseInitializer, laborat
     }
     logger.debug("Petición de listar todos los laboratorios con el siguiente request recibida " + request)
     logger.debug("User: " + username + ", is admin: " + isAdmin)
-    laboratoryService.listAll.map { labs =>
-      Ok(index(messagesApi("laboratory.list.title"),laboratories(labs)))
+    laboratoryService.listAll.map { _ =>
+      Ok(index("Aton"))
     }
   }
 
@@ -50,6 +50,6 @@ class HomeController @Inject()(databaseInitializer: DatabaseInitializer, laborat
       case _ => (None, false)
     }
 
-    Ok(index(messagesApi("about"),views.html.about()))
+    Ok//(index(messagesApi("about"),views.html.about()))
   }
 }

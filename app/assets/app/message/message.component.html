@@ -1,0 +1,32 @@
+<sm-modal title="Send message" class="small" icon="user" #sendMessageModal>
+    <modal-content>
+        <form class="ui form" #messageForm="ngForm">
+            <sm-select
+                    [options]="{direction: 'upward', transition: 'vertical flip'}"
+                    placeholder="Select computers..."
+                    class="fluid search multiple"
+                    [(model)]="chosenComputers">
+                <option *ngFor="let computer of computers">{{computer}}</option>
+            </sm-select>
+            <div class="field">
+                <div class="ui labeled input">
+                    <div class="ui label">
+                        <i class="privacy icon"></i>Message:
+                    </div>
+                    <input required type="text" placeholder="Message's text" name="text" [(ngModel)]="text"
+                           #messageTextRef="ngModel">
+                    <div *ngIf="!(messageTextRef.valid || messageTextRef.pristine)" class="ui left pointing red basic label">
+                        <i class="edit icon"></i>Please enter a value
+                    </div>
+                </div>
+            </div>
+        </form>
+    </modal-content>
+    <modal-actions>
+        <sm-button icon="Remove" class="left orange" (click)="sendMessageModal.hide()">Close modal</sm-button>
+        <sm-button (click)="messageForm.form.valid && submit()" [disabled]="!messageForm.form.valid" class="violet"><i
+                class="sign in icon"></i>Send message
+        </sm-button>
+
+    </modal-actions>
+</sm-modal>

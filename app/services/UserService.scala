@@ -2,7 +2,7 @@ package services
 
 import com.google.inject.ImplementedBy
 import model.User
-import model.form.data.LoginFormData
+import model.json.LoginJson
 import services.impl.UserServiceImpl
 import services.state.ActionState
 
@@ -13,7 +13,7 @@ import scala.concurrent.Future
   */
 @ImplementedBy(classOf[UserServiceImpl])
 trait UserService {
-  def checkAndGet(form: LoginFormData): Future[Option[User]] = checkAndGet(form.username, form.password)
+  def checkAndGet(form: LoginJson): Future[Option[User]] = checkAndGet(form.username, form.password)
   def add(user: User): Future[ActionState]
   def listAll: Future[Seq[User]]
   def get(username: String): Future[Option[User]]

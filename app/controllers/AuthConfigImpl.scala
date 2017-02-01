@@ -1,8 +1,9 @@
 package controllers
 
 import jp.t2v.lab.play2.auth._
-import model.form.data.LoginFormData
+import model.json.{LoginJson, ResultMessage}
 import play.api.Mode
+import play.api.libs.json.Json
 import play.api.mvc.Results._
 import play.api.mvc.{RequestHeader, Result}
 
@@ -16,7 +17,7 @@ trait AuthConfigImpl extends AuthConfig {
   /**
     * User information is of type LoginFormData
     */
-  type Id = LoginFormData
+  type Id = LoginJson
 
   /**
     * User class is User
@@ -64,7 +65,7 @@ trait AuthConfigImpl extends AuthConfig {
     */
   def loginSucceeded(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] = {
     play.Logger.info("Login succeeded")
-    Future.successful(Redirect(routes.HomeController.home()))
+    Future.successful(Ok(Json.toJson(new ResultMessage("Logged in successfully"))))
   }
 
   /**
@@ -72,7 +73,7 @@ trait AuthConfigImpl extends AuthConfig {
     */
   def logoutSucceeded(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] = {
     play.Logger.info("Logout succeeded")
-    Future.successful(Redirect(routes.LoginController.login()))
+    Future.successful(Ok(Json.toJson(new ResultMessage("Logged out successfully"))))
   }
 
   /**
@@ -80,7 +81,7 @@ trait AuthConfigImpl extends AuthConfig {
     */
   def authenticationFailed(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] = {
     play.Logger.warn("Authentication failed")
-    Future.successful(Redirect(routes.LoginController.login()))
+    Future.successful(Forbidden(Json.toJson(new ResultMessage("Authentication failed"))))
   }
 
   /**
@@ -88,7 +89,7 @@ trait AuthConfigImpl extends AuthConfig {
     */
   override def authorizationFailed(request: RequestHeader, user: User, authority: Option[Authority])(implicit context: ExecutionContext): Future[Result] = {
     play.Logger.warn("Authorization failed")
-    Future.successful(Forbidden("no permission"))
+    Future.successful(Unauthorized(Json.toJson(new ResultMessage("Unaouthorized"))))
   }
 
   /**

@@ -13,8 +13,9 @@ import Matchers._
 class ComputerServiceImplSuccessfulSpec extends ComputerServiceImplSpec {
   val sSHOrderService = mockSSHOrderService(state.ActionCompleted)
   val computerDAO = mockComputerDAO(state.ActionCompleted)
+  val computerStateDAO = mockComputerStateDAO(state.ActionCompleted)
 
-  val computerService = new ComputerServiceImpl(sSHOrderService, computerDAO)(executionContext)
+  val computerService = new ComputerServiceImpl(sSHOrderService, computerDAO, computerStateDAO)(executionContext)
 
   "Computer Service on successful operations" should {
     "return ActionCompleted on adding a new computer" in {
@@ -84,14 +85,14 @@ class ComputerServiceImplSuccessfulSpec extends ComputerServiceImplSpec {
     }
 
     "return several computers when accessing getSeveral method" in {
-      val result = waitFor(computerService.getSeveral(List(computer1ip,computer2ip)))
+      val result = waitFor(computerService.getSeveralSingle(List(computer1ip,computer2ip)))
       assert(result.nonEmpty)
       assert(result.head === computer1)
       assert(result.last === computer2)
     }
 
     "return ActionCompleted on sending a message to a computer" in {
-      val result = computerService.sendMessage(computer1ip, "Hello!")
+      val result = computerService.sendMessage(List(computer1ip), "Hello!")
       assertState(result, state.ActionCompleted)
     }
 
@@ -101,7 +102,7 @@ class ComputerServiceImplSuccessfulSpec extends ComputerServiceImplSpec {
     }
 
     "return ActionCompleted on shutting down a computer" in {
-      val result = computerService.shutdown(computer1ip)
+      val result = computerService.shutdown(List(computer1ip))
       assertState(result, state.ActionCompleted)
     }
 

@@ -162,7 +162,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
   override def unfreeze(computer: Computer)(implicit username: String): ActionState = ???
 
   @throws[JSchException]
-  override def getOperatingSystem(computer: Computer)(implicit username: String) = {
+  override def getOperatingSystem(computer: Computer)(implicit username: String): Option[String] = {
     try {
       val (result, exitCode) = execute(computer, new SSHOrder(now, superUser = false, interrupt = true, command = operatingSystemCheck, username = username))
       if (exitCode == 0) Some(result) else None
@@ -174,8 +174,6 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
 
 
   override def check(computer: Computer)(implicit username: String): (ComputerState, Seq[ConnectedUser]) = {
-    //play.Logger.debug(s"""Checking the $computer's state""")
-    //play.Logger.debug(s"""Checking if $computer's on""")
     try {
       val state = checkState(computer)
       play.Logger.debug(s"""$computer is  $state""")
@@ -198,16 +196,27 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
     val sSHOrder = new SSHOrder(now, false, false, dummy, username)
     val settings = generateSSHSettings(computer, sSHOrder)
     try {
-      val isConnected = jassh.SSH.once(settings)(_.executeWithStatus(sSHOrder.command)._1 == "Ping from Aton")
-      if (isConnected) {
-        Connected()
-      } else {
-        NotConnected()
+      val result = jassh.SSH.shell(settings){ shell =>
+        if(shell.executeWithStatus(sSHOrder.command)._1 == "Ping from Aton"){
+          if (shell.sudoSuMinusWithCommandTest()){
+            0
+          } else {
+            1
+          }
+        } else {
+          2
+        }
+      }
+      result match {
+        case 0 => Connected()
+        case 1 => WithoutSudoRights()
+        case _ => NotConnected()
       }
     } catch {
       case ex: JSchException =>
         ex.getMessage match {
           case "Auth fail" => AuthFailed()
+          case e if e.contains("Too many authentication failures") => AuthFailed()
           case "timeout: socket is not established" => NotConnected()
           case "Session.connect: java.net.SocketTimeoutException: Read timed out" => NotConnected()
           case "java.net.NoRouteToHostException: No route to host" => NotConnected()
@@ -305,8 +314,8 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
 
   }
 
-  override def execute(computer: Computer, superUser: Boolean, command: String)(implicit username: String): (String, Int) = {
-    execute(computer, new SSHOrder(now, superUser, false, command, username))
+  override def execute(computer: Computer, superUser: Boolean, interrupt: Boolean, command: String)(implicit username: String): (String, Int) = {
+    execute(computer, new SSHOrder(now, superUser, interrupt, command, username))
   }
 
   override def blockPage(computer: Computer, page: String)(implicit username: String): ActionState = {
@@ -331,7 +340,7 @@ class SSHOrderServiceImpl @Inject()(sSHOrderDAO: SSHOrderDAO, sSHOrderToComputer
       }
 
     }
-    if (actionStates.exists(_!=state.OrderCompleted)){
+    if (actionStates.exists(!_.isInstanceOf[state.OrderCompleted])){
       state.Failed
     } else {
       state.ActionCompleted

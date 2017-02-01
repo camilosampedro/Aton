@@ -7,6 +7,4 @@ package model
 case class Room(
                  id: Long,
                  name: String,
-                 audiovisualResources: Option[String],
-                 basicTools: Option[String],
                  laboratoryID: Long)

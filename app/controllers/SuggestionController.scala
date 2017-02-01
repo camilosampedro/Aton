@@ -24,10 +24,10 @@ class SuggestionController @Inject()(suggestionService: SuggestionService, val m
     }
     if (isAdmin) {
       suggestionService.listAll.map { suggestions =>
-        Ok(index(messagesApi("suggestion"), suggestionHome(SuggestionForm.form, suggestions)))
+        Ok//(index(messagesApi("suggestion"), suggestionHome(SuggestionForm.form, suggestions)))
       }
     } else {
-      Future.successful(Ok(index(messagesApi("suggestion"), suggestionHome(SuggestionForm.form, Seq.empty[Suggestion]))))
+      Future.successful(Ok)//(index(messagesApi("suggestion"), suggestionHome(SuggestionForm.form, Seq.empty[Suggestion]))))
     }
 
 

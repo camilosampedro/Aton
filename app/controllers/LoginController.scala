@@ -1,12 +1,12 @@
 package controllers
 
 import com.google.inject.Inject
-import dao.UserDAO
 import jp.t2v.lab.play2.auth.LoginLogout
-import model.form.LoginForm
+import model.json.{LoginJson, ResultMessage}
 import play.api.Environment
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, Controller}
+import play.api.libs.json.{JsError, JsSuccess, Json}
+import play.api.mvc.{Action, AnyContent, Controller}
 import services.UserService
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -14,29 +14,29 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * @author Camilo Sampedro <camilo.sampedro@udea.edu.co>
   */
-class LoginController @Inject()(userService: UserService, val messagesApi: MessagesApi)(implicit executionContext: ExecutionContext, override val cookieSecureOptionPlay: Environment) extends Controller with I18nSupport with LoginLogout with AuthConfigImpl {
+class LoginController @Inject()(userService: UserService, val messagesApi: MessagesApi)
+                               (implicit executionContext: ExecutionContext,
+                                override val cookieSecureOptionPlay: Environment) extends Controller with I18nSupport
+  with LoginLogout with AuthConfigImpl {
 
-  def loginForm = Action {
-    Ok(views.html.login(LoginForm.form))
-  }
-
-  def login = Action.async { implicit request =>
-    LoginForm.form.bindFromRequest().fold(
-      errorForm => Future.successful(BadRequest(views.html.login(errorForm))),
-      data => {
-        val results = for {
-          searchUser <- resolveUser(data)
-          goto <- gotoLoginSucceeded(data)
-        } yield (searchUser, goto)
-        results.map { res =>
-          res._1 match {
-            case Some(user) => res._2
-            case _ => Forbidden("Login failed. Try again")
-          }
+  def login: Action[AnyContent] = Action.async { implicit request =>
+    request.body.asJson match {
+      case Some(json) =>
+        json.validate[LoginJson] match {
+          case JsSuccess(userForm, _ ) =>
+            val result = for {
+              foundUser <- resolveUser(userForm)
+              goto <- gotoLoginSucceeded(userForm)
+            } yield (foundUser, goto)
+            result.map{
+              case (Some(_),goto) => goto
+              case _ => Forbidden(Json.toJson(new ResultMessage("Wrong username or password")))
+            }
+          case JsError(errors) =>
+            Future.successful(BadRequest(Json.toJson(ResultMessage.wrongJsonFormat(errors))))
         }
-
-      }
-    )
+      case _ => Future.successful(BadRequest(Json.toJson(ResultMessage.inputWasNotAJson)))
+    }
   }
 
   /**
@@ -45,7 +45,7 @@ class LoginController @Inject()(userService: UserService, val messagesApi: Messa
     */
   def resolveUser(id: Id)(implicit ctx: ExecutionContext): Future[Option[User]] = userService.checkAndGet(id)
 
-  def logout = Action.async { implicit request =>
+  def logout: Action[AnyContent] = Action.async { implicit request =>
     gotoLogoutSucceeded
   }
 }

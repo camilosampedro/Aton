@@ -1,0 +1,39 @@
+<a *ngIf="!isLoggedIn()" class="right item login-button" (click)="loginModal.show({inverted: true})"><i class="user icon"></i>Login</a>
+<sm-modal *ngIf="!isLoggedIn()"  title="Login" class="small" icon="user" #loginModal>
+    <modal-content>
+        <form class="ui form" #loginForm="ngForm">
+            <div class="field">
+                <div class="ui labeled input">
+                    <div class="ui label">
+                        <i class="user icon"></i>Username:
+                    </div>
+                    <input required placeholder="Username" [(ngModel)]="username" icon="user" name="username"
+                           #usernameRef="ngModel" type="text">
+                    <div *ngIf="!(usernameRef.valid || usernameRef.pristine)" class="ui left pointing red basic label">
+                        <i class="edit icon"></i>Please enter a value
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui labeled input">
+                    <div class="ui label">
+                        <i class="privacy icon"></i>Password:
+                    </div>
+                    <input required type="password" placeholder="Password" name="password" [(ngModel)]="password"
+                           #passwordRef="ngModel">
+                    <div *ngIf="!(passwordRef.valid || passwordRef.pristine)" class="ui left pointing red basic label">
+                        <i class="edit icon"></i>Please enter a value
+                    </div>
+                </div>
+            </div>
+        </form>
+    </modal-content>
+    <modal-actions>
+        <sm-button icon="Remove" class="left orange" (click)="loginModal.hide()">Close modal</sm-button>
+        <sm-button (click)="loginForm.form.valid && submit()" [disabled]="!loginForm.form.valid" class="violet"><i
+                class="sign in icon"></i>Login
+        </sm-button>
+
+    </modal-actions>
+</sm-modal>
+<a *ngIf="isLoggedIn()" (click)="logout()" class="item"><i class="log out icon"></i>Log out</a>

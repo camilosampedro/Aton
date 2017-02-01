@@ -11,8 +11,6 @@ object RoomForm {
   val form = Form(
     mapping(
       "room.name" -> nonEmptyText,
-      "room.audiovisualResources" -> optional(text),
-      "room.basicTools" -> optional(text),
       "room.laboratoryID" -> longNumber
     )(RoomFormData.apply)(RoomFormData.unapply)
   )

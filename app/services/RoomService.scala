@@ -19,4 +19,6 @@ trait RoomService {
 
   def get(id: Long): Future[Option[Room]]
   def getByLaboratory(id: Long): Future[Seq[Room]]
+
+  def update(room: Room): Future[ActionState]
 }

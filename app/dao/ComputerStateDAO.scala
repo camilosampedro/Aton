@@ -5,6 +5,7 @@ import java.sql.Timestamp
 import com.google.inject.ImplementedBy
 import dao.impl.ComputerStateDAOImpl
 import model.ComputerState
+import services.state.ActionState
 
 import scala.concurrent.Future
 
@@ -22,7 +23,7 @@ trait ComputerStateDAO {
     * @param computerState ComputerState to add
     * @return Result String
     */
-  def add(computerState: ComputerState): Future[String]
+  def add(computerState: ComputerState): Future[ActionState]
 
   /**
     * Gets a ComputerState using its two identifiers: IP address and date

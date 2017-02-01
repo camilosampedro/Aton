@@ -54,4 +54,6 @@ trait LaboratoryDAO {
     * @return All the laboratories found.
     */
   def listAll: Future[Seq[Laboratory]]
+
+  def update(laboratory: Laboratory): Future[ActionState]
 }

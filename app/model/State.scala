@@ -10,10 +10,14 @@ case class State(
                   code: String)
   extends StateRef(id)
 
+case class NotCheckedYet() extends StateRef(0)
+
 case class Connected() extends StateRef(1)
 
-case class NotConnected() extends StateRef(2)
+case class WithoutSudoRights() extends StateRef(2)
 
-case class AuthFailed() extends StateRef(3)
+case class NotConnected() extends StateRef(3)
 
-case class UnknownError() extends StateRef(4)
+case class AuthFailed() extends StateRef(4)
+
+case class UnknownError() extends StateRef(5)

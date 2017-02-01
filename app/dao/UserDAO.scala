@@ -3,7 +3,7 @@ package dao
 import com.google.inject.ImplementedBy
 import dao.impl.UserDAOImpl
 import model.User
-import model.form.data.LoginFormData
+import model.json.LoginJson
 import services.state.ActionState
 
 import scala.concurrent.Future

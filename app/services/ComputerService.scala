@@ -13,15 +13,14 @@ import scala.concurrent.{ExecutionContext, Future}
   */
 @ImplementedBy(classOf[ComputerServiceImpl])
 trait ComputerService {
-  def blockPage(ip: String, page: String)(implicit username: String): Future[ActionState]
+  def blockPage(ip: List[String], page: String)(implicit username: String): Future[ActionState]
 
-  def sendCommand(ip: String, superUser: Boolean, command: String)(implicit username: String): Future[ActionState]
+  def sendCommand(ip: List[String], superUser: Boolean, interrupt: Boolean, command: String)(implicit username: String): Future[ActionState]
 
-  def unfreeze(ip: String)(implicit username: String): Future[ActionState]
+  def unfreeze(ip: List[String])(implicit username: String): Future[ActionState]
 
-  def upgrade(ip: String)(implicit username: String): Future[ActionState]
+  def upgrade(ips: List[String])(implicit username: String): Future[ActionState]
 
-  def shutdown(ip: String)(implicit username: String): Future[ActionState]
   def shutdown(ips: List[String])(implicit username: String): Future[ActionState]
 
   def getWithStatus(ip: String): Future[Seq[(Computer, Option[ComputerState], Option[ConnectedUser])]]
@@ -30,10 +29,11 @@ trait ComputerService {
 
   def get(ip: String): Future[Option[(Computer, Option[(ComputerState,Seq[ConnectedUser])])]]
   def getSingle(ip: String): Future[Option[Computer]]
-  def getSeveral(ips: List[String]): Future[Seq[Computer]]
+  def getSeveral(ips: List[String]): Future[Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]]
+  def getSeveralSingle(ips: List[String]): Future[Seq[Computer]]
 
   def installAPackage(ip: String, programs: String)(implicit username: String): Future[ActionState]
-  def sendMessage(ip: String, message: String)(implicit username: String): Future[ActionState]
+  def sendMessage(ip: List[String], message: String)(implicit username: String): Future[ActionState]
 
   def listAllSimple: Future[Seq[Computer]]
   def listAll: Future[Seq[(Computer, Option[(ComputerState, Seq[ConnectedUser])])]]

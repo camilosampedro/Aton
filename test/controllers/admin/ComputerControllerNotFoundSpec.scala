@@ -3,6 +3,8 @@ package controllers.admin
 import jp.t2v.lab.play2.auth.test.Helpers.AuthFakeRequest
 import model.form.data._
 import model.form.{BlockPageForm, ComputerForm, SSHOrderForm, SelectComputersForm}
+import model.json.LoginJson
+import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import services.state
 
@@ -23,12 +25,21 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
   "Computer Controller on not found operations" should {
     s"return Not Found <404> status on receiving an edited computer" in {
       import computer._
-      val computerData = ComputerFormData(ip, name, SSHUser, SSHPassword, description, roomID)
-      val computerForm = ComputerForm.form.fill(computerData)
+      play.Logger.debug(Json.toJson(computer).toString())
       val result = controller.edit.apply {
         FakeRequest()
+          .withJsonBody(Json.parse(
+            s"""
+              |{
+              |  "ip":"$ip",
+              |  "description":"${description.getOrElse("")}",
+              |  "SSHUser":"$SSHUser",
+              |  "name":"${name.getOrElse("")}",
+              |  "SSHPassword":"$SSHPassword",
+              |  "roomID":${roomID.getOrElse(0)}
+              |}
+            """.stripMargin))
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computerForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 404)
     }
@@ -36,50 +47,43 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
     s"return Not Found <404> status on deleting a computer" in {
       val result = controller.delete(computer.ip).apply {
         FakeRequest()
-          .withLoggedIn(controller)(LoginFormData("admin", "adminaton"))
+          .withJsonBody(ipJson)
+          .withLoggedIn(controller)(LoginJson("admin", "adminaton"))
       }
       assertFutureResultStatus(result, 404)
     }
 
     s"return Not Found <404> status on blocking a page on a single computer" in {
-      val result = controller.blockPage(computer.ip).apply {
+      val result = controller.blockPage.apply {
         FakeRequest()
+          .withJsonBody(blockPageJson)
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(BlockPageForm.form.fill(BlockPageFormData("www.example.com")).data.toSeq: _*)
       }
       assertFutureResultStatus(result, 404)
     }
 
     s"return Not Found <404> status on shutting down a computer" in {
-      val result = controller.shutdown(computer.ip).apply {
+      val result = controller.shutdown.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
-      }
-      assertFutureResultStatus(result, 404)
-    }
-
-    s"return Not Found <404> status on shutting down several computer" in {
-      val computersData = SelectComputersFormData(Seq(computer.ip).toList)
-      val computersForm = SelectComputersForm.form.fill(computersData)
-      val result = controller.shutdownSeveral().apply {
-        FakeRequest()
-          .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(computersForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 404)
     }
 
     s"return Not Found <404> status on upgrading a computer" in {
-      val result = controller.upgrade(computer.ip).apply {
+      val result = controller.upgrade.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
       }
       assertFutureResultStatus(result, 404)
     }
 
     s"return Not Found <404> status on unfreezing a computer" in {
-      val result = controller.unfreeze(computer.ip).apply {
+      val result = controller.unfreeze.apply {
         FakeRequest()
+          .withJsonBody(ipJson)
           .withLoggedIn(controller)(loggedInUser)
       }
       assertFutureResultStatus(result, 404)
@@ -88,10 +92,20 @@ class ComputerControllerNotFoundSpec extends ComputerControllerSpec {
     s"return Not Found <404> status on sending a command to a computer" in {
       val sshOrderData = SSHOrderFormData(superUser = false, command)
       val sshOrderForm = SSHOrderForm.form.fill(sshOrderData)
-      val result = controller.sendCommand(computer.ip).apply {
+      val result = controller.sendOrder.apply {
         FakeRequest()
+          .withJsonBody(Json.parse(
+            s"""
+              |{
+              |  "ip": "${computer.ip}",
+              |  "ssh-order": {
+              |    "command": ${Json.toJson(command)},
+              |    "superUser": false,
+              |    "interrupt": false
+              |  }
+              |}
+            """.stripMargin))
           .withLoggedIn(controller)(loggedInUser)
-          .withFormUrlEncodedBody(sshOrderForm.data.toSeq: _*)
       }
       assertFutureResultStatus(result, 404)
     }
