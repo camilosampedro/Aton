@@ -7,19 +7,23 @@ import {Router} from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import {Response} from '@angular/http';
+import {Idle, DEFAULT_INTERRUPTSOURCES} from 'ng2-idle';
 
 @Injectable()
 export class LoginService {
     private loggedIn = false;
 
-    constructor(private http: Http, private router: Router) {
+    constructor(private http: Http, private router: Router, private idle: Idle) {
+        this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+        this.idle.onTimeout.subscribe(() =>{
+            LoginService.deleteToken()
+        });
         this.loggedIn = !!localStorage.getItem('auth_token');
     }
 
     login(username: string, password: string) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-
         return this.http
             .post(
                 '/api/login',
@@ -27,6 +31,8 @@ export class LoginService {
                 {headers}
             ).map(res=>{
                 if(res.status==200){
+                    console.log(res.json());
+                    this.idle.setTimeout(+res.json().extras.sessionTimeout);
                     localStorage.setItem('auth_token',"ok");
                 } else {
                     localStorage.removeItem('auth_token')

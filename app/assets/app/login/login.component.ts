@@ -5,6 +5,7 @@
 import { Component, ViewChild }          from '@angular/core';
 import {LoginService} from "./login.service";
 import { Router } from '@angular/router';
+import {Idle} from 'ng2-idle'
 //import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({

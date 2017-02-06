@@ -26,6 +26,8 @@ import {ComputerFormPanelComponent} from "./computer/formpanel/computer-form-pan
 import {DialogComponent} from "./dialog/dialog.component";
 import {SSHOrderService} from "./orderform/ssh-order.service";
 import {OrderFormComponent} from "./orderform/order-form.component";
+import {Ng2IdleModule} from 'ng2-idle';
+import {Idle, IdleExpiry} from 'ng2-idle';
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import {OrderFormComponent} from "./orderform/order-form.component";
         FormsModule,
         HttpModule,
         AppRoutingModule,
-        NgSemanticModule
+        NgSemanticModule,
+        Ng2IdleModule.forRoot()
     ],
     declarations: [
         AppComponent,

@@ -74,6 +74,7 @@ libraryDependencies ++= {
     "org.webjars.npm" % "angular__platform-browser" % ngVersion,
     "org.webjars.npm" % "angular__http" % ngVersion,
     "org.webjars.npm" % "angular__router" % "3.2.0",
+    "org.webjars.npm" % "ng2-idle" % "1.0.0-alpha.18",
     "org.webjars.npm" % "js-cookie" % "2.1.3",
     //"org.webjars.npm" % "angular__router" % ngVersion,
     "org.webjars.npm" % "systemjs" % "0.19.39",
