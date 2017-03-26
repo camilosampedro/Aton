@@ -30,6 +30,14 @@ export class MessageComponent{
         this.sendMessageModal.show();
     }
 
+    /**
+     * TODO: Implement this method
+     * @param computer
+     */
+    showForComputer(computer: Computer) {
+
+    }
+
     submit() {
         this.messageService.sendMessage([this.chosenComputers, this.text]).subscribe(res=>console.log(res),err=> console.error(err))
     }

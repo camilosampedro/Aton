@@ -27,7 +27,7 @@ export class LaboratoryComponent implements OnInit {
     laboratory: Laboratory = new Laboratory(0, "Loading...", "", "");
     selectedComputers: Computer[] = [];
 
-    @ViewChild("messageModal") messageModal: any;
+    @ViewChild("messageModal") messageModal: MessageComponent;
     @ViewChild('computerFormPanel') computerFormPanel: ComputerFormPanelComponent;
     @ViewChild('dialogModal') dialogModal: DialogComponent;
 
