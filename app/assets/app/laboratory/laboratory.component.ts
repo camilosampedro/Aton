@@ -93,6 +93,14 @@ export class LaboratoryComponent implements OnInit {
         this.computerFormPanel.show(true, computer.roomID);
     }
 
+    /**
+     * Delete computers from the database.
+     * @param computers
+     */
+    deleteComputers(computers: Computer[]) {
+        // TODO: Perform the computer deletion
+    }
+
 
     isLoggedIn() {
         return LoginService.isLoggedIn();

@@ -4,7 +4,7 @@
                [laboratoryId]="laboratory.id" (computerSelected)="selectComputer($event)"
                (sendOnSelectedEvent)="showMessageForSelected()" (addANewComputerEvent)="addANewComputer($event)"
                (editComputerClicked)="editComputer($event)" (singleSendMessageClicked)="showMessageForComputer($event)"
-               (singleSendOrderClicked)="showOrderPanelForComputer($event)">
+               (singleSendOrderClicked)="showOrderPanelForComputer($event)" (deleteSelectedEvent)="deleteComputer()">
     </aton-room>
     <div *ngIf="rooms.length == 0" class="ui center aligned segment">
         <h1 class="ui center aligned icon header">
