@@ -18,10 +18,10 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-mocha" % "1.1.0")
 addSbtPlugin("org.irundaia.sbt" % "sbt-sassify" % "1.4.2")
 
 // provides server side compilation of typescript to ecmascript 5 or 3
-addSbtPlugin("name.de-vries" % "sbt-typescript" % "0.3.0-beta.5")
+addSbtPlugin("name.de-vries" % "sbt-typescript" % "0.3.0-beta.10")
 
 // checks your typescript code for error prone constructions
-addSbtPlugin("name.de-vries" % "sbt-tslint" % "3.13.0")
+addSbtPlugin("name.de-vries" % "sbt-tslint" % "4.0.2-1")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-digest" % "1.1.0")
 

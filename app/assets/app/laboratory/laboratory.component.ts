@@ -13,6 +13,7 @@ import {ConnectedUser} from "../computerstate/connected-user.model";
 import {LoginService} from "../login/login.service";
 import {ComputerFormPanelComponent} from "../computer/formpanel/computer-form-panel.component";
 import {DialogComponent} from "../dialog/dialog.component";
+import {MessageComponent} from "../message/message.component";
 //import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({

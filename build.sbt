@@ -90,10 +90,11 @@ libraryDependencies ++= {
     "org.webjars.npm" % "traceur" % "0.0.111",
 
     // Typescript
-    "org.webjars.npm" % "typescript" % "2.0.3",
+    "org.webjars.npm" % "typescript" % "2.2.1",
 
     // tslint dependency
-    "org.webjars.npm" % "tslint-eslint-rules" % "2.1.0",
+    "org.webjars.npm" % "tslint-eslint-rules" % "3.4.0",
+    "org.webjars.npm" % "tslint-microsoft-contrib" % "4.0.0",
     "org.webjars.npm" % "codelyzer" % "0.0.28",
     "org.webjars.npm" % "types__jasmine" % "2.2.26-alpha" % "test",
 
