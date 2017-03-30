@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {NgSemanticModule} from 'ng-semantic/ng-semantic';
+//import {NgSemanticModule} from 'ng-semantic';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
@@ -26,6 +26,7 @@ import {ComputerFormPanelComponent} from './computer/formpanel/computer-form-pan
 import {DialogComponent} from './dialog/dialog.component';
 import {SSHOrderService} from './orderform/ssh-order.service';
 import {OrderFormComponent} from './orderform/order-form.component';
+import {NgSemanticModuleFix} from "./ng-semantic-fix";
 
 
 @NgModule({
@@ -34,7 +35,7 @@ import {OrderFormComponent} from './orderform/order-form.component';
         FormsModule,
         HttpModule,
         AppRoutingModule,
-        NgSemanticModule
+        NgSemanticModuleFix
     ],
     declarations: [
         AppComponent,
