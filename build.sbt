@@ -147,7 +147,7 @@ def runScript(script: String)(implicit dir: File): Int = Process(script, dir) !
 def uiWasInstalled(implicit dir: File): Boolean = (dir / "node_modules").exists()
 
 def runNpmInstall(implicit dir: File): Int =
-  if (uiWasInstalled) Success else runScript("npm install")
+  if (uiWasInstalled) Success else runScript("npm run setup")
 
 def ifUiInstalled(task: => Int)(implicit dir: File): Int =
   if (runNpmInstall == Success) task
