@@ -65,7 +65,7 @@ trait AuthConfigImpl extends AuthConfig {
     */
   def loginSucceeded(request: RequestHeader)(implicit ctx: ExecutionContext): Future[Result] = {
     play.Logger.info("Login succeeded")
-    Future.successful(Ok(Json.toJson(new ResultMessage("Logged in successfully"))))
+    Future.successful(Ok)
   }
 
   /**

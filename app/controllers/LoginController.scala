@@ -1,9 +1,11 @@
 package controllers
 
+import akka.util.ByteString
 import com.google.inject.Inject
 import jp.t2v.lab.play2.auth.LoginLogout
-import model.json.{LoginJson, ResultMessage}
+import model.json.{LoginJson, ResultMessage, ResultMessageExtra}
 import play.api.Environment
+import play.api.http.HttpEntity
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.{JsError, JsSuccess, Json}
 import play.api.mvc.{Action, AnyContent, Controller}
@@ -26,7 +28,14 @@ class LoginController @Inject()(userService: UserService, val messagesApi: Messa
           case JsSuccess(userForm, _ ) =>
             val result = for {
               foundUser <- resolveUser(userForm)
-              goto <- gotoLoginSucceeded(userForm)
+              goto <- gotoLoginSucceeded(userForm).map(res=>{
+                res.copy(body = HttpEntity.Strict(
+                  ByteString(Json.toJson(
+                    new ResultMessage("Logged in successfully",
+                      Seq(ResultMessageExtra("cookie", res.header.headers.withDefaultValue("")("Set-Cookie")),
+                        ResultMessageExtra("sessionTimeout", sessionTimeoutInSeconds.toString))
+                  )).toString()),Some("application/json")))
+              })
             } yield (foundUser, goto)
             result.map{
               case (Some(_),goto) => goto

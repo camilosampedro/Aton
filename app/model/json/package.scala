@@ -3,11 +3,12 @@ package model
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 
+import scala.language.implicitConversions
+
 /**
   * Created by camilosampedro on 10/12/16.
   */
 package object json {
-
 
 
   implicit val loginJsonReads: Reads[LoginJson] = Json.reads[LoginJson]
@@ -19,14 +20,16 @@ package object json {
   implicit val resultMessageWrites: Writes[ResultMessage] = new Writes[ResultMessage] {
     override def writes(o: ResultMessage): JsObject = Json.obj(
       "result" -> o.result,
-      "extras" -> o.extras.map(Json.toJson(_))
+      "extras" -> Json.parse(o.extras.map(e => "\"" + e.key + "\": \"" + e.extra + "\"").mkString("{", ",", "}"))
     )
   }
-  implicit val ResultMessageExtraF: Format[ResultMessageExtra] = Json.format[ResultMessageExtra]
-  implicit val resultMessageReads: Reads[ResultMessage] = (
+  implicit val ResultMessageExtraF: Writes[ResultMessageExtra] = new Writes[ResultMessageExtra] {
+    override def writes(o: ResultMessageExtra) = Json.obj(o.key -> o.extra)
+  }
+  /*implicit val resultMessageReads: Reads[ResultMessage] = (
     (__ \ "result").read[String] and
-    (__ \ "extras").read[Seq[ResultMessageExtra]]
-  )(ResultMessage.apply _)
+      (__ \ "extras").read[Seq[ResultMessageExtra]]
+    ) (ResultMessage.apply _)*/
 
   implicit val sshOrderJsonReads: Reads[SSHOrderJson] = Json.reads[SSHOrderJson]
 

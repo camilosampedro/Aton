@@ -3,86 +3,13 @@
 <html data-framework="angular2">
     <head>
         <title>Aton</title>
-        @* Librerías webjar *@
-        <script type="text/javascript" src="@routes.Assets.versioned("lib/requirejs/require.js")"></script>
-        @*<script type="text/javascript" src="@routes.Assets.versioned("lib/bootstrap/webjars-requirejs.js")"></script>*@
-        <script type='text/javascript' src='@routes.Assets.versioned("lib/jquery/jquery.js")'></script>
-        <script type='text/javascript' src='@routes.Assets.versioned("lib/systemjs/dist/system.src.js")'></script>
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/Semantic-UI/semantic.css")">
-        <link rel="shortcut icon" href="@routes.Assets.versioned("images/favicon.ico")"/>
-        <script type='text/javascript' src='@routes.Assets.versioned("lib/Semantic-UI/semantic.js")'></script>
-        <script type='text/javascript' src='@routes.Assets.versioned("lib/systemjs/dist/system-polyfills.js")'></script>
-        <script type='text/javascript' src='@routes.Assets.versioned("lib/core-js/client/shim.min.js")'></script>
-        <script type='text/javascript' src='@routes.Assets.versioned("lib/zone.js/dist/zone.js")'></script>
-        <script type='text/javascript' src='@routes.Assets.versioned("lib/reflect-metadata/Reflect.js")'></script>
 
-
-
-        <script>    @* our app is downloaded as individual javascript files by SystemJs
-                     after compilation by sbt-typescript*@
-
-        var map = {
-            'app': 'assets/app',
-            '@@angular': 'assets/lib/@@angular',
-            'rxjs': 'assets/lib/rxjs',
-            'symbol-observable': 'assets/lib/symbol-observable',
-            'core-js': 'assets/lib/core-js',
-            'zone.js': 'assets/lib/zone.js',
-            'ng-semantic': 'assets/lib/ng-semantic',
-            'js-cookie': 'assets/lib/js-cookie'
-        };
-
-
-        var packages = {
-            'app': {main: 'main.js', defaultExtension: 'js'},
-            'rxjs': {defaultExtension: 'js'},
-            'assets/lib': {defaultExtension: 'js'},
-            'symbol-observable': {defaultExtension: 'js', main: 'index.js'},
-            'core-js': {defaultExtension: 'js', main: 'index.js'},
-            'zone.js': {defaultExtension: 'js', main: 'zone.js'},
-            'ng-semantic': {defaultExtension: 'js', main: 'ng-semantic.js'},
-            'js-cookie': {defaultExtension: 'js', main: 'src/js.cookie.js'}
-        };
-        var ngPackageNames = [
-            'common',
-            'compiler',
-            'core',
-            'forms',
-            'router',
-            'http',
-            'platform-browser',
-            'platform-browser-dynamic'
-        ];
-
-        function packIndex(pkgName) {
-            packages['@@angular/' + pkgName] = {main: 'index.js', defaultExtension: 'js'};
-        }
-        function packUmd(pkgName) {
-            packages['@@angular/' + pkgName] = {main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js'};
-        }
-        // Most environments should use UMD; some (Karma) need the individual index files
-        function addAngularModulesToMap(pkgName) {
-            map['@@angular/' + pkgName] = 'assets/lib/angular__' + pkgName;
-        }
-
-        // Add package entries for angular packages
-        var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
-        ngPackageNames.forEach(setPackageConfig);
-
-        // Add map entries for angular packages
-        ngPackageNames.forEach(function (pkgName) {
-            addAngularModulesToMap(pkgName)
-        });
-
-        System.config({
-            map: map,
-            packages: packages
-        });
-        @* SystemJs works out which other modules our app module depends on and will download and load them*@
-        System.import('app')
-                .catch(console.error.bind(console));
-
-        </script>
+        <title>@title</title>
+        @* Global stylesheet from public directory *@
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")"/>
+        @* Stylesheet bundle containing component styles for Angular app *@
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("ui/styles.bundle.css")"/>
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")"/>
 
         <meta name="viewport"
         content="width=device-width, initial-scale:1.0, user-scale=0" />
@@ -93,6 +20,12 @@
         <aton-root>
             <div class="ui active dimmer">
                 <div class="ui massive undeterminate text loader">Loading Aton</div>
-            </div></aton-root>
+            </div>
+        </aton-root>
+        @* Built Angular bundles *@
+        <script src="@routes.Assets.versioned("ui/inline.bundle.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("ui/polyfills.bundle.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("ui/vendor.bundle.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("ui/main.bundle.js")" type="text/javascript"></script>
     </body>
 </html>

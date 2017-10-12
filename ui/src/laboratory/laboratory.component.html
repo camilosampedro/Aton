@@ -1,0 +1,24 @@
+<h1 class="ui center aligned header">{{laboratory.name}}</h1>
+<div class="ui one column grid cards container">
+    <aton-room class="ui column card" *ngFor="let room of rooms" [room]="room[0]" [computers]="room[1]"
+               [laboratoryId]="laboratory.id" (computerSelected)="selectComputer($event)"
+               (sendOnSelectedEvent)="showMessageForSelected()" (addANewComputerEvent)="addANewComputer($event)"
+               (editComputerClicked)="editComputer($event)" (singleSendMessageClicked)="showMessageForComputer($event)"
+               (singleSendOrderClicked)="showOrderPanelForComputer($event)" (deleteSelectedEvent)="deleteComputer()">
+    </aton-room>
+    <div *ngIf="rooms.length == 0" class="ui center aligned segment">
+        <h1 class="ui center aligned icon header">
+            <i class="circular cube icon"></i>
+            <div class="content">There are not rooms here!
+                <div class="sub header">
+                    <aton-add-room *ngIf="isLoggedIn()" [laboratoryID]="laboratory.id"></aton-add-room>
+                </div>
+            </div>
+        </h1>
+    </div>
+</div>
+<aton-add-room class="center aligned floated" *ngIf="isLoggedIn() && rooms.length != 0" [laboratoryID]="laboratory.id"></aton-add-room>
+<aton-message *ngIf="isLoggedIn()" #messageModal></aton-message>
+<aton-computer-form-panel #computerFormPanel (onAlert)="showAlert($event)"></aton-computer-form-panel>
+<aton-order-form-panel #orderFormPanel (onAlert)="showAlert($event)"></aton-order-form-panel>
+<aton-dialog #dialogModal></aton-dialog>

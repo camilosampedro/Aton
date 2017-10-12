@@ -11,3 +11,4 @@ target
 *.log
 /RUNNING_PID
 data
+/public/ui/
